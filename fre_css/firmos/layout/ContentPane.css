@@ -1,0 +1,44 @@
+/* ContentPane 
+ *	
+ * .dijitContentPane
+ * 	set padding for basic content pane
+ * 	
+ * Nested layouts:
+ * 
+ * .dijitTabContainerTop-dijitContentPane,
+ * .dijitTabContainerLeft-dijitContentPane,
+ * .dijitTabContainerBottom-dijitContentPane,
+ * .dijitTabContainerRight-dijitContentPane
+ * 	set background-color and padding of ContentPanes nested within TabContainer (can do top, left, bottom, or right) or Accordion Container
+ *
+ * .dijitAccordionContainer-dijitContentPane
+ * 	set background-color and padding of ContentPane nested within Accordion
+ *
+ * .dijitSplitContainer-dijitContentPane, 
+ *	set background-color and padding of ContentPane nested within a SplitContainer 
+ *
+ * .dijitBorderContainer-dijitContentPane
+ *	set background-color and padding of ContentPane nested within a BorderContainer 
+ */
+.firmos .dijitContentPane {
+  padding: 0px;
+}
+/* nested layouts */
+.firmos .dijitTabContainerLeft-dijitContentPane,
+.firmos .dijitTabContainerBottom-dijitContentPane,
+.firmos .dijitTabContainerRight-dijitContentPane,
+.firmos .dijitAccordionContainer-dijitContentPane {
+  background-color: #5673c5;
+  padding: 0px 0px 0px =px;
+}
+.dijitTabContainerTop-dijitContentPane {
+  background-color: #3f5490;
+  padding: 6px 6px 6px 6px;
+}
+.dijitTabContainerTop-child .dijitContentPane {
+  background-color: none;
+}
+.firmos .dijitSplitContainer-dijitContentPane,
+.firmos .dijitBorderContainer-dijitContentPane {
+  padding: 0px;
+}

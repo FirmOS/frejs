@@ -1,0 +1,27 @@
+[submodule "aloha"]
+	path = aloha
+	url = https://github.com/FirmOS/Aloha-Editor.git
+[submodule "codemirror"]
+	path = codemirror
+	url = https://github.com/FirmOS/CodeMirror.git
+[submodule "d3"]
+	path = d3
+	url = https://github.com/FirmOS/d3.git
+[submodule "dojo/dojo"]
+	path = dojo/dojo
+	url = https://github.com/FirmOS/dojo.git
+[submodule "dojo/dijit"]
+	path = dojo/dijit
+	url = https://github.com/FirmOS/dijit.git
+[submodule "dojo/dojox"]
+	path = dojo/dojox
+	url = https://github.com/FirmOS/dojox.git
+[submodule "dojo/dgrid"]
+	path = dojo/dgrid
+	url = https://github.com/FirmOS/dgrid.git
+[submodule "dojo/put-selector"]
+	path = dojo/put-selector
+	url = https://github.com/FirmOS/put-selector.git
+[submodule "dojo/xstyle"]
+	path = dojo/xstyle
+	url = https://github.com/FirmOS/xstyle.git

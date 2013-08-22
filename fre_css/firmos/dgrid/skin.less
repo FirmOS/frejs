@@ -1,0 +1,78 @@
+/* DGrid
+ * 
+ * Styling DGrid
+ * 
+ * DGrid:
+ * 1. DGrid (default styling): 
+ * 		.@{themename} .dgrid - styles for dgrid's bounding box (@{themename} skin)
+ *
+ * 2. DGrid header 
+ * 		.dijitDialogTitleBar - styles for the title container at the top of dialog
+ * 		.dijitDialogTitle - the text container in dialog title
+ * 
+ * 3. Dialog content 
+ * 		.dijitDialogPaneContent - main container for content area and action bar
+ * 		.dijitDialogPaneContentArea - styles for content container
+ * 
+ * 4. Dialog action bar 
+ * 		.dijitDialogPaneActionBar - styles for action buttons lie at the bottom of dialog pane content
+ * 
+ * 5. Dialog underlay 
+ * 		.dijitDialogUnderlay - div under the dialog which used for separate dialog and page content
+ * 
+ */
+
+@import "../variables";
+
+.@{themename} .dgrid {
+	border: 0px solid red;
+	border-color: @dgrid-border-color;
+	background-color: @container-background-color;
+	color: @text-color;
+}
+
+.@{themename} .ui-widget-header {
+	font-weight: bold;
+}
+.@{themename} .ui-widget-header,
+.@{themename} .dgrid-footer { 
+	background-color: @secondary-color; /* Old browsers */
+	.linear-gradient(lighten(@secondary-color, 5) 0%, @primary-color 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='lighten(@secondary-color, 5)', endColorstr='@secondary-color',GradientType=0 ); /* IE6-9 */
+}
+.@{themename} .ui-widget-header .dgrid-cell:hover {
+	background: lighten(@secondary-color, 5); /* Old browsers */
+	.linear-gradient(lighten(@secondary-color, 10) 10%, lighten(@primary-color, 10) 90%);
+}
+
+.@{themename} .ui-state-default { 
+	.transition-duration(.2s);
+	.transition-property(background-color, border-color);
+	background: url("images/row_back.png") #fff repeat-x;  //must be edited by hand
+}
+.has-ie-6 .@{themename} .ui-state-default {
+	background-image: none;
+}
+.@{themename} .ui-state-default:hover {
+	background-color: lighten(@secondary-color, 5); //#BDF;#e9f2fe;
+}
+
+.@{themename} .ui-state-active {
+	background-color: @secondary-color; //#cee6fa;
+}
+
+.@{themename} .ui-state-active:hover {
+	background-color: lighten(@secondary-color, 5); //#9bc6f2;
+}
+
+.@{themename} .ui-state-highlight {
+	background-color: #f90; // TODO:find color transform
+}
+
+.@{themename} .dgrid-cell {
+	border-color: #dcb; // TODO:find color transform
+}
+
+.@{themename} .ui-widget-header .dgrid-cell {
+	border-color: @disabled-color;
+}

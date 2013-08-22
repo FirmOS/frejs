@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="100"
+   height="83"
+   viewBox="0 0 100 83"
+   id="Layer_1"
+   xml:space="preserve"><metadata
+   id="metadata3043"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs3041"><filter
+     x="0"
+     y="0"
+     width="1"
+     height="1"
+     color-interpolation-filters="sRGB"
+     id="filter3045"><feColorMatrix
+       result="fbSourceGraphic"
+       values="1"
+       type="saturate"
+       id="feColorMatrix3047" /><feColorMatrix
+       values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0 "
+       in="fbSourceGraphic"
+       id="feColorMatrix3049" /></filter><filter
+     x="0"
+     y="0"
+     width="1"
+     height="1"
+     color-interpolation-filters="sRGB"
+     id="filter3051"><feColorMatrix
+       result="fbSourceGraphic"
+       values="1"
+       type="saturate"
+       id="feColorMatrix3053" /><feColorMatrix
+       values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0 "
+       in="fbSourceGraphic"
+       id="feColorMatrix3055" /></filter></defs>
+<path
+   d="M 99.981,2.312 C 99.884,1.021 98.816,0 97.5,0 H 2.5 C 1.184,0 0.116,1.021 0.019,2.312 L 0,66.5 C 0,67.881 1.119,69 2.5,69 h 95 c 1.381,0 2.5,-1.119 2.5,-2.5 L 99.981,2.312 z M 96,57 H 4 V 4 h 92 v 53 z"
+   id="path3035"
+   style="filter:url(#filter3051)" />
+<path
+   d="M 66,81 C 62,80 61,77 61,73 V 72 H 50 39 v 1 c 0,4 -1,7 -5,8 -0.97,0.242 -1,2 0,2 h 16 16 c 1,0 0.97,-1.758 0,-2 z"
+   id="path3037"
+   style="filter:url(#filter3045)" />
+</svg>

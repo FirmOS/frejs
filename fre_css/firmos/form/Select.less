@@ -1,0 +1,93 @@
+/* Select
+ * 
+ * Styling Select mainly includes:
+ * 
+ * 1. Containers
+ * 		.dijitSelect - for border, background-color
+ * 		.dijitButtonContents - for border
+ *
+ * 2. Arrow
+ * 		.dijitArrowButton - for border, padding and background-color|image
+ * 		.dijitArrowButtonInner - for border, background-color|image, display and width|height
+ * 
+ * 3. Menu
+ * 		.dijitSelectMenu .* - for border, padding
+ * 
+ * 4. Various states
+ * 		.dijitSelectHover|.dijitSelectFocused|.dijitSelectDisabled .* - for border, padding and background-color|image 
+ */
+
+@import "../variables";
+
+/* normal status */
+.@{themename} .dijitSelect .dijitArrowButtonContainer {
+	border: 1px solid @arrowbutton-inner-border-color;
+}
+
+.@{themename} .dijitSelect .dijitArrowButton {
+	padding: 0;
+	background-color: @arrowbutton-background-color;
+	.standard-gradient("../");
+}
+
+.@{themename} .dijitSelect .dijitArrowButton .dijitArrowButtonInner {
+	height:16px;
+}
+
+/* hover status */
+.@{themename} .dijitSelectHover {
+	background-color: @textbox-hovered-background-color;
+	.textbox-background-image;
+	background-repeat: repeat-x;
+}
+
+.@{themename} .dijitSelectHover .dijitArrowButton {
+	background-color:@arrowbutton-hovered-background-color;
+}
+
+.@{themename} .dijitSelectHover .dijitArrowButton .dijitArrowButtonInner {
+	background-position:-70px 53%;
+}
+
+/* focused status */
+.@{themename} .dijitSelectFocused .dijitArrowButton {
+	background-color:#7dbefa;		// TODO.  Mailed Jason about inconsistent ComboBox/Spinner behavior.
+	.active-gradient("../");
+}
+
+.@{themename} .dijitSelectFocused .dijitArrowButton {
+	border: none;
+	padding: 1px;
+}
+
+.@{themename} .dijitSelectFocused .dijitArrowButton .dijitArrowButtonInner {
+	background-position:-70px 53%;
+}
+
+/* disable status */
+.@{themename} .dijitSelectDisabled {
+	border-color: @disabled-border-color;
+	background-color: @disabled-background-color;
+	background-image: none;
+	color: @disabled-text-color;
+}
+
+.@{themename} .dijitSelectDisabled .dijitArrowButton .dijitArrowButtonInner {
+	background-position:0 53%
+}
+
+/* Dropdown menu style for select */
+.@{themename} .dijitSelectMenu td.dijitMenuItemIconCell,
+.@{themename} .dijitSelectMenu td.dijitMenuArrowCell { 
+	/* so that arrow and icon cells from MenuItem are not displayed */
+	display: none;  
+}
+
+.@{themename} .dijitSelectMenu td.dijitMenuItemLabel {
+	/* line up menu text with text in select box (in LTR and RTL modes) */
+	padding: @textbox-padding;
+}
+
+.@{themename} .dijitSelectMenu .dijitMenuSeparatorTop {
+	border-bottom:1px solid @focused-border-color;
+}

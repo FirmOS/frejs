@@ -1,0 +1,57 @@
+/* ContentPane 
+ *	
+ * .dijitContentPane
+ * 	set padding for basic content pane
+ * 	
+ * Nested layouts:
+ * 
+ * .dijitTabContainerTop-dijitContentPane,
+ * .dijitTabContainerLeft-dijitContentPane,
+ * .dijitTabContainerBottom-dijitContentPane,
+ * .dijitTabContainerRight-dijitContentPane
+ * 	set background-color and padding of ContentPanes nested within TabContainer (can do top, left, bottom, or right) or Accordion Container
+ *
+ * .dijitAccordionContainer-dijitContentPane
+ * 	set background-color and padding of ContentPane nested within Accordion
+ *
+ * .dijitSplitContainer-dijitContentPane, 
+ *	set background-color and padding of ContentPane nested within a SplitContainer 
+ *
+ * .dijitBorderContainer-dijitContentPane
+ *	set background-color and padding of ContentPane nested within a BorderContainer 
+ */
+
+@import "../variables";
+
+.@{themename} .dijitContentPane {
+	padding: 0px;
+}		
+
+/* nested layouts */
+//.@{themename} .dijitTabContainerTop-dijitContentPane,
+.@{themename} .dijitTabContainerLeft-dijitContentPane,
+.@{themename} .dijitTabContainerBottom-dijitContentPane,
+.@{themename} .dijitTabContainerRight-dijitContentPane,
+.@{themename} .dijitAccordionContainer-dijitContentPane {
+//	background-color: @pane-background-color;
+    background-color: #5673c5;
+	padding: 0px 0px 0px =px;		    
+}
+
+.dijitTabContainerTop-dijitContentPane {
+    background-color: #3f5490;
+	padding: 6px 6px 6px 6px;		    
+}
+
+
+.dijitTabContainerTop-child .dijitContentPane {
+//    background-color: @primary-color;
+    background-color: none;
+}
+
+.@{themename} .dijitSplitContainer-dijitContentPane,
+.@{themename} .dijitBorderContainer-dijitContentPane {
+//	background-color: @pane-background-color;//@pane-background-color;		
+//    background-color: @primary-color;
+	padding: 0px;
+}
