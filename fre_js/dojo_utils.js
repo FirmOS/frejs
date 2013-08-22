@@ -1962,11 +1962,14 @@ dojo.declare("FIRMOS.GridBase", null, {
 
 //FormButton
 dojo.declare("FIRMOS.FormButton", dijit.form.Button, {
-  onClick: function() {
+  onClick: function(evt) {
+    evt.preventDefault();
+    dojo.stopEvent(evt);
     this._getWidget(dijit.form.Form).disableAllButtons();
     switch (this.type) {
-//      case 'submit': //do nothing - onsubmit is triggerd on form anyway
-//        break;
+      case 'submit': 
+        this.handleTypeSubmit();
+        break;
       case 'button': 
         this.handleTypeButton();
         break;
