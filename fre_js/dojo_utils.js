@@ -6,7 +6,7 @@ require (["dojo/_base/array","dojo/dom-geometry",
                "dojox/html/styles","dojo/dom-construct",
                "dojox/charting/widget/Chart","dojox/charting/widget/Legend","dojox/charting/axis2d/Default","dojox/charting/plot2d/Lines","dojox/charting/plot2d/Pie","dojox/charting/plot2d/ClusteredColumns",
                "dijit/Menu","dijit/Dialog","dijit/Tree","dijit/Toolbar","dijit/ProgressBar","dijit/Tooltip",
-               "dijit/form/TextBox","dijit/form/DateTextBox","dijit/form/Form","dijit/form/FilteringSelect","dijit/form/Textarea","dijit/form/NumberTextBox","dijit/form/ComboBox","dijit/form/TimeTextBox","dijit/form/Select",
+               "dijit/form/TextBox","dijit/form/DateTextBox","dijit/form/Form","dijit/form/FilteringSelect","dijit/form/Textarea","dijit/form/NumberTextBox","dijit/form/ComboBox","dijit/form/TimeTextBox","dijit/form/Select","dijit/form/NumberSpinner",
                "dijit/layout/ContentPane","dijit/layout/TabContainer","dijit/layout/BorderContainer","dijit/layout/AccordionContainer"
               ],
               function(
@@ -2067,6 +2067,9 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
   rtypes: ['once','minute','hour','day','week','month','quarter','year'],
   days: ['mo','tu','we','th','fr','sa','su'],
   minuteDetails: [{label: '1', value:'1'},{label: '5', value:'5'},{label: '10', value:'10'},{label: '15', value:'15'},{label: '30', value:'30'},{label: '45', value:'45'}],
+  hourDetails: [{label: '1', value:'1'},{label: '2', value:'2'},{label: '3', value:'3'},{label: '4', value:'4'},{label: '6', value:'6'},{label: '12', value:'12'}],
+  dayDetails: [{label: '1', value:'1'},{label: '2', value:'2'},{label: '3', value:'3'},{label: '4', value:'4'},{label: '5', value:'5'},{label: '6', value:'6'}],
+  monthDetails: [{label: '1', value:'1'},{label: '2', value:'2'},{label: '3', value:'3'},{label: '4', value:'4'},{label: '6', value:'6'}],
   rtypesVis: [],
   baseClass: 'firmosRecurrenceInput',
   templateString: '',
@@ -2075,6 +2078,7 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
   templateDivider: '<div class="firmosRecurrenceDividerContainer"><div class="firmosRecurrenceDivider"></div></div>',
   templateStartDate: '<div id="${id}_sd"></div><div id="${id}_st"></div>',
   templateEndDate: '<div id="${id}_ed"></div><div id="${id}_et"></div>',
+  templateCount: '<div id="${id}_count"></div>',
   templateCB:
     '<div data-dojo-attach-point="${value}Div" class="firmosRecurrenceInputItem" role="presentation">'+
       '<div class="firmosRecurrenceCBContainer">'+ 
@@ -2086,19 +2090,21 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
       '${details}'+
     '</div>',
   templateonceDetails:'',
-  templateminuteDetails:'<div id="${id}_m_detail"></div>',
-  templatehourDetails:'',
-  templatedayDetails:'',
+  templateminuteDetails:'<div class="dijitInline" style="float:right;"><div class="dijitInline" style="margin: 0 5px;">${caption}:</div><div id="${id}_m_detail"></div></div>',
+  templatehourDetails:'<div class="dijitInline" style="float:right;"><div class="dijitInline" style="margin: 0 5px;">${caption}:</div><div id="${id}_h_detail"></div></div>',
+  templatedayDetails:'<div class="dijitInline" style="float:right;"><div class="dijitInline" style="margin: 0 5px;">${caption}:</div><div id="${id}_d_detail"></div></div>',
   templateweekCB:'<div data-dojo-attach-point="${value}DayDiv" class="dijit dijitReset dijitInline dijitCheckBox" role="presentation"><input class="dijitReset dijitCheckBoxInput" data-onclick="_setWeekDetails" data-day="${value}" type="checkbox" data-dojo-attach-event="onclick:_onBoxClick, onmouseover: _onBoxMOver, onmouseout: _onBoxMOut" style="-moz-user-select: none;"></div>',
-  templateweekDetails:'',//see constructor
-  templatemonthDetails:'',
+  templateweekDetails:'<div class="dijitInline" style="float:right;">${week_days}</div>',
+  templatemonthDetails:'<div class="dijitInline" style="float:right;"><div class="dijitInline" style="margin: 0 5px;">${caption}:</div><div id="${id}_mo_detail"></div></div>',
   templatequarterDetails:'',
   templateyearDetails:'',
 
   constructor: function(params) {
+    var week_days = '';
     for (var i=0; i<this.days.length; i++) {
-      this.templateweekDetails=this.templateweekDetails+this.templateweekCB.replace(/\$\{value\}/g,this.days[i])+this.texts[this.days[i]]+' ';
+      week_days=week_days+this.templateweekCB.replace(/\$\{value\}/g,this.days[i])+this.texts[this.days[i]]+' ';
     }
+    this.templateweekDetails = this.templateweekDetails.replace(/\$\{week_days\}/g,week_days);
     
     this.templateString = this.templateStart;
     this.templateString = this.templateString + this.templateCB.replace(/\$\{caption\}/g,this.texts.startDate)
@@ -2113,7 +2119,7 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
         this.rtypesVis.push(this.rtypes[i]);
         this.templateString = this.templateString + this.templateCB.replace(/\$\{caption\}/g,this.texts[this.rtypes[i]])
                                                                    .replace(/\$\{value\}/g,this.rtypes[i])
-                                                                   .replace(/\$\{details\}/g,this['template'+this.rtypes[i]+'Details'])
+                                                                   .replace(/\$\{details\}/g,this['template'+this.rtypes[i]+'Details'].replace(/\$\{caption\}/g,this.texts.interval))
                                                                    .replace(/\$\{onclick\}/g,'_onRTSelect');
       }
     }
@@ -2130,6 +2136,11 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
                                                                .replace(/\$\{details\}/g,this.templateEndDate)
                                                                .replace(/\$\{onclick\}/g,'_onETSelect');
 
+    this.templateString = this.templateString + this.templateCB.replace(/\$\{caption\}/g,this.texts.count)
+                                                               .replace(/\$\{value\}/g,'count')
+                                                               .replace(/\$\{details\}/g,this.templateCount)
+                                                               .replace(/\$\{onclick\}/g,'_onETSelect');
+
     this.templateString = this.templateString + this.templateEnd;
     
     if (params.grouprequired) {
@@ -2144,15 +2155,29 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
     this.startDate = new FIRMOS.DateTextBox({style: 'float: right;', onChange: this._onSDTChange.bind(this)},this.id + '_sd');
     this.startTime = new dijit.form.TimeTextBox({style: 'float: right;', onChange: this._onSDTChange.bind(this), constraints: {timePattern: 'HH:mm',  clickableIncrement: 'T00:15:00', visibleIncrement: 'T01:00:00',  visibleRange: 'T01:00:00'}}, this.id + '_st');
     
-    this.endDate = new FIRMOS.DateTextBox({style: 'float: right;', value: new Date()},this.id + '_ed');
-    this.endTime = new dijit.form.TimeTextBox({style: 'float: right;', onChange: this._onSDTChange.bind(this), constraints: {timePattern: 'HH:mm',  clickableIncrement: 'T00:15:00', visibleIncrement: 'T01:00:00',  visibleRange: 'T01:00:00'}}, this.id + '_et');
+    this.endDate = new FIRMOS.DateTextBox({style: 'float: right;', onChange: this._onEDTChange.bind(this)},this.id + '_ed');
+    this.endTime = new dijit.form.TimeTextBox({style: 'float: right;', onChange: this._onEDTChange.bind(this), constraints: {timePattern: 'HH:mm',  clickableIncrement: 'T00:15:00', visibleIncrement: 'T01:00:00',  visibleRange: 'T01:00:00'}}, this.id + '_et');
     
+    this.countSelect = new dijit.form.NumberSpinner({style: 'float: right; width: 60px;', onChange: this._onCountChange.bind(this), constraints: {min: 1,  places: 0}}, this.id + '_count');
+
     if (this.riminute) {
-      this.minuteCB = new dijit.form.Select({style: 'float: right; width: 60px;', onChange: this._setMinuteDetails.bind(this), options: this.minuteDetails },this.id + '_m_detail');
+      this.minuteCB = new dijit.form.Select({style: 'width: 60px;', onChange: this._setMinuteDetails.bind(this), options: this.minuteDetails },this.id + '_m_detail');
       this._setMinuteDetailsUI('');
+    }
+    if (this.rihour) {
+      this.hourCB = new dijit.form.Select({style: 'width: 60px;', onChange: this._setHourDetails.bind(this), options: this.hourDetails },this.id + '_h_detail');
+      this._setHourDetailsUI('');
+    }
+    if (this.riday) {
+      this.dayCB = new dijit.form.Select({style: 'width: 60px;', onChange: this._setDayDetails.bind(this), options: this.dayDetails },this.id + '_d_detail');
+      this._setDayDetailsUI('');
     }
     if (this.riweek) {
       this._setWeekDetailsUI('');
+    }
+    if (this.rimonth) {
+      this.monthCB = new dijit.form.Select({style: 'width: 60px;', onChange: this._setMonthDetails.bind(this), options: this.monthDetails },this.id + '_mo_detail');
+      this._setMonthDetailsUI('');
     }
     
     this._selectRB(this.sdDiv);
@@ -2222,13 +2247,21 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
     if (value=='') {
       this._setRecurrenceTypeUI([]);
       this._setUntilUI('');
+      this._setCountUI('');
     } else {
       var rr = value.substr(6).split(';');
       if ((rr.length>1) && (rr[rr.length-1].indexOf('UNTIL')==0)) {
+        this._setCountUI('');
         this._setUntilUI(rr[rr.length-1]);
         rr.pop();
       } else {
         this._setUntilUI('');
+        if ((rr.length>1) && (rr[rr.length-1].indexOf('COUNT')==0)) {
+          this._setCountUI(rr[rr.length-1]);
+          rr.pop();
+        } else {
+          this._setCountUI('');
+        }
       }
       this._setRecurrenceTypeUI(rr);
     }
@@ -2248,9 +2281,19 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
           break;
         case 'HOURLY':
           rtype = 'hour';
+          if ((rr.length>1) && (rr[1].indexOf('INTERVAL')==0)) {
+            this._setHourDetailsUI(rr[1]);
+          } else {
+            this._setHourDetailsUI('');
+          }
           break;
         case 'DAILY':
           rtype = 'day';
+          if ((rr.length>1) && (rr[1].indexOf('INTERVAL')==0)) {
+            this._setDayDetailsUI(rr[1]);
+          } else {
+            this._setDayDetailsUI('');
+          }
           break;
         case 'WEEKLY':
           rtype = 'week';
@@ -2265,6 +2308,11 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
             rtype = 'quarter';
           } else {
             rtype = 'month';
+            if ((rr.length>1) && (rr[1].indexOf('INTERVAL')==0)) {
+              this._setMonthDetailsUI(rr[1]);
+            } else {
+              this._setMonthDetailsUI('');
+            }
           }
           break;
         case 'YEARLY':
@@ -2290,6 +2338,7 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
     if (value=='') {
       this._selectRB(this.nedDiv);
       this._unselectRB(this.edDiv);
+      this._unselectRB(this.countDiv);
       var def_date = new Date();
       def_date.setFullYear(def_date.getFullYear()+1);
       var default_end = this._getChooserTime(def_date);
@@ -2297,13 +2346,38 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
       this.endTime.set('value', default_end);
       this.endDate.set('disabled',true);
       this.endTime.set('disabled',true);
+      this.countSelect.set('disabled',true);
     } else {
       this._selectRB(this.edDiv);
+      this._unselectRB(this.nedDiv);
+      this._unselectRB(this.countDiv);
       var ret = this._stringToDateTime(value.substring(6));
       this.endDate.set('value',ret.date);
       this.endTime.set('value',ret.time);
-      this._unselectRB(this.nedDiv);
+      this.endDate.set('disabled',false);
+      this.endTime.set('disabled',false);
+      this.countSelect.set('disabled',true);
     }
+  },
+  _setCountUI: function(value) {
+    if (value=='') {
+      this._selectRB(this.nedDiv);
+      this._unselectRB(this.edDiv);
+      this._unselectRB(this.countDiv);
+      this.countSelect.set('value',1);
+      this.endDate.set('disabled',true);
+      this.endTime.set('disabled',true);
+      this.countSelect.set('disabled',true);
+    } else {
+      this._selectRB(this.countDiv);
+      this._unselectRB(this.nedDiv);
+      this.countSelect.set('value',Number(value.substring(6)));
+      this.endDate.set('disabled',true);
+      this.endTime.set('disabled',true);
+      this.countSelect.set('disabled',false);
+    }
+  },
+  _setForeverUI: function() {
   },
   _internalSetValue: function() {
     this.value = this._startStr;
@@ -2316,10 +2390,8 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
     this._rtypeDetailsStr = '';
     if (rtype == this.rtypes[0]) { //once
       this._rtypeStr = '';
-      this._disableStartBlock(true);
       this._disableEndBlock(true);
     } else {
-      this._disableStartBlock(false);
       this._disableEndBlock(false);
       switch (rtype) {
         case this.rtypes[1]: //minute 
@@ -2328,9 +2400,13 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
           this._rtypeStr='RRULE:FREQ=MINUTELY';
           break;
         case this.rtypes[2]: //hour 
+          this._disableHourDetails(false);
+          this._setHourDetails();
           this._rtypeStr='RRULE:FREQ=HOURLY';
           break;
         case this.rtypes[3]: //day 
+          this._disableDayDetails(false);
+          this._setDayDetails();
           this._rtypeStr='RRULE:FREQ=DAILY';
           break;
         case this.rtypes[4]: //week 
@@ -2339,6 +2415,8 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
           this._rtypeStr='RRULE:FREQ=WEEKLY';
           break;
         case this.rtypes[5]: //month 
+          this._disableMonthDetails(false);
+          this._setMonthDetails();
           this._rtypeStr='RRULE:FREQ=MONTHLY';
           break;
         case this.rtypes[6]: //quarter
@@ -2357,6 +2435,22 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
     } else {
       var interval = value.substr(9);
       this.minuteCB.set('value',interval);
+    }
+  },
+  _setHourDetailsUI: function(value) {
+    if (value=='') {
+      this.hourCB.set('value',this.hourDetails[0].id);
+    } else {
+      var interval = value.substr(9);
+      this.hourCB.set('value',interval);
+    }
+  },
+  _setDayDetailsUI: function(value) {
+    if (value=='') {
+      this.dayCB.set('value',this.dayDetails[0].id);
+    } else {
+      var interval = value.substr(9);
+      this.dayCB.set('value',interval);
     }
   },
   _setWeekDetailsUI: function(value) {
@@ -2378,8 +2472,34 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
       }
     }
   },
+  _setMonthDetailsUI: function(value) {
+    if (value=='') {
+      this.monthCB.set('value',this.monthDetails[0].id);
+    } else {
+      var interval = value.substr(9);
+      this.monthCB.set('value',interval);
+    }
+  },
   _setMinuteDetails: function() {
     var inter = this.minuteCB.get('value');
+    if (inter!='1') {
+      this._rtypeDetailsStr = ';INTERVAL='+inter;
+    } else {
+      this._rtypeDetailsStr = '';
+    }
+    this._internalSetValue();
+  },
+  _setHourDetails: function() {
+    var inter = this.hourCB.get('value');
+    if (inter!='1') {
+      this._rtypeDetailsStr = ';INTERVAL='+inter;
+    } else {
+      this._rtypeDetailsStr = '';
+    }
+    this._internalSetValue();
+  },
+  _setDayDetails: function() {
+    var inter = this.dayCB.get('value');
     if (inter!='1') {
       this._rtypeDetailsStr = ';INTERVAL='+inter;
     } else {
@@ -2400,21 +2520,30 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
     }
     this._internalSetValue();
   },
-  _disableStartBlock: function(disabled) {
-    this.startDate.set('disabled',disabled);
-    this.startTime.set('disabled',disabled);
-    if (disabled) {
-      this._disableRB(this.sdDiv);
+  _setMonthDetails: function() {
+    var inter = this.monthCB.get('value');
+    if (inter!='1') {
+      this._rtypeDetailsStr = ';INTERVAL='+inter;
     } else {
-      this._enableRB(this.sdDiv);
+      this._rtypeDetailsStr = '';
     }
+    this._internalSetValue();
   },
   _disableDetails: function() {
     this._disableMinuteDetails(true);
+    this._disableHourDetails(true);
+    this._disableDayDetails(true);
     this._disableWeekDetails(true);
+    this._disableMonthDetails(true);
   },
   _disableMinuteDetails: function(disabled) {
     this.minuteCB.set('disabled',disabled);
+  },
+  _disableHourDetails: function(disabled) {
+    this.hourCB.set('disabled',disabled);
+  },
+  _disableDayDetails: function(disabled) {
+    this.dayCB.set('disabled',disabled);
   },
   _disableWeekDetails: function(disabled) {
     if (disabled) {
@@ -2427,12 +2556,16 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
       }
     }
   },
+  _disableMonthDetails: function(disabled) {
+    this.monthCB.set('disabled',disabled);
+  },
   _disableEndBlock: function(disabled) {
     if (disabled) {
       this._disableRB(this.edDiv);
       this._disableRB(this.nedDiv);
       this.endDate.set('disabled',true);
       this.endTime.set('disabled',true);
+      this.countSelect.set('disabled',true);
     } else {
       this._enableRB(this.edDiv);
       this._enableRB(this.nedDiv);
@@ -2440,7 +2573,18 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
         this.endDate.set('disabled',false);
         this.endTime.set('disabled',false);
       }
+      if (this._isSelectedRB(this.countDiv)) {
+        this.countSelect.set('disabled',false);
+      }
     }
+  },
+  _onCountChange: function() {
+    this._endStr = ';COUNT=' + this.countSelect.get('value');
+    this._internalSetValue();
+  },
+  _onEDTChange: function() {
+    this._endStr = ';UNTIL=' + this._dateTimeToString(this.endDate.get('value'),this.endTime.get('value'));
+    this._internalSetValue();
   },
   _onSDTChange: function() {
     this._startStr = 'DTSTART:' + this._dateTimeToString(this.startDate.get('value'),this.startTime.get('value'));
@@ -2496,16 +2640,29 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
       case 'ned':
         this._selectRB(this.nedDiv);
         this._unselectRB(this.edDiv);
+        this._unselectRB(this.countDiv);
         this._endStr = '';
         this.endDate.set('disabled',true);
         this.endTime.set('disabled',true);
+        this.countSelect.set('disabled',true);
         break;
       case 'ed':
         this._selectRB(this.edDiv);
         this._unselectRB(this.nedDiv);
+        this._unselectRB(this.countDiv);
         this.endDate.set('disabled',false);
         this.endTime.set('disabled',false);
+        this.countSelect.set('disabled',true);
         this._endStr = ';UNTIL=' + this._dateTimeToString(this.endDate.get('value'),this.endTime.get('value'));
+        break;
+      case 'count':
+        this._selectRB(this.countDiv);
+        this._unselectRB(this.nedDiv);
+        this._unselectRB(this.edDiv);
+        this.endDate.set('disabled',true);
+        this.endTime.set('disabled',true);
+        this.countSelect.set('disabled',false);
+        this._endStr = ';COUNT=' + this.countSelect.get('value');
         break;
     }
     this._internalSetValue();
