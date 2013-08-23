@@ -6,7 +6,7 @@ require (["dojo/_base/array","dojo/dom-geometry",
                "dojox/html/styles","dojo/dom-construct",
                "dojox/charting/widget/Chart","dojox/charting/widget/Legend","dojox/charting/axis2d/Default","dojox/charting/plot2d/Lines","dojox/charting/plot2d/Pie","dojox/charting/plot2d/ClusteredColumns",
                "dijit/Menu","dijit/Dialog","dijit/Tree","dijit/Toolbar","dijit/ProgressBar","dijit/Tooltip",
-               "dijit/form/TextBox","dijit/form/DateTextBox","dijit/form/Form","dijit/form/FilteringSelect","dijit/form/Textarea","dijit/form/NumberTextBox","dijit/form/ComboBox","dijit/form/TimeTextBox",
+               "dijit/form/TextBox","dijit/form/DateTextBox","dijit/form/Form","dijit/form/FilteringSelect","dijit/form/Textarea","dijit/form/NumberTextBox","dijit/form/ComboBox","dijit/form/TimeTextBox","dijit/form/Select",
                "dijit/layout/ContentPane","dijit/layout/TabContainer","dijit/layout/BorderContainer","dijit/layout/AccordionContainer"
               ],
               function(
@@ -2066,6 +2066,7 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
   _endStr:'',
   rtypes: ['once','minute','hour','day','week','month','quarter','year'],
   days: ['mo','tu','we','th','fr','sa','su'],
+  minuteDetails: [{label: '1', value:'1'},{label: '5', value:'5'},{label: '10', value:'10'},{label: '15', value:'15'},{label: '30', value:'30'},{label: '45', value:'45'}],
   rtypesVis: [],
   baseClass: 'firmosRecurrenceInput',
   templateString: '',
@@ -2085,7 +2086,7 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
       '${details}'+
     '</div>',
   templateonceDetails:'',
-  templateminuteDetails:'',
+  templateminuteDetails:'<div id="${id}_m_detail"></div>',
   templatehourDetails:'',
   templatedayDetails:'',
   templateweekCB:'<div data-dojo-attach-point="${value}DayDiv" class="dijit dijitReset dijitInline dijitCheckBox" role="presentation"><input class="dijitReset dijitCheckBoxInput" data-onclick="_setWeekDetails" data-day="${value}" type="checkbox" data-dojo-attach-event="onclick:_onBoxClick, onmouseover: _onBoxMOver, onmouseout: _onBoxMOut" style="-moz-user-select: none;"></div>',
@@ -2145,7 +2146,14 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
     
     this.endDate = new FIRMOS.DateTextBox({style: 'float: right;', value: new Date()},this.id + '_ed');
     this.endTime = new dijit.form.TimeTextBox({style: 'float: right;', onChange: this._onSDTChange.bind(this), constraints: {timePattern: 'HH:mm',  clickableIncrement: 'T00:15:00', visibleIncrement: 'T01:00:00',  visibleRange: 'T01:00:00'}}, this.id + '_et');
-    this._setWeekDetailsUI('');
+    
+    if (this.riminute) {
+      this.minuteCB = new dijit.form.Select({style: 'float: right; width: 60px;', onChange: this._setMinuteDetails.bind(this), options: this.minuteDetails },this.id + '_m_detail');
+      this._setMinuteDetailsUI('');
+    }
+    if (this.riweek) {
+      this._setWeekDetailsUI('');
+    }
     
     this._selectRB(this.sdDiv);
     this._setValueUI(this.value || '');
@@ -2232,6 +2240,11 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
       switch (freq) {
         case 'MINUTELY':
           rtype = 'minute';
+          if ((rr.length>1) && (rr[1].indexOf('INTERVAL')==0)) {
+            this._setMinuteDetailsUI(rr[1]);
+          } else {
+            this._setMinuteDetailsUI('');
+          }
           break;
         case 'HOURLY':
           rtype = 'hour';
@@ -2310,6 +2323,8 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
       this._disableEndBlock(false);
       switch (rtype) {
         case this.rtypes[1]: //minute 
+          this._disableMinuteDetails(false);
+          this._setMinuteDetails();
           this._rtypeStr='RRULE:FREQ=MINUTELY';
           break;
         case this.rtypes[2]: //hour 
@@ -2336,6 +2351,14 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
     }
     this._internalSetValue();
   },
+  _setMinuteDetailsUI: function(value) {
+    if (value=='') {
+      this.minuteCB.set('value',this.minuteDetails[0].id);
+    } else {
+      var interval = value.substr(9);
+      this.minuteCB.set('value',interval);
+    }
+  },
   _setWeekDetailsUI: function(value) {
     for (var i=0; i<this.days.length; i++) {
       this._unselectCB(this[this.days[i]+'DayDiv']);
@@ -2354,6 +2377,15 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
         this._selectCB(this[days[i].toLowerCase()+'DayDiv']);
       }
     }
+  },
+  _setMinuteDetails: function() {
+    var inter = this.minuteCB.get('value');
+    if (inter!='1') {
+      this._rtypeDetailsStr = ';INTERVAL='+inter;
+    } else {
+      this._rtypeDetailsStr = '';
+    }
+    this._internalSetValue();
   },
   _setWeekDetails: function() {
     var selected = [];
@@ -2378,7 +2410,11 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
     }
   },
   _disableDetails: function() {
+    this._disableMinuteDetails(true);
     this._disableWeekDetails(true);
+  },
+  _disableMinuteDetails: function(disabled) {
+    this.minuteCB.set('disabled',disabled);
   },
   _disableWeekDetails: function(disabled) {
     if (disabled) {
