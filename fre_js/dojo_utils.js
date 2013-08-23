@@ -6,7 +6,7 @@ require (["dojo/_base/array","dojo/dom-geometry",
                "dojox/html/styles","dojo/dom-construct",
                "dojox/charting/widget/Chart","dojox/charting/widget/Legend","dojox/charting/axis2d/Default","dojox/charting/plot2d/Lines","dojox/charting/plot2d/Pie","dojox/charting/plot2d/ClusteredColumns",
                "dijit/Menu","dijit/Dialog","dijit/Tree","dijit/Toolbar","dijit/ProgressBar","dijit/Tooltip",
-               "dijit/form/TextBox","dijit/form/DateTextBox","dijit/form/Form","dijit/form/FilteringSelect","dijit/form/Textarea","dijit/form/NumberTextBox","dijit/form/ComboBox",
+               "dijit/form/TextBox","dijit/form/DateTextBox","dijit/form/Form","dijit/form/FilteringSelect","dijit/form/Textarea","dijit/form/NumberTextBox","dijit/form/ComboBox","dijit/form/TimeTextBox",
                "dijit/layout/ContentPane","dijit/layout/TabContainer","dijit/layout/BorderContainer","dijit/layout/AccordionContainer"
               ],
               function(
@@ -2072,8 +2072,8 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
   templateStart: '<div data-dojo-attach-point="wrapperDiv,focusNode" id="${id}" role="presentation">',
   templateEnd:   '</div>',
   templateDivider: '<div class="firmosRecurrenceDividerContainer"><div class="firmosRecurrenceDivider"></div></div>',
-  templateStartDate: '<div id="${id}_sd"></div>',
-  templateEndDate: '<div id="${id}_ed"></div>',
+  templateStartDate: '<div id="${id}_sd"></div><div id="${id}_st"></div>',
+  templateEndDate: '<div id="${id}_ed"></div><div id="${id}_et"></div>',
   templateCB:
     '<div data-dojo-attach-point="${value}Div" class="firmosRecurrenceInputItem" role="presentation">'+
       '<div class="firmosRecurrenceCBContainer">'+ 
@@ -2140,13 +2140,12 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
   },
   startup: function() {
     this.inherited(arguments);
-    this.startDate = new FIRMOS.DateTextBox({style: 'float: right;', onChange: this._onSDChange.bind(this)},this.id + '_sd');
-    this.endDate = new FIRMOS.DateTextBox({style: 'float: right;', value: new Date()},this.id + '_ed');
-    this._setWeekDetailsUI('');
+    this.startDate = new FIRMOS.DateTextBox({style: 'float: right;', onChange: this._onSDTChange.bind(this)},this.id + '_sd');
+    this.startTime = new dijit.form.TimeTextBox({style: 'float: right;', onChange: this._onSDTChange.bind(this), constraints: {timePattern: 'HH:mm',  clickableIncrement: 'T00:15:00', visibleIncrement: 'T01:00:00',  visibleRange: 'T01:00:00'}}, this.id + '_st');
     
-    //FIXXME - implement time chooser
-    this.startTime = this.startDate;
-    this.endTime = this.endDate;
+    this.endDate = new FIRMOS.DateTextBox({style: 'float: right;', value: new Date()},this.id + '_ed');
+    this.endTime = new dijit.form.TimeTextBox({style: 'float: right;', onChange: this._onSDTChange.bind(this), constraints: {timePattern: 'HH:mm',  clickableIncrement: 'T00:15:00', visibleIncrement: 'T01:00:00',  visibleRange: 'T01:00:00'}}, this.id + '_et');
+    this._setWeekDetailsUI('');
     
     this._selectRB(this.sdDiv);
     this._setValueUI(this.value || '');
@@ -2179,32 +2178,54 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
       this._setValueUIRRule('');
     } 
   },
+  _getChooserTime: function(time) {
+    switch (Math.round(time.getMinutes() / 15)) {
+      case 0: 
+        time.setMinutes(0);
+        break;
+      case 1: 
+        time.setMinutes(15);
+        break;
+      case 2: 
+        time.setMinutes(30);
+        break;
+      case 3: 
+        time.setMinutes(45);
+        break;
+      case 4: 
+        time.setMinutes(0);
+        time.setHours(time.getHours()+1);        
+        break;
+    }
+    return time;
+  },
   _setValueUIStart: function(value) {
     if (value=='') {
-      this.startDate.set('value',new Date());
+      var default_start = this._getChooserTime(new Date());
+      this.startDate.set('value',default_start);
+      this.startTime.set('value',default_start);
     } else {
       var ret = this._stringToDateTime(value.substring(8));
       this.startDate.set('value',ret.date);
-      //FIXXME - set start time
+      this.startTime.set('value',ret.time);
     }
   },
   _setValueUIRRule: function(value) {
     if (value=='') {
-      this._selectRecurrenceTypeUI([]);
-      this._selectUntilUI('');
+      this._setRecurrenceTypeUI([]);
+      this._setUntilUI('');
     } else {
       var rr = value.substr(6).split(';');
       if ((rr.length>1) && (rr[rr.length-1].indexOf('UNTIL')==0)) {
-        this._selectUntilUI(rr[rr.length-1]);
-        //FIXXME - set until time
+        this._setUntilUI(rr[rr.length-1]);
         rr.pop();
       } else {
-        this._selectUntilUI('');
+        this._setUntilUI('');
       }
-      this._selectRecurrenceTypeUI(rr);
+      this._setRecurrenceTypeUI(rr);
     }
   },
-  _selectRecurrenceTypeUI: function(rr) {
+  _setRecurrenceTypeUI: function(rr) {
     var rtype = '';
     if (rr.length>0) {
       var freq = rr[0].substr(5);
@@ -2252,15 +2273,22 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
     this._selectRB(this[rtype+'Div']);
     this._setRecurrenceType(rtype);
   },
-  _selectUntilUI: function(value) {
+  _setUntilUI: function(value) {
     if (value=='') {
       this._selectRB(this.nedDiv);
       this._unselectRB(this.edDiv);
+      var def_date = new Date();
+      def_date.setFullYear(def_date.getFullYear()+1);
+      var default_end = this._getChooserTime(def_date);
+      this.endDate.set('value', default_end);
+      this.endTime.set('value', default_end);
       this.endDate.set('disabled',true);
+      this.endTime.set('disabled',true);
     } else {
       this._selectRB(this.edDiv);
       var ret = this._stringToDateTime(value.substring(6));
       this.endDate.set('value',ret.date);
+      this.endTime.set('value',ret.time);
       this._unselectRB(this.nedDiv);
     }
   },
@@ -2342,6 +2370,7 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
   },
   _disableStartBlock: function(disabled) {
     this.startDate.set('disabled',disabled);
+    this.startTime.set('disabled',disabled);
     if (disabled) {
       this._disableRB(this.sdDiv);
     } else {
@@ -2367,15 +2396,17 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
       this._disableRB(this.edDiv);
       this._disableRB(this.nedDiv);
       this.endDate.set('disabled',true);
+      this.endTime.set('disabled',true);
     } else {
       this._enableRB(this.edDiv);
       this._enableRB(this.nedDiv);
       if (this._isSelectedRB(this.edDiv)) {
         this.endDate.set('disabled',false);
+        this.endTime.set('disabled',false);
       }
     }
   },
-  _onSDChange: function() {
+  _onSDTChange: function() {
     this._startStr = 'DTSTART:' + this._dateTimeToString(this.startDate.get('value'),this.startTime.get('value'));
     this._internalSetValue();
   },
@@ -2431,11 +2462,13 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
         this._unselectRB(this.edDiv);
         this._endStr = '';
         this.endDate.set('disabled',true);
+        this.endTime.set('disabled',true);
         break;
       case 'ed':
         this._selectRB(this.edDiv);
         this._unselectRB(this.nedDiv);
         this.endDate.set('disabled',false);
+        this.endTime.set('disabled',false);
         this._endStr = ';UNTIL=' + this._dateTimeToString(this.endDate.get('value'),this.endTime.get('value'));
         break;
     }
