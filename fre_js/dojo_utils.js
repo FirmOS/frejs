@@ -3525,6 +3525,16 @@ dojo.declare("FIRMOS.ValidationTextBox", dijit.form.ValidationTextBox, {
       this.groupRequired = false;
     }
   },
+  isValid: function(isFocused) {
+    if (this.confirms) {
+      var form = this.getParent();
+      var main_input = form._getInputById(this.confirms);
+      if (this.get('value')!=main_input.get('value')) {
+        return false;
+      }
+    }
+    return this.inherited(arguments);
+  },
   validate: function(isFocused) {
     if (this.regExpForbidden) {
       var cursorPos = this.textbox.selectionStart;
