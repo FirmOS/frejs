@@ -17,7 +17,8 @@ var allFiles = [].concat(
 		fs.readdirSync("."),
 		fs.readdirSync("form").map(function(fname){ return "form/"+fname; }),
 		fs.readdirSync("layout").map(function(fname){ return "layout/"+fname; }),
-		fs.readdirSync("dgrid").map(function(fname){ return "dgrid/"+fname; })
+		fs.readdirSync("dgrid").map(function(fname){ return "dgrid/"+fname; }),
+		fs.readdirSync("dojox/widget/Calendar").map(function(fname){ return "dojox/widget/Calendar/"+fname; })
 	),
 	lessFiles = allFiles.filter(function(name){ return name && name != "variables.less" && /\.less$/.test(name); });
 

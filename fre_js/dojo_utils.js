@@ -1,7 +1,7 @@
 require (["dojo/_base/array","dojo/dom-geometry",
                "dgrid/OnDemandGrid","dgrid/Grid","dgrid/Selection","dgrid/selector","dgrid/tree",
                "dgrid/extensions/ColumnResizer","dgrid/extensions/ColumnHider","dgrid/extensions/ColumnReorder","dgrid/extensions/DijitRegistry","dgrid/extensions/DnD",
-               "dojox/form/CheckedMultiSelect","dojox/form/FileInput","dojox/form/Uploader","dojox/form/uploader/FileList","dojox/validate/web","dojox/validate/check",
+               "dojox/form/CheckedMultiSelect","dojox/form/FileInput","dojox/form/Uploader","dojox/form/uploader/FileList","dojox/validate/web","dojox/validate/check","dojox/widget/Calendar",
                "dojox/gfx","dojox/gfx/fx","dojox/gfx/utils","dojox/gfx/Moveable","dojox/gesture/tap","dojox/gesture/swipe",
                "dojox/html/styles","dojo/dom-construct",
                "dojox/charting/widget/Chart","dojox/charting/widget/Legend","dojox/charting/axis2d/Default","dojox/charting/plot2d/Lines","dojox/charting/plot2d/Pie","dojox/charting/plot2d/ClusteredColumns",
@@ -2023,6 +2023,7 @@ dojo.declare("FIRMOS.GridButton", dijit.form.Button, {
 
 //DateTextBox
 dojo.declare("FIRMOS.DateTextBox", dijit.form.DateTextBox, {
+  popupClass: 'dojox.widget.Calendar',
   constructor: function(params) {
     if (params.grouprequired) {
       this.groupRequired =  eval(params.grouprequired);

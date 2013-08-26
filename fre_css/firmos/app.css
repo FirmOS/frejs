@@ -19,6 +19,7 @@
 @import url("form/NumberSpinner.css");
 @import url("Dialog.css");
 @import url("Calendar.css");
+@import url("dojox/widget/Calendar/Calendar.css");
 @import url("Menu.css");
 @import url("ColorPalette.css");
 @import url("InlineEditBox.css");

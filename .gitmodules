@@ -25,3 +25,6 @@
 [submodule "dojo/xstyle"]
 	path = dojo/xstyle
 	url = https://github.com/FirmOS/xstyle.git
+[submodule "dojo/util"]
+	path = dojo/util
+	url = https://github.com/FirmOS/util.git
