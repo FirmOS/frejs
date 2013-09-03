@@ -1195,10 +1195,13 @@ dojo.declare("FIRMOS.Store", null, {
     }
   },
   _removeObserver: function(handle) {
-    var index = dojo.array.indexOf(this.queryResults_[handle.queryId].observer, handle.listener);
-    if(index>-1) {
-      this.queryResults_[handle.queryId].observer.splice(index, 1);
-      this.queryResults_[handle.queryId].observerInfo.splice(index, 1);
+    if (this.queryResults_[handle.queryId]) {
+      if (this.queryResults_[handle.queryId].dataIds.length==0) return; //HACK for dgrid
+      var index = dojo.array.indexOf(this.queryResults_[handle.queryId].observer, handle.listener);
+      if(index>-1) {
+        this.queryResults_[handle.queryId].observer.splice(index, 1);
+        this.queryResults_[handle.queryId].observerInfo.splice(index, 1);
+      }
     }
     this._deleteResultCache(handle.queryId);
   },
@@ -1532,6 +1535,7 @@ dojo.declare("FIRMOS.GridDnDSource",dgrid.DnD.GridSource, {
     return false;
   },
   getSelectedNodes: function() {
+    if (!this.grid.gradId) return [];
     var error_objs = [];
     if (!this.current) {  //return no nodes if drag does not start over a node
       return [];
