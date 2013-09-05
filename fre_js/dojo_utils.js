@@ -5635,7 +5635,9 @@ dojo.declare("FIRMOS.Editor", dijit.layout.BorderContainer, {
   setValue: function(newValue) {
     switch (this.editorType) {
       case 'aloha':
-        this.editableContent.setContents(newValue);
+        if (this.editableContent) {
+          this.editableContent.setContents(newValue);
+        }
         break;
       case 'codemirror':
         this.cm.setValue(newValue);
