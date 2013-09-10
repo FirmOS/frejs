@@ -6,7 +6,7 @@ require (["dojo/_base/array","dojo/dom-geometry",
                "dojox/html/styles","dojo/dom-construct",
                "dojox/charting/widget/Chart","dojox/charting/widget/Legend","dojox/charting/axis2d/Default","dojox/charting/plot2d/Lines","dojox/charting/plot2d/Pie","dojox/charting/plot2d/ClusteredColumns",
                "dijit/Menu","dijit/Dialog","dijit/Tree","dijit/Toolbar","dijit/ProgressBar","dijit/Tooltip",
-               "dijit/form/TextBox","dijit/form/DateTextBox","dijit/form/Form","dijit/form/FilteringSelect","dijit/form/Textarea","dijit/form/NumberTextBox","dijit/form/ComboBox","dijit/form/TimeTextBox","dijit/form/Select","dijit/form/NumberSpinner",
+               "dijit/form/TextBox","dijit/form/DateTextBox","dijit/form/Form","dijit/form/FilteringSelect","dijit/form/Textarea","dijit/form/NumberTextBox","dijit/form/ComboBox","dijit/form/TimeTextBox","dijit/form/Select","dijit/form/NumberSpinner","dijit/form/HorizontalSlider",
                "dijit/layout/ContentPane","dijit/layout/TabContainer","dijit/layout/BorderContainer","dijit/layout/AccordionContainer"
               ],
               function(
@@ -2987,6 +2987,9 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
       if (children[i].isInstanceOf(FIRMOS.BoolCheckBox)) {
         children[i].updateDepFields(children);
       }
+      if (children[i].isInstanceOf(FIRMOS.FilteringSelect)) {
+        children[i].updateDepGroup();
+      }
       var pathArray = children[i].name.split('.');
       pathArray.pop();
       if (pathArray.length==0) {
@@ -3407,9 +3410,29 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
     } else {
       this.groupRequired = false;
     }
+    if (params.depGroup) {
+      this.depGroup = dojo.fromJson(params.depGroup);
+      delete params.depGroup;
+    }
   },
-  onChange: function() {
+  updateDepGroup: function(value) {
+    if (this.depGroup) {
+      var val = value || this.value; 
+      for (var i=0; i<this.depGroup.length; i++) {
+        var elem = dojo.byId(this.depGroup[i].inputId);
+        if (elem) {
+          if (this.depGroup[i].value == val) {
+            dojo.style(elem,'display','');
+          } else {
+            dojo.style(elem,'display','none');
+          }
+        }
+      }
+    }
+  },
+  onChange: function(value) {
     this.inherited(arguments);
+    this.updateDepGroup(value);
     var form = this.getParent();
     while (form && !form.isInstanceOf(dijit.form.Form)) {
       form=form.getParent();
@@ -3568,17 +3591,29 @@ dojo.declare("FIRMOS.ValidationTextBox", dijit.form.ValidationTextBox, {
 //NumberTextBox
 dojo.declare("FIRMOS.NumberTextBox", dijit.form.NumberTextBox, {
   constructor: function(params) {
-    if (params.constraints && (params.constraints.places==0)) {
-      this.regExpForbidden = /[^\d]/g;
-    } else {
-      this.regExpForbidden = /[^\d\.]/g;
+    if (!params.constraints) {
+      params.constraints = {};
     }
+
+    if (params.constraints && params.constraints.places && (params.constraints.places==0)) {
+      this.regExpForbidden = /[^\d\-]/g;
+    } else {
+      this.regExpForbidden =  /[^\d\.\,\-]/g;
+      if (!params.constraints.places) params.constraints.places = 2;
+      params.constraints.pattern = '#0.';
+      for (var i=0; i<params.constraints.places; i++) {
+        params.constraints.pattern = params.constraints.pattern + '#';
+      }
+    }
+    
     if (params.grouprequired) {
       this.groupRequired =  eval(params.grouprequired);
       delete params.grouprequired;
     } else {
       this.groupRequired = false;
     }
+  },
+  _setBlurValue: function() {
   },
   validate: function(isFocused) {
     var cursorPos = this.textbox.selectionStart;
@@ -3610,6 +3645,46 @@ dojo.declare("FIRMOS.NumberTextBox", dijit.form.NumberTextBox, {
     }
   }
 });
+
+
+//NumberSlider
+dojo.declare("FIRMOS.NumberSlider", dijit.form._FormValueWidget, {
+  templateString: '<div data-dojo-attach-point="focusNode" id="${id}" role="presentation"><div id="${id}_number"></div><div id="${id}_slider"></div></div>',
+  constructor: function(params) {
+    params.constraints = dojo.fromJson(params.constraints);
+    this.sliderParams = {};
+    this.sliderParams.minimum = params.constraints.min;
+    this.sliderParams.maximum = params.constraints.max;
+    if (params.constraints.steps) {
+      this.sliderParams.discreteValues = params.constraints.steps;
+    }
+    this.sliderParams.value = params.value;
+    this.sliderParams.intermediateChanges = params.intermediateChanges;
+    this.sliderParams.style = "width:75%;";
+
+    this.numberParams = {};
+    this.numberParams.style = "width:20%; float:right;";
+    this.numberParams.value = params.value;
+    this.numberParams.places = params.constraints.places;
+    this._multi = 1;
+    for (var i=0; i<params.constraints.places; i++) {
+      this._multi = this._multi * 10;
+    }
+    this.numberParams.disabled = true;
+  },
+  startup: function() {
+    this.inherited(arguments);
+    this.sliderParams.onChange = this._onSliderChange.bind(this);
+    this.number = new dijit.form.NumberTextBox(this.numberParams,  this.id + '_number');
+    this.slider = new dijit.form.HorizontalSlider(this.sliderParams, this.id + '_slider');
+  },
+  _onSliderChange: function() {
+    this.value = Math.round(this.slider.get('value')*this._multi)/this._multi;
+    this.number.set('value', this.value);
+  },
+  
+});
+
 
 //TabContainer
 dojo.declare("FIRMOS.TabContainer", dijit.layout.TabContainer, {
