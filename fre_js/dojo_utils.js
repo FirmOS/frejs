@@ -2976,6 +2976,9 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
   },
   onShow: function(event) {
     this.inherited(arguments);
+    if (this.sendChanged) {
+      this.initialData = this.get('value');
+    }
     var children = this.getChildren();
     for (var i=0; i<children.length; i++) {
       if (!children[i].name) continue; //skip non form elements
@@ -2988,7 +2991,7 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
         children[i].updateDepFields(children);
       }
       if (children[i].isInstanceOf(FIRMOS.FilteringSelect)) {
-        children[i].updateDepGroup();
+        children[i].init();
       }
       var pathArray = children[i].name.split('.');
       pathArray.pop();
@@ -3029,9 +3032,6 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
           }
         }
       }
-    }
-    if (this.sendChanged) {
-      this.initialData = this.get('value');
     }
   },
   
@@ -3137,6 +3137,17 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
         }
       }
     }
+  },
+  
+  _getValueAttr: function() {
+    var res = this.inherited(arguments);
+    var children = this.getChildren();
+    for (var i=0; i<children.length; i++) {
+      if (children[i].name && children[i]._ignore && res[children[i].name]) {
+        delete res[children[i].name];
+      }
+    }
+    return res;
   },
 
   callServerFunction: function(classname, functionname, uidPath, params, hiddenParams, isDialog) {
@@ -3403,6 +3414,7 @@ dojo.declare("FIRMOS.Menu", dijit.Menu, {
 
 //FilteringSelect
 dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
+  _hidden: false, 
   constructor: function(params) {
     if (params.grouprequired) {
       this.groupRequired =  eval(params.grouprequired);
@@ -3413,26 +3425,79 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
     if (params.depGroup) {
       this.depGroup = dojo.fromJson(params.depGroup);
       delete params.depGroup;
+    } else {
+      this.depGroup = [];
     }
   },
-  updateDepGroup: function(value) {
-    if (this.depGroup) {
-      var val = value || this.value; 
-      for (var i=0; i<this.depGroup.length; i++) {
-        var elem = dojo.byId(this.depGroup[i].inputId);
-        if (elem) {
-          if (this.depGroup[i].value == val) {
-            dojo.style(elem,'display','');
-          } else {
-            dojo.style(elem,'display','none');
+  _updateDepField: function(fielddef, hide) {
+    var elem = dojo.byId(fielddef.inputId+'_tr');
+    if (elem) {
+      var input_elem = dijit.byId(fielddef.inputId);
+      var children = elem.querySelectorAll('[widgetid]');
+      var child_widgets = [];
+      for (var i=0; i<children.length; i++) {
+        child_widgets[i] = dijit.byId(children[i].getAttribute('widgetid'));
+      }
+      if (!hide && (fielddef.value == this.value)) {
+        dojo.style(elem,'display','');
+        for (var i=0; i<child_widgets.length; i++) {
+          delete child_widgets[i]._ignore;
+          if (child_widgets[i]._required) {
+            child_widgets[i].set('required',child_widgets[i]._required);
+            delete child_widgets[i]._required;
+          }
+          if (child_widgets[i].isInstanceOf(FIRMOS.FilteringSelect)) {
+            child_widgets[i].unhide();
+          }
+        }
+      } else {
+        dojo.style(elem,'display','none');
+        for (var i=0; i<child_widgets.length; i++) {
+          child_widgets[i]._ignore = true;
+          if (child_widgets[i].get('required')) {
+            child_widgets[i]._required = true;
+            child_widgets[i].set('required',false);
+          }
+          if (child_widgets[i].isInstanceOf(FIRMOS.FilteringSelect)) {
+            child_widgets[i].hide();
           }
         }
       }
     }
   },
+  hide: function() {
+    this._hidden = true;
+    this._hideAllDepFields();
+  },
+  unhide: function() {
+    this._hidden = false;
+    this._updateDepGroup();
+  },
+  _updateDepGroup: function() {
+    for (var i=0; i<this.depGroup.length; i++) {
+      this._updateDepField(this.depGroup[i]);
+    }
+  },
+  _hideAllDepFields: function() {
+    for (var i=0; i<this.depGroup.length; i++) {
+      this._updateDepField(this.depGroup[i],true);
+    }
+  },
+  init: function() {
+    if ((this.value=='') && (this.required)) {
+      if (this.store.data.length>0) {
+        this.set('value',this.store.data[0].value);
+      }
+    }
+    if (this._hidden) {
+      this._hideAllDepFields();
+    } else {
+      this._updateDepGroup();
+    }
+  },
   onChange: function(value) {
     this.inherited(arguments);
-    this.updateDepGroup(value);
+    if (!this._hidden) this._updateDepGroup();
     var form = this.getParent();
     while (form && !form.isInstanceOf(dijit.form.Form)) {
       form=form.getParent();
