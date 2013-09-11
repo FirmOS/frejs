@@ -3453,10 +3453,12 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
       } else {
         dojo.style(elem,'display','none');
         for (var i=0; i<child_widgets.length; i++) {
-          child_widgets[i]._ignore = true;
-          if (child_widgets[i].get('required')) {
-            child_widgets[i]._required = true;
-            child_widgets[i].set('required',false);
+          if (fielddef.ignoreHidden) {
+            child_widgets[i]._ignore = true;
+            if (child_widgets[i].get('required')) {
+              child_widgets[i]._required = true;
+              child_widgets[i].set('required',false);
+            }
           }
           if (child_widgets[i].isInstanceOf(FIRMOS.FilteringSelect)) {
             child_widgets[i].hide();
