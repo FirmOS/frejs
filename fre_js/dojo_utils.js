@@ -3486,7 +3486,7 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
     }
   },
   init: function() {
-    if ((this.value=='') && (this.required)) {
+    if ((this.value=='') && (this.required || this._required)) {
       if (this.store.data.length>0) {
         this.set('value',this.store.data[0].value);
       }
