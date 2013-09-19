@@ -1,4 +1,4 @@
-require (["dojo/_base/array","dojo/dom-geometry",
+require (["dojo/_base/array","dojo/dom-geometry","dojo/aspect",
                "dgrid/OnDemandGrid","dgrid/Grid","dgrid/Selection","dgrid/selector","dgrid/tree",
                "dgrid/extensions/ColumnResizer","dgrid/extensions/ColumnHider","dgrid/extensions/ColumnReorder","dgrid/extensions/DijitRegistry","dgrid/extensions/DnD",
                "dojox/form/CheckedMultiSelect","dojox/form/FileInput","dojox/form/Uploader","dojox/form/uploader/FileList","dojox/validate/web","dojox/validate/check","dojox/widget/Calendar",
@@ -10,11 +10,11 @@ require (["dojo/_base/array","dojo/dom-geometry",
                "dijit/layout/ContentPane","dijit/layout/TabContainer","dijit/layout/BorderContainer","dijit/layout/AccordionContainer"
               ],
               function(
-              __array,__geometry,
+              __array,__geometry,__aspect,
               __ODGrid,__Grid,__Selection,__selector,__tree,
               __ColumnResizer,__ColumnHider,__ColumnReorder,__DijitRegistry,__DnD
               ) {
-  dojo.array = __array; dojo.domGeo = __geometry;
+  dojo.array = __array; dojo.domGeo = __geometry; dojo.aspect = __aspect;
   dgrid = {};
   dgrid.OnDemandGrid = __ODGrid; dgrid.Grid = __Grid; dgrid.Selection = __Selection; dgrid.selector = __selector; dgrid.tree = __tree;
   dgrid.ColumnResizer = __ColumnResizer; dgrid.ColumnHider = __ColumnHider; dgrid.ColumnReorder = __ColumnReorder; dgrid.DijitRegistry = __DijitRegistry; dgrid.DnD = __DnD;
@@ -1760,6 +1760,7 @@ dojo.declare("FIRMOS.GridBase", null, {
     this.on(".dgrid-row:contextmenu",this.onContextMenu.bind(this));
     this.on("dgrid-select",this.onSelect.bind(this));
     this.on("dgrid-deselect",this.onDeselect.bind(this));
+    dojo.aspect.after(this,"expand",this._onExpand.bind(this),true);
   },
   getSelectedIds: function() {
     var selectedIds = new Array();
@@ -1767,6 +1768,50 @@ dojo.declare("FIRMOS.GridBase", null, {
       selectedIds.push(x);
     }
     return selectedIds;
+  },
+  _onExpand: function(target, expand, noTransition) {
+    var iconNodes = dojo.query(".firmosIconNode", target.element);
+    for (var i=0; i<iconNodes.length; i++) {
+      if (iconNodes.length==2) {
+        var row = target.element ? target : grid.row(target);
+        if (this._expanded[row.id]) {
+          dojo.style(iconNodes[0],'display','none');
+          dojo.style(iconNodes[1],'display','');
+        } else {
+          dojo.style(iconNodes[0],'display','');
+          dojo.style(iconNodes[1],'display','none');
+        }
+      }
+    }
+    console.log('Target: ' + target + ' - Expand: ' + expand + ' - noTransition: ' + noTransition);
+  },
+  _renderIconCell: function(object, value, node, options,iconId,openIconId) {
+    var div = document.createElement('div'); 
+    var innerHTML = "<img src='"+object[iconId]+"' class='firmosIconNode'>";
+    if (openIconId && (openIconId!='')) {
+      innerHTML = innerHTML + "<img src='"+object[openIconId]+"' class='firmosIconNode' style='display:none;'>"
+    }
+    innerHTML = innerHTML + "&nbsp;" + value; 
+    div.innerHTML = innerHTML;
+    return div;
+  },
+  _renderDate: function(object, value, node, options) {
+    var div = document.createElement('div'); 
+    div.innerHTML = dojo.date.locale.format(new Date(value), {formatLength: "short"});
+    return div;
+  },
+  _renderIcons: function(object, value, node, options) {
+    var div = document.createElement('div'); 
+    if (!value || (value=='')) {
+     return '';
+    }
+    var vals=value.split(','); 
+    var ret=''; 
+    for (var i=0;i<vals.length;i++) {
+      ret = ret + '<img src="' + vals[i] + '">';
+    } 
+    div.innerHTML = ret;
+    return div;
   },
   _selectionChanged: function() {
     var selection_change = false;
