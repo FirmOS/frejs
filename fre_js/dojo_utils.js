@@ -607,6 +607,7 @@ dojo.declare("FIRMOS.uiHandler", null, {
     } else {
       if (this.storeDepData[id]) {
         storedef._dependency = this.storeDepData[id];
+        delete this.storeDepData[id];
       }
       var ret = new FIRMOS.Store(storedef);
       return ret;
@@ -636,10 +637,11 @@ dojo.declare("FIRMOS.uiHandler", null, {
     var store = this.getStoreById(storeId);
     if (store) {
       delete store.store.params_.dependency[depField + '_ref'];
-    }
+    } else {
     delete this.storeDepData[storeId][depField + '_ref'];
     if (Object.keys(this.storeDepData[storeId]).length==0) {
       delete this.storeDepData[storeId];
+    }
     }
   },
   
@@ -1783,7 +1785,6 @@ dojo.declare("FIRMOS.GridBase", null, {
         }
       }
     }
-    console.log('Target: ' + target + ' - Expand: ' + expand + ' - noTransition: ' + noTransition);
   },
   _renderIconCell: function(object, value, node, options,iconId,openIconId) {
     var div = document.createElement('div'); 
@@ -3380,7 +3381,7 @@ dojo.declare("FIRMOS.Menu", dijit.Menu, {
     var menuFunc = {};
     if (tn.isInstanceOf(dijit._TreeNode)) {
       var item = tn.item;
-      var tree = tn.getParent();
+      var tree = tn.tree;
       dojo.mixin(menuParams, tree.model.store.params_);
 
       if (item.uidpath) {
@@ -3401,10 +3402,12 @@ dojo.declare("FIRMOS.Menu", dijit.Menu, {
           menuFunc.functionname = this.treeItemFunctionname;
           dojo.mixin(menuParams, this.treeItemParams);
           if (this.treeItemUIDPath) {
-            menuParams.selected = [tree.model.store.getIdentity(item)];
             menuFunc.uidPath = this.treeItemUIDPath;
           }
         }
+      }
+      if ((menuFunc.uidPath.length>0) || (tree.model.store.getIdentity(item)!=menuFunc.uidPath[0])) {
+        menuParams.selected = [tree.model.store.getIdentity(item)];
       }
     } else {
       var tree = tn;
@@ -3445,12 +3448,15 @@ dojo.declare("FIRMOS.Menu", dijit.Menu, {
         menuFunc.functionname = this.gridFunctionname;
         dojo.mixin(menuParams, this.gridParams);
         if (this.gridUIDPath) {
-          menuParams.selected = grid.getSelectedIds();
           menuFunc.uidPath = this.gridUIDPath;
         }
       }
     }
     if (menuFunc && menuFunc.classname) {
+      var selected = grid.getSelectedIds();
+      if ((selected.length>1) || (menuFunc.uidPath.length>0) || (selected[0]!=menuFunc.uidPath[0])) {
+        menuParams.selected = selected;
+      }
       G_UI_COM.setMenu(this);
       G_SERVER_COM.callServerFunction(menuFunc.classname,menuFunc.functionname,menuFunc.uidPath,menuParams);
     }
@@ -3707,15 +3713,15 @@ dojo.declare("FIRMOS.NumberTextBox", dijit.form.NumberTextBox, {
       params.constraints = {};
     }
 
-    if (params.constraints && params.constraints.places && (params.constraints.places==0)) {
+    if (params.constraints.places && (params.constraints.places==0)) {
       this.regExpForbidden = /[^\d\-]/g;
     } else {
       this.regExpForbidden =  /[^\d\.\,\-]/g;
-      if (!params.constraints.places) params.constraints.places = 2;
+/*      if (!params.constraints.places) params.constraints.places = 2;
       params.constraints.pattern = '#0.';
       for (var i=0; i<params.constraints.places; i++) {
         params.constraints.pattern = params.constraints.pattern + '#';
-      }
+      }*/
     }
     
     if (params.grouprequired) {
