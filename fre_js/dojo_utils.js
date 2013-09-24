@@ -638,9 +638,11 @@ dojo.declare("FIRMOS.uiHandler", null, {
     if (store) {
       delete store.store.params_.dependency[depField + '_ref'];
     } else {
+      if (this.storeDepData[storeId]) {
     delete this.storeDepData[storeId][depField + '_ref'];
     if (Object.keys(this.storeDepData[storeId]).length==0) {
       delete this.storeDepData[storeId];
+    }
     }
     }
   },
@@ -1537,7 +1539,7 @@ dojo.declare("FIRMOS.GridDnDSource",dgrid.DnD.GridSource, {
     return false;
   },
   getSelectedNodes: function() {
-    if (!this.grid.gradId) return [];
+    if (this.grid.dndDisabled) return [];
     var error_objs = [];
     if (!this.current) {  //return no nodes if drag does not start over a node
       return [];
@@ -4110,7 +4112,7 @@ dojo.declare("FIRMOS.GridFilter",null, {
           dropDown: filter_dialog,
           class: "firmosGridFilter",
           iconClass: "firmosGridFilterIconClass",
-          onClick: function (event) {return false;}
+          onClick: function (evt) {evt.preventDefault(); dojo.stopEvent(evt); return false;}
         });
         filter_dialog.ddbutton = button;
       }
