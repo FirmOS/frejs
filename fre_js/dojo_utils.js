@@ -1517,7 +1517,20 @@ dojo.declare("FIRMOS.Tree", dijit.Tree, {
   }
 });
 
-dojo.declare("FIRMOS.GridDnDSource",dgrid.DnD.GridSource, {
+
+_ColumnDnDSource = dojo.declare("FIRMOS.ColumnDnDSource",dgrid.ColumnReorder.ColumnDndSource, {
+  onMouseDown: function(e) {
+    e.stopPropagation = function() {};
+    this.inherited(arguments);
+  }
+});
+
+dojo.declare("FIRMOS.ColumnReorder",dgrid.ColumnReorder, {
+  columnDndConstructor: _ColumnDnDSource
+});
+
+
+_GridDnDSource = dojo.declare("FIRMOS.GridDnDSource",dgrid.DnD.GridSource, {
   allowNested: true,
   checkAcceptance: function(source, nodes) {
     for(var i = 0; i < nodes.length; ++i){
@@ -1534,6 +1547,10 @@ dojo.declare("FIRMOS.GridDnDSource",dgrid.DnD.GridSource, {
       }
     }
     return true;
+  },
+  onMouseDown: function(e) {
+    e.stopPropagation = function() {};
+    this.inherited(arguments);
   },
   copyState: function(keyPressed, self) {
     return false;
@@ -1704,7 +1721,7 @@ dojo.declare("FIRMOS.GridDnDSource",dgrid.DnD.GridSource, {
 
 dojo.declare("FIRMOS.GridDnD", dgrid.DnD, {
   dndAcceptType: "dgrid-row",
-  dndConstructor: FIRMOS.GridDnDSource,
+  dndConstructor: _GridDnDSource,
   postMixInProperties: function() {
     this.inherited(arguments);
     this.dndParams = dojo.mixin(this.dndParams, { accept: [this.dndAcceptType] });
@@ -5754,7 +5771,7 @@ dojo.declare("FIRMOS.gridDetailsColumn", null, {
   }
 });
 
-dojo.declare("FIRMOS.OnDemandGrid", [dgrid.OnDemandGrid,FIRMOS.GridBase,dgrid.Selection,FIRMOS.GridFilter,dgrid.ColumnResizer,dgrid.ColumnReorder,dgrid.ColumnHider,FIRMOS.GridDnD,dgrid.DijitRegistry]);
+dojo.declare("FIRMOS.OnDemandGrid", [dgrid.OnDemandGrid,FIRMOS.GridBase,dgrid.Selection,FIRMOS.GridFilter,dgrid.ColumnResizer,FIRMOS.ColumnReorder,dgrid.ColumnHider,FIRMOS.GridDnD,dgrid.DijitRegistry]);
 
 //Editor
 dojo.declare("FIRMOS.Editor", dijit.layout.BorderContainer, {
