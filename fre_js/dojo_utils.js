@@ -2068,6 +2068,12 @@ dojo.declare("FIRMOS.FormButton", dijit.form.Button, {
     if (this.actionClassname) {
       G_SERVER_COM.callServerFunction(this.actionClassname,this.actionFunctionname,this.actionUidPath,this.actionParams,this.sfCallback.bind(this));
     }
+    if (this.downloadId) {
+      dojo.io.iframe.setSrc(dojo.byId('FirmOSDownload'),this.downloadId,true);
+      if (!this.closeDialog) {
+        this._getWidget(dijit.form.Form).restoreAllButtons();
+      }
+    }
   },
   handleTypeSubmit: function() {
     var form = this._getWidget(dijit.form.Form);
