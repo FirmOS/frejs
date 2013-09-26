@@ -7,7 +7,8 @@ require (["dojo/_base/array","dojo/dom-geometry","dojo/aspect",
                "dojox/charting/widget/Chart","dojox/charting/widget/Legend","dojox/charting/axis2d/Default","dojox/charting/plot2d/Lines","dojox/charting/plot2d/Pie","dojox/charting/plot2d/ClusteredColumns",
                "dijit/Menu","dijit/Dialog","dijit/Tree","dijit/Toolbar","dijit/ProgressBar","dijit/Tooltip",
                "dijit/form/TextBox","dijit/form/DateTextBox","dijit/form/Form","dijit/form/FilteringSelect","dijit/form/Textarea","dijit/form/NumberTextBox","dijit/form/ComboBox","dijit/form/TimeTextBox","dijit/form/Select","dijit/form/NumberSpinner","dijit/form/HorizontalSlider",
-               "dijit/layout/ContentPane","dijit/layout/TabContainer","dijit/layout/BorderContainer","dijit/layout/AccordionContainer"
+               "dijit/layout/ContentPane","dijit/layout/TabContainer","dijit/layout/BorderContainer","dijit/layout/AccordionContainer",
+               "dojo/io/iframe"
               ],
               function(
               __array,__geometry,__aspect,
@@ -639,11 +640,11 @@ dojo.declare("FIRMOS.uiHandler", null, {
       delete store.store.params_.dependency[depField + '_ref'];
     } else {
       if (this.storeDepData[storeId]) {
-    delete this.storeDepData[storeId][depField + '_ref'];
-    if (Object.keys(this.storeDepData[storeId]).length==0) {
-      delete this.storeDepData[storeId];
-    }
-    }
+        delete this.storeDepData[storeId][depField + '_ref'];
+        if (Object.keys(this.storeDepData[storeId]).length==0) {
+          delete this.storeDepData[storeId];
+        }
+      }
     }
   },
   
@@ -731,6 +732,12 @@ dojo.declare("FIRMOS.uiHandler", null, {
           cParams.onClick = function() {
             G_SERVER_COM.callServerFunction(this._action.class,this._action.func,this._action.uidPath,this._action.params);
           };
+        }
+        if (entries[i].downloadId) {
+          cParams._downloadId = entries[i].downloadId;
+          cParams.onClick = function() {
+            dojo.io.iframe.setSrc(dojo.byId('FirmOSDownload'),this._downloadId,true);
+          }
         }
         menu.addChild(new dijit.MenuItem(cParams));
       }
@@ -3358,7 +3365,7 @@ dojo.declare("FIRMOS.Menu", dijit.Menu, {
       children[i].destroyRecursive();
     }
   },
-
+  
   setCoords: function(xcoord, ycoord) {
     if (!this._openMyselfArgs) {
       this._openMyselfArgs = {};
