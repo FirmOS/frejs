@@ -503,6 +503,13 @@ dojo.declare("FIRMOS.uiHandler", null, {
     }
   },
   
+  updateForm: function(formId, obj) {
+    var form = dijit.byId(formId+'_form');
+    if (form && form.isInstanceOf(FIRMOS.Form)) {
+      form.updateValues(obj);
+    }
+  },
+  
   registerSelDepFunc: function(classname, functionname, view) {
     this.selDepFuncs_.views[view.id] = view;
     if (!this.selDepFuncs_.classes[classname]) {
@@ -3162,7 +3169,7 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
   },
   
   submitOnChange: function(field) {
-    if (this.onChangeClassname) {
+    if (this.onChangeClassname && (!field || !field.get('disabled'))) {
       var now = new Date();
       if (field) {
         this._lastChange = now;
@@ -3314,7 +3321,11 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
       } else {
         var input = this._getInputById(path+x);
         if (input) {
-          input.set('value',obj[x]);
+          if (input.isInstanceOf(FIRMOS.DateTextBox)) {
+            input.set('displayedValue',obj[x]);
+          } else {
+            input.set('value',obj[x]);
+          }
         }
       }
     }
