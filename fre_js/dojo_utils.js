@@ -2078,7 +2078,6 @@ dojo.declare("FIRMOS.FormButton", dijit.form.Button, {
   handleTypeSubmit: function() {
     var form = this._getWidget(dijit.form.Form);
     var params = dojo.clone(this.actionParams);
-    dojo.mixin(params, this.hiddenFields);
     form.callServerFunction(this.actionClassname,this.actionFunctionname,this.actionUidPath,params,this.hiddenFields,this.isDialog);
   },
   sfCallback: function(options, success, response, uiState) {
@@ -2134,6 +2133,7 @@ dojo.declare("FIRMOS.DateTextBox", dijit.form.DateTextBox, {
     }
     if (form && form.isInstanceOf(FIRMOS.Form)) {
       form.checkGroupRequiredFields(this);
+      form.submitOnChange(this);
     }
   }
 });
@@ -2872,6 +2872,7 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
     }
     if (form && form.isInstanceOf(FIRMOS.Form)) {
       form.checkGroupRequiredFields(this);
+      form.submitOnChange(this);
     }
   }
 });
@@ -2951,6 +2952,7 @@ dojo.declare("FIRMOS.FileUpload", dojox.form.Uploader, {
     }
     if (form && form.isInstanceOf(FIRMOS.Form)) {
       form.checkGroupRequiredFields(this);
+      form.submitOnChange(this);
     }
   }
 });
@@ -3034,6 +3036,11 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
     if (params.dbos) {
       this.id = params.id;
       G_UI_COM.registerFormDBOs(this, params.dbos);
+    }
+    if (params.onChangeClassname) {
+      this._lastChange = new Date();
+      this._sendChangesParams = {};
+      this.sendChangesDelay = Number(params.onChangeDelay) || 0;
     }
   },
   destroy: function() {
@@ -3153,6 +3160,27 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
       }
     }
   },
+  
+  submitOnChange: function(field) {
+    if (this.onChangeClassname) {
+      var now = new Date();
+      if (field) {
+        this._lastChange = now;
+        this._sendChangesParams[field.name] = field.get('value');
+      }
+      var diff = now-this._lastChange;
+      if (diff>this.sendChangesDelay) {
+        var params = dojo.clone(this.onChangeParams);
+        G_SERVER_COM.callServerFunction(this.onChangeClassname, this.onChangeFunctionname, this.onChangeUidPath, this._sendChangesParams);
+        this._sendChangesParams = {};
+      } else {
+        if (this._sendTimeout) {
+          clearTimeout(this._sendTimeout);
+        }
+        this._sendTimeout = setTimeout(this.submitOnChange.bind(this),this.sendChangesDelay-diff);
+      }
+    }
+  },
  
   _clearObject: function(newObj, oldObj) {
     for (var i in newObj) {
@@ -3240,7 +3268,6 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
     }
     this._convertObjectData(params.data);
     dojo.mixin(params.data, hiddenParams);
-    console.log(JSON.stringify(params));
     if (isDialog) {
       G_UI_COM.isDialogAction();
     }
@@ -3589,6 +3616,7 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
     }
     if (form && form.isInstanceOf(FIRMOS.Form)) {
       form.checkGroupRequiredFields(this);
+      form.submitOnChange(this);
     }
   }
 });
@@ -3682,6 +3710,7 @@ dojo.declare("FIRMOS.MultiValText", dijit.form.Textarea, {
     }
     if (form && form.isInstanceOf(FIRMOS.Form)) {
       form.checkGroupRequiredFields(this);
+      form.submitOnChange(this);
     }
   }
 });
@@ -3734,6 +3763,7 @@ dojo.declare("FIRMOS.ValidationTextBox", dijit.form.ValidationTextBox, {
     }
     if (form && form.isInstanceOf(FIRMOS.Form)) {
       form.checkGroupRequiredFields(this);
+      form.submitOnChange(this);
     }
   }
 });
@@ -3792,10 +3822,10 @@ dojo.declare("FIRMOS.NumberTextBox", dijit.form.NumberTextBox, {
     }
     if (form && form.isInstanceOf(FIRMOS.Form)) {
       form.checkGroupRequiredFields(this);
+      form.submitOnChange(this);
     }
   }
 });
-
 
 //NumberSlider
 dojo.declare("FIRMOS.NumberSlider", dijit.form._FormValueWidget, {
@@ -3810,29 +3840,46 @@ dojo.declare("FIRMOS.NumberSlider", dijit.form._FormValueWidget, {
     }
     this.sliderParams.value = params.value;
     this.sliderParams.intermediateChanges = params.intermediateChanges;
-    this.sliderParams.style = "width:75%;";
+    
+    if (params.showvalue) {
+      this.showvalue = eval(params.showvalue);
+      delete params.showvalue;
+    }
+    if (this.showvalue) {
+      this.sliderParams.style = "width:75%;";
 
-    this.numberParams = {};
-    this.numberParams.style = "width:20%; float:right;";
-    this.numberParams.value = params.value;
-    this.numberParams.places = params.constraints.places;
+      this.numberParams = {};
+      this.numberParams.style = "width:20%; float:right;";
+      this.numberParams.value = params.value;
+      this.numberParams.places = params.constraints.places;
+      this.numberParams.disabled = true;
+    }
     this._multi = 1;
     for (var i=0; i<params.constraints.places; i++) {
       this._multi = this._multi * 10;
     }
-    this.numberParams.disabled = true;
   },
   startup: function() {
     this.inherited(arguments);
     this.sliderParams.onChange = this._onSliderChange.bind(this);
-    this.number = new dijit.form.NumberTextBox(this.numberParams,  this.id + '_number');
+    if (this.showvalue) {
+      this.number = new dijit.form.NumberTextBox(this.numberParams,  this.id + '_number');
+    }
     this.slider = new dijit.form.HorizontalSlider(this.sliderParams, this.id + '_slider');
   },
   _onSliderChange: function() {
-    this.value = Math.round(this.slider.get('value')*this._multi)/this._multi;
-    this.number.set('value', this.value);
-  },
-  
+    var newVal = Math.round(this.slider.get('value')*this._multi)/this._multi;
+    if (newVal!=this.value) {
+      this.value = Math.round(this.slider.get('value')*this._multi)/this._multi;
+      if (this.showvalue) {
+        this.number.set('value', this.value);
+      }
+      var form = this.getParent();
+      if (form && form.isInstanceOf(FIRMOS.Form)) {
+        form.submitOnChange(this);
+      }
+    }
+  }
 });
 
 
