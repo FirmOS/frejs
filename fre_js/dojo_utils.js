@@ -1808,7 +1808,7 @@ dojo.declare("FIRMOS.GridBase", null, {
     var iconNodes = dojo.query(".firmosIconNode", target.element);
     for (var i=0; i<iconNodes.length; i++) {
       if (iconNodes.length==2) {
-        var row = target.element ? target : grid.row(target);
+        var row = target.element ? target : this.row(target);
         if (this._expanded[row.id]) {
           dojo.style(iconNodes[0],'display','none');
           dojo.style(iconNodes[1],'display','');
@@ -1831,7 +1831,9 @@ dojo.declare("FIRMOS.GridBase", null, {
   },
   _renderDate: function(object, value, node, options) {
     var div = document.createElement('div'); 
-    div.innerHTML = dojo.date.locale.format(new Date(value), {formatLength: "short"});
+    if (value) {
+      div.innerHTML = dojo.date.locale.format(new Date(value), {formatLength: "short"});
+    }
     return div;
   },
   _renderIcons: function(object, value, node, options) {
@@ -2105,7 +2107,22 @@ dojo.declare("FIRMOS.GridButton", dijit.form.Button, {
     params.dependency = this.grid_.store.params_.dependency;
     dojo.mixin(params, this.actionParams);
     params.selected = selectedIds;
-    G_SERVER_COM.callServerFunction(this.actionClassname,this.actionFunctionname,this.actionUidPath,params);
+    
+    if (this.actionUidPath) {
+      var uidPath = this.actionUidPath;
+    } else {
+      var item_data = this.grid_.row(selectedIds[0]);
+      var uidPath = [selectedIds[0]];
+      if (item_data.uidPath) {
+        uidPath = item_data.uidPath;
+      } else {
+        if (item_data.uid) {
+          uidPath = [item_data.uid];
+        }
+      }
+    }
+    
+    G_SERVER_COM.callServerFunction(this.actionClassname,this.actionFunctionname,uidPath,params);
   }
 });
 
