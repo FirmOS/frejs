@@ -840,6 +840,11 @@ dojo.declare("FIRMOS.uiHandler", null, {
     if (button) {
       button.set('disabled',disabled);
     }
+  },
+  
+  openWindow: function(url) {
+    var win = window.open(url);
+    if (!win) alert(G_TEXTS.openWindow.error);
   }
 });
 
