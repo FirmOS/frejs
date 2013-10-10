@@ -115,7 +115,7 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
   },
   
   handleServerRequest: function(response) {
-    this.handleServerFunctionResponse({},true,response,{});
+    this.handleServerFunctionResponse({},true,response,G_UI_COM.getUIState());
     var messageObj = {
       rId: response.rid,
       rType: 'SR'
@@ -2103,21 +2103,24 @@ dojo.declare("FIRMOS.GridButton", dijit.form.Button, {
   onClick: function() {
     var params = {};
     var selectedIds = this.grid_.getSelectedIds();
+    var uidPath;
     
     params.dependency = this.grid_.store.params_.dependency;
     dojo.mixin(params, this.actionParams);
     params.selected = selectedIds;
     
     if (this.actionUidPath) {
-      var uidPath = this.actionUidPath;
+      uidPath = this.actionUidPath;
     } else {
-      var item_data = this.grid_.row(selectedIds[0]);
-      var uidPath = [selectedIds[0]];
-      if (item_data.uidPath) {
-        uidPath = item_data.uidPath;
-      } else {
-        if (item_data.uid) {
-          uidPath = [item_data.uid];
+      if (selectedIds.length>0) {
+        var item_data = this.grid_.row(selectedIds[0]);
+        uidPath = [selectedIds[0]];
+        if (item_data.uidPath) {
+          uidPath = item_data.uidPath;
+        } else {
+          if (item_data.uid) {
+            uidPath = [item_data.uid];
+          }
         }
       }
     }

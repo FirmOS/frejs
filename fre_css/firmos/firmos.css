@@ -36,6 +36,7 @@ body {
 .firmosMessageIconError,
 .firmosMessageIconInfo,
 .firmosMessageIconWarning,
+.firmosMessageIconWait,
 .firmosMessageIconConfirm {
   height: 25px;
   width: 25px;
@@ -54,6 +55,10 @@ body {
   background-image: url(images/msg_warning.png);
   background-repeat: no-repeat;
 }
+.firmosMessageIconWait {
+  background-image: url(images/msg_wait.png);
+  background-repeat: no-repeat;
+}
 .firmosMessageIconConfirm {
   background-image: url(images/msg_confirm.png);
   background-repeat: no-repeat;
@@ -61,6 +66,7 @@ body {
 .firmosMessageError,
 .firmosMessageInfo,
 .firmosMessageWarning,
+.firmosMessageWait,
 .firmosMessageConfirm {
   width: 400px;
   color: #ffffff;
@@ -69,6 +75,7 @@ body {
 .firmosMessageButtonsError,
 .firmosMessageButtonsInfo,
 .firmosMessageButtonsWarning,
+.firmosMessageButtonsWait,
 .firmosMessageButtonsConfirm {
   margin: 20px 0px 0px 0px;
   text-align: center;
