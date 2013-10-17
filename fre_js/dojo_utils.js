@@ -1750,6 +1750,7 @@ dojo.declare("FIRMOS.GridDnD", dgrid.DnD, {
 
 //GridBase
 dojo.declare("FIRMOS.GridBase", null, {
+  _events: [],
   constructor: function(args) {
     if (args.dragObjClasses) {
       this.dragObjClasses_ = {};
@@ -1790,6 +1791,9 @@ dojo.declare("FIRMOS.GridBase", null, {
     for (var i=0; i<this.depStores_.length; i++) {
       G_UI_COM.deleteStoreDependency(this.depStores_[i].storeId,this.depStores_[i].refId);
     }
+    while (this._events.length>0) {
+      this._events.pop().remove();
+    }
     this.inherited(arguments);
   },
   getObjectDndType: function(obj) {
@@ -1797,10 +1801,10 @@ dojo.declare("FIRMOS.GridBase", null, {
   },
   postCreate: function() {
     this.inherited(arguments);
-    this.on(".dgrid-row:contextmenu",this.onContextMenu.bind(this));
-    this.on("dgrid-select",this.onSelect.bind(this));
-    this.on("dgrid-deselect",this.onDeselect.bind(this));
-    dojo.aspect.after(this,"expand",this._onExpand.bind(this),true);
+    this._events.push(this.on(".dgrid-row:contextmenu",this.onContextMenu.bind(this)));
+    this._events.push(this.on("dgrid-select",this.onSelect.bind(this)));
+    this._events.push(this.on("dgrid-deselect",this.onDeselect.bind(this)));
+    this._events.push(dojo.aspect.after(this,"expand",this._onExpand.bind(this),true));
   },
   getSelectedIds: function() {
     var selectedIds = new Array();
@@ -1943,8 +1947,8 @@ dojo.declare("FIRMOS.GridBase", null, {
         dojo.create('div',{class: "firmosGridDetailsLoading", id: this.store.getIdentity(item)+'_details_loading', style: 'display:none;'}, org_div);
         var details_div = dojo.create('div',{class: "firmosGridDetails", id: this.store.getIdentity(item)+'_details', style: 'display:none;'}, org_div);
         var row = this.row(item);
-//        dojo.connect(details_hidden_div, "onclick",this.showDetails.bind(this,row));
-//        dojo.connect(details_div, "onclick",this.hideDetails.bind(this,row));
+//        this._events.push(dojo.connect(details_hidden_div, "onclick",this.showDetails.bind(this,row)));
+//        this._events.push(dojo.connect(details_div, "onclick",this.hideDetails.bind(this,row)));
         var content_pane = dijit.byId(this.store.getIdentity(item)+'_cp');
         if (!content_pane) {
           content_pane = new dijit.layout.ContentPane({id: this.store.getIdentity(item)+'_cp'});
@@ -2997,8 +3001,14 @@ dojo.declare("FIRMOS.FileUpload.Image", dojox.form.uploader._Base, {
   imgheight: 100,
   imgwidth: 100,
   imgabs: false,
+  _events: [],
 
   templateString: '<div class="firmosUploaderImage"></div>',
+  destroy: function() {
+    while (this._events.length>0) {
+      this._events.pop().remove();
+    }
+  },
   postCreate: function() {
     this.setUploader();
     if (this.value) {
@@ -3034,11 +3044,11 @@ dojo.declare("FIRMOS.FileUpload.Image", dojox.form.uploader._Base, {
       }
     }
 
-    dojo.connect(this.uploader, "onChange", this.selectionChange.bind(this));
-    dojo.connect(this.uploader, "reset", this.selectionReset.bind(this));
-//    dojo.connect(this.uploader, "onBegin", function(){});
-//    dojo.connect(this.uploader, "onProgress", "_progress");
-//    dojo.connect(this.uploader, "onComplete", function(){});
+    this._events.push(dojo.connect(this.uploader, "onChange", this.selectionChange.bind(this)));
+    this._events.push(dojo.connect(this.uploader, "reset", this.selectionReset.bind(this)));
+//    this._events.push(dojo.connect(this.uploader, "onBegin", function(){}));
+//    this._events.push(dojo.connect(this.uploader, "onProgress", "_progress"));
+//    this._events.push(dojo.connect(this.uploader, "onComplete", function(){}));
   },
   onloadCallback: function(evt) {
     if (!this.contentImg) {
@@ -4469,7 +4479,7 @@ dojo.declare("FIRMOS.StoreSeries", null, {
 
 });
 
-dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
+dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {  //SEAS
   constructor: function(args) {
     for (var i in args) {
       this[i] = args[i];
@@ -4480,11 +4490,8 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
         this.seriesColor[i]='000';
       }
     }
-    for (var i=0; i<this.seriesCount; i++) {
-      G_UI_COM.createCSSRule("d3line"+this.id+'_'+i,"fill: none; stroke: #"+this.seriesColor[i]+"; stroke-width: 1.5px;");
-    }
     G_UI_COM.createCSSRule("d3axis path, .axis line","fill: none;shape-rendering: crispedges;stroke: #000000;");
-    this.listeners = [];
+    this._events = [];
     this.container = null;
     this.svg = null;
     this.svgMainG = null;
@@ -4494,27 +4501,44 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
     this.scale_x = null;
     this.scale_y = null;
     this.margin = { top: 20, right: 20, bottom: 20, left: 40};
-    this.interpolation = "linear";
     this.axisY = null;
     this.axisYG = null;
     this.stopped = true;
     
-    this.dataCount = Math.round(this.displayDuration / this.updateInterval);
-
-    this.dummyData = this.yMin - this.yMax;
-    this.path = [];
-    this.line = [];
-    this.data = [];
-    this.dataIdx = 0;
-    this.buffer = [];
-    this._oldAnimationTime_1 = this.updateInterval;
-    this._oldAnimationTime_2 = this.updateInterval;
-    this._animationTime = this.updateInterval;
-    this._calculatedIdx = 0;
-    this._animationStart_1 = new Date();
-    this._animationStart_2 = new Date();
-    this._dataToLate = 0;
-    this._doNotCalc = 0;
+    switch (args.type) {
+      case 'lct_line':
+        this.dataIdx = 0;
+        this.buffer = [];
+        this._animationTime = this.updateInterval;
+        this._animationStart_1 = new Date();
+        this._animationStart_2 = new Date();
+        this._oldAnimationTime_1 = this.updateInterval;
+        this._oldAnimationTime_2 = this.updateInterval;
+        this._doNotCalc = 0;
+        this._dataToLate = 0;
+        break;
+      case 'lct_sampledline':
+        break;
+      case 'lct_column':
+        this.data = [];
+        this.rects = [];
+        for (var i=0; i<this.seriesCount; i++) {
+          G_UI_COM.createCSSRule("bar"+this.id+'_'+i,"fill: #"+this.seriesColor[i]);
+        }
+        break;
+    }
+    
+    this.dummyData = this.dataMin - this.dataMax;
+    if ((args.type=='lct_line') || (args.type=='lct_sampledline')) {
+      this.interpolation = "linear";
+      this.path = [];
+      this.line = [];
+      this.data = [];
+      for (var i=0; i<this.seriesCount; i++) {
+        G_UI_COM.createCSSRule("d3line"+this.id+'_'+i,"fill: none; stroke: #"+this.seriesColor[i]+"; stroke-width: 1.5px;");
+      }
+    }
+    
     G_UI_COM.registerLiveChart(this);
   },
   visibilityChange: function(visible) {
@@ -4527,25 +4551,36 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
   destroy: function() {
     this.stop();
     G_UI_COM.unregisterLiveChart(this);
-    while (this.listeners.length>0) {
-      dojo.disconnect(this.listeners.pop());
+    while (this._events.length>0) {
+      this._events.pop().remove();
     }
     this.inherited(arguments);
   },
   applyScale: function() {
     var dim = dojo.position(this.container);
-    var width = dim.w - this.margin.left - this.margin.right;
-    var height = dim.h - this.margin.top - this.margin.bottom;
-    this.svg.attr("width", width + this.margin.left + this.margin.right).attr("height", height + this.margin.top + this.margin.bottom);
-    this.clipPathRect.attr("width", width).attr("height", height);
-    this.scale_x.range([0, width]);
-    this.scale_y.range([height, 0]);
+    this.width = dim.w - this.margin.left - this.margin.right;
+    this.height = dim.h - this.margin.top - this.margin.bottom;
+    this.svg.attr("width", this.width + this.margin.left + this.margin.right).attr("height", this.height + this.margin.top + this.margin.bottom);
+    this.clipPathRect.attr("width", this.width).attr("height", this.height);
+
+    this.scale_y.range([this.height, 0]); //FIXXME
     this.axisYG.call(this.axisY);
-    for (var i=0; i<this.seriesCount; i++) {
-       this.path[i].attr("d", this.line[i]);
+    switch (this.type) {
+      case 'lct_line':
+      case 'lct_sampledline':
+        this.scale_x.range([0, this.width]);
+        for (var i=0; i<this.seriesCount; i++) {
+          this.path[i].attr("d", this.line[i]);
+        }
+        break;
+      case 'lct_column':
+        this.scale_x.rangeRoundBands([0, this.width],0.1);
+        this._paintColumns();
+        break;
     }
+
     if (this.chartCaption) {
-      this.chartCaption.attr("x", (width / 2)).attr("y", - (this.margin.top-20));
+      this.chartCaption.attr("x", (this.width / 2)).attr("y", - (this.margin.top-20));
     }
   },
   postCreate: function() {
@@ -4560,67 +4595,94 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
   },
   start: function() {
     if (!this.stopped) return; //already running;
+    this._initData();
     this.stopped = false;
-    this.dataIdx = 0;
+    switch (this.type) {
+      case 'lct_line':
+        this._createLines();
+        this.dataIdx = 0;
+        for (var i=0; i<this.seriesCount; i++) {
+          this.buffer[i] = [];
+          for (var j=0; j<=this.bufferSize; j++) {
+            this.buffer[i][j] = this.dummyData;
+          }
+        }
+        break;
+      case 'lct_sampledline':
+        this._createLines();
+        break;
+      case 'lct_column':
+        break;
+    }
     if (this.initClass) {
       G_SERVER_COM.callServerFunction(this.initClass,this.initFunc,this.initUidPath, this.initParams, this._initCallback.bind(this));
     } else {
-      for (var i=0; i<this.seriesCount; i++) {
-        this._fillWithDummyData(i);
-      }
       this._start();
     }
   },
-  _fillWithDummyData: function(seriesId) {
-    this.buffer[seriesId] = [];
-    for (var i=0; i<=this.bufferSize; i++) {
-      this.buffer[seriesId][i] = this.dummyData;
+  _initData: function() {
+    for (var i=0; i<this.seriesCount; i++) {
+      this.data[i] = d3.range(this.dataCount).map(function() {return this.dummyData;}.bind(this));
     }
-    for (var i=0; i<this.dataCount; i++) {
-      this.data[seriesId][i] = this.dummyData;
+  },
+  _createLines: function() {
+    for (var i=0; i<this.seriesCount; i++) {
+      this.line[i] = d3.svg.line().interpolate(this.interpolation)
+                           .x(function(d, i) { return this.scale_x(i); }.bind(this))
+                           .y(function(d, i) { return this.scale_y(d); }.bind(this));
+      this.path[i] = this.svgMainG.append("g").attr("clip-path", "url(#clip)")
+                                  .append("path").data([this.data[i]]).attr("class", "d3line"+this.id+'_'+i).attr("d", this.line[i]);
     }
   },
   _initCallback: function(options, success, response, uiState) {
     if (success) {
       var json_result = dojo.fromJson(response.output);
-      for (var i=0; i<json_result.length; i++) {
-        var idx = this.bufferSize+1;
-        var fillBuffer = true;
-        this.buffer[i] = [];
-        for (var j=json_result[i].length-1; j>=0; j--) {
-          if (fillBuffer) { //Fill the buffer first
-            idx--;
-            this.buffer[i][idx] = json_result[i][j];
-            if (idx == 0) {
-              fillBuffer = false;
+      switch (this.type) {
+        case 'lct_line':
+          for (var i=0; i<json_result.length; i++) {
+            var idx = this.bufferSize+1;
+            var fillBuffer = true;
+            this.buffer[i] = [];
+            for (var j=json_result[i].length-1; j>=0; j--) {
+              if (fillBuffer) { //Fill the buffer first
+                idx--;
+                this.buffer[i][idx] = json_result[i][j];
+                if (idx == 0) {
+                  fillBuffer = false;
+                  idx = this.dataCount;
+                }
+              } else { //Fill the data
+                idx--;
+                this.data[i][idx] = json_result[i][j];
+                if (idx == 0) {
+                  break;
+                }
+              }
+            }
+            if (fillBuffer && (idx>0)) {
+              for (var j=idx-1; j>=0; j--) {
+                this.buffer[i][j] = this.dummyData;
+              }
+            }
+            if (fillBuffer) {
               idx = this.dataCount;
             }
-          } else { //Fill the data
-            idx--;
-            this.data[i][idx] = json_result[i][j];
-            if (idx == 0) {
-              break;
+            if (idx>0) { //data not fully set => fill with dummy data
+              for (var j=idx-1; j>=0; j--) {
+                this.data[i][j] = this.dummyData;
+              }
             }
           }
-        }
-        if (fillBuffer && (idx>0)) {
-          for (var j=idx-1; j>=0; j--) {
-            this.buffer[i][j] = this.dummyData;
+          if (this.seriesCount>json_result.length) {
+            for (var i=json_result.length; i<this.seriesCount; i++) {
+              this._fillWithDummyData(i);
+            }
           }
-        }
-        if (fillBuffer) {
-          idx = this.dataCount;
-        }
-        if (idx>0) { //data not fully set => fill with dummy data
-          for (var j=idx-1; j>=0; j--) {
-            this.data[i][j] = this.dummyData;
-          }
-        }
-      }
-      if (this.seriesCount>json_result.length) {
-        for (var i=json_result.length; i<this.seriesCount; i++) {
-          this._fillWithDummyData(i);
-        }
+          break;
+        case 'lct_sampledline':
+        case 'lct_column':
+          this.setData(json_result);
+          break;
       }
       this._start();
     } else {
@@ -4643,9 +4705,9 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
         break;
       case 'lct_sampledline':
         break;
+      case 'lct_column':
+        break;
     }
-    this._count = 0;
-    this._timeStamp = new Date();
   },
   setData: function(data,idx) {
     switch (this.type) {
@@ -4655,25 +4717,16 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
       case 'lct_sampledline':
         this._setSampledLineData(data);
         break;
+      case 'lct_column':
+        this._setColumnData(data);
+        break;
     }
   },
   _setSampledLineData: function(data) {
-    if (data.length!=this.seriesCount) {
-      console.error('Live Chart ' + this.id + ': received data sets count ('+data.length+') does not match series count ('+this.seriesCount+')');
-      return;
-    }
-    for (var i=0; i<this.seriesCount; i++) {
-      for (var j=0; j<data[i].length; j++) {
-        this.data[i][j] = data[i][j];
+    if (this._setCompleteData(data)) {
+      for (var i=0; i<this.seriesCount; i++) {
+        this.path[i].attr("d", this.line[i]);
       }
-      this.path[i].attr("d", this.line[i]);
-    }
-    this._count ++;
-    if (this._count == 100) {
-      this._count = 0;
-      var new_date = new Date();
-      console.log(new_date - this._timestamp);
-      this._timestamp = new_date;
     }
   },
   _setLineData: function(data,idx) {
@@ -4704,9 +4757,29 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
       }
     }
   },
+  _setColumnData: function(data) {
+    if (this._setCompleteData(data)) {
+      this._paintColumns();
+    }
+  },
+  _setCompleteData: function(data) {
+    if (data.length!=this.seriesCount) {
+      console.error('Live Chart ' + this.id + ': received data sets count ('+data.length+') does not match series count ('+this.seriesCount+')');
+      return false;
+    }
+    for (var i=0; i<this.seriesCount; i++) {
+      for (var j=0; j<data[i].length; j++) {
+        if (data[i].length!=this.dataCount) {
+          console.error('Live Chart ' + this.id + ': received data count ('+data[i].length+') for set ' + i + ' does not match data count ('+this.dataCount+')');
+          return false;
+        }
+        this.data[i][j] = data[i][j];
+      }
+    }
+    return true;
+  },
   updateData: function(seriesId) {
     if (this.stopped) return;
-    
     if (this.buffer[seriesId].length==0) {
       //add dummy data to all buffers
       //console.log(this.id + ' NO DATA ' + seriesId);
@@ -4762,18 +4835,21 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
     if (this.legendLabels) {
       this.margin.bottom = this.margin.bottom + 20;
     }
+    if (this.dataLabels) {
+      this.margin.bottom = this.margin.bottom + 20;
+    }
     var dim = dojo.position(this.container);
-    var width = dim.w - this.margin.left - this.margin.right;
-    var height = dim.h - this.margin.top - this.margin.bottom;
-
+    this.width = dim.w - this.margin.left - this.margin.right;
+    this.height = dim.h - this.margin.top - this.margin.bottom;
+    
     this.svg = d3.select(this.container).append("svg")
-        .attr("width", width + this.margin.left + this.margin.right)
-        .attr("height", height + this.margin.top + this.margin.bottom);
+        .attr("width", this.width + this.margin.left + this.margin.right)
+        .attr("height", this.height + this.margin.top + this.margin.bottom);
     this.svgMainG = this.svg.append("g")
         .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
         
     if (this.captiom!='') {
-      this.chartCaption = this.svgMainG.append("text").attr("x", (width / 2)).attr("y", - (this.margin.top-20))
+      this.chartCaption = this.svgMainG.append("text").attr("x", (this.width / 2)).attr("y", - (this.margin.top-20))
           .attr("text-anchor", "middle").attr("class", "firmosLiveChartCaption")
           .text(this.caption);
     }
@@ -4789,29 +4865,56 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
         this.legendSize = this.legendSize + text[0][0].getBBox().width + 20;
       }
       this.legentSize = this.legendSize - 20;
-      this.legend.attr("transform","translate("+((width / 2)-(this.legendSize / 2))+","+ (height + this.margin.top-10)+")");
+      this.legend.attr("transform","translate("+((this.width / 2)-(this.legendSize / 2))+","+ (this.height + this.margin.top-10)+")");
     }
 
     this.clipPath = this.svgMainG.append("defs").append("clipPath").attr("id", "clip");
-    this.clipPathRect = this.clipPath.append("rect").attr("width", width).attr("height", height);
+    this.clipPathRect = this.clipPath.append("rect").attr("width", this.width).attr("height", this.height);
 
-    var domain = [1, this.dataCount-2];
-    this.scale_x = d3.scale.linear().domain(domain).range([0, width]);
-    this.scale_y = d3.scale.linear().domain([this.yMin,this.yMax]).range([height, 0]);
+    switch (this.type) {
+      case 'lct_line':
+        var domain = [1, this.dataCount-2];
+        this.scale_x = d3.scale.linear().domain(domain).range([0, this.width]);
+        break;
+      case 'lct_sampledline':
+        var domain = [0, this.dataCount-1];
+        this.scale_x = d3.scale.linear().domain(domain).range([0, this.width]);
+        break;
+      case 'lct_column':
+        if (this.dataLabels) {
+          var domain = d3.range(this.dataCount).map(function(i) {return this.dataLabels[i];}.bind(this));
+        } else {
+          var domain = d3.range(this.dataCount).map(function(i) {return i;});
+        }
+        this.scale_x = d3.scale.ordinal().domain(domain).rangeRoundBands([0, this.width],0.1);
+        break;
+    }
 
-    this.axisY = d3.svg.axis().scale(this.scale_y).ticks(this.yTickHint).orient("left");
+    this.scale_y = d3.scale.linear().domain([this.dataMin,this.dataMax]).range([this.height, 0]);
+    this.axisY = d3.svg.axis().scale(this.scale_y).ticks(this.dataTickHint).orient("left");
     this.axisYG = this.svgMainG.append("g").attr("class", "y d3axis").call(this.axisY);
 
-    for (var i=0; i<this.seriesCount; i++) {
-      this.data[i] = d3.range(this.dataCount).map(function() {return this.dummyData;});
-      this.line[i] = d3.svg.line().interpolate(this.interpolation)
-                           .x(function(d, i) { return this.scale_x(i); }.bind(this))
-                           .y(function(d, i) { return this.scale_y(d); }.bind(this));
-      this.path[i] = this.svgMainG.append("g").attr("clip-path", "url(#clip)")
-                                  .append("path").data([this.data[i]]).attr("class", "d3line"+this.id+'_'+i).attr("d", this.line[i]);
+    if (this.dataLabels) {
+      this.axisX = d3.svg.axis().scale(this.scale_x).orient("bottom");
+      this.axisXG = this.svgMainG.append("g").attr("class", "x d3axis").attr("transform", "translate(0," + this.height + ")").call(this.axisX);
     }
+
     this.start();
-    this.listeners.push(dojo.connect(this,'resize',this.applyScale.bind(this)));
+    this._events.push(dojo.connect(this,'resize',this.applyScale.bind(this)));
+  },
+  _paintColumns: function() {
+    for (var i=0; i<this.seriesCount; i++) {
+      var rect = this.svgMainG.selectAll(".bar"+this.id+'_'+i).data(this.data[i]);
+          
+      rect.enter().append("rect").attr("class", "bar"+this.id+'_'+i);
+
+      rect.attr("x",function(d, i) { return this.scale_x(i); }.bind(this))
+        .attr("width", this.scale_x.rangeBand())
+        .attr("y",function(d, i) { return this.scale_y(d); }.bind(this))
+        .attr("height",  function(d, i) { return  this.height - this.scale_y(d); }.bind(this));
+            
+      rect.exit().remove();
+    }
   }
 });
 
@@ -4842,6 +4945,10 @@ dojo.declare("FIRMOS.Chart",dojox.charting.widget.Chart, {
     }
     G_UI_COM.unregisterStoreView(this.store.id,this);
     this.inherited(arguments);
+    if (this.firstRenderListener_) {
+      this.firstRenderListener_.remove();
+      this.firstRenderListener_ = null;
+    }
   },
   _getValueFunc: function(object) {
     var ret = {};
@@ -4920,7 +5027,10 @@ dojo.declare("FIRMOS.Chart",dojox.charting.widget.Chart, {
     }
   },
   _showLegend: function() {
-    dojo.disconnect(this.firstRenderListener_);
+    if (this.firstRenderListener_) {
+      this.firstRenderListener_.remove();
+      this.firstRenderListener_ = null;
+    }
     this.getParent().getParent().getChildren()[1].content.refresh();
     this.getParent().getParent().layout();
   },
@@ -4932,6 +5042,12 @@ dojo.declare("FIRMOS.Chart",dojox.charting.widget.Chart, {
 
 //TopMenu
 dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
+  _events: [],
+  destroy: function() {
+    while (this._events.length>0) {
+      this._events.pop().remove();
+    }
+  },
   postCreate: function() {
     var tMenu = new dijit.layout.ContentPane({region: 'top', splitter: false, class: 'firmosTransparent'});
     var content = '';
@@ -4966,7 +5082,7 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
     this.layout();
     for (var i=0; i<this.entries.length; i++) {
       var node = dojo.byId('topMenu'+this.entries[i].entryId);
-      dojo.connect(node,dojox.gesture.tap,this.onClickHandler.bind(this,i));
+      this._events.push(dojo.connect(node,dojox.gesture.tap,this.onClickHandler.bind(this,i)));
     }
   },
   onClickHandler: function(idx,evt) {
@@ -4989,6 +5105,7 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
 //Sitemap
 dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
   constructor: function() {
+    this._events = [];
     this.mainEntriesCP = null;
     this.detailsCP = null;
     this.mainEntriesContainer = null;
@@ -5019,7 +5136,14 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
   },
   destroy: function() {
     G_UI_COM.unregisterSitemap(this);
+    while (this._events.length>0) {
+      this._events.pop().remove();
+    }
     this.inherited(arguments);
+    if (this.mainEntriesMoveEndEvent) {
+      this.mainEntriesMoveEndEvent.remove();
+      this.mainEntriesMoveEndEvent = null;
+    }
   },
   postCreate: function() {
     this.mainEntriesCP = new dijit.layout.ContentPane({region: 'left', splitter: false, class: 'firmosTransparent'});
@@ -5105,15 +5229,15 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
         var bb = this.entries[i].childrenGroupGFX.getBoundingBox();
         this.entries[i].eventRect = this.entries[i].childrenGroupMoveGFX.createRect({ x:bb.x-this.detailsDim.w, y:bb.y-this.detailsDim.h, width:bb.width+2*this.detailsDim.w, height:bb.height+2*this.detailsDim.h}).setFill([0,0,0,0]).moveToBack();
         var gMA = dojox.gfx.Moveable(this.entries[i].childrenGroupMoveGFX);
-        dojo.connect(gMA,'onMoveStop',this._moveActionStop.bind(this));
-        dojo.connect(gMA,'onMove',this._moveAction.bind(this));
-        dojo.connect(this.entries[i].eventRect.getEventSource(), dojox.gesture.tap.doubletap, this.resetDisplay.bind(this,this.entries[i]));
-        dojo.connect(this.entries[i].eventRect.getEventSource(), 'gesturechange', this.gestureHandler.bind(this,this.entries[i]));
+        this._events.push(dojo.connect(gMA,'onMoveStop',this._moveActionStop.bind(this)));
+        this._events.push(dojo.connect(gMA,'onMove',this._moveAction.bind(this)));
+        this._events.push(dojo.connect(this.entries[i].eventRect.getEventSource(), dojox.gesture.tap.doubletap, this.resetDisplay.bind(this,this.entries[i])));
+        this._events.push(dojo.connect(this.entries[i].eventRect.getEventSource(), 'gesturechange', this.gestureHandler.bind(this,this.entries[i])));
 
         var wheelEventName = dojo.isMozilla ? "DOMMouseScroll" : "onmousewheel";
 
-        dojo.connect(this.entries[i].childrenGroupMoveGFX.getEventSource(), 'gesturechange', this.gestureHandler.bind(this,this.entries[i]));
-        dojo.connect(this.entries[i].childrenGroupMoveGFX.getEventSource(), wheelEventName, this.gestureHandler.bind(this,this.entries[i]));
+        this._events.push(dojo.connect(this.entries[i].childrenGroupMoveGFX.getEventSource(), 'gesturechange', this.gestureHandler.bind(this,this.entries[i])));
+        this._events.push(dojo.connect(this.entries[i].childrenGroupMoveGFX.getEventSource(), wheelEventName, this.gestureHandler.bind(this,this.entries[i])));
       } else {
         this.entries[i].path = dojo.clone(path);
       }
@@ -5124,7 +5248,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     this.resizeSVGHandler(); 
     this.layout();
     setTimeout(this._initialLayoutDetails.bind(this),0);
-    dojo.connect(this,'resize',this.resizeSVGHandler.bind(this));
+    this._events.push(dojo.connect(this,'resize',this.resizeSVGHandler.bind(this)));
   },
   gestureHandler: function(element, evt) {
     if (this.animationRunning) {
@@ -5333,7 +5457,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     }
     var bb = group.getTransformedBoundingBox();
     var eventRect = group.createRect({ x: bb[0].x, y: bb[1].y, width: bb[1].x - bb[0].x, height: bb[2].y - bb[1].y }).setFill([0,0,0,0]);
-    dojo.connect(group.getEventSource(),dojox.gesture.tap,this.elementOnClick.bind(this, element, false));
+    this._events.push(dojo.connect(group.getEventSource(),dojox.gesture.tap,this.elementOnClick.bind(this, element, false)));
     if (element.scale!=1) {
       var bb=group.getTransformedBoundingBox();
       group.applyLeftTransform(dojox.gfx.matrix.scaleAt(element.scale,bb[0].x+(bb[1].x-bb[0].x)/2, bb[1].y+(bb[2].y-bb[1].y)/2));
@@ -5422,7 +5546,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     element.scGFX = sc; 
     
     if (!disabled) {
-      dojo.connect(sc.getEventSource(),dojox.gesture.tap,this.elementOnClick.bind(this, element, true));
+      this._events.push(dojo.connect(sc.getEventSource(),dojox.gesture.tap,this.elementOnClick.bind(this, element, true)));
     }
   },
   _getEntryByPath: function(path) {
@@ -5529,7 +5653,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
       this.mainEntriesMoveCtrlDownGFX.createRect({ x: 10, y: this.mainEntriesContainerDim.h - 30, width: this.mainEntriesContainerDim.w - 20, height: 30 }).setFill('blue');
       this.mainEntriesMoveCtrlDownGFX.createPolyline([{x: 15 , y: this.mainEntriesContainerDim.h - 25}, {x: this.mainEntriesContainerDim.w - 15, y: this.mainEntriesContainerDim.h - 25}, {x: this.mainEntriesContainerDim.w / 2 , y: this.mainEntriesContainerDim.h - 5}, {x: 15, y: this.mainEntriesContainerDim.h - 25}]).setFill("white");
       this._repositionMoveCtrlDown();
-      dojo.connect(this.mainEntriesMoveCtrlDownGFX.getEventSource(),dojo.touch.press,this.mainEntriesMoveHandler.bind(this,-1));
+      this._events.push(dojo.connect(this.mainEntriesMoveCtrlDownGFX.getEventSource(),dojo.touch.press,this.mainEntriesMoveHandler.bind(this,-1)));
     }
   },
   _createMoveCtrlUp: function() {
@@ -5537,7 +5661,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
       this.mainEntriesMoveCtrlUpGFX = this.mainEntriesSurface.createGroup();
       this.mainEntriesMoveCtrlUpGFX.createRect({ x: 10, y: 0, width: this.mainEntriesContainerDim.w - 20, height: 30 }).setFill('blue');
       this.mainEntriesMoveCtrlUpGFX.createPolyline([{x: 15 , y: 25}, {x: this.mainEntriesContainerDim.w - 15, y: 25}, {x: this.mainEntriesContainerDim.w / 2 , y: 5}, {x: 15, y: 25}]).setFill("white");
-      dojo.connect(this.mainEntriesMoveCtrlUpGFX.getEventSource(),dojo.touch.press,this.mainEntriesMoveHandler.bind(this,1));
+      this._events.push(dojo.connect(this.mainEntriesMoveCtrlUpGFX.getEventSource(),dojo.touch.press,this.mainEntriesMoveHandler.bind(this,1)));
     }
   },
   _removeMoveCtrlUp: function() {
@@ -5580,8 +5704,10 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     this._moveMainEntries(direction);
   },
   mainEntriesMoveEndHandler: function(event) {
-    this.mainEntriesMoveEndEvent.remove();
-    this.mainEntriesMoveEndEvent = null;
+    if (this.mainEntriesMoveEndEvent) {
+      this.mainEntriesMoveEndEvent.remove();
+      this.mainEntriesMoveEndEvent = null;
+    }
   },
   _repositionMoveCtrlDown: function() {
     if (this.mainEntriesMoveCtrlDownGFX) {
@@ -5607,8 +5733,8 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     var oLevel = element.activeLevel;
     element.activeLevel = 1;
     element.levelScale = 1;
-    dojo.connect(animation, "onEnd", this.highlightActiveLevel.bind(this,element,oLevel));
-    dojo.connect(animation, "onEnd", this.animationEnd.bind(this,element));
+    this._events.push(dojo.connect(animation, "onEnd", this.highlightActiveLevel.bind(this,element,oLevel)));
+    this._events.push(dojo.connect(animation, "onEnd", this.animationEnd.bind(this,element)));
   },
   _centerAndScale: function(element,actScale) {
     var dim = dojo.position(this.domNode);
@@ -5655,8 +5781,8 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
 
     element.collapsed = false;
     if (addCallback) {
-      dojo.connect(animation, "onEnd", this.animationEnd.bind(this,element));
-      dojo.connect(animation, "onEnd", this.expandElementEnd.bind(this,element));
+      this._events.push(dojo.connect(animation, "onEnd", this.animationEnd.bind(this,element)));
+      this._events.push(dojo.connect(animation, "onEnd", this.expandElementEnd.bind(this,element)));
     }
   },
   _elementCollapse: function(element,addCallback) {
@@ -5680,10 +5806,10 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
       },{ name: 'original' }]
     }).play();
     element.collapsed = true;
-    dojo.connect(animation, "onEnd", this.collapseElementEnd.bind(this,element));
+    this._events.push(dojo.connect(animation, "onEnd", this.collapseElementEnd.bind(this,element)));
 
     if (addCallback) {
-      dojo.connect(animation, "onEnd", this.animationEnd.bind(this,element));
+      this._events.push(dojo.connect(animation, "onEnd", this.animationEnd.bind(this,element)));
     }
   },
   animationEnd: function(element) {
@@ -5793,8 +5919,8 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
             end: dojox.gfx.matrix.multiply(move,scaleAt,transform)
           }]
         }).play();
-        dojo.connect(animation, "onEnd", this.animationEnd.bind(this,element));
-        dojo.connect(animation, "onEnd", this.highlightActiveLevel.bind(this,mElement,oLevel));
+        this._events.push(dojo.connect(animation, "onEnd", this.animationEnd.bind(this,element)));
+        this._events.push(dojo.connect(animation, "onEnd", this.highlightActiveLevel.bind(this,mElement,oLevel)));
       }
     }
     if (jumpToSelection) {
@@ -5831,11 +5957,17 @@ dojo.declare("FIRMOS.gridPBColumn", null, {
 
 //gridDetailsColumn
 dojo.declare("FIRMOS.gridDetailsColumn", null, {
+  _events: [],
   constructor: function() {
     this.label = '';
     this.className = 'dgrid-details';
     this.unhidable = true;
     return this;
+  },
+  destroy: function() {
+    while (this._events.length>0) {
+      this._events.pop().remove();
+    }
   },
   renderCell: function(object, value, cell, options, header) {
     var div = dojo.create('div');
@@ -5844,7 +5976,7 @@ dojo.declare("FIRMOS.gridDetailsColumn", null, {
       div.innerHTML = '+';
       var row = object && this.grid.row(object);
       row._detailsOpen = false;
-      dojo.connect(div, "onclick", this.toggleDetails.bind(this,div,row));
+      this._events.push(dojo.connect(div, "onclick", this.toggleDetails.bind(this,div,row)));
     } else {
       div.className = 'dgrid-details-none';
     }
@@ -5875,6 +6007,16 @@ dojo.declare("FIRMOS.Editor", dijit.layout.BorderContainer, {
   _editorStarted: false,
   _savedContent: '',
   destroy: function() {
+    switch (this.editorType) {
+      case 'aloha':
+        Aloha.unbind('aloha-editable-activated');
+        Aloha.unbind('aloha-editable-deactivated');
+        break; 
+      case 'codemirror':
+        this.cm.off('focus',this.startEditCM.bind(this));
+        this.cm.off('blur',this.pauseEditCM.bind(this));
+        break;
+    }
     if (this.editableContent) {
       this.editableContent.destroy();
     }
@@ -6026,7 +6168,7 @@ dojo.declare("FIRMOS.VNC", dijit.layout.BorderContainer, {
     this.intervalId = null;
     this.scale = 1;
     this.isActive = false;
-    this.listeners = [];
+    this._events = [];
   },
   destroy: function() {
     this.disconnect();
@@ -6090,8 +6232,8 @@ dojo.declare("FIRMOS.VNC", dijit.layout.BorderContainer, {
     }
     this.canvas.style.width = '0px';
     this.canvas.style.height = '0px';
-    while (this.listeners.length>0) {
-      dojo.disconnect(this.listeners.pop());
+    while (this._events.length>0) {
+      dojo.disconnect(this._events.pop());
     }
     this.ws.onopen = null;
     this.ws.onmessage = null;
@@ -6111,20 +6253,20 @@ dojo.declare("FIRMOS.VNC", dijit.layout.BorderContainer, {
     this.container = dojo.byId(this.id+'_container');
     this.context = this.canvas.getContext('2d');
 
-    this.listeners.push(dojo.connect(this.canvas,'onmousemove',this.mouseMoveListener.bind(this)));
-    this.listeners.push(dojo.connect(this.canvas,'onmousedown', this.mouseDownListener.bind(this)));
-    this.listeners.push(dojo.connect(this.canvas,'onmouseup', this.mouseUpListener.bind(this)));
-    this.listeners.push(dojo.connect(this.canvas,'onclick', this.mouseClickListener.bind(this)));
-    this.listeners.push(dojo.connect(this.canvas,'oncontextmenu', this.contextMenuListener.bind(this)));
+    this._events.push(dojo.connect(this.canvas,'onmousemove',this.mouseMoveListener.bind(this)));
+    this._events.push(dojo.connect(this.canvas,'onmousedown', this.mouseDownListener.bind(this)));
+    this._events.push(dojo.connect(this.canvas,'onmouseup', this.mouseUpListener.bind(this)));
+    this._events.push(dojo.connect(this.canvas,'onclick', this.mouseClickListener.bind(this)));
+    this._events.push(dojo.connect(this.canvas,'oncontextmenu', this.contextMenuListener.bind(this)));
 
-    this.listeners.push(dojo.connect(this.canvas,'onmouseenter',this.mouseEnter.bind(this)));
-    this.listeners.push(dojo.connect(this.canvas,'onmouseout',this.mouseOut.bind(this)));
+    this._events.push(dojo.connect(this.canvas,'onmouseenter',this.mouseEnter.bind(this)));
+    this._events.push(dojo.connect(this.canvas,'onmouseout',this.mouseOut.bind(this)));
 
-    this.listeners.push(dojo.connect(this.canvas, 'onkeydown', this.keyDownListener.bind(this)));
-    this.listeners.push(dojo.connect(this.canvas, 'onkeyup', this.keyUpListener.bind(this)));
-    this.listeners.push(dojo.connect(this.canvas, 'onkeypress', this.keyPressListener.bind(this)));
+    this._events.push(dojo.connect(this.canvas, 'onkeydown', this.keyDownListener.bind(this)));
+    this._events.push(dojo.connect(this.canvas, 'onkeyup', this.keyUpListener.bind(this)));
+    this._events.push(dojo.connect(this.canvas, 'onkeypress', this.keyPressListener.bind(this)));
 
-    this.listeners.push(dojo.connect(this,'resize',this.applyScale.bind(this)));
+    this._events.push(dojo.connect(this,'resize',this.applyScale.bind(this)));
 
     if (this.intervalId) {
       window.clearInterval(this.intervalId);
