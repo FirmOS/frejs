@@ -4479,7 +4479,7 @@ dojo.declare("FIRMOS.StoreSeries", null, {
 
 });
 
-dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {  //SEAS
+dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
   constructor: function(args) {
     for (var i in args) {
       this[i] = args[i];
@@ -4529,6 +4529,7 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {  //SEAS
     }
     
     this.dummyData = this.dataMin - this.dataMax;
+    this.domainX = [];
     if ((args.type=='lct_line') || (args.type=='lct_sampledline')) {
       this.interpolation = "linear";
       this.path = [];
@@ -4563,7 +4564,7 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {  //SEAS
     this.svg.attr("width", this.width + this.margin.left + this.margin.right).attr("height", this.height + this.margin.top + this.margin.bottom);
     this.clipPathRect.attr("width", this.width).attr("height", this.height);
 
-    this.scale_y.range([this.height, 0]); //FIXXME
+    this.scale_y.range([this.height, 0]); 
     this.axisYG.call(this.axisY);
     switch (this.type) {
       case 'lct_line':
@@ -4577,6 +4578,9 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {  //SEAS
         this.scale_x.rangeRoundBands([0, this.width],0.1);
         this._paintColumns();
         break;
+    }
+    if (this.axisXG) {
+      this.axisXG.attr("transform", "translate(0," + this.height + ")").call(this.axisX);
     }
 
     if (this.chartCaption) {
@@ -4595,7 +4599,6 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {  //SEAS
   },
   start: function() {
     if (!this.stopped) return; //already running;
-    this._initData();
     this.stopped = false;
     switch (this.type) {
       case 'lct_line':
@@ -4710,6 +4713,7 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {  //SEAS
     }
   },
   setData: function(data,idx) {
+    if (this.stopped) return;
     switch (this.type) {
       case 'lct_line':
         this._setLineData(data,idx);
@@ -4829,6 +4833,8 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {  //SEAS
   },
   createChart: function() {
     this.container = dojo.byId(this.id+'_container');
+    this._initData();
+
     if (this.caption!='') {
       this.margin.top = this.margin.top + 20;
     }
@@ -4873,20 +4879,20 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {  //SEAS
 
     switch (this.type) {
       case 'lct_line':
-        var domain = [1, this.dataCount-2];
-        this.scale_x = d3.scale.linear().domain(domain).range([0, this.width]);
+        this.domainX = [1, this.dataCount-2];
+        this.scale_x = d3.scale.linear().domain(this.domainX).range([0, this.width]);
         break;
       case 'lct_sampledline':
-        var domain = [0, this.dataCount-1];
-        this.scale_x = d3.scale.linear().domain(domain).range([0, this.width]);
+        this.domainX = [0, this.dataCount-1];
+        this.scale_x = d3.scale.linear().domain(this.domainX).range([0, this.width]);
         break;
       case 'lct_column':
         if (this.dataLabels) {
-          var domain = d3.range(this.dataCount).map(function(i) {return this.dataLabels[i];}.bind(this));
+          this.domainX = d3.range(this.dataCount).map(function(i) {return this.dataLabels[i];}.bind(this));
         } else {
-          var domain = d3.range(this.dataCount).map(function(i) {return i;});
+          this.domainX = d3.range(this.dataCount).map(function(i) {return i;});
         }
-        this.scale_x = d3.scale.ordinal().domain(domain).rangeRoundBands([0, this.width],0.1);
+        this.scale_x = d3.scale.ordinal().domain(this.domainX).rangeRoundBands([0, this.width],0.1);
         break;
     }
 
@@ -4908,7 +4914,7 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {  //SEAS
           
       rect.enter().append("rect").attr("class", "bar"+this.id+'_'+i);
 
-      rect.attr("x",function(d, i) { return this.scale_x(i); }.bind(this))
+      rect.attr("x",function(d, i) { return this.scale_x(this.domainX[i]); }.bind(this))
         .attr("width", this.scale_x.rangeBand())
         .attr("y",function(d, i) { return this.scale_y(d); }.bind(this))
         .attr("height",  function(d, i) { return  this.height - this.scale_y(d); }.bind(this));
