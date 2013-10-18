@@ -4580,7 +4580,7 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
         break;
     }
     if (this.axisXG) {
-      this.axisXG.attr("transform", "translate(0," + this.height + ")").call(this.axisX);
+      this.axisXG.attr("transform", "translate(0," + this.height + ")").call(this.axisX).selectAll("text").style("text-anchor", "end");
     }
 
     if (this.chartCaption) {
@@ -4841,42 +4841,19 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
     if (this.legendLabels) {
       this.margin.bottom = this.margin.bottom + 20;
     }
-    if (this.dataLabels) {
-      this.margin.bottom = this.margin.bottom + 20;
-    }
     var dim = dojo.position(this.container);
-    this.width = dim.w - this.margin.left - this.margin.right;
-    this.height = dim.h - this.margin.top - this.margin.bottom;
     
-    this.svg = d3.select(this.container).append("svg")
-        .attr("width", this.width + this.margin.left + this.margin.right)
-        .attr("height", this.height + this.margin.top + this.margin.bottom);
-    this.svgMainG = this.svg.append("g")
-        .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+    this.svg = d3.select(this.container).append("svg").attr("width", dim.w).attr("height", dim.h);
+    this.svgMainG = this.svg.append("g").attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
         
+    this.width = dim.w - this.margin.left - this.margin.right;
+
     if (this.captiom!='') {
       this.chartCaption = this.svgMainG.append("text").attr("x", (this.width / 2)).attr("y", - (this.margin.top-20))
           .attr("text-anchor", "middle").attr("class", "firmosLiveChartCaption")
           .text(this.caption);
     }
     
-    if (this.legendLabels) {
-      this.legendSize = 0;
-      this.legend = this.svgMainG.append("g");
-      for (var i=0; i<this.seriesCount; i++) {
-        var legend_item = this.legend.append("g").attr("class", "legend");
-        legend_item.append("rect").attr("x", this.legendSize).attr("y",-5).attr("width", 18).attr("height", 2).style("fill", '#' + this.seriesColor[i]);
-        this.legendSize = this.legendSize + 25;
-        var text = legend_item.append("text").attr("x", this.legendSize).text(this.legendLabels[i]);
-        this.legendSize = this.legendSize + text[0][0].getBBox().width + 20;
-      }
-      this.legentSize = this.legendSize - 20;
-      this.legend.attr("transform","translate("+((this.width / 2)-(this.legendSize / 2))+","+ (this.height + this.margin.top-10)+")");
-    }
-
-    this.clipPath = this.svgMainG.append("defs").append("clipPath").attr("id", "clip");
-    this.clipPathRect = this.clipPath.append("rect").attr("width", this.width).attr("height", this.height);
-
     switch (this.type) {
       case 'lct_line':
         this.domainX = [1, this.dataCount-2];
@@ -4896,14 +4873,50 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
         break;
     }
 
+    if (this.dataLabels) {
+      this.axisX = d3.svg.axis().scale(this.scale_x).orient("bottom");
+      this.axisXG = this.svgMainG.append("g").attr("class", "x d3axis").call(this.axisX);
+      
+      var addMargin = 0;
+      function _adjustXAxisLabels(d) {
+        var bcr = this.getBoundingClientRect();
+        ySpace = bcr.bottom - bcr.top;
+        console.log(ySpace);
+        if (ySpace>addMargin) {
+          addMargin = ySpace;
+        }
+        return "rotate(-90) translate(-5,"+(bcr.left-bcr.right)+")"
+      }
+      
+      this.axisXG.selectAll("text").style("text-anchor", "end").attr("transform", function(d) { return "rotate(-90)" }).attr("transform", _adjustXAxisLabels);
+      this.margin.bottom = this.margin.bottom + addMargin;
+    }
+    this.height = dim.h - this.margin.top - this.margin.bottom;
+    
+    if (this.axisXG) {
+      this.axisXG.attr("transform", "translate(0," + this.height + ")");
+    }
+
+    if (this.legendLabels) {
+      this.legendSize = 0;
+      this.legend = this.svgMainG.append("g");
+      for (var i=0; i<this.seriesCount; i++) {
+        var legend_item = this.legend.append("g").attr("class", "legend");
+        legend_item.append("rect").attr("x", this.legendSize).attr("y",-5).attr("width", 18).attr("height", 2).style("fill", '#' + this.seriesColor[i]);
+        this.legendSize = this.legendSize + 25;
+        var text = legend_item.append("text").attr("x", this.legendSize).text(this.legendLabels[i]);
+        this.legendSize = this.legendSize + text[0][0].getBBox().width + 20;
+      }
+      this.legentSize = this.legendSize - 20;
+      this.legend.attr("transform","translate("+((this.width / 2)-(this.legendSize / 2))+","+ (this.height + this.margin.top-10)+")");
+    }
+
+    this.clipPath = this.svgMainG.append("defs").append("clipPath").attr("id", "clip");
+    this.clipPathRect = this.clipPath.append("rect").attr("width", this.width).attr("height", this.height);
+
     this.scale_y = d3.scale.linear().domain([this.dataMin,this.dataMax]).range([this.height, 0]);
     this.axisY = d3.svg.axis().scale(this.scale_y).ticks(this.dataTickHint).orient("left");
     this.axisYG = this.svgMainG.append("g").attr("class", "y d3axis").call(this.axisY);
-
-    if (this.dataLabels) {
-      this.axisX = d3.svg.axis().scale(this.scale_x).orient("bottom");
-      this.axisXG = this.svgMainG.append("g").attr("class", "x d3axis").attr("transform", "translate(0," + this.height + ")").call(this.axisX);
-    }
 
     this.start();
     this._events.push(dojo.connect(this,'resize',this.applyScale.bind(this)));
