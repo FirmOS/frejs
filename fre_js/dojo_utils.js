@@ -577,6 +577,14 @@ dojo.declare("FIRMOS.uiHandler", null, {
     }
   },
 
+  redefineLiveChart: function(chartId, def) {
+    if (this.liveCharts_[chartId]) {
+      this.liveCharts_[chartId].redefine(def);
+    } else {
+      console.error('redefineLiveChart: ' + chartId + ' chart not found');
+    }
+  },
+
   registerStoreView: function(storeId, view) {
     if (!this.getStoreById(storeId)) {
       console.error('registerStoreView: ' + storeId + ' store not registered');
@@ -690,10 +698,17 @@ dojo.declare("FIRMOS.uiHandler", null, {
   createCSSRule: function(ruleName, rule) {
     if (!this.createdCSSRules_[ruleName]) {
       dojox.html.insertCssRule('.'+ruleName,rule);
-      this.createdCSSRules_[ruleName] = true;
+      this.createdCSSRules_[ruleName] = rule;
     }
   },
   
+  removeCSSRule: function(ruleName) {
+    if (this.createdCSSRules_[ruleName]) {
+      dojox.html.removeCssRule('.'+ruleName,this.createdCSSRules_[ruleName]);
+      delete this.createdCSSRules_[ruleName];
+    }
+  },
+
   toggleFormGroupStatus: function(formId,gId) {
     var tl = dojo.byId(gId+'_tl');
     var tr = dojo.byId(gId+'_tr');
@@ -4505,6 +4520,16 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
     this.axisYG = null;
     this.stopped = true;
     
+    this.axisX = null;
+    this.axisXG = null;
+    this.axisXMargin = 0;
+    this.axisY = null;
+    this.axisYG = null;
+    
+    this.legend = null;
+    this.legendItems = [];
+    this.legendSize = 0;
+    
     switch (args.type) {
       case 'lct_line':
         this.dataIdx = 0;
@@ -4522,9 +4547,6 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
       case 'lct_column':
         this.data = [];
         this.rects = [];
-        for (var i=0; i<this.seriesCount; i++) {
-          G_UI_COM.createCSSRule("bar"+this.id+'_'+i,"fill: #"+this.seriesColor[i]);
-        }
         break;
     }
     
@@ -4535,9 +4557,6 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
       this.path = [];
       this.line = [];
       this.data = [];
-      for (var i=0; i<this.seriesCount; i++) {
-        G_UI_COM.createCSSRule("d3line"+this.id+'_'+i,"fill: none; stroke: #"+this.seriesColor[i]+"; stroke-width: 1.5px;");
-      }
     }
     
     G_UI_COM.registerLiveChart(this);
@@ -4552,20 +4571,107 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
   destroy: function() {
     this.stop();
     G_UI_COM.unregisterLiveChart(this);
+    this._removeSeriesCSS();
     while (this._events.length>0) {
       this._events.pop().remove();
     }
     this.inherited(arguments);
   },
-  applyScale: function() {
-    var dim = dojo.position(this.container);
-    this.width = dim.w - this.margin.left - this.margin.right;
-    this.height = dim.h - this.margin.top - this.margin.bottom;
-    this.svg.attr("width", this.width + this.margin.left + this.margin.right).attr("height", this.height + this.margin.top + this.margin.bottom);
-    this.clipPathRect.attr("width", this.width).attr("height", this.height);
+  redefine: function(def) {
+    if (def.caption && this.caption!=def.caption) {
+      this.caption = def.caption
+      this.chartCaption.text(this.caption);
+    }
+    if (def.dataLabels) {
+      this.dataLabels = def.dataLabels;
+    }
+    if (def.dataCount && this.dataCount!=def.dataCount) {
+      this.dataCount = def.dataCount;
+      switch (this.type) {
+        case 'lct_line':
+          this.domainX = [1, this.dataCount-2];
+          break;
+        case 'lct_sampledline':
+          this.domainX = [0, this.dataCount-1];
+          break;
+        case 'lct_column':
+          if (this.dataLabels) {
+            this.domainX = d3.range(this.dataCount).map(function(i) {return this.dataLabels[i];}.bind(this));
+          } else {
+            this.domainX = d3.range(this.dataCount).map(function(i) {return i;});
+          }
+          break;
+      }
+      this.scale_x.domain(this.domainX);
+    }
 
-    this.scale_y.range([this.height, 0]); 
-    this.axisYG.call(this.axisY);
+    if (def.dataLabels || (def.dataCount && this.dataCount!=def.dataCount)) {
+      this.axisXG.call(this.axisX).selectAll("text").style("text-anchor", "end");
+      this._adjustAxisX();
+      var dim = dojo.position(this.container);
+      this.height = dim.h - this.margin.top - this.margin.bottom;
+      this.clipPathRect.attr("height", this.height);
+      this.scale_y.range([this.height, 0]);
+      this.axisXG.attr("transform", "translate(0," + this.height + ")");
+    }
+
+    if (def.dataMin || def.dataMax) {
+      if (def.dataMin) this.dataMin = def.dataMin;
+      if (def.dataMax) this.dataMax = def.dataMax;
+      this.scale_y.domain([this.dataMin,this.dataMax]);
+      this.axisYG.call(this.axisY);
+    }
+    
+    if (def.seriesColor || (def.seriesCount && this.seriesCount!=def.seriesCount)) {
+      this._removeSeriesCSS();
+    }
+
+    if (def.seriesColor) {
+      this.seriesColor = def.seriesColor;
+    }
+    
+    if (def.seriesCount && this.seriesCount!=def.seriesCount) {
+      this.seriesCount = def.seriesCount;
+      if (this.seriesCount>this.seriesColor.length) {
+        for (var i=this.seriesColor.length; i<this.seriesCount; i++) {
+          this.seriesColor[i]='000';
+        }
+      }
+    }
+
+    if (def.seriesColor || (def.seriesCount && this.seriesCount!=def.seriesCount)) {
+      this._createSeriesCSS();
+    }
+    
+    if (def.legendLabels) {
+      this.legendLabels = def.legendLabels;
+    }
+    
+    if ((this.legendLabels && (def.seriesColor || (def.seriesCount && this.seriesCount!=def.seriesCount))) || (def.legendLabels)) {
+      this.legend.remove();
+      this._paintLegend();
+    }
+
+    this._paintData();
+  },
+  _removeSeriesCSS: function() {
+    for (var i=0; i<this.seriesCount; i++) {
+      G_UI_COM.removeCSSRule("series"+this.id+'_'+i);
+    }
+  },
+  _createSeriesCSS: function() {
+    if ((this.type=='lct_line') || (this.type=='lct_sampledline')) {
+      for (var i=0; i<this.seriesCount; i++) {
+        G_UI_COM.createCSSRule("series"+this.id+'_'+i,"fill: none; stroke: #"+this.seriesColor[i]+"; stroke-width: 1.5px;");
+      }
+    }
+    if (this.type=='lct_column') {
+      for (var i=0; i<this.seriesCount; i++) {
+        G_UI_COM.createCSSRule("series"+this.id+'_'+i,"fill: #"+this.seriesColor[i]);
+      }
+    }
+  },
+  _paintData: function() {
     switch (this.type) {
       case 'lct_line':
       case 'lct_sampledline':
@@ -4579,6 +4685,19 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
         this._paintColumns();
         break;
     }
+  },
+  applyScale: function() {
+    var dim = dojo.position(this.container);
+    this.width = dim.w - this.margin.left - this.margin.right;
+    this.height = dim.h - this.margin.top - this.margin.bottom;
+    this.svg.attr("width", this.width + this.margin.left + this.margin.right).attr("height", this.height + this.margin.top + this.margin.bottom);
+    this.clipPathRect.attr("width", this.width).attr("height", this.height);
+
+    this.scale_y.range([this.height, 0]); 
+    this.axisYG.call(this.axisY);
+
+    this._paintData();
+
     if (this.axisXG) {
       this.axisXG.attr("transform", "translate(0," + this.height + ")").call(this.axisX).selectAll("text").style("text-anchor", "end");
     }
@@ -4634,7 +4753,7 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
                            .x(function(d, i) { return this.scale_x(i); }.bind(this))
                            .y(function(d, i) { return this.scale_y(d); }.bind(this));
       this.path[i] = this.svgMainG.append("g").attr("clip-path", "url(#clip)")
-                                  .append("path").data([this.data[i]]).attr("class", "d3line"+this.id+'_'+i).attr("d", this.line[i]);
+                                  .append("path").data([this.data[i]]).attr("class", "series"+this.id+'_'+i).attr("d", this.line[i]);
     }
   },
   _initCallback: function(options, success, response, uiState) {
@@ -4834,6 +4953,7 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
   createChart: function() {
     this.container = dojo.byId(this.id+'_container');
     this._initData();
+    this._createSeriesCSS();
 
     if (this.caption!='') {
       this.margin.top = this.margin.top + 20;
@@ -4876,20 +4996,7 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
     if (this.dataLabels) {
       this.axisX = d3.svg.axis().scale(this.scale_x).orient("bottom");
       this.axisXG = this.svgMainG.append("g").attr("class", "x d3axis").call(this.axisX);
-      
-      var addMargin = 0;
-      function _adjustXAxisLabels(d) {
-        var bcr = this.getBoundingClientRect();
-        ySpace = bcr.bottom - bcr.top;
-        console.log(ySpace);
-        if (ySpace>addMargin) {
-          addMargin = ySpace;
-        }
-        return "rotate(-90) translate(-5,"+(bcr.left-bcr.right)+")"
-      }
-      
-      this.axisXG.selectAll("text").style("text-anchor", "end").attr("transform", function(d) { return "rotate(-90)" }).attr("transform", _adjustXAxisLabels);
-      this.margin.bottom = this.margin.bottom + addMargin;
+      this._adjustAxisX();
     }
     this.height = dim.h - this.margin.top - this.margin.bottom;
     
@@ -4898,17 +5005,7 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
     }
 
     if (this.legendLabels) {
-      this.legendSize = 0;
-      this.legend = this.svgMainG.append("g");
-      for (var i=0; i<this.seriesCount; i++) {
-        var legend_item = this.legend.append("g").attr("class", "legend");
-        legend_item.append("rect").attr("x", this.legendSize).attr("y",-5).attr("width", 18).attr("height", 2).style("fill", '#' + this.seriesColor[i]);
-        this.legendSize = this.legendSize + 25;
-        var text = legend_item.append("text").attr("x", this.legendSize).text(this.legendLabels[i]);
-        this.legendSize = this.legendSize + text[0][0].getBBox().width + 20;
-      }
-      this.legentSize = this.legendSize - 20;
-      this.legend.attr("transform","translate("+((this.width / 2)-(this.legendSize / 2))+","+ (this.height + this.margin.top-10)+")");
+      _paintLegend();
     }
 
     this.clipPath = this.svgMainG.append("defs").append("clipPath").attr("id", "clip");
@@ -4921,16 +5018,46 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
     this.start();
     this._events.push(dojo.connect(this,'resize',this.applyScale.bind(this)));
   },
+  _adjustAxisX: function() {
+    var addMargin = 0;
+    function _adjustXAxisLabels(d) {
+      var bcr = this.getBoundingClientRect();
+      ySpace = bcr.bottom - bcr.top;
+      if (ySpace>addMargin) {
+        addMargin = ySpace;
+      }
+      return "rotate(-90) translate(-5,"+(bcr.left-bcr.right)+")"
+    }
+    
+    this.axisXG.selectAll("text").style("text-anchor", "end").attr("transform", function(d) { return "rotate(-90)" }).attr("transform", _adjustXAxisLabels);
+    this.margin.bottom = this.margin.bottom - this.axisXMargin + addMargin;
+    this.axisXMargin = addMargin;
+  },
+  _paintLegend: function() {
+    this.legendSize = 0;
+    this.legend = this.svgMainG.append("g");
+    for (var i=0; i<this.seriesCount; i++) {
+      this.legendItems[i] = this.legend.append("g").attr("class", "legend");
+      this.legendItems[i].append("rect").attr("x", this.legendSize).attr("y",-5).attr("width", 18).attr("height", 2).style("fill", '#' + this.seriesColor[i]);
+      this.legendSize = this.legendSize + 25;
+      var text = this.legendItems[i].append("text").attr("x", this.legendSize).text(this.legendLabels[i]);
+      this.legendSize = this.legendSize + text[0][0].getBBox().width + 20;
+    }
+    this.legentSize = this.legendSize - 20;
+    this.legend.attr("transform","translate("+((this.width / 2)-(this.legendSize / 2))+","+ (this.height + this.margin.top-10)+")");
+  },
   _paintColumns: function() {
     for (var i=0; i<this.seriesCount; i++) {
-      var rect = this.svgMainG.selectAll(".bar"+this.id+'_'+i).data(this.data[i]);
+      var rect = this.svgMainG.selectAll(".series"+this.id+'_'+i).data(this.data[i]);
           
-      rect.enter().append("rect").attr("class", "bar"+this.id+'_'+i);
+      rect.enter().append("rect").attr("class", "series"+this.id+'_'+i);
 
+      var y0 = (this.dataMin > 0) ? this.dataMin : 0;
+      
       rect.attr("x",function(d, i) { return this.scale_x(this.domainX[i]); }.bind(this))
         .attr("width", this.scale_x.rangeBand())
         .attr("y",function(d, i) { return this.scale_y(d); }.bind(this))
-        .attr("height",  function(d, i) { return  this.height - this.scale_y(d); }.bind(this));
+        .attr("height",  function(d, i) { return (d<this.dataMin) ? 0 : this.scale_y(y0) - this.scale_y(d); }.bind(this));
             
       rect.exit().remove();
     }
