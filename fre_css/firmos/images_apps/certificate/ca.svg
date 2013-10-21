@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="100"
+   height="78.839996"
+   viewBox="0 0 100 78.84"
+   id="Layer_1"
+   xml:space="preserve"><metadata
+   id="metadata3142"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs3140"><filter
+     x="0"
+     y="0"
+     width="1"
+     height="1"
+     color-interpolation-filters="sRGB"
+     id="filter3144"><feColorMatrix
+       result="fbSourceGraphic"
+       values="1"
+       type="saturate"
+       id="feColorMatrix3146" /><feColorMatrix
+       values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0 "
+       in="fbSourceGraphic"
+       id="feColorMatrix3148" /></filter><filter
+     x="0"
+     y="0"
+     width="1"
+     height="1"
+     color-interpolation-filters="sRGB"
+     id="filter3150"><feColorMatrix
+       result="fbSourceGraphic"
+       values="1"
+       type="saturate"
+       id="feColorMatrix3152" /><feColorMatrix
+       values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0 "
+       in="fbSourceGraphic"
+       id="feColorMatrix3154" /></filter><filter
+     x="0"
+     y="0"
+     width="1"
+     height="1"
+     color-interpolation-filters="sRGB"
+     id="filter3156"><feColorMatrix
+       result="fbSourceGraphic"
+       values="1"
+       type="saturate"
+       id="feColorMatrix3158" /><feColorMatrix
+       values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0 "
+       in="fbSourceGraphic"
+       id="feColorMatrix3160" /></filter><filter
+     x="0"
+     y="0"
+     width="1"
+     height="1"
+     color-interpolation-filters="sRGB"
+     id="filter3162"><feColorMatrix
+       result="fbSourceGraphic"
+       values="1"
+       type="saturate"
+       id="feColorMatrix3164" /><feColorMatrix
+       values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0 "
+       in="fbSourceGraphic"
+       id="feColorMatrix3166" /></filter></defs>
+<path
+   d="M 71.703,48.742 C 66.127,43.211 58.457,39.787 50,39.787 c -8.457,0 -16.127,3.424 -21.703,8.955 -0.059,0.059 -0.118,0.117 -0.176,0.176 l 7.032,7.033 c 0.058,-0.059 0.117,-0.119 0.176,-0.176 3.775,-3.732 8.957,-6.041 14.671,-6.041 5.715,0 10.896,2.309 14.672,6.041 0.059,0.057 0.117,0.117 0.176,0.176 l 7.031,-7.033 C 71.82,48.859 71.762,48.801 71.703,48.742 z"
+   id="path3130"
+   style="filter:url(#filter3162)" />
+<path
+   d="M 85.764,34.683 C 76.586,25.548 63.941,19.894 50,19.894 c -13.941,0 -26.585,5.655 -35.764,14.789 -0.059,0.058 -0.118,0.117 -0.176,0.176 l 7.03,7.03 C 21.148,41.83 21.207,41.772 21.266,41.713 28.644,34.379 38.801,29.84 50,29.84 c 11.199,0 21.355,4.539 28.733,11.873 0.059,0.059 0.118,0.117 0.176,0.176 l 7.03,-7.03 C 85.881,34.8 85.822,34.741 85.764,34.683 z"
+   id="path3132"
+   style="filter:url(#filter3156)" />
+<path
+   d="M 99.824,20.622 C 87.043,7.886 69.426,0 50,0 30.574,0 12.957,7.886 0.176,20.622 0.118,20.681 0.059,20.74 0,20.798 l 7.03,7.03 C 7.089,27.769 7.147,27.711 7.206,27.652 18.186,16.717 33.316,9.947 50,9.947 c 16.684,0 31.814,6.771 42.794,17.706 0.059,0.059 0.117,0.117 0.176,0.176 L 100,20.799 C 99.941,20.74 99.883,20.681 99.824,20.622 z"
+   id="path3134"
+   style="filter:url(#filter3150)" />
+<circle
+   cx="50.058998"
+   cy="70.839996"
+   r="8"
+   id="circle3136"
+   style="filter:url(#filter3144)" />
+</svg>
