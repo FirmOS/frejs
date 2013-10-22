@@ -5005,7 +5005,7 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
     }
 
     if (this.legendLabels) {
-      _paintLegend();
+      this._paintLegend();
     }
 
     this.clipPath = this.svgMainG.append("defs").append("clipPath").attr("id", "clip");
