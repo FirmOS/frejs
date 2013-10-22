@@ -232,6 +232,7 @@ dojo.declare("FIRMOS.uiHandler", null, {
     this.formDBOs_ = new Object();
     this.selDepFuncs_ = {views:{}, classes:{}};
     this.liveCharts_ = new Object();
+    this.msgProgress_ = new Object();
     this.createdCSSRules_ = new Object();
     this.serverCom = serverCom;
     this.buttonClickStates_ = {};
@@ -585,6 +586,22 @@ dojo.declare("FIRMOS.uiHandler", null, {
     }
   },
 
+  registerMsgProgress: function(id, msg) {
+    this.msgProgress_[id] = msg;
+  },
+  
+  unregisterMsgProgress: function(id) {
+    delete this.msgProgress_[id];
+  },
+  
+  updateMsgProgress: function(id, value) {
+    if (this.msgProgress_[id]) {
+      this.msgProgress_[id].updateProgress(value);
+    } else {
+      console.error('updateMsgProgress: ' + id + ' message progress not registered');
+    }
+  },
+
   registerStoreView: function(storeId, view) {
     if (!this.getStoreById(storeId)) {
       console.error('registerStoreView: ' + storeId + ' store not registered');
@@ -877,6 +894,89 @@ dojo.declare("FIRMOS.Dialog", dijit.Dialog, {
     if (this.closable || forceHide) {
       G_UI_COM.dialogClosed(this.id);
       this.destroyRecursive();
+    }
+  }
+});
+
+//Message
+dojo.declare("FIRMOS.Message", FIRMOS.Dialog, {
+  texts: G_TEXTS.msg,
+  closable: false,
+  destroy: function() {
+    if (this.progressBarId) {
+      G_UI_COM.unregisterMsgProgress(this.progressBarId);
+    }
+    this.inherited(arguments);
+  },
+  postCreate: function() {
+    this.inherited(arguments);
+    var CSSPostFix;
+    switch (this.type) {
+      case 'msg_error'  : CSSPostFix='Error';
+      case 'msg_warning': CSSPostFix='Info';
+      case 'msg_info'   : CSSPostFix='Confirm';
+      case 'msg_confirm': CSSPostFix='Warning';
+      case 'msg_wait'   : CSSPostFix='Wait';
+    }
+    var content = '<div class="firmosMessageIcon'+CSSPostFix+'"></div><div class="firmosMessage'+CSSPostFix+'">'+this.msg+'</div>';
+    if (this.progressBarId) {
+      content = content + '<div class="firmosMessageProgressBar" id="'+this.id+'_pb"></div>';
+    }
+    content = content + '<div class="firmosMessageButtons'+CSSPostFix+'" id="'+this.id+'_buttons"></div>';
+    this.set('content',content);
+    switch (this.type) {
+      case 'msg_error'  :
+      case 'msg_warning':
+      case 'msg_info'   :
+        var button = new dijit.form.Button({type: 'button',
+                                            label: this.texts.ok,
+                                            onClick: this._onClick.bind(this)
+                                           });
+        button.placeAt(dojo.byId(this.id+'_buttons'));
+        break;
+      case 'msg_confirm':
+        var button = new dijit.form.Button({type: 'button',
+                                            label: this.texts.yes,
+                                            onClick: this._onClick.bind(this,true)
+                                           });
+        button.placeAt(dojo.byId(this.id+'_buttons'));
+        var button = new dijit.form.Button({type: 'button',
+                                            label: this.texts.no,
+                                            onClick: this._onClick.bind(this,false)
+                                           });
+        button.placeAt(dojo.byId(this.id+'_buttons'));
+        break;
+      case 'msg_wait'   :
+        if (this.sfClassname) {
+          var button = new dijit.form.Button({type: 'button',
+                                              label: this.texts.abort,
+                                              onClick: this._onClick.bind(this)
+                                             });
+          button.placeAt(dojo.byId(this.id+'_buttons'));
+        }
+        break;
+    }
+
+    if (this.progressBarId) {
+      G_UI_COM.registerMsgProgress(this.progressBarId,this);
+      this._pb = new dijit.ProgressBar({style: "width: 100%"});
+      this._pb.set("value",0);
+      this._pb.set('label','0%');
+      this._pb.placeAt(dojo.byId(this.id+'_pb'));
+    }
+  },
+  updateProgress: function(value) {
+    this._pb.set('value',value);
+    this._pb.set('label',Math.round(value)+'%');
+  },
+  _onClick: function(confirmed) {
+    this.hide(true);
+    if (this.sfClassname) {
+      var params = dojo.clone(this.sfParams);
+      if (typeof confirmed == 'boolean') {
+        params.confirmed = confirmed;
+      }
+      G_SERVER_COM.callServerFunction(this.sfClassname,this.sfFunctionname,this.sfUidPath,params);
     }
   }
 });
@@ -3025,6 +3125,7 @@ dojo.declare("FIRMOS.FileUpload.Image", dojox.form.uploader._Base, {
     }
   },
   postCreate: function() {
+    this.inherited(arguments);
     this.setUploader();
     if (this.value) {
       this._createImageTag(this.value);
@@ -4707,6 +4808,7 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
     }
   },
   postCreate: function() {
+    this.inherited(arguments);
     this.set('content','<div id="'+this.id+'_container" style="width:100%; height:100%;"></div>');
     this.set('style','overflow: hidden');
     setTimeout(this.createChart.bind(this),0);
@@ -5195,6 +5297,7 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
     }
   },
   postCreate: function() {
+    this.inherited(arguments);
     var tMenu = new dijit.layout.ContentPane({region: 'top', splitter: false, class: 'firmosTransparent'});
     var content = '';
     content = content+'<div class="topMenu">';
@@ -5292,6 +5395,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     }
   },
   postCreate: function() {
+    this.inherited(arguments);
     this.mainEntriesCP = new dijit.layout.ContentPane({region: 'left', splitter: false, class: 'firmosTransparent'});
     this.mainEntriesCP.set('content','<div id="'+this.id+'_me_gfx" style="width:100%; height:100%;"></div>');
     this.mainEntriesCP.set('style','width: 140px; overflow: hidden');
