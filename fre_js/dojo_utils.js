@@ -4631,6 +4631,8 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
     this.legendItems = [];
     this.legendSize = 0;
     
+    this.newLines = [];
+    
     switch (args.type) {
       case 'lct_line':
         this.dataIdx = 0;
@@ -4724,13 +4726,6 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
       height_changed = true;
     }
 
-    if (def.dataMin || def.dataMax) {
-      if (def.dataMin) this.dataMin = def.dataMin;
-      if (def.dataMax) this.dataMax = def.dataMax;
-      this.scale_y.domain([this.dataMin,this.dataMax]);
-      this.axisYG.call(this.axisY);
-    }
-    
     if (def.seriesColor || (def.seriesCount && this.seriesCount!=def.seriesCount)) {
       this._removeSeriesCSS();
     }
@@ -4740,13 +4735,29 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
     }
     
     if (def.seriesCount && this.seriesCount!=def.seriesCount) {
+      if (def.seriesCount>this.seriesColor.length) {
+        for (var i=this.seriesColor.length; i<def.seriesCount; i++) {
+          this.seriesColor[i]='000';
+        }
+      } else {
+        if (def.seriesCount<this.seriesColor.length) {
+          for (var i=this.seriesColor.length-1; i>=def.seriesCount; i--) {
+            this.seriesColor.pop();
+          }
+        }
+      }
       if (def.seriesCount>this.seriesCount) {
         for (var i=this.seriesCount; i<def.seriesCount; i++) {
-          this.seriesColor[i]='000';
           if (this.type=='lct_line') {
             this.buffer[i] = [];
-            for (var j=0; j<=this.bufferSize; j++) {
+            var bufferSize = (this.seriesCount == 0) ? this.bufferSize+1 : this.buffer[0].length;
+            for (var j=0; j<bufferSize; j++) {
               this.buffer[i][j] = this.dummyData;
+            }
+            if (this.seriesCount==0) {
+              setTimeout(this.updateData.bind(this,i),0);
+            } else {
+              this.newLines.push(i);
             }
           }
           if ((this.type=='lct_line') || (this.type=='lct_sampledline')) {
@@ -4756,13 +4767,12 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
         }
       } else {
         for (var i=this.seriesCount-1; i>=def.seriesCount; i--) {
-          this.seriesColor.pop()
           if (this.type=='lct_line') {
             this.buffer.pop();
           }
           if ((this.type=='lct_line') || (this.type=='lct_sampledline')) {
             this.data.pop();
-            this.line.pop().remove();
+            this.line.pop();
             this.path.pop().remove();
           }
         }
@@ -4784,7 +4794,6 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
       if (def.legendLabels) {
         this.legendLabels = def.legendLabels;
       }
-      this._paintLegend();
     }
 
     if (height_changed) {
@@ -4796,8 +4805,20 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
         this.axisXG.attr("transform", "translate(0," + this.height + ")");
       }
     }
-
-    this._paintData();
+    
+    if (def.dataMin || def.dataMax) {
+      if (def.dataMin) this.dataMin = def.dataMin;
+      if (def.dataMax) this.dataMax = def.dataMax;
+      this.scale_y.domain([this.dataMin,this.dataMax]);
+      this.axisYG.call(this.axisY);
+    }
+    
+    if ((this.legendLabels && (def.seriesColor || (def.seriesCount && this.seriesCount!=def.seriesCount))) || (def.legendLabels)) {
+      this._paintLegend();
+    }
+    if (this.type != 'lct_line') {
+      this._paintData();
+    }
   },
   _removeSeriesCSS: function() {
     for (var i=0; i<this.seriesCount; i++) {
@@ -4902,7 +4923,7 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
                          .x(function(d, i) { return this.scale_x(i); }.bind(this))
                          .y(function(d, i) { return this.scale_y(d); }.bind(this));
     this.path[idx] = this.svgMainG.append("g").attr("clip-path", "url(#clip)")
-                                .append("path").data([this.data[idx]]).attr("class", "series"+this.id+'_'+idx).attr("d", this.line[idx]);
+                                  .append("path").data([this.data[idx]]).attr("class", "series"+this.id+'_'+idx).attr("d", this.line[idx]);
   },
   _initCallback: function(options, success, response, uiState) {
     if (success) {
@@ -5051,6 +5072,12 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
   },
   updateData: function(seriesId) {
     if (this.stopped) return;
+    if (this.seriesCount<=seriesId) {
+      if (this._doNotCalc) {
+        this._doNotCalc = this._doNotClac - 1;
+      }
+      return;
+    }
     if (this.buffer[seriesId].length==0) {
       //add dummy data to all buffers
       //console.log(this.id + ' NO DATA ' + seriesId);
@@ -5067,28 +5094,31 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
     } else {
       this._doNotCalc = this.seriesCount-1;
       this._animationTime = this.updateInterval - ((this._animationStart_1 - this._animationStart_2) - this._oldAnimationTime_2);
+
       if (this._animationTime < (this.updateInterval / 2)) {
         this._animationTime = this.updateInterval / 2;
       }
       if (this.buffer[seriesId].length>this.bufferSize) { //buffer to big - go faster
-        //console.log(this.id + ' BUFFER TO BIG');
         this._animationTime = this._animationTime - (this.updateInterval / 10);
+        //console.log(this.id + ' BUFFER TO BIG ');
       }
       if (this.buffer[seriesId].length<this.bufferSize) { //buffer to small - slow down
         //console.log(this.id + ' BUFFER TO SMALL');
         this._dataToLate = 10;
       }
       if (this._dataToLate) {  //data to late - slow down
-        //console.log(this.id + ' DATA LATE/BUFFER SMALL ' + this._dataToLate);
         this._dataToLate = this._dataToLate - 1;
         this._animationTime = this._animationTime + (this.updateInterval / 10);
+        //console.log(this.id + ' DATA LATE/BUFFER SMALL ' + this._dataToLate);
       }
       this._oldAnimationTime_2 = this._oldAnimationTime_1;
       this._oldAnimationTime_1 = this._animationTime;
 
       this._animationStart_2 = this._animationStart_1;
       this._animationStart_1 = new Date();
-
+      while (this.newLines.length>0) {
+        setTimeout(this.updateData.bind(this,this.newLines.pop()),0);
+      }
     }
     // redraw the line, and then slide it to the left
     this.path[seriesId].attr("d", this.line[seriesId]).attr("transform", null)
