@@ -4694,14 +4694,15 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
       switch (this.type) {
         case 'lct_line':
           this.domainX = [1, def.dataCount-2];
-          if (def.dataCount>this.dataCount) {
-            for (var i=0; i<this.seriesCount; i++) {
-              var new_data = d3.range(def.dataCount-this.dataCount).map(function() {return this.dummyData;}.bind(this));
-              this.data[i] = new_data.concat(this.data[i]);
-            }
-          } else {
-            for (var i=0; i<this.seriesCount; i++) {
-              this.data[i].splice(0,this.dataCount-def.dataCount);
+          for (var i=0; i<this.seriesCount; i++) {
+            if (def.dataCount>this.dataCount) {
+              for (var j=0; j<def.dataCount-this.dataCount; j++) {
+                this.data[i].unshift(this.dummyData);
+              }
+            } else {
+              for (var j=0; j<this.dataCount-def.dataCount; j++) {
+                this.data[i].shift();
+              }
             }
           }
           break;
@@ -4816,9 +4817,7 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
     if ((this.legendLabels && (def.seriesColor || (def.seriesCount && this.seriesCount!=def.seriesCount))) || (def.legendLabels)) {
       this._paintLegend();
     }
-    if (this.type != 'lct_line') {
-      this._paintData();
-    }
+    this._paintData();
   },
   _removeSeriesCSS: function() {
     for (var i=0; i<this.seriesCount; i++) {
