@@ -4679,6 +4679,7 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
     this.inherited(arguments);
   },
   redefine: function(def) {
+    var height_changed = false;
     if (def.caption && this.caption!=def.caption) {
       this.caption = def.caption
       this.chartCaption.text(this.caption);
@@ -4686,34 +4687,41 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
     if (def.dataLabels) {
       this.dataLabels = def.dataLabels;
     }
+    
     if (def.dataCount && this.dataCount!=def.dataCount) {
-      this.dataCount = def.dataCount;
       switch (this.type) {
         case 'lct_line':
-          this.domainX = [1, this.dataCount-2];
+          this.domainX = [1, def.dataCount-2];
+          if (def.dataCount>this.dataCount) {
+            for (var i=0; i<this.seriesCount; i++) {
+              var new_data = d3.range(def.dataCount-this.dataCount).map(function() {return this.dummyData;}.bind(this));
+              this.data[i] = new_data.concat(this.data[i]);
+            }
+          } else {
+            for (var i=0; i<this.seriesCount; i++) {
+              this.data[i].splice(0,this.dataCount-def.dataCount);
+            }
+          }
           break;
         case 'lct_sampledline':
-          this.domainX = [0, this.dataCount-1];
+          this.domainX = [0, def.dataCount-1];
           break;
         case 'lct_column':
           if (this.dataLabels) {
-            this.domainX = d3.range(this.dataCount).map(function(i) {return this.dataLabels[i];}.bind(this));
+            this.domainX = d3.range(def.dataCount).map(function(i) {return this.dataLabels[i];}.bind(this));
           } else {
-            this.domainX = d3.range(this.dataCount).map(function(i) {return i;});
+            this.domainX = d3.range(def.dataCount).map(function(i) {return i;});
           }
           break;
       }
+      this.dataCount = def.dataCount;
       this.scale_x.domain(this.domainX);
     }
 
     if (def.dataLabels || (def.dataCount && this.dataCount!=def.dataCount)) {
       this.axisXG.call(this.axisX).selectAll("text").style("text-anchor", "end");
       this._adjustAxisX();
-      var dim = dojo.position(this.container);
-      this.height = dim.h - this.margin.top - this.margin.bottom;
-      this.clipPathRect.attr("height", this.height);
-      this.scale_y.range([this.height, 0]);
-      this.axisXG.attr("transform", "translate(0," + this.height + ")");
+      height_changed = true;
     }
 
     if (def.dataMin || def.dataMax) {
@@ -4732,25 +4740,61 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
     }
     
     if (def.seriesCount && this.seriesCount!=def.seriesCount) {
-      this.seriesCount = def.seriesCount;
-      if (this.seriesCount>this.seriesColor.length) {
-        for (var i=this.seriesColor.length; i<this.seriesCount; i++) {
+      if (def.seriesCount>this.seriesCount) {
+        for (var i=this.seriesCount; i<def.seriesCount; i++) {
           this.seriesColor[i]='000';
+          if (this.type=='lct_line') {
+            this.buffer[i] = [];
+            for (var j=0; j<=this.bufferSize; j++) {
+              this.buffer[i][j] = this.dummyData;
+            }
+          }
+          if ((this.type=='lct_line') || (this.type=='lct_sampledline')) {
+            this.data[i] = d3.range(this.dataCount).map(function() {return this.dummyData;}.bind(this));
+            this._createLine(i);
+          }
+        }
+      } else {
+        for (var i=this.seriesCount-1; i>=def.seriesCount; i--) {
+          this.seriesColor.pop()
+          if (this.type=='lct_line') {
+            this.buffer.pop();
+          }
+          if ((this.type=='lct_line') || (this.type=='lct_sampledline')) {
+            this.data.pop();
+            this.line.pop().remove();
+            this.path.pop().remove();
+          }
         }
       }
+      this.seriesCount = def.seriesCount;
     }
 
     if (def.seriesColor || (def.seriesCount && this.seriesCount!=def.seriesCount)) {
       this._createSeriesCSS();
     }
     
-    if (def.legendLabels) {
-      this.legendLabels = def.legendLabels;
-    }
-    
     if ((this.legendLabels && (def.seriesColor || (def.seriesCount && this.seriesCount!=def.seriesCount))) || (def.legendLabels)) {
-      this.legend.remove();
+      if (this.legendLabels) {
+        this.legend.remove();
+      } else {
+        this.margin.bottom = this.margin.bottom + 20;
+        height_changed = true;
+      }
+      if (def.legendLabels) {
+        this.legendLabels = def.legendLabels;
+      }
       this._paintLegend();
+    }
+
+    if (height_changed) {
+      var dim = dojo.position(this.container);
+      this.height = dim.h - this.margin.top - this.margin.bottom;
+      this.clipPathRect.attr("height", this.height);
+      this.scale_y.range([this.height, 0]);
+      if (this.axisXG) {
+        this.axisXG.attr("transform", "translate(0," + this.height + ")");
+      }
     }
 
     this._paintData();
@@ -4823,7 +4867,9 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
     this.stopped = false;
     switch (this.type) {
       case 'lct_line':
-        this._createLines();
+        for (var i=0; i<this.seriesCount; i++) {
+          this._createLine(i);
+        }
         this.dataIdx = 0;
         for (var i=0; i<this.seriesCount; i++) {
           this.buffer[i] = [];
@@ -4833,7 +4879,9 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
         }
         break;
       case 'lct_sampledline':
-        this._createLines();
+        for (var i=0; i<this.seriesCount; i++) {
+          this._createLine(i);
+        }
         break;
       case 'lct_column':
         break;
@@ -4849,14 +4897,12 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
       this.data[i] = d3.range(this.dataCount).map(function() {return this.dummyData;}.bind(this));
     }
   },
-  _createLines: function() {
-    for (var i=0; i<this.seriesCount; i++) {
-      this.line[i] = d3.svg.line().interpolate(this.interpolation)
-                           .x(function(d, i) { return this.scale_x(i); }.bind(this))
-                           .y(function(d, i) { return this.scale_y(d); }.bind(this));
-      this.path[i] = this.svgMainG.append("g").attr("clip-path", "url(#clip)")
-                                  .append("path").data([this.data[i]]).attr("class", "series"+this.id+'_'+i).attr("d", this.line[i]);
-    }
+  _createLine: function(idx) {
+    this.line[idx] = d3.svg.line().interpolate(this.interpolation)
+                         .x(function(d, i) { return this.scale_x(i); }.bind(this))
+                         .y(function(d, i) { return this.scale_y(d); }.bind(this));
+    this.path[idx] = this.svgMainG.append("g").attr("clip-path", "url(#clip)")
+                                .append("path").data([this.data[idx]]).attr("class", "series"+this.id+'_'+idx).attr("d", this.line[idx]);
   },
   _initCallback: function(options, success, response, uiState) {
     if (success) {
