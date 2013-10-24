@@ -1051,7 +1051,7 @@ dojo.declare("FIRMOS.Store", null, {
     var def = this._doQuery(query_args,item);
     if (argsIsCallback) {
       def.addCallback(this._getChildrenCallback.bind(this,item,args));
-      def.addErrback(args);
+      def.addErrback(args.bind(this,new Error('Error in function getChildren')));
     }
     return dojo.store.util.QueryResults(def);
   },
