@@ -874,9 +874,13 @@ dojo.declare("FIRMOS.uiHandler", null, {
     }
   },
   
-  openWindow: function(url) {
-    var win = window.open(url);
-    if (!win) alert(G_TEXTS.openWindow.error);
+  openUrl: function(url,newWindow) {
+    if (newWindow) {
+      var win = window.open(url);
+      if (!win) alert(G_TEXTS.openWindow.error);
+    } else {
+      document.location.href = url;
+    }
   }
 });
 
