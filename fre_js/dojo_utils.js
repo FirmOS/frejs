@@ -1371,7 +1371,7 @@ dojo.declare("FIRMOS.Store", null, {
     }
   },
   put: function(items, args) {  //drop operation (args: {source: store, before: item})
-    console.log('PUT ' + JSON.stringify(items) + ' - ' + JSON.stringify(args));
+    //console.log('PUT ' + JSON.stringify(items) + ' - ' + JSON.stringify(args));
     if (this.dropClassname) {
       var params = dojo.clone(this.dropParams);
       dojo.mixin(params, this.params_);
