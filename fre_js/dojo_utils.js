@@ -2066,13 +2066,13 @@ dojo.declare("FIRMOS.GridBase", null, {
         dojo.create('div',{class: "firmosGridDetailsLoading", id: this.store.getIdentity(item)+'_details_loading', style: 'display:none;'}, org_div);
         var details_div = dojo.create('div',{class: "firmosGridDetails", id: this.store.getIdentity(item)+'_details', style: 'display:none;'}, org_div);
         var row = this.row(item);
-//        this._events.push(dojo.connect(details_hidden_div, "onclick",this.showDetails.bind(this,row)));
-//        this._events.push(dojo.connect(details_div, "onclick",this.hideDetails.bind(this,row)));
-        var content_pane = dijit.byId(this.store.getIdentity(item)+'_cp');
-        if (!content_pane) {
-          content_pane = new dijit.layout.ContentPane({id: this.store.getIdentity(item)+'_cp'});
+        var content_container = dijit.byId(this.store.getIdentity(item)+'_cc');
+        if (!content_container) {
+          content_container = new dijit.layout.ContentPane({id: this.store.getIdentity(item)+'_cc'});
+          var content_pane = new dijit.layout.ContentPane({id: this.store.getIdentity(item)+'_cp'});
+          content_container.addChild(content_pane);
         }
-        dojo.place(content_pane.domNode,org_div);
+        dojo.place(content_container.domNode,org_div);
       }
     }
     return org_div;
@@ -2080,7 +2080,8 @@ dojo.declare("FIRMOS.GridBase", null, {
   showDetails: function(row) {
     rowId = this.store.getIdentity(row.data);
     G_UI_COM.setGridDetailsId(rowId);
-    G_SERVER_COM.callServerFunction(row.data._detailsfunc_.classname,row.data._detailsfunc_.functionname,row.data._detailsfunc_.uidPath,row.data._detailsfunc_.params,this.detailsCallback.bind(this),this.store.getIdentity(row.data)+'_cp');
+    var content_container = dijit.byId(this.store.getIdentity(row.data)+'_cc');
+    G_SERVER_COM.callServerFunction(row.data._detailsfunc_.classname,row.data._detailsfunc_.functionname,row.data._detailsfunc_.uidPath,row.data._detailsfunc_.params,this.detailsCallback.bind(this),content_container.getChildren()[0].id);
     var details_hidden_div = dojo.byId(rowId+'_details_hidden');
     var details_loading_div = dojo.byId(rowId+'_details_loading');
     dojo.style(details_hidden_div,'display','none');
@@ -2092,8 +2093,8 @@ dojo.declare("FIRMOS.GridBase", null, {
     var details_div = dojo.byId(uiState.gridDetailsId+'_details');
     dojo.style(details_loading_div,'display','none');
     dojo.style(details_div,'display','');
-    var content_pane = dijit.byId(uiState.gridDetailsId+'_cp');
-    dojo.style(content_pane.domNode,'display','');
+    var content_container = dijit.byId(uiState.gridDetailsId+'_cc');
+    dojo.style(content_container.domNode,'display','');
   },
   hideDetails: function(row) {
     rowId = this.store.getIdentity(row.data);
@@ -2101,8 +2102,8 @@ dojo.declare("FIRMOS.GridBase", null, {
     var details_div = dojo.byId(rowId+'_details');
     dojo.style(details_hidden_div,'display','');
     dojo.style(details_div,'display','none');
-    var content_pane = dijit.byId(rowId+'_cp');
-    dojo.style(content_pane.domNode,'display','none');
+    var content_container = dijit.byId(rowId+'_cc');
+    dojo.style(content_container.domNode,'display','none');
   },
   onContextMenu: function(event) {
     var row = this.row(event);
