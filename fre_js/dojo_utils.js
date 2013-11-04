@@ -45,7 +45,12 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
     } else {
       var protocol_postfix = 'NEW';
     }
-    this.ws = new WebSocket('ws://'+window.location.hostname+':'+window.location.port+'/FirmOS_FRE_WS','FirmOS-FREDB-'+protocol_postfix);
+    if ("https:" == document.location.protocol) {
+      var protocol_prefix = 'wss://';
+    } else {
+      var protocol_prefix = 'ws://';
+    }
+    this.ws = new WebSocket(protocol_prefix+window.location.hostname+':'+window.location.port+'/FirmOS_FRE_WS','FirmOS-FREDB-'+protocol_postfix);
     this.ws.binaryType = 'arraybuffer';
     this.ws.onmessage = this.wsMessageListener.bind(this);
     this.ws.onclose = this.wsCloseListener.bind(this);
@@ -6574,7 +6579,12 @@ dojo.declare("FIRMOS.VNC", dijit.layout.BorderContainer, {
   },
   connect: function() {
     this.state = 'connecting';
-    this.ws = new WebSocket('ws://'+window.location.hostname+':'+window.location.port+'/FirmOS_FRE_WS','FirmOS-VC|'+this.host+'|'+this.port);
+    if ("https:" == document.location.protocol) {
+      var protocol_prefix = 'wss://';
+    } else {
+      var protocol_prefix = 'ws://';
+    }
+    this.ws = new WebSocket(protocol_prefix+window.location.hostname+':'+window.location.port+'/FirmOS_FRE_WS','FirmOS-VC|'+this.host+'|'+this.port);
     this.ws.binaryType = 'arraybuffer';
     this.ws.onopen = this.wsOpenListener.bind(this);
     this.ws.onmessage = this.wsMessageListener.bind(this);
