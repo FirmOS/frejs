@@ -3510,7 +3510,12 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
 //ToolbarButton
 dojo.declare("FIRMOS.ToolbarButton", dijit.form.Button, {
   onClick: function() {
-    G_SERVER_COM.callServerFunction(this.actionClassname,this.actionFunctionname,this.actionUidPath,this.actionParams);
+    if (this.downloadId) {
+       dojo.io.iframe.setSrc(dojo.byId('FirmOSDownload'),this.downloadId,true);
+    }
+    if (this.actionClassname) {
+      G_SERVER_COM.callServerFunction(this.actionClassname,this.actionFunctionname,this.actionUidPath,this.actionParams);
+    }
   }
 });
 
@@ -3534,12 +3539,16 @@ dojo.declare("FIRMOS.Toolbar", dijit.Toolbar, {
       } else {
         var entry = this.menuDef[i];
 
-        var params = {
-          actionClassname: entry.action.class,
-          actionFunctionname: entry.action.func,
-          actionUidPath: entry.action.uidPath,
-          actionParams: entry.action.params,
-        };
+        var params = {};
+        if (entry.action) {
+          params.actionClassname = entry.action.class;
+          params.actionFunctionname = entry.action.func;
+          params.actionUidPath = entry.action.uidPath;
+          params.actionParams = entry.action.params;
+        }
+        if (entry.downloadId) {
+          params.downloadId = entry.downloadId;
+        }
         if (entry.caption=='') {
           params.showLabel=false;
         } else {
