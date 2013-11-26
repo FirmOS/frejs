@@ -6344,8 +6344,8 @@ dojo.declare("FIRMOS.Editor", dijit.layout.BorderContainer, {
   destroy: function() {
     switch (this.editorType) {
       case 'aloha':
-        Aloha.unbind('aloha-editable-activated');
-        Aloha.unbind('aloha-editable-deactivated');
+        $(Aloha, 'body').unbind('aloha-editable-activated',this.startEditA.bind(this));
+        $(Aloha, 'body').unbind('aloha-editable-deactivated',this.pauseEditA.bind(this));
         break; 
       case 'codemirror':
         this.cm.off('focus',this.startEditCM.bind(this));
