@@ -118,8 +118,12 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
     G_UI_COM.clearUIState();
     this.reqId ++;
   },
+
+  handleAsyncServerRequest: function(response) {
+    this.handleServerFunctionResponse({},true,response,G_UI_COM.getUIState());
+  },
   
-  handleServerRequest: function(response) {
+  handleSyncServerRequest: function(response) {
     this.handleServerFunctionResponse({},true,response,G_UI_COM.getUIState());
     var messageObj = {
       rId: response.rid,
@@ -176,7 +180,10 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
         }
         break;
       case 'S':
-        this.handleServerRequest(response);
+        this.handleSyncServerRequest(response);
+        break;
+      case 'A':
+        this.handleAsyncServerRequest(response);
         break;
       default:
         console.error(' Error => Unknown Server Request Type: ' + response.rtype);
