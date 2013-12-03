@@ -771,6 +771,9 @@ dojo.declare("FIRMOS.uiHandler", null, {
         G_UI_COM.createCSSRule(rName,"background-image: url('"+entries[i].icon+"');background-repeat: no-repeat; height: 18px;text-align: center;width: 18px;");
         cParams.iconClass = rName;
       }
+      if (entries[i].id) {
+        cParams.id = entries[i].id;
+      }
       if (entries[i].menu) {
         var subMenu = new dijit.Menu();
         this.addMenuEntries(subMenu,entries[i].menu);
@@ -879,10 +882,13 @@ dojo.declare("FIRMOS.uiHandler", null, {
     delete this.sitemap_;
   },
   
-  setButtonState: function(buttonId,disabled) {
+  setButtonState: function(buttonId,disabled,newCaption) {
     var button = dijit.byId(buttonId);
     if (button) {
       button.set('disabled',disabled);
+      if (newCaption!='') {
+        button.set('label',newCaption);
+      }
     }
   },
   
@@ -1714,7 +1720,7 @@ _GridDnDSource = dojo.declare("FIRMOS.GridDnDSource",dgrid.DnD.GridSource, {
     var t = new dojo.NodeList();
     for (var id in this.grid.selection) {
       var obj = this.grid.row(id).data;
-      if ((!this.grid.dragObjClasses_ || (obj.objectclass in this.grid.dragObjClasses_)) && !obj._disabledrag_) {
+      if ((!this.grid.dragClasses_ || (obj.dndclass in this.grid.dragClasses_)) && !obj._disabledrag_) {
         t.push(this._selectedNodes[id]);
       } else {
         error_objs.push(obj);
@@ -1726,7 +1732,7 @@ _GridDnDSource = dojo.declare("FIRMOS.GridDnDSource",dgrid.DnD.GridSource, {
         str+=', '+this.grid.store.getLabel(error_objs[i]);
       }
       str=str.substr(2);
-      console.error('Object(s) not dragable ' + str); //FIXXME - ALERT - MESSAGE - TOOLTIP?
+      console.log('Object(s) not dragable ' + str);
       return [];
     } else {
       return t;  // NodeList
@@ -1837,13 +1843,13 @@ _GridDnDSource = dojo.declare("FIRMOS.GridDnDSource",dgrid.DnD.GridSource, {
       }
       if(this.current != this.targetAnchor || before != this.before){
         this._markTargetAnchor(before);
-        if (!(this.grid.dropObjClassesMultiple_ || this.grid.dropObjClassesSimple_)) { //no drop classes defined => allow drop everywhere
+        if (!(this.grid.dropClassesMultiple_ || this.grid.dropClassesSimple_)) { //no drop classes defined => allow drop everywhere
           m.canDrop(true);
         } else {
           if (this.current) {
             var obj = this.grid.row(this.current).data;
-            if (((this.grid.dropObjClassesSingle_ && (obj.objectclass in this.grid.dropObjClassesSingle_) && (this.grid.selection_.length==1)) || 
-                 (this.grid.dropObjClassesMultiple_ && (obj.objectclass in this.grid.dropObjClassesMultiple_))) && 
+            if (((this.grid.dropClassesSingle_ && (obj.dndclass in this.grid.dropClassesSingle_) && (this.grid.selection_.length==1)) || 
+                 (this.grid.dropClassesMultiple_ && (obj.dndclass in this.grid.dropClassesMultiple_))) && 
                 !obj._disabledrop_) {
               var target_in_selection = false;
               for (var i=0; i<this.grid.selection_.length; i++) {
@@ -1883,26 +1889,26 @@ dojo.declare("FIRMOS.GridDnD", dgrid.DnD, {
 dojo.declare("FIRMOS.GridBase", null, {
   _events: [],
   constructor: function(args) {
-    if (args.dragObjClasses) {
-      this.dragObjClasses_ = {};
-      for (var i=0; i<args.dragObjClasses.length; i++) {
-        this.dragObjClasses_[args.dragObjClasses[i]] = true;
+    if (args.dragClasses) {
+      this.dragClasses_ = {};
+      for (var i=0; i<args.dragClasses.length; i++) {
+        this.dragClasses_[args.dragClasses[i]] = true;
       }
-      delete args.dragObjClasses;
+      delete args.dragClasses;
     }
-    if (args.dropObjClassesMultiple) {
-      this.dropObjClassesMultiple_ = {};
-      for (var i=0; i<args.dropObjClassesMultiple.length; i++) {
-        this.dropObjClassesMultiple_[args.dropObjClassesMultiple[i]] = true;
+    if (args.dropClassesMultiple) {
+      this.dropClassesMultiple_ = {};
+      for (var i=0; i<args.dropClassesMultiple.length; i++) {
+        this.dropClassesMultiple_[args.dropClassesMultiple[i]] = true;
       }
-      delete args.dropObjClassesMultiple;
+      delete args.dropClassesMultiple;
     }
-    if (args.dropObjClassesSingle) {
-      this.dropObjClassesSingle_ = {};
-      for (var i=0; i<args.dropObjClassesSingle.length; i++) {
-        this.dropObjClassesSingle_[args.dropObjClassesSingle[i]] = true;
+    if (args.dropClassesSingle) {
+      this.dropClassesSingle_ = {};
+      for (var i=0; i<args.dropClassesSingle.length; i++) {
+        this.dropClassesSingle_[args.dropClassesSingle[i]] = true;
       }
-      delete args.dropObjClassesSingle;
+      delete args.dropClassesSingle;
     }
     this.depStores_ = new Array();
     this.buttons_ = new Array();
@@ -3538,10 +3544,14 @@ dojo.declare("FIRMOS.Toolbar", dijit.Toolbar, {
         var menu = new dijit.DropDownMenu({ style: "display: none;"});
         G_UI_COM.addMenuEntries(menu,this.menuDef[i].menu,null);
         //menu.addEntries(this.menuDef[i].menu);
-        var button = new dijit.form.DropDownButton({
+        var params = {
           label: this.menuDef[i].caption,
           dropDown: menu
-        });
+        };
+        if (this.menuDef[i].id) {
+          params.id = this.menuDef[i].id;
+        }
+        var button = new dijit.form.DropDownButton(params);
         this.addChild(button);
       } else {
         var entry = this.menuDef[i];
@@ -3568,6 +3578,9 @@ dojo.declare("FIRMOS.Toolbar", dijit.Toolbar, {
         }
         if (entry.disabled) {
           params.disabled = true;
+        }
+        if (entry.id) {
+          params.id = entry.id;
         }
         
         var button=new FIRMOS.ToolbarButton(params);
