@@ -761,11 +761,11 @@ dojo.declare("FIRMOS.uiHandler", null, {
     }
   },
   
-  addMenuEntries: function(menu,entries) {
+  addMenuEntries: function(menu,entries,disabled) {
     for (var i=0; i<entries.length; i++) {
       var cParams = {};
       cParams.label = entries[i].caption;
-      cParams.disabled = entries[i].disabled;
+      cParams.disabled = entries[i].disabled || disabled;
       if (entries[i].icon) {
         var rName = entries[i].icon.replace(/[\/\.]/g,'');
         G_UI_COM.createCSSRule(rName,"background-image: url('"+entries[i].icon+"');background-repeat: no-repeat; height: 18px;text-align: center;width: 18px;");
@@ -776,7 +776,7 @@ dojo.declare("FIRMOS.uiHandler", null, {
       }
       if (entries[i].menu) {
         var subMenu = new dijit.Menu();
-        this.addMenuEntries(subMenu,entries[i].menu);
+        this.addMenuEntries(subMenu,entries[i].menu,cParams.disabled);
         cParams.popup = subMenu;
         var subMenuEntry = new dijit.PopupMenuItem(cParams);
         menu.addChild(subMenuEntry);
@@ -3542,8 +3542,7 @@ dojo.declare("FIRMOS.Toolbar", dijit.Toolbar, {
       if (this.menuDef[i].menu) {
         //submenu
         var menu = new dijit.DropDownMenu({ style: "display: none;"});
-        G_UI_COM.addMenuEntries(menu,this.menuDef[i].menu,null);
-        //menu.addEntries(this.menuDef[i].menu);
+        G_UI_COM.addMenuEntries(menu,this.menuDef[i].menu,this.menuDef[i].disabled);
         var params = {
           label: this.menuDef[i].caption,
           dropDown: menu
@@ -3609,7 +3608,7 @@ dojo.declare("FIRMOS.Menu", dijit.Menu, {
   
   entriesLoaded: function(entries) {
     this._clearEntries();
-    G_UI_COM.addMenuEntries(this,entries);
+    G_UI_COM.addMenuEntries(this,entries,false);
     this.startup();
     this._openMyself(this._openMyselfArgs,true);
   },
