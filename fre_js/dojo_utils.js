@@ -762,6 +762,7 @@ dojo.declare("FIRMOS.uiHandler", null, {
   },
   
   addMenuEntries: function(menu,entries,disabled) {
+    var all_disabled = true;
     for (var i=0; i<entries.length; i++) {
       var cParams = {};
       cParams.label = entries[i].caption;
@@ -771,16 +772,21 @@ dojo.declare("FIRMOS.uiHandler", null, {
         G_UI_COM.createCSSRule(rName,"background-image: url('"+entries[i].icon+"');background-repeat: no-repeat; height: 18px;text-align: center;width: 18px;");
         cParams.iconClass = rName;
       }
-      if (entries[i].id) {
-        cParams.id = entries[i].id;
-      }
       if (entries[i].menu) {
-        var subMenu = new dijit.Menu();
-        this.addMenuEntries(subMenu,entries[i].menu,cParams.disabled);
+        var mParams = {};
+        if (entries[i].id) {
+          mParams.id = entries[i].id;
+        }
+        var subMenu = new dijit.Menu(mParams);
+        cParams.disabled = this.addMenuEntries(subMenu,entries[i].menu,cParams.disabled) || cParams.disabled;
         cParams.popup = subMenu;
         var subMenuEntry = new dijit.PopupMenuItem(cParams);
+        subMenu._parentUIElement = subMenuEntry;
         menu.addChild(subMenuEntry);
       } else {
+        if (entries[i].id) {
+          cParams.id = entries[i].id;
+        }
         if (entries[i].action) {
           cParams._action = entries[i].action;
           cParams.onClick = function() {
@@ -882,13 +888,67 @@ dojo.declare("FIRMOS.uiHandler", null, {
     delete this.sitemap_;
   },
   
-  setButtonState: function(buttonId,disabled,newCaption) {
-    var button = dijit.byId(buttonId);
-    if (button) {
-      button.set('disabled',disabled);
-      if (newCaption!='') {
-        button.set('label',newCaption);
+  _updateElement: function(element,disabled) {
+     element.set('disabled',disabled);
+     if (element._parentUIElement) {
+       element._parentUIElement.set('disabled',disabled);
+     }
+  },
+  
+  _updateChildElements: function(element,disabled) {
+    if (element.isInstanceOf(dijit.Menu) || element.isInstanceOf(dijit.DropDownMenu) || element.isInstanceOf(dijit.PopupMenuItem)) { 
+      if (element.isInstanceOf(dijit.PopupMenuItem)) {
+        var children = element.popup.getChildren();
+      } else {
+        var children = element.getChildren();
       }
+      for (var i=0; i<children.length; i++) {
+        this._updateElement(children[i],disabled);
+        this._updateChildElements(children[i],disabled);
+      }
+    }
+  },
+  
+  _updateParent: function(element) {
+    if (element._parentUIElement) {
+      var parent = element._parentUIElement.getParent();
+    } else {
+      var parent = element.getParent();
+    }
+    if (parent.isInstanceOf(dijit.Menu) || parent.isInstanceOf(dijit.DropDownMenu)) {
+      var children = parent.getChildren();
+      var all_disabled = true;
+      for (var i=0; i<children.length; i++) {
+        if (!children[i].get('disabled')) {
+          all_disabled = false;
+          break;
+        }
+      }
+      if (parent.get('disabled')!=all_disabled) {
+        this._updateElement(parent,all_disabled);
+        this._updateParent(parent);
+      }
+    }
+  },
+  
+  updateUIElement: function(elementId,disabled,newCaption) {
+    var element = dijit.byId(elementId);
+    if (element) {
+      this._updateElement(element,disabled);
+      if (newCaption!='') {
+        element.set('label',newCaption);
+      }
+      this._updateChildElements(element,disabled);
+      this._updateParent(element);
+    }
+  },
+  
+  updateUIElementSubmenu: function(elementId, menuDef) {
+    var element = dijit.byId(elementId);
+    if (element) {
+      element.destroyDescendants();
+      var disabled = G_UI_COM.addMenuEntries(element,menuDef,element.get('disabled'));
+      this._updateElement(element,disabled);
     }
   },
   
@@ -3541,16 +3601,22 @@ dojo.declare("FIRMOS.Toolbar", dijit.Toolbar, {
     for (var i=0; i<this.menuDef.length; i++) {
       if (this.menuDef[i].menu) {
         //submenu
-        var menu = new dijit.DropDownMenu({ style: "display: none;"});
-        G_UI_COM.addMenuEntries(menu,this.menuDef[i].menu,this.menuDef[i].disabled);
-        var params = {
-          label: this.menuDef[i].caption,
-          dropDown: menu
+        var dd_params = {
+          style: "display: none;"
         };
         if (this.menuDef[i].id) {
-          params.id = this.menuDef[i].id;
+          dd_params.id = this.menuDef[i].id;
         }
+        var menu = new dijit.DropDownMenu(dd_params);
+        var disabled = G_UI_COM.addMenuEntries(menu,this.menuDef[i].menu,this.menuDef[i].disabled);
+        menu.set('disabled',disabled);
+        var params = {
+          label: this.menuDef[i].caption,
+          dropDown: menu,
+          disabled: disabled
+        };
         var button = new dijit.form.DropDownButton(params);
+        menu._parentUIElement = button;
         this.addChild(button);
       } else {
         var entry = this.menuDef[i];
