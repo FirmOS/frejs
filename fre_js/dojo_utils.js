@@ -801,7 +801,9 @@ dojo.declare("FIRMOS.uiHandler", null, {
         }
         menu.addChild(new dijit.MenuItem(cParams));
       }
+      all_disabled = all_disabled && cParams.disabled;
     }
+    return all_disabled;
   },
   
   _handleTabContainer: function(child, baseContainer, sectionIds, toggleMultiContainer) {
