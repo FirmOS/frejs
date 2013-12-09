@@ -659,6 +659,10 @@ dojo.declare("FIRMOS.uiHandler", null, {
     }
   },
   
+  setStoreDepData: function(id, depObj) {
+    this.storeDepData[id] = depObj;
+  },
+  
   setStoreDependency: function(storeId, depField, depType, depValues, numDepType) {
     var depObj = new Object();
     depObj.filterfieldname = depField;
@@ -1095,6 +1099,7 @@ dojo.declare("FIRMOS.Store", null, {
       G_SERVER_COM.callServerFunction(this.destroyClassname, this.destroyFunctionname, this.destroyUidPath, this.destroyParams);
     }
     G_UI_COM.unregisterStore(this);
+    G_UI_COM.setStoreDepData(this.id,this.params_.dependency);
     this.inherited(arguments);
   },
   close: function(request) {
@@ -1949,7 +1954,6 @@ dojo.declare("FIRMOS.GridDnD", dgrid.DnD, {
 
 //GridBase
 dojo.declare("FIRMOS.GridBase", null, {
-  _events: [],
   constructor: function(args) {
     if (args.dragClasses) {
       this.dragClasses_ = {};
@@ -1976,6 +1980,7 @@ dojo.declare("FIRMOS.GridBase", null, {
     this.buttons_ = new Array();
     this.storeRefreshHandler_ = new Object();
     this.selection_ = new Array();
+    this._events = new Array();
     G_UI_COM.registerStoreView(args.store.id,this);
     if (args.selDepClassname) {
       this.id = args.id;
@@ -3201,9 +3206,11 @@ dojo.declare("FIRMOS.FileUpload.Image", dojox.form.uploader._Base, {
   imgheight: 100,
   imgwidth: 100,
   imgabs: false,
-  _events: [],
 
   templateString: '<div class="firmosUploaderImage"></div>',
+  constructor: function(params) {
+    this._events = new Array();
+  },
   destroy: function() {
     while (this._events.length>0) {
       this._events.pop().remove();
@@ -4713,7 +4720,7 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
       }
     }
     G_UI_COM.createCSSRule("d3axis path, .axis line","fill: none;shape-rendering: crispedges;stroke: #000000;");
-    this._events = [];
+    this._events = new Array();
     this.container = null;
     this.svg = null;
     this.svgMainG = null;
@@ -5471,7 +5478,9 @@ dojo.declare("FIRMOS.Chart",dojox.charting.widget.Chart, {
 
 //TopMenu
 dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
-  _events: [],
+  constructor: function(params) {
+    this._events = new Array();
+  },
   destroy: function() {
     while (this._events.length>0) {
       this._events.pop().remove();
@@ -5535,7 +5544,7 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
 //Sitemap
 dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
   constructor: function() {
-    this._events = [];
+    this._events = new Array();
     this.mainEntriesCP = null;
     this.detailsCP = null;
     this.mainEntriesContainer = null;
@@ -6388,11 +6397,11 @@ dojo.declare("FIRMOS.gridPBColumn", null, {
 
 //gridDetailsColumn
 dojo.declare("FIRMOS.gridDetailsColumn", null, {
-  _events: [],
   constructor: function() {
     this.label = '';
     this.className = 'dgrid-details';
     this.unhidable = true;
+    this._events = new Array();
     return this;
   },
   destroy: function() {
@@ -6599,7 +6608,7 @@ dojo.declare("FIRMOS.VNC", dijit.layout.BorderContainer, {
     this.intervalId = null;
     this.scale = 1;
     this.isActive = false;
-    this._events = [];
+    this._events = new Array();
   },
   destroy: function() {
     this.disconnect();
