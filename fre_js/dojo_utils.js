@@ -1914,8 +1914,8 @@ _GridDnDSource = dojo.declare("FIRMOS.GridDnDSource",dgrid.DnD.GridSource, {
                  (this.grid.dropClassesMultiple_ && (obj.dndclass in this.grid.dropClassesMultiple_))) && 
                 !obj._disabledrop_) {
               var target_in_selection = false;
-              for (var i=0; i<this.grid.selection_.length; i++) {
-                if (this.grid.selection_[i]==this.grid.store.getIdentity(obj)) {
+              for (var i=0; i<m.nodes.length; i++) {
+                if (m.source.grid.store.getIdentity(m.source.grid.row(m.nodes[i]))==this.grid.store.getIdentity(obj)) {
                   target_in_selection = true;
                   break;
                 }
@@ -1938,11 +1938,11 @@ _GridDnDSource = dojo.declare("FIRMOS.GridDnDSource",dgrid.DnD.GridSource, {
 });
 
 dojo.declare("FIRMOS.GridDnD", dgrid.DnD, {
-  dndAcceptType: "dgrid-row",
+  dndAcceptType: ["dgrid-row"],
   dndConstructor: _GridDnDSource,
   postMixInProperties: function() {
     this.inherited(arguments);
-    this.dndParams = dojo.mixin(this.dndParams, { accept: [this.dndAcceptType] });
+    this.dndParams = dojo.mixin(this.dndParams, { accept: this.dndAcceptType });
   }
 });
 
