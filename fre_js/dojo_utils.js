@@ -1531,7 +1531,8 @@ dojo.declare("FIRMOS.Store", null, {
               continue; //skip queries for the 'wrong' parent
             }
             revIdNotFound = false;
-            for (var o=0; o<this.queryResults_[qpos[q].queryId].observer.length; o++) {
+            var found_count = this.queryResults_[qpos[q].queryId].observer.length;
+            for (var o=0; o<found_count; o++) {
               if (data[i].revisprev) {
                 qpos[q].pos = qpos[q].pos + 1;
               }
@@ -1579,7 +1580,8 @@ dojo.declare("FIRMOS.Store", null, {
         for (var q=0; q<qpos.length; q++) {
           this._removeChildrenQuerys(itemIds[i]);
           this.queryResults_[qpos[q].queryId].dataIds.splice(qpos[q].pos,1);
-          for (var o=0; o<this.queryResults_[qpos[q].queryId].observer.length; o++) {
+          var found_count = this.queryResults_[qpos[q].queryId].observer.length;
+          for (var o=0; o<fount_count; o++) {
             this.queryResults_[qpos[q].queryId].observer[o](tmpData,qpos[q].pos,-1);
           }
         }
@@ -1602,7 +1604,8 @@ dojo.declare("FIRMOS.Store", null, {
       if (qpos.length>0) {
         notFound = false;
         for (var q=0; q<qpos.length; q++) {
-          for (var o=0; o<this.queryResults_[qpos[q].queryId].observer.length; o++) {
+          var found_count = this.queryResults_[qpos[q].queryId].observer.length;
+          for (var o=0; o<found_count; o++) {
             if (this.queryResults_[qpos[q].queryId].observerInfo[o]) {
               var views = G_UI_COM.getStoreById(this.id).views;
               for (var v=0; v<views.length; v++) {
