@@ -4405,6 +4405,7 @@ dojo.declare("FIRMOS.GridFilter",null, {
     for (var i=0; i<headerNodes.length; i++) {
       var colId = headerNodes[i].columnId;
       if (!this.columns[colId]) continue;
+      if (!this.columns[colId].filterable) continue;
       if (!this.columns[colId].dataType || this.columns[colId].dataType=='ICO') continue;
 
       var button = dijit.byId(this.id+'_'+colId+'_ddb');
