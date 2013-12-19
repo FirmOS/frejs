@@ -1581,7 +1581,7 @@ dojo.declare("FIRMOS.Store", null, {
           this._removeChildrenQuerys(itemIds[i]);
           this.queryResults_[qpos[q].queryId].dataIds.splice(qpos[q].pos,1);
           var found_count = this.queryResults_[qpos[q].queryId].observer.length;
-          for (var o=0; o<fount_count; o++) {
+          for (var o=0; o<found_count; o++) {
             this.queryResults_[qpos[q].queryId].observer[o](tmpData,qpos[q].pos,-1);
           }
         }
