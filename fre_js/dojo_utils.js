@@ -386,6 +386,7 @@ dojo.declare("FIRMOS.uiHandler", null, {
           if (old_content) {
             if (old_content.region) {
               panel.updatingRegion_ = old_content.region;
+              panel.updatingStyle_ = old_content.style;
             }
             panel.removeChild(old_content);
             old_content.destroyRecursive();
@@ -415,6 +416,8 @@ dojo.declare("FIRMOS.uiHandler", null, {
         if (panel.updatingRegion_) {
           result.set('region',panel.updatingRegion_);
           delete panel.updatingRegion_;
+          result.set('style',panel.updatingStyle_);
+          delete panel.updatingStyle_;
         }
         if (panel.isInstanceOf(dijit.layout.ContentPane)) {
           panel.set('content',result);
@@ -1992,6 +1995,8 @@ dojo.declare("FIRMOS.GridBase", null, {
   },
   destroy: function() {
     G_UI_COM.unregisterStoreView(this.store.id,this);
+    this.selection = {};
+    this.notifyServer();
     if (this.selDepClassname) {
       G_UI_COM.unregisterSelDepFunc(this.selDepClassname, this.selDepFunctionname, this);
     }
@@ -2095,7 +2100,7 @@ dojo.declare("FIRMOS.GridBase", null, {
   onSelectionChanged: function(event,selection) {
     this.refreshDepStores(selection);
     this.refreshButtons(selection);
-    this.refreshContent(selection);
+    this.notifyServer();
   },
   updateRow: function(object, before, to, options) {
     if(!before || before.parentNode){
@@ -2243,7 +2248,7 @@ dojo.declare("FIRMOS.GridBase", null, {
       }
     }
   },
-  refreshContent: function(selection) {
+  notifyServer: function() {
     if (this.selDepClassname) {
       G_SERVER_COM.callServerFunction(this.selDepClassname,this.selDepFunctionname,this.selDepUidPath, this.selDepParams, null, dijit.byId(this.parentId).getParent()._contentId || null);
     }
@@ -6450,15 +6455,33 @@ dojo.declare("FIRMOS.Editor", dijit.layout.BorderContainer, {
   texts: G_TEXTS.editor,
   _editorStarted: false,
   _savedContent: '',
+  constructor: function(args) {
+    switch (args.contentType) {
+      case 'ct_html': 
+        this.editorType = 'aloha';
+        this.startEditAHandler = this.startEditA.bind(this);
+        this.pauseEditAHandler = this.pauseEditA.bind(this);
+        break;
+      case 'ct_javascript':
+      case 'ct_pascal':
+        this.editorType = 'codemirror';
+        this.startEditCMHandler = this.startEditCM.bind(this);
+        this.pauseEditCMHandler = this.pauseEditCM.bind(this);
+        break;
+      default:
+        console.error('Unknown content type ' + args.contentType);
+        break;
+    }
+  },
   destroy: function() {
     switch (this.editorType) {
       case 'aloha':
-        $(Aloha, 'body').unbind('aloha-editable-activated',this.startEditA.bind(this));
-        $(Aloha, 'body').unbind('aloha-editable-deactivated',this.pauseEditA.bind(this));
+        $(Aloha, 'body').unbind('aloha-editable-activated',this.startEditAHandler);
+        $(Aloha, 'body').unbind('aloha-editable-deactivated',this.pauseEditAHandler);
         break; 
       case 'codemirror':
-        this.cm.off('focus',this.startEditCM.bind(this));
-        this.cm.off('blur',this.pauseEditCM.bind(this));
+        this.cm.off('focus',this.startEditCMHandler);
+        this.cm.off('blur',this.pauseEditCMHandler);
         break;
     }
     if (this.editableContent) {
@@ -6470,14 +6493,22 @@ dojo.declare("FIRMOS.Editor", dijit.layout.BorderContainer, {
     this.inherited(arguments);
     this.editorCP = new dijit.layout.ContentPane({region: 'center', splitter: false});
     this.editorCP.set('content','<div id="'+this.id+'_container" style="width:100%; height:100%; background-color:#fff; overflow:hidden;" class="article"></div>');
-    this.toolbar=new dijit.Toolbar({region: "bottom"})
+    if (this.tbBottom) {
+      this.toolbar=new dijit.Toolbar({region: "bottom"});
+      var button_style = '';
+    } else {
+      this.toolbar=new dijit.Toolbar({region: "top"});
+      var button_style = 'float:right;';
+    }
     this.saveButton=new dijit.form.Button({label:this.texts.saveButton
                                           ,disabled:true
-                                          ,onClick:this.save.bind(this)});
+                                          ,onClick:this.save.bind(this)
+                                          ,style: button_style});
     this.toolbar.addChild(this.saveButton);
     this.resetButton=new dijit.form.Button({label:this.texts.resetButton
                                            ,disabled: true
-                                           ,onClick:this.load.bind(this)});
+                                           ,onClick:this.load.bind(this)
+                                           ,style: button_style});
     this.toolbar.addChild(this.resetButton);
 
     this.addChild(this.toolbar);
@@ -6486,26 +6517,22 @@ dojo.declare("FIRMOS.Editor", dijit.layout.BorderContainer, {
     setTimeout(this.startEditor.bind(this),0);
   },
   startEditor: function() {
-    switch (this.contentType) {
-      case 'ct_html': 
-        this.editorType = 'aloha';
+    switch (this.editorType) {
+      case 'aloha':
         $('#'+this.id+'_container').aloha();
         this.editableContent = Aloha.getEditableById(this.id+'_container');
-        Aloha.bind('aloha-editable-activated',this.startEditA.bind(this));
-        Aloha.bind('aloha-editable-deactivated',this.pauseEditA.bind(this));
+        Aloha.bind('aloha-editable-activated',this.startEditAHandler);
+        Aloha.bind('aloha-editable-deactivated',this.pauseEditAHandler);
         break;
-      case 'ct_javascript':
-      case 'ct_pascal':
-        this.editorType = 'codemirror';
+      case 'codemirror':
         this.cm = CodeMirror(dojo.byId(this.id+'_container'), {
           lineNumbers: true,
           mode:  this.contentType.substring(3)
         });
-        this.cm.on('focus',this.startEditCM.bind(this));  // 'beforeChange' event?
-        this.cm.on('blur',this.pauseEditCM.bind(this));
+        this.cm.on('focus',this.startEditCMHandler);  // 'beforeChange' event?
+        this.cm.on('blur',this.pauseEditCMHandler);
         break;
       default:
-        console.error('Unknown content type ' + this.contentType);
         return;
         break;
     }
