@@ -58,7 +58,7 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
     this.ws.onopen = this.wsOpenListener.bind(this);
   },
   
-  callServerFunction: function(classname, functionname, uidPath, params, callback, contentId) {
+  callServerFunction: function(classname, functionname, uidPath, params, callback, contentId, blob) {
     var ret = G_UI_COM.beforeCallServerFunction(classname, functionname, uidPath, params);
     if (ret.abort) return;
     if (ret.uidPath) uidPath = ret.uidPath;
@@ -69,18 +69,18 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
         console.log('DOCUMENT LOADING => WAIT');
         this._logLoadingError = false;
       }
-      setTimeout(this.callServerFunction.bind(this, classname, functionname, uidPath, params, callback, contentId), 10);
+      setTimeout(this.callServerFunction.bind(this, classname, functionname, uidPath, params, callback, contentId, blob), 10);
       return;
     }
     if (this.ws.readyState!=1) { // NOT OPEN => try again
       switch (this.ws.readyState) {
         case 0: //CONNECTING
           console.log('WS CONNECTING => WAIT');
-          setTimeout(this.callServerFunction.bind(this, classname, functionname, uidPath, params, callback, contentId), 10);
+          setTimeout(this.callServerFunction.bind(this, classname, functionname, uidPath, params, callback, contentId, blob), 10);
           break;
         case 2: //CLOSING
           console.log('WS CLOSING => WAIT');
-          setTimeout(this.callServerFunction.bind(this, classname, functionname, uidPath, params, callback, contentId), 100);
+          setTimeout(this.callServerFunction.bind(this, classname, functionname, uidPath, params, callback, contentId, blob), 100);
           break;
         case 3: //CLOSED
           console.log('WS CLOSED => RECREATE');
@@ -90,7 +90,7 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
       return;
     }
     console.log('WS OK => CALL');
-    console.log(classname + ' - ' + functionname + ' - ' + uidPath + ' - ' + JSON.stringify(params) + ' - STATE: ' + this.ws.readyState);
+    console.log(classname + ' - ' + functionname + ' - ' + uidPath + ' - ' + JSON.stringify(params) + ' - BLOB: ' + (typeof blob != 'undefined') + ' - STATE: ' + this.ws.readyState);
     var messageObj = {
       cn: classname,
       fn: functionname,
@@ -114,7 +114,18 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
                                 uiState: G_UI_COM.getUIState(),
                                 messageObj: messageObj
                                };
-    this.ws.send(this.encodeString2Message(message));
+    if (typeof blob=='undefined') {                           
+      this.ws.send(this.encodeString2Message(message));
+    } else {
+      var json = this.encodeString2Message(message);
+      var barr = new Uint8Array(4);
+      var json_length = json.length;
+      barr[3]=(json_length >> 24);
+      barr[2]=(json_length >> 16) & 0xFF;
+      barr[1]=(json_length >> 8) & 0xFF;
+      barr[0]=json_length & 0xFF;
+      this.ws.send(new Blob([barr,json,blob]));
+    }
     G_UI_COM.clearUIState();
     this.reqId ++;
   },
@@ -3514,11 +3525,44 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
     return res;
   },
 
-  callServerFunction: function(classname, functionname, uidPath, params, hiddenParams, isDialog) {
-    if (!this.validate()) { 
-      this.restoreAllButtons();
-      return false;
+  _handleFiles: function(classname, functionname, uidPath, params, hiddenParams, isDialog) {
+    var children = this.getChildren();
+    var files = [];
+    for (var i=0; i<children.length; i++) {
+      if (!children[i].name) continue; //skip non form elements
+      if (children[i].isInstanceOf(FIRMOS.FileUpload) && children[i]._files) {
+        for (var j=0; j<children[i]._files.length; j++) {
+          files.push({field: children[i].name, file: children[i]._files[j]});
+        }
+      }
     }
+    if (files.length>0) {
+      this._sendFiles(classname, functionname, uidPath, params, hiddenParams, isDialog, files);
+    } else {
+      this._sendData(classname, functionname, uidPath, params, hiddenParams, isDialog);
+    }
+  },
+  _sendFilesCallback: function(classname, functionname, uidPath, params, hiddenParams, isDialog, files) {
+    if (files.length==0) {
+      this._sendData(classname, functionname, uidPath, params, hiddenParams, isDialog)
+    } else {
+      this._sendFiles(classname, functionname, uidPath, params, hiddenParams, isDialog, files);
+    }
+  },
+  
+  _sendFiles: function(classname, functionname, uidPath, params, hiddenParams, isDialog, files) {
+     var filedata = files.pop();
+     var file = filedata.file;
+     params.data = {};
+     params.data.size = file.size;
+     params.data.name = file.name;
+     params.data.type = file.type;
+     params.data.field = filedata.field; 
+     var callback = this._sendFilesCallback.bind(this, classname, functionname, uidPath, params, hiddenParams, isDialog, files);
+     G_SERVER_COM.callServerFunction(classname, functionname, uidPath, params, callback, null, file);
+  },
+  
+  _sendData: function(classname, functionname, uidPath, params, hiddenParams, isDialog) {
     params.data = this.get('value');
     this.submitData = dojo.clone(params.data);
     if (this.sendChanged) {
@@ -3530,6 +3574,14 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
       G_UI_COM.isDialogAction();
     }
     G_SERVER_COM.callServerFunction(classname, functionname, uidPath, params, this.submitCallback.bind(this));
+  },
+  
+  callServerFunction: function(classname, functionname, uidPath, params, hiddenParams, isDialog) {
+    if (!this.validate()) { 
+      this.restoreAllButtons();
+      return false;
+    }
+    this._handleFiles(classname, functionname, uidPath, params, hiddenParams, isDialog);
   },
   
   submitCallback: function(options, success, response, uiState) {
