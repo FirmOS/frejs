@@ -18,6 +18,5 @@
 .firmos .dijitToolbar .dijitComboButtonHover .dijitDownArrowButton,.firmos .dijitToolbar .dijitComboButtonActive .dijitDownArrowButton{border-left-width:0;}
 .firmos .dijitToolbar .dijitComboButtonHover .dijitDownArrowButton{padding-left:2px;}
 .firmos .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode{margin:0;border-width:1px;border-style:solid;background-image:none;border-color:#1e1e1e;background-color:#ffffff;padding:1px;}
-.firmos .dijitToolbarSeparator{background:url("../../icons/images/editorIconsEnabled.png");}
 .firmos .dijitDisabled .dijitToolbar{background:none;background-color:#dddddd;border-bottom:1px solid #c4c4c4;}
 .firmos .dijitToolbar .dijitComboBoxDisabled .dijitArrowButtonInner{background-position:0 50%;}

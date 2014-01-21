@@ -92,7 +92,7 @@
 @arrowbutton-inner-border-color: @container-background-color;									// Typically the arrows have an inner white border (a.k.a. padding) and then an outer black-ish border
 
 // Slider
-// Note: any changes here require corresponding changes in form/images/sliderThumbs.png
+// Note: any changes here require corresponding changes in images/sliderThumbs.png
 @slider-fullbar-background-color: @primary-color;							// Background color for part of slider bar before (to the left or below) the handle
 @slider-remainingbar-background-color: @container-background-color;			// Background color for part of slider bar after (to the right or above) the handle
 @slider-hovered-fullbar-background-color: @minor-selected-color;			// Background color for part of bar of hovered slider before (to the left or below) the handle
@@ -183,14 +183,13 @@
 @image-dialog-close: "images/dialogCloseIcon.png";
 @image-dialog-close-ie6: "images/dialogCloseIcon8bit.png";
 @image-dnd: "images/dnd.png";
-@image-editor-icons-enabled: "../../icons/images/editorIconsEnabled.png";
-@image-form-button-arrows: "form/images/buttonArrows.png";
-@image-form-checkbox-and-radios: "form/images/checkboxRadioButtonStates.png";
-@image-form-checkbox-and-radios-ie6: "form/images/checkboxAndRadioButtons_IE6.png";
-@image-form-common-arrows: "form/images/commonFormArrows.png";
-@image-form-error: "form/images/error.png";
-@image-form-slider-thumbs: "form/images/sliderThumbs.png";
-@image-layout-tab-close: "layout/images/tabClose.png";	// [x] icon to close a tab
+@image-form-button-arrows: "images/buttonArrows.png";
+@image-form-checkbox-and-radios: "images/checkboxRadioButtonStates.png";
+@image-form-checkbox-and-radios-ie6: "images/checkboxAndRadioButtons_IE6.png";
+@image-form-common-arrows: "images/commonFormArrows.png";
+@image-form-error: "images/error.png";
+@image-form-slider-thumbs: "images/sliderThumbs.png";
+@image-layout-tab-close: "images/tabClose.png";	// [x] icon to close a tab
 @image-loading-animation: "images/loadingAnimation.gif";
 @image-tooltip: "images/tooltip.png";	// arrow connectors
 @image-tooltip-ie6: "images/tooltip8bit.png";	// arrow connectors (8 bit)
@@ -372,15 +371,15 @@
 	.linear-gradient(rgba(127,127,127,0.2) 0%, rgba(127,127,127,0) 2px);
 }
 
-.fos-shiny-gradient (@pathToRoot: "") {
-	background-image: url("@{pathToRoot}images/standardGradient.png");
+.fos-shiny-gradient () {//SEAS
+	background-image: url("images/standardGradient.png");
 	background-repeat: repeat-x;
 	.alpha-white-gradient(0.8, 0%, 0, 20%);
 	_background-image: none;
 }
 
 
-.standard-gradient (@pathToRoot: "") {
+.standard-gradient () {
 	// summary:
 	//		Light to dark background-image used by widgets with short height (~16px) including:
 	//			- MenuBar, and hovered MenuItem/MenuBarItem
@@ -389,7 +388,7 @@
 	//			- TitlePane title bar, AccordionContainer title bar, Dialog title bar
 
 	// Fallback for IE
-	background-image: url("@{pathToRoot}images/standardGradient.png");
+	background-image: url("images/standardGradient.png");
 	background-repeat: repeat-x;
 
 	// CSS gradient for other browsers
@@ -398,7 +397,7 @@
 	// IE6 can't handle a background-image with transparency and a background-color; the color is blocked out
 	_background-image: none;
 }
-.active-gradient (@pathToRoot: "") {
+.active-gradient () {
 	// summary:
 	//		Light to dark background-image with an inset gray shadow at the top,
 	//		used by widgets when they are active (ie: mousedown) or selected, including:
@@ -408,7 +407,7 @@
 	//			- active TitlePane title bar, AccordionContainer title bar
 
 	// Fallback for IE
-	background-image: url("@{pathToRoot}images/activeGradient.png");
+	background-image: url("images/activeGradient.png");
 	background-repeat: repeat-x;
 
 	// CSS gradient for other browsers

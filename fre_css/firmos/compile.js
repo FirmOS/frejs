@@ -15,16 +15,34 @@ var options = {
 
 
 var allFiles = [].concat(
-		fs.readdirSync("."),
-		fs.readdirSync("form").map(function(fname){ return "form/"+fname; }),
-		fs.readdirSync("layout").map(function(fname){ return "layout/"+fname; }),
-		fs.readdirSync("dgrid").map(function(fname){ return "dgrid/"+fname; }),
-		fs.readdirSync("dojox/widget/Calendar").map(function(fname){ return "dojox/widget/Calendar/"+fname; })
+		fs.readdirSync(".")
 	),
 	lessFiles = allFiles.filter(function(name){ return name && name != "variables.less" && /\.less$/.test(name); });
 
 var all_css = "";
 var files_processed = 0;
+
+var common_files = [
+"../../dojo/dojo/resources/dojo.css",
+"../../dojo/dijit/themes/dijit.css",
+"../../dojo/dojox/form/resources/CheckedMultiSelect.css",
+"../../dojo/dojox/form/resources/UploaderFileList.css",
+"../../dojo/dgrid/css/dgrid.css",
+"../../dojo/dijit/icons/commonIcons.css",
+"../../dojo/dijit/icons/editorIcons.css"
+]
+
+common_files.forEach(function(fname){
+  console.log(fname);
+  fs.readFile(fname, 'utf-8', function(e, data){
+    if(e){
+      console.error("lessc: " + e.message);
+	  process.exit(3);
+    }
+    all_css = all_css + data;
+    files_processed ++;
+  });
+});
 
 lessFiles.forEach(function(fname){
 	console.log("=== " + fname);
@@ -60,7 +78,7 @@ lessFiles.forEach(function(fname){
 });
 
 function writeAllCss() {
-  if (files_processed!=lessFiles.length) {
+  if (files_processed!=(lessFiles.length+common_files.length)) {
     setTimeout(writeAllCss,10); //wait until all files are read
   } else {
     try{

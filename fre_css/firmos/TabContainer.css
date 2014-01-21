@@ -3,7 +3,7 @@
 .dijitTabContainerTop-container{border:1px solid #334576;border-radius:8px 8px 8px 8px;border-color:#334576;}
 .firmos .dijitTab *:focus{border-bottom:1px solid white;outline:none;}
 .firmos .dijitTabContainerBottom-container .dijitContentPane,.firmos .dijitTabContainerTop-container .dijitContentPane,.firmos .dijitTabContainerLeft-container .dijitContentPane,.firmos .dijitTabContainerRight-container .dijitContentPane{color:white;padding:5px 5px 5px 5px;border-radius:8px 8px 8px 8px;}
-.firmos .dijitTabCloseButton{background:url("../layout/images/tabClose.png") no-repeat;width:14px;height:14px;margin-left:5px;margin-right:-5px;}
+.firmos .dijitTabCloseButton{background:url("images/tabClose.png") no-repeat;width:14px;height:14px;margin-left:5px;margin-right:-5px;}
 .firmos .dijitTabCloseButtonHover{background-position:-14px;}
 .firmos .dijitTabCloseButtonActive{background-position:-28px;}
 .firmos .dijitTabSpacer{display:none;}
@@ -30,7 +30,7 @@
 .firmos .dijitTabListContainer-bottom .tabStripButton{padding:4px 3px;margin-bottom:7px;background-image:-moz-linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);}
 .firmos .tabStripButtonHover{background-color:#25408b;}
 .firmos .tabStripButtonActive{background-color:#1f2f5f;}
-.firmos .dijitTabStripIcon{height:15px;width:15px;margin:0 auto;background:url("../form/images/buttonArrows.png") no-repeat -75px 50%;background-color:transparent;}
+.firmos .dijitTabStripIcon{height:15px;width:15px;margin:0 auto;background:url("images/buttonArrows.png") no-repeat -75px 50%;background-color:transparent;}
 .firmos .dijitTabStripSlideRightIcon{background-position:-24px 50%;}
 .firmos .dijitTabStripMenuIcon{background-position:-51px 50%;}
 .firmos .dijitTabListContainer-top .tabStripButtonDisabled,.firmos .dijitTabListContainer-bottom .tabStripButtonDisabled{background-color:#dddddd;border:1px solid #414141;}

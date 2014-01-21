@@ -7,7 +7,7 @@
 .firmos .dijitTimePickerMarkerSelected,.firmos .dijitTimePickerTickSelected{font-size:1em;}
 .firmos .dijitTimePickerTick .dijitTimePickerItemInner{padding:1px;margin:0;}
 .firmos .dijitTimePicker .dijitButtonNode{border-left:none;border-right:none;border-color:#414141;background-color:#5673c4;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
-.firmos .dijitTimePicker .dijitArrowButtonInner{height:100%;background-image:url("form/images/commonFormArrows.png");background-repeat:no-repeat;background-position:-140px 45%;}
+.firmos .dijitTimePicker .dijitArrowButtonInner{height:100%;background-image:url("images/commonFormArrows.png");background-repeat:no-repeat;background-position:-140px 45%;}
 .firmos .dijitTimePicker .dijitDownArrowButton .dijitArrowButtonInner{background-position:-35px 45%;}
 .firmos .dijitTimePicker .dijitUpArrowHover,.firmos .dijitTimePicker .dijitDownArrowHover{background-color:#25408b;}
 .firmos .dijitTimePicker .dijitUpArrowHover .dijitArrowButtonInner{background-position:-175px 45%;}

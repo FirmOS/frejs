@@ -1,0 +1,12 @@
+.firmos .dijitToggleButton .dijitRadio,.firmos .dijitToggleButton .dijitRadioIcon{background-image:url("images/checkboxRadioButtonStates.png");}
+.dj_ie6 .firmos .dijitToggleButton .dijitRadio,.dj_ie6 .firmos .dijitToggleButton .dijitRadioIcon{background-image:url("images/checkboxAndRadioButtons_IE6.png");}
+.firmos .dijitRadio,.firmos .dijitRadioIcon{background-image:url("images/checkboxRadioButtonStates.png");background-repeat:no-repeat;width:15px;height:15px;margin:0 2px 0 0;padding:0;}
+.dj_ie6 .firmos .dijitRadio,.dj_ie6 .firmos .dijitRadioIcon{background-image:url("images/checkboxAndRadioButtons_IE6.png");}
+.firmos .dijitRadio{background-position:-105px;}
+.firmos .dijitToggleButton .dijitRadioIcon{background-position:-107px;}
+.firmos .dijitRadioDisabled{background-position:-165px;}
+.firmos .dijitRadioHover{background-position:-135px;}
+.firmos .dijitRadioChecked{background-position:-90px;}
+.firmos .dijitToggleButtonChecked .dijitRadioIcon{background-position:-92px;}
+.firmos .dijitRadioCheckedHover{background-position:-120px;}
+.firmos .dijitRadioCheckedDisabled{background-position:-150px;}

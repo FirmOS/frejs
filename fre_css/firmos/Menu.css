@@ -14,8 +14,8 @@
 .firmos .dijitMenuItemDisabled .dijitMenuItemIconCell{opacity:1;}
 .firmos .dijitMenuSeparatorTop{height:auto;margin-top:1px;border-bottom:1px solid #414141;}
 .firmos .dijitMenuSeparatorBottom{height:auto;margin-bottom:1px;}
-.firmos .dijitCheckedMenuItem .dijitMenuItemIcon,.firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-image:url("form/images/checkboxRadioButtonStates.png");background-repeat:no-repeat;background-position:-15px 50%;width:15px;height:16px;}
-.dj_ie6 .firmos .dijitCheckedMenuItem .dijitMenuItemIcon,.dj_ie6 .firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-image:url("form/images/checkboxAndRadioButtons_IE6.png");}
+.firmos .dijitCheckedMenuItem .dijitMenuItemIcon,.firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-image:url("images/checkboxRadioButtonStates.png");background-repeat:no-repeat;background-position:-15px 50%;width:15px;height:16px;}
+.dj_ie6 .firmos .dijitCheckedMenuItem .dijitMenuItemIcon,.dj_ie6 .firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-image:url("images/checkboxAndRadioButtons_IE6.png");}
 .firmos .dijitCheckedMenuItemChecked .dijitCheckedMenuItemIcon{background-position:0 50%;}
 .firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-position:-105px 50%;}
 .firmos .dijitRadioMenuItemChecked .dijitMenuItemIcon{background-position:-90px 50%;}

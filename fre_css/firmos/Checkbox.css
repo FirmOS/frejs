@@ -1,0 +1,10 @@
+.firmos .dijitToggleButton .dijitCheckBoxIcon{background-image:url("images/checkmarkNoBorder.png");}
+.dj_ie6 .firmos .dijitToggleButton .dijitCheckBoxIcon{background-image:url("images/checkmarkNoBorder.gif");}
+.firmos .dijitCheckBox,.firmos .dijitCheckBoxIcon{background-image:url("images/checkboxRadioButtonStates.png");background-repeat:no-repeat;width:15px;height:16px;margin:0 2px 0 0;padding:0;}
+.dj_ie6 .firmos .dijitCheckBox,.dj_ie6 .firmos .dijitCheckBoxIcon{background-image:url("images/checkboxAndRadioButtons_IE6.png");}
+.firmos .dijitCheckBox,.firmos .dijitToggleButton .dijitCheckBoxIcon{background-position:-15px;}
+.firmos .dijitCheckBoxChecked,.firmos .dijitToggleButtonChecked .dijitCheckBoxIcon{background-position:0;}
+.firmos .dijitCheckBoxDisabled{background-position:-75px;}
+.firmos .dijitCheckBoxCheckedDisabled{background-position:-60px;}
+.firmos .dijitCheckBoxHover{background-position:-45px;}
+.firmos .dijitCheckBoxCheckedHover{background-position:-30px;}

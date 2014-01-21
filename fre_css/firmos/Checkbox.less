@@ -19,19 +19,19 @@
  * 		.dijitCheckBoxDisabled|.dijitCheckBoxCheckedDisabled - for background image
  */
 
-@import "../variables";
+@import "variables";
 
 .@{themename} .dijitToggleButton .dijitCheckBoxIcon {
-	background-image: url("../@{image-checkmark}");
+	background-image: url("@{image-checkmark}");
 }
 
 .dj_ie6 .@{themename} .dijitToggleButton .dijitCheckBoxIcon {
-	background-image: url("../@{image-checkmark-ie6}");
+	background-image: url("@{image-checkmark-ie6}");
 }
 
 .@{themename} .dijitCheckBox,
 .@{themename} .dijitCheckBoxIcon		/* inside a toggle button */	{
-	background-image: url("../@{image-form-checkbox-and-radios}"); /* checkbox sprite image */
+	background-image: url("@{image-form-checkbox-and-radios}"); /* checkbox sprite image */
 	background-repeat: no-repeat;
 	width: 15px;
 	height: 16px;
@@ -41,7 +41,7 @@
 
 .dj_ie6 .@{themename} .dijitCheckBox,
 .dj_ie6 .@{themename} .dijitCheckBoxIcon		/* inside a toggle button */	{
-	background-image: url("../@{image-form-checkbox-and-radios-ie6}"); /* checkbox sprite image */
+	background-image: url("@{image-form-checkbox-and-radios-ie6}"); /* checkbox sprite image */
 }
 
 .@{themename} .dijitCheckBox,

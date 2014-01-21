@@ -20,7 +20,7 @@
  * 		.dijitSpinnerDisabled .* - for background color|image
  */
 
-@import "../variables";
+@import "variables";
 
 .@{themename} .dijitSpinnerButtonContainer {
 	overflow: hidden;
@@ -37,7 +37,7 @@
 .@{themename} .dijitSpinner .dijitArrowButton {
 	width:auto;
 	background-color: @arrowbutton-background-color;
-	.standard-gradient("../");
+	.standard-gradient();
 	overflow: hidden;
 }
 .dj_iequirks .@{themename} .dijitSpinner .dijitArrowButton {
@@ -51,7 +51,7 @@
 .@{themename} .dijitSpinner .dijitArrowButtonInner {
 	border:solid 1px @arrowbutton-inner-border-color;
 	border-bottom-width: 0; /* 2 top borders = 1 top+bottom border in ComboBox */
-	background-image: url("../@{image-form-common-arrows}");
+	background-image: url("@{image-form-common-arrows}");
 	background-repeat: no-repeat;
 	height: 100%;
 	width:15px;
@@ -112,7 +112,7 @@
 .@{themename} .dijitSpinner .dijitDownArrowButtonActive,
 .@{themename} .dijitSpinner .dijitUpArrowButtonActive {
 	background-color: #7dbefa;		// TODO.  Mailed Jason about inconsistent ComboBox/Spinner behavior.
-	.active-gradient("../");
+	.active-gradient();
 }
 .@{themename} .dijitSpinner .dijitUpArrowButtonActive .dijitArrowButtonInner,
 .@{themename} .dijitSpinner .dijitDownArrowButtonActive .dijitArrowButtonInner {

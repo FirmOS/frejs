@@ -17,7 +17,7 @@
  * 		.dijitSelectHover|.dijitSelectFocused|.dijitSelectDisabled .* - for border, padding and background-color|image 
  */
 
-@import "../variables";
+@import "variables";
 
 /* normal status */
 .@{themename} .dijitSelect .dijitArrowButtonContainer {
@@ -27,7 +27,7 @@
 .@{themename} .dijitSelect .dijitArrowButton {
 	padding: 0;
 	background-color: @arrowbutton-background-color;
-	.standard-gradient("../");
+	.standard-gradient();
 }
 
 .@{themename} .dijitSelect .dijitArrowButton .dijitArrowButtonInner {
@@ -52,7 +52,7 @@
 /* focused status */
 .@{themename} .dijitSelectFocused .dijitArrowButton {
 	background-color:#7dbefa;		// TODO.  Mailed Jason about inconsistent ComboBox/Spinner behavior.
-	.active-gradient("../");
+	.active-gradient();
 }
 
 .@{themename} .dijitSelectFocused .dijitArrowButton {

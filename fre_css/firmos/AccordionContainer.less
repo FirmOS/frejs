@@ -28,7 +28,7 @@
  * 		.dijitAccordionInnerContainerHover .dijitAccordionTitle - for text color
  */
 
-@import "../variables";
+@import "variables";
 
 
 .@{themename} .dijitAccordionContainer {
@@ -49,7 +49,7 @@
 }
 .@{themename} .dijitAccordionTitle {
 	//background-color: transparent;	/* pick up color from dijitAccordionInnerContainer */
-	.alpha-white-gradient(0.5, 0%, 0, 50%); //.standard-gradient("../");
+	.alpha-white-gradient(0.5, 0%, 0, 50%); //.standard-gradient();
 	padding: 5px 7px 2px 7px;
 	min-height: 17px;
 	color: @unselected-text-color;
@@ -77,7 +77,7 @@
 	//.transition-duration(.1s);
 }
 .@{themename} .dijitAccordionInnerContainerActive .dijitAccordionTitle {
-	.active-gradient("../");
+	.active-gradient();
 	color:@selected-text-color;
 }
 
@@ -97,7 +97,7 @@
     border-radius: 16px 16px 0px 0px;
     border: 0px solid;
     background-color: @firmos-orange;	
-	//.standard-gradient("../");	/* avoid effect when clicking the title of the open pane */
+	//.standard-gradient();	/* avoid effect when clicking the title of the open pane */
 }
 
 /* Hovering open or closed pane */
