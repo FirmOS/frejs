@@ -1,86 +1,12 @@
-/* DGrid
- * 
- * Styling DGrid
- * 
- * DGrid:
- * 1. DGrid (default styling): 
- * 		.@{themename} .dgrid - styles for dgrid's bounding box (@{themename} skin)
- *
- * 2. DGrid header 
- * 		.dijitDialogTitleBar - styles for the title container at the top of dialog
- * 		.dijitDialogTitle - the text container in dialog title
- * 
- * 3. Dialog content 
- * 		.dijitDialogPaneContent - main container for content area and action bar
- * 		.dijitDialogPaneContentArea - styles for content container
- * 
- * 4. Dialog action bar 
- * 		.dijitDialogPaneActionBar - styles for action buttons lie at the bottom of dialog pane content
- * 
- * 5. Dialog underlay 
- * 		.dijitDialogUnderlay - div under the dialog which used for separate dialog and page content
- * 
- */
-.firmos .dgrid {
-  border: 0px solid red;
-  border-color: #aaaaaa;
-  background-color: #ffffff;
-  color: #000000;
-}
-.firmos .ui-widget-header {
-  font-weight: bold;
-}
-.firmos .ui-widget-header,
-.firmos .dgrid-footer {
-  background-color: #5673c4;
-  /* Old browsers */
-
-  background-image: -moz-linear-gradient(#6983cb 0%, #3f5490 100%);
-  background-image: -webkit-linear-gradient(#6983cb 0%, #3f5490 100%);
-  background-image: -o-linear-gradient(#6983cb 0%, #3f5490 100%);
-  background-image: linear-gradient(#6983cb 0%, #3f5490 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='lighten(@secondary-color, 5)', endColorstr='@secondary-color', GradientType=0);
-  /* IE6-9 */
-
-}
-.firmos .ui-widget-header .dgrid-cell:hover {
-  background: #6983cb;
-  /* Old browsers */
-
-  background-image: -moz-linear-gradient(#7c92d1 10%, #5069b2 90%);
-  background-image: -webkit-linear-gradient(#7c92d1 10%, #5069b2 90%);
-  background-image: -o-linear-gradient(#7c92d1 10%, #5069b2 90%);
-  background-image: linear-gradient(#7c92d1 10%, #5069b2 90%);
-}
-.firmos .ui-state-default {
-  -webkit-transition-duration: 0.2s;
-  -moz-transition-duration: 0.2s;
-  -o-transition-duration: 0.2s;
-  transition-duration: 0.2s;
-  -webkit-transition-property: background-color, border-color;
-  -moz-transition-property: background-color, border-color;
-  -o-transition-property: background-color, border-color;
-  transition-property: background-color, border-color;
-  background: url("images/row_back.png") #ffffff repeat-x;
-}
-.has-ie-6 .firmos .ui-state-default {
-  background-image: none;
-}
-.firmos .ui-state-default:hover {
-  background-color: #6983cb;
-}
-.firmos .ui-state-active {
-  background-color: #5673c4;
-}
-.firmos .ui-state-active:hover {
-  background-color: #6983cb;
-}
-.firmos .ui-state-highlight {
-  background-color: #f90;
-}
-.firmos .dgrid-cell {
-  border-color: #dcb;
-}
-.firmos .ui-widget-header .dgrid-cell {
-  border-color: #dddddd;
-}
+.firmos .dgrid{border:0px solid red;border-color:#aaaaaa;background-color:#ffffff;color:#000000;}
+.firmos .ui-widget-header{font-weight:bold;}
+.firmos .ui-widget-header,.firmos .dgrid-footer{background-color:#5673c4;background-image:-moz-linear-gradient(#6983cb 0%, #3f5490 100%);background-image:-webkit-linear-gradient(#6983cb 0%, #3f5490 100%);background-image:-o-linear-gradient(#6983cb 0%, #3f5490 100%);background-image:linear-gradient(#6983cb 0%, #3f5490 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='lighten(@secondary-color, 5)', endColorstr='@secondary-color', GradientType=0);}
+.firmos .ui-widget-header .dgrid-cell:hover{background:#6983cb;background-image:-moz-linear-gradient(#7c92d1 10%, #5069b2 90%);background-image:-webkit-linear-gradient(#7c92d1 10%, #5069b2 90%);background-image:-o-linear-gradient(#7c92d1 10%, #5069b2 90%);background-image:linear-gradient(#7c92d1 10%, #5069b2 90%);}
+.firmos .ui-state-default{-webkit-transition-duration:0.2s;-moz-transition-duration:0.2s;-o-transition-duration:0.2s;transition-duration:0.2s;-webkit-transition-property:background-color,border-color;-moz-transition-property:background-color,border-color;-o-transition-property:background-color,border-color;transition-property:background-color,border-color;background:url("images/row_back.png") #ffffff repeat-x;}
+.has-ie-6 .firmos .ui-state-default{background-image:none;}
+.firmos .ui-state-default:hover{background-color:#6983cb;}
+.firmos .ui-state-active{background-color:#5673c4;}
+.firmos .ui-state-active:hover{background-color:#6983cb;}
+.firmos .ui-state-highlight{background-color:#f90;}
+.firmos .dgrid-cell{border-color:#dcb;}
+.firmos .ui-widget-header .dgrid-cell{border-color:#dddddd;}

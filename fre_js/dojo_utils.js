@@ -217,21 +217,21 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
   
   encodeString2Message: function(str) {
    return str;
-   var barr = new Uint8Array(str.length);
-   for (var i = 0; i < str.length; i++) {
-     barr[i] = str.charCodeAt(i);
-   }
-   return barr.buffer;
+//   var barr = new Uint8Array(str.length);
+//   for (var i = 0; i < str.length; i++) {
+//     barr[i] = str.charCodeAt(i);
+//   }
+//   return barr.buffer;
   },
   
   decodeMessage2String: function(message) {
     return message;
-    var ba = new Uint8Array(message);
-    var str='';
-    for (var i=0; i<ba.length;i++) {
-      str+=String.fromCharCode(ba[i]);
-    }
-    return str;
+//    var ba = new Uint8Array(message);
+//    var str='';
+//    for (var i=0; i<ba.length;i++) {
+//      str+=String.fromCharCode(ba[i]);
+//    }
+//    return str;
   },
   
   storeSessionId: function(sessionId) {
@@ -1410,7 +1410,7 @@ dojo.declare("FIRMOS.Store", null, {
   onNew: function(newItem, parentInfo) {},
   onDelete: function(deletedItem) {},
   fetchItemByIdentity: function(args){
-    this.fetch({query: this.idAttribute + '=' + args.identity, onComplete: args.onItem, onError: args.onError, scope: args.scope}).results;
+    return this.fetch({query: this.idAttribute + '=' + args.identity, onComplete: args.onItem, onError: args.onError, scope: args.scope});
   },
   getIdentity: function(object){
     return object[this.idAttribute];
@@ -2667,8 +2667,8 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
       for (var i=0; i<this.rtypes.length; i++) {
         if (this[this.rtypes[i]+'Div']) {
           rtype = this.rtypes[i];
+          break;
         }
-        break;
       }
     }
     for (var i=0; i<this.rtypesVis.length; i++) {
@@ -3553,13 +3553,17 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
   _sendFiles: function(classname, functionname, uidPath, params, hiddenParams, isDialog, files) {
      var filedata = files.pop();
      var file = filedata.file;
-     params.data = {};
-     params.data.size = file.size;
-     params.data.name = file.name;
-     params.data.type = file.type;
-     params.data.field = filedata.field; 
+     var up_params = {};
+     up_params.data = {};
+     up_params.data.size = file.size;
+     up_params.data.name = file.name;
+     up_params.data.type = file.type;
+     up_params.data.field = filedata.field; 
+     up_params.data.fieldIdx = 0;
+     up_params.data.chunksize = file.size;
+     up_params.data.chunkIdx = 0; 
      var callback = this._sendFilesCallback.bind(this, classname, functionname, uidPath, params, hiddenParams, isDialog, files);
-     G_SERVER_COM.callServerFunction(classname, functionname, uidPath, params, callback, null, file);
+     G_SERVER_COM.callServerFunction('FIRMOS', 'binaryBulkTransfer', null, up_params, callback, null, file);
   },
   
   _sendData: function(classname, functionname, uidPath, params, hiddenParams, isDialog) {
@@ -4257,8 +4261,8 @@ dojo.declare("FIRMOS.TabContainer", dijit.layout.TabContainer, {
     for (var i=0; i<children.length; i++) {
       if (children[i].selected) {
         this.selectChild(children[i]);
+        return;
       }
-      return;
     }
   },
   tabChange: function(name, oval, nval) {
@@ -7100,9 +7104,9 @@ dojo.declare("FIRMOS.VNC", dijit.layout.BorderContainer, {
       case 18  : return 0xFF7E;  // RIGHT Alt
     }
     //send immediately since chrome and firefox send different which codes on keypress in this case
-    if ((e.ctrlKey || e.altKey)) { 
+//    if ((e.ctrlKey || e.altKey)) { 
     //  return e.which;
-    }
+//    }
     return 0;
   },
     

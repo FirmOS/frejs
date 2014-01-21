@@ -1,177 +1,20 @@
-/* Button | DropDownButton | ComboButton | ToggleButton
- * 
- * Styling Buttons mainly includes:
- * 
- * 1. Containers
- * 		.dijitButton
- * 		.dijitDropDownButton
- * 		.dijitComboButton
- * 		.dijitButtonNode - common button/arrow wrapper shared across all three button types 
- *
- * 2. Button text
- * 		.dijitButtonText
- * 
- * 3. Arrows - only for DropDownButton and ComboButton
- * 	     There are total four directions arrows - down, left, right, up:
- * 		.dijitArrowButtonInner - down arrow by default
- *      .dijitLeftArrowButton .dijitArrowButtonInner - left arrow
- *      .dijitRightArrowButton .dijitArrowButtonInner - right arrow
- *      .dijitUpArrowButton .dijitArrowButtonInner - up arrow
- * 
- * 4. States - Hover, Active, Disabled, e.g.
- * 		.dijitButtonHover .dijitButtonNode
- * 		.dijitButtonActive .dijitButtonNode
- * 		.dijitButtonDisabled .dijitButtonNode
- *      
- *      .dijitDisabled .dijitArrowButtonInner  - disabled arrow states 
- */
-.firmos .dijitButtonNode {
-  /* rules for dijit.form.*Button widgets and arrow nodes on ComboBox, Spinner etc. */
-
-  -webkit-transition-property: background-color;
-  -moz-transition-property: background-color;
-  -o-transition-property: background-color;
-  transition-property: background-color;
-  -webkit-transition-duration: 0.3s;
-  -moz-transition-duration: 0.3s;
-  -o-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-}
-.firmos .dijitButton .dijitButtonNode,
-.firmos .dijitDropDownButton .dijitButtonNode,
-.firmos .dijitComboButton .dijitButtonNode,
-.firmos .dijitToggleButton .dijitButtonNode {
-  /* rules for the dijit.form.*Button widgets (see also ComboButton section below) */
-
-  border: 1px solid #1e1e1e;
-  padding: 2px 4px 4px 4px;
-  color: #ffffff;
-  text-shadow: 1px 1px 1px black;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  background-color: #3f5490;
-  background-image: url("images/buttonEnabled.png");
-  background-repeat: repeat-x;
-  background-image: -moz-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 12%, rgba(255, 255, 255, 0) 50%);
-  background-image: -webkit-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 12%, rgba(255, 255, 255, 0) 50%);
-  background-image: -o-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 12%, rgba(255, 255, 255, 0) 50%);
-  background-image: linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 12%, rgba(255, 255, 255, 0) 50%);
-  _background-image: none;
-}
-.firmos .dijitComboButton .dijitArrowButton {
-  border-left-width: 0;
-  padding: 4px 2px 4px 2px;
-  /* TODO: still needed? */
-
-}
-/*arrow styles for down/up/left/right directions*/
-.firmos .dijitArrowButtonInner {
-  width: 15px;
-  height: 15px;
-  margin: 0 auto;
-  background-image: url("../form/images/buttonArrows.png");
-  background-repeat: no-repeat;
-  background-position: -51px 53%;
-}
-.firmos .dijitLeftArrowButton .dijitArrowButtonInner {
-  background-position: -77px 53%;
-}
-.firmos .dijitRightArrowButton .dijitArrowButtonInner {
-  background-position: -26px 53%;
-}
-.firmos .dijitUpArrowButton .dijitArrowButtonInner {
-  background-position: 0 53%;
-}
-.firmos .dijitDisabled .dijitArrowButtonInner {
-  background-position: -151px 53%;
-}
-.firmos .dijitDisabled .dijitLeftArrowButton .dijitArrowButtonInner {
-  background-position: -177px 53%;
-}
-.firmos .dijitDisabled .dijitRightArrowButton .dijitArrowButtonInner {
-  background-position: -126px 53%;
-}
-.firmos .dijitDisabled .dijitUpArrowButton .dijitArrowButtonInner {
-  background-position: -100px 53%;
-}
-.firmos .dijitButtonText {
-  padding: 0 6px;
-  text-align: center;
-}
-/* hover status */
-.firmos .dijitButtonHover .dijitButtonNode,
-.firmos .dijitDropDownButtonHover .dijitButtonNode,
-.firmos .dijitComboButton .dijitButtonNodeHover,
-.firmos .dijitComboButton .dijitDownArrowButtonHover,
-.firmos .dijitToggleButtonHover .dijitButtonNode {
-  background-color: #fbb03c;
-  color: white;
-  -webkit-transition-duration: 0.2s;
-  -moz-transition-duration: 0.2s;
-  -o-transition-duration: 0.2s;
-  transition-duration: 0.2s;
-}
-/* active, checked status */
-.firmos .dijitButtonActive .dijitButtonNode,
-.firmos .dijitDropDownButtonActive .dijitButtonNode,
-.firmos .dijitComboButtonActive .dijitButtonNode,
-.firmos .dijitToggleButtonActive .dijitButtonNode,
-.firmos .dijitToggleButtonChecked .dijitButtonNode {
-  background-color: #fbb03c;
-  color: white;
-  -webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.2);
-  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.2);
-  -webkit-transition-duration: 0.1s;
-  -moz-transition-duration: 0.1s;
-  -o-transition-duration: 0.1s;
-  transition-duration: 0.1s;
-}
-/* disabled status */
-.firmos .dijitButtonDisabled,
-.firmos .dijitDropDownButtonDisabled,
-.firmos .dijitComboButtonDisabled,
-.firmos .dijitToggleButtonDisabled {
-  background-image: none;
-  outline: none;
-  text-shadow: none;
-  color: darkgrey;
-}
-.firmos .dijitButtonDisabled .dijitButtonNode,
-.firmos .dijitDropDownButtonDisabled .dijitButtonNode,
-.firmos .dijitComboButtonDisabled .dijitButtonNode,
-.firmos .dijitToggleButtonDisabled .dijitButtonNode {
-  background-color: #dddddd;
-  border: solid 1px #c4c4c4;
-  color: whitesmoke;
-  text-shadow: none;
-  -webkit-box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-  -moz-box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-  background-image: url("images/buttonDisabled.png");
-  background-image: -moz-linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0) 40%);
-  background-image: -webkit-linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0) 40%);
-  background-image: -o-linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0) 40%);
-  background-image: linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0) 40%);
-  _background-image: none;
-}
-.firmos .dijitComboButtonDisabled .dijitArrowButton {
-  border-left-width: 0;
-}
-/* for ComboButton */
-.firmos table.dijitComboButton {
-  border-collapse: separate;
-  /* override dijit.css so that ComboBox rounded corners work */
-
-}
-.firmos .dijitComboButton .dijitStretch {
-  -moz-border-radius: 5px 0 0 5px;
-  border-radius: 5px 0 0 5px;
-}
-.firmos .dijitComboButton .dijitArrowButton {
-  -moz-border-radius: 0 5px 5px 0;
-  border-radius: 0 5px 5px 0;
-}
+.firmos .dijitButtonNode{-webkit-transition-property:background-color;-moz-transition-property:background-color;-o-transition-property:background-color;transition-property:background-color;-webkit-transition-duration:0.3s;-moz-transition-duration:0.3s;-o-transition-duration:0.3s;transition-duration:0.3s;}
+.firmos .dijitButton .dijitButtonNode,.firmos .dijitDropDownButton .dijitButtonNode,.firmos .dijitComboButton .dijitButtonNode,.firmos .dijitToggleButton .dijitButtonNode{border:1px solid #1e1e1e;padding:2px 4px 4px 4px;color:#ffffff;text-shadow:1px 1px 1px black;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.15);-moz-box-shadow:0 1px 1px rgba(0, 0, 0, 0.15);box-shadow:0 1px 1px rgba(0, 0, 0, 0.15);background-color:#3f5490;background-image:url("images/buttonEnabled.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 12%, rgba(255, 255, 255, 0) 50%);background-image:-webkit-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 12%, rgba(255, 255, 255, 0) 50%);background-image:-o-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 12%, rgba(255, 255, 255, 0) 50%);background-image:linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 12%, rgba(255, 255, 255, 0) 50%);_background-image:none;}
+.firmos .dijitComboButton .dijitArrowButton{border-left-width:0;padding:4px 2px 4px 2px;}
+.firmos .dijitArrowButtonInner{width:15px;height:15px;margin:0 auto;background-image:url("../form/images/buttonArrows.png");background-repeat:no-repeat;background-position:-51px 53%;}
+.firmos .dijitLeftArrowButton .dijitArrowButtonInner{background-position:-77px 53%;}
+.firmos .dijitRightArrowButton .dijitArrowButtonInner{background-position:-26px 53%;}
+.firmos .dijitUpArrowButton .dijitArrowButtonInner{background-position:0 53%;}
+.firmos .dijitDisabled .dijitArrowButtonInner{background-position:-151px 53%;}
+.firmos .dijitDisabled .dijitLeftArrowButton .dijitArrowButtonInner{background-position:-177px 53%;}
+.firmos .dijitDisabled .dijitRightArrowButton .dijitArrowButtonInner{background-position:-126px 53%;}
+.firmos .dijitDisabled .dijitUpArrowButton .dijitArrowButtonInner{background-position:-100px 53%;}
+.firmos .dijitButtonText{padding:0 6px;text-align:center;}
+.firmos .dijitButtonHover .dijitButtonNode,.firmos .dijitDropDownButtonHover .dijitButtonNode,.firmos .dijitComboButton .dijitButtonNodeHover,.firmos .dijitComboButton .dijitDownArrowButtonHover,.firmos .dijitToggleButtonHover .dijitButtonNode{background-color:#fbb03c;color:white;-webkit-transition-duration:0.2s;-moz-transition-duration:0.2s;-o-transition-duration:0.2s;transition-duration:0.2s;}
+.firmos .dijitButtonActive .dijitButtonNode,.firmos .dijitDropDownButtonActive .dijitButtonNode,.firmos .dijitComboButtonActive .dijitButtonNode,.firmos .dijitToggleButtonActive .dijitButtonNode,.firmos .dijitToggleButtonChecked .dijitButtonNode{background-color:#fbb03c;color:white;-webkit-box-shadow:inset 0px 1px 1px rgba(0, 0, 0, 0.2);-moz-box-shadow:inset 0px 1px 1px rgba(0, 0, 0, 0.2);box-shadow:inset 0px 1px 1px rgba(0, 0, 0, 0.2);-webkit-transition-duration:0.1s;-moz-transition-duration:0.1s;-o-transition-duration:0.1s;transition-duration:0.1s;}
+.firmos .dijitButtonDisabled,.firmos .dijitDropDownButtonDisabled,.firmos .dijitComboButtonDisabled,.firmos .dijitToggleButtonDisabled{background-image:none;outline:none;text-shadow:none;color:darkgrey;}
+.firmos .dijitButtonDisabled .dijitButtonNode,.firmos .dijitDropDownButtonDisabled .dijitButtonNode,.firmos .dijitComboButtonDisabled .dijitButtonNode,.firmos .dijitToggleButtonDisabled .dijitButtonNode{background-color:#dddddd;border:solid 1px #c4c4c4;color:whitesmoke;text-shadow:none;-webkit-box-shadow:0 0 0 rgba(0, 0, 0, 0);-moz-box-shadow:0 0 0 rgba(0, 0, 0, 0);box-shadow:0 0 0 rgba(0, 0, 0, 0);background-image:url("images/buttonDisabled.png");background-image:-moz-linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0) 40%);background-image:-webkit-linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0) 40%);background-image:-o-linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0) 40%);background-image:linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0) 40%);_background-image:none;}
+.firmos .dijitComboButtonDisabled .dijitArrowButton{border-left-width:0;}
+.firmos table.dijitComboButton{border-collapse:separate;}
+.firmos .dijitComboButton .dijitStretch{-moz-border-radius:5px 0 0 5px;border-radius:5px 0 0 5px;}
+.firmos .dijitComboButton .dijitArrowButton{-moz-border-radius:0 5px 5px 0;border-radius:0 5px 5px 0;}

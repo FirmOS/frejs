@@ -1,13 +1,1 @@
-/* See TabContainer 
- */
-.firmos .dijitTabContainerBottom-container .dijitContentPane,
-.firmos .dijitTabContainerTop-container .dijitContentPane,
-.firmos .dijitTabContainerLeft-container .dijitContentPane,
-.firmos .dijitTabContainerRight-container .dijitContentPane {
-  color: white;
-  padding: 5px 5px 5px 5px;
-  border-radius: 8px 8px 8px 8px;
-}
-.firmos .dijitBorderContainer-firmosMultiContentContainerTop {
-  border: 0 none;
-}
+.firmos .dijitBorderContainer-firmosMultiContentContainerTop{border:0 none;}

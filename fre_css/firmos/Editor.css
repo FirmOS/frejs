@@ -1,55 +1,9 @@
-/* Editor 
- * 
- * Styling Editor means styling the Editor inside iframe container (dijitEditorIFrameContainer)
- * 
- * 1. Editor iframe container (default styling): 
- * 		.dijitEditorIFrameContainer - normal state styles: background-color, border, padding
- *
- * 2. hovered Editor iframe container (ie, mouse hover on editor)
- * 		.dijitEditorHover .dijitEditorIFrameContainer/dijitEditorIFrame - styles when mouse hover on the container
- * 
- * 3. focused Editor iframe container (ie, mouse focus on the editor pane)
- * 		.dijitEditorFocused .dijitEditorIFrameContainer/dijitEditorIFrame - styles when container focused
- * 
- * 3. disabled Editor iframe container 
- * 		.dijitEditorDisabled - editor's inner iframe container disable status styles: background, border
- */
-.firmos .dijitEditorIFrameContainer {
-  padding: 3px 3px 1px 10px;
-}
-.firmos .dijitEditorIFrame {
-  background-color: #ffffff;
-}
-.firmos .dijitEditor {
-  border: 1px solid #414141;
-}
-.firmos .dijitEditor .dijitEditorIFrameContainer {
-  background-color: #ffffff;
-  background-repeat: repeat-x;
-}
-.firmos .dijitEditorHover .dijitEditorIFrameContainer,
-.firmos .dijitEditorHover .dijitEditorIFrameContainer .dijitEditorIFrame {
-  background-color: #3b59ad;
-}
-.firmos .dijitEditorFocused .dijitEditorIFrameContainer,
-.firmos .dijitEditorFocused .dijitEditorIFrameContainer .dijitEditorIFrame {
-  background-color: #ffffff;
-}
-.firmos .dijitEditorHover .dijitEditorIFrameContainer,
-.firmos .dijitEditorFocused .dijitEditorIFrameContainer {
-  background-image: -moz-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
-  background-image: -webkit-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
-  background-image: -o-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
-  background-image: linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
-}
-/* Disabled */
-.firmos .dijitEditorDisabled {
-  border: 1px solid #c4c4c4;
-  color: #6f6f6f;
-}
-.firmos .dijitDisabled .dijitEditorIFrame,
-.firmos .dijitDisabled .dijitEditorIFrameContainer,
-.firmos .dijitDisabled .dijitEditorIFrameContainer .dijitEditorIFrame {
-  background-color: #dddddd;
-  background-image: none;
-}
+.firmos .dijitEditorIFrameContainer{padding:3px 3px 1px 10px;}
+.firmos .dijitEditorIFrame{background-color:#ffffff;}
+.firmos .dijitEditor{border:1px solid #414141;}
+.firmos .dijitEditor .dijitEditorIFrameContainer{background-color:#ffffff;background-repeat:repeat-x;}
+.firmos .dijitEditorHover .dijitEditorIFrameContainer,.firmos .dijitEditorHover .dijitEditorIFrameContainer .dijitEditorIFrame{background-color:#3b59ad;}
+.firmos .dijitEditorFocused .dijitEditorIFrameContainer,.firmos .dijitEditorFocused .dijitEditorIFrameContainer .dijitEditorIFrame{background-color:#ffffff;}
+.firmos .dijitEditorHover .dijitEditorIFrameContainer,.firmos .dijitEditorFocused .dijitEditorIFrameContainer{background-image:-moz-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);background-image:-webkit-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);background-image:-o-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);background-image:linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);}
+.firmos .dijitEditorDisabled{border:1px solid #c4c4c4;color:#6f6f6f;}
+.firmos .dijitDisabled .dijitEditorIFrame,.firmos .dijitDisabled .dijitEditorIFrameContainer,.firmos .dijitDisabled .dijitEditorIFrameContainer .dijitEditorIFrame{background-color:#dddddd;background-image:none;}

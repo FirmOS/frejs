@@ -1,44 +1,7 @@
-@import url("../../dojo/dojo/resources/dojo.css");
-/* ======= Styling for the document itself (overriding dojo.css) ======== */
-.firmos {
-  font-family: 'Source Sans Pro', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  color: #131313;
-}
-/* Headings */
-.firmos h1 {
-  font-size: 1.545em;
-  margin-bottom: 0.727em;
-}
-.firmos h2 {
-  font-size: 1.364em;
-  line-height: 1.455em;
-  margin-top: 1em;
-  margin-bottom: 0.60em;
-  font-weight: normal;
-}
-.firmos h3,
-.firmos h4,
-.firmos h5,
-.firmos h6 {
-  font-size: 1.091em;
-  font-weight: normal;
-}
-/* paragraphs, quotes and lists */
-.firmos p {
-  line-height: 1.3em;
-}
-/* pre and code */
-.firmos pre,
-.firmos code {
-  font-family: inherit;
-  background-color: #5673c4;
-  border: 1px solid #dddddd;
-}
-/* tables */
-.firmos table.dojoTabular thead,
-.firmos table.dojoTabular tfoot {
-  background-color: #5673c4;
-  border: 1px solid #dddddd;
-}
+.firmos{font-family:'Source Sans Pro',sans-serif;font-size:14px;font-weight:400;color:#131313;}
+.firmos h1{font-size:1.545em;margin-bottom:0.727em;}
+.firmos h2{font-size:1.364em;line-height:1.455em;margin-top:1em;margin-bottom:0.60em;font-weight:normal;}
+.firmos h3,.firmos h4,.firmos h5,.firmos h6{font-size:1.091em;font-weight:normal;}
+.firmos p{line-height:1.3em;}
+.firmos pre,.firmos code{font-family:inherit;background-color:#5673c4;border:1px solid #dddddd;}
+.firmos table.dojoTabular thead,.firmos table.dojoTabular tfoot{background-color:#5673c4;border:1px solid #dddddd;}

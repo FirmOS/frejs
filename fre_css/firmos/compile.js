@@ -8,10 +8,11 @@ var fs = require('fs'),		// file system access
 	less = require('../../dojo/util/less');	// less processor
 
 var options = {
-	compress: false,
+	compress: true,
 	optimization: 1,
 	silent: false
 };
+
 
 var allFiles = [].concat(
 		fs.readdirSync("."),
@@ -21,6 +22,9 @@ var allFiles = [].concat(
 		fs.readdirSync("dojox/widget/Calendar").map(function(fname){ return "dojox/widget/Calendar/"+fname; })
 	),
 	lessFiles = allFiles.filter(function(name){ return name && name != "variables.less" && /\.less$/.test(name); });
+
+var all_css = "";
+var files_processed = 0;
 
 lessFiles.forEach(function(fname){
 	console.log("=== " + fname);
@@ -42,8 +46,10 @@ lessFiles.forEach(function(fname){
 				try{
 					var css = tree.toCSS({ compress: options.compress }),
 						outputFname = fname.replace('.less', '.css');
+					all_css = all_css + css;
 					var fd = fs.openSync(outputFname, "w");
 					fs.writeSync(fd, css, 0, "utf8");
+					files_processed ++;
 				}catch(e){
 					less.writeError(e, options);
 					process.exit(2);
@@ -52,3 +58,20 @@ lessFiles.forEach(function(fname){
 		});
 	});
 });
+
+function writeAllCss() {
+  if (files_processed!=lessFiles.length) {
+    setTimeout(writeAllCss,10); //wait until all files are read
+  } else {
+    try{
+      var fd = fs.openSync('all.css', "w");
+      fs.writeSync(fd, all_css, 0, "utf8");
+    }catch(e){
+      less.writeError(e, options);
+      process.exit(2);
+    }
+  }
+}
+
+writeAllCss();
+
