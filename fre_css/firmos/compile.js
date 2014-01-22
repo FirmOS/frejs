@@ -5,7 +5,7 @@
 
 var fs = require('fs'),		// file system access
 	path = require('path'),	// get directory from file name
-	less = require('../../dojo/util/less');	// less processor
+	less = require(process.env.PWD+'/../../dojo/util/less');	// less processor
 
 var options = {
 	compress: true,
@@ -22,14 +22,18 @@ var allFiles = [].concat(
 var all_css = "";
 var files_processed = 0;
 
+var dojo_path = process.env.PWD;
+dojo_path = dojo_path.substring(0,dojo_path.lastIndexOf('/')); // ..
+dojo_path = dojo_path.substring(0,dojo_path.lastIndexOf('/')); // ../..
+
 var common_files = [
-"../../dojo/dojo/resources/dojo.css",
-"../../dojo/dijit/themes/dijit.css",
-"../../dojo/dojox/form/resources/CheckedMultiSelect.css",
-"../../dojo/dojox/form/resources/UploaderFileList.css",
-"../../dojo/dgrid/css/dgrid.css",
-"../../dojo/dijit/icons/commonIcons.css",
-"../../dojo/dijit/icons/editorIcons.css"
+dojo_path+"/dojo/dojo/resources/dojo.css",
+dojo_path+"/dojo/dijit/themes/dijit.css",
+dojo_path+"/dojo/dojox/form/resources/CheckedMultiSelect.css",
+dojo_path+"/dojo/dojox/form/resources/UploaderFileList.css",
+dojo_path+"/dojo/dgrid/css/dgrid.css",
+dojo_path+"/dojo/dijit/icons/commonIcons.css",
+dojo_path+"/dojo/dijit/icons/editorIcons.css"
 ]
 
 common_files.forEach(function(fname){
