@@ -96,6 +96,7 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
       fn: functionname,
       uidPath: uidPath,
       rId: this.reqId,
+      bDK: '0815', //FIXXME - implement me
       rType: 'S'
     }
     if (contentId) {
@@ -3560,6 +3561,7 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
      up_params.data.type = file.type;
      up_params.data.field = filedata.field; 
      up_params.data.fieldIdx = 0;
+     up_params.data.fieldCount = 1;
      up_params.data.chunksize = file.size;
      up_params.data.chunkIdx = 0; 
      var callback = this._sendFilesCallback.bind(this, classname, functionname, uidPath, params, hiddenParams, isDialog, files);
