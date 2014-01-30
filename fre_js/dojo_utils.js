@@ -6530,6 +6530,11 @@ dojo.declare("FIRMOS.Editor", dijit.layout.BorderContainer, {
         console.error('Unknown content type ' + args.contentType);
         break;
     }
+    if (args.saveClass) {
+      this.readOnly = false;
+    } else {
+      this.readOnly = true;
+    }
   },
   destroy: function() {
     switch (this.editorType) {
@@ -6575,6 +6580,7 @@ dojo.declare("FIRMOS.Editor", dijit.layout.BorderContainer, {
     setTimeout(this.startEditor.bind(this),0);
   },
   startEditor: function() {
+    if (this.readOnly) return;
     switch (this.editorType) {
       case 'aloha':
         $('#'+this.id+'_container').aloha();
@@ -6627,7 +6633,9 @@ dojo.declare("FIRMOS.Editor", dijit.layout.BorderContainer, {
     if (this._editorStarted) return;
     this.saveButton.set('disabled',false);
     this.resetButton.set('disabled',false);
-    G_SERVER_COM.callServerFunction(this.startEditClass, this.startEditFunc, this.startEditUidPath, this.startEditParams);
+    if (this.startEditClass) {
+      G_SERVER_COM.callServerFunction(this.startEditClass, this.startEditFunc, this.startEditUidPath, this.startEditParams);
+    }
     this._editorStarted = true;
   },
   pauseEdit: function() {
@@ -6652,7 +6660,9 @@ dojo.declare("FIRMOS.Editor", dijit.layout.BorderContainer, {
   },
   stopEdit: function() {
     if (!this._editorStarted) return;
-    G_SERVER_COM.callServerFunction(this.stopEditClass, this.stopEditFunc, this.stopEditUidPath, this.stopEditParams);
+    if (this.stopEditClass) {
+      G_SERVER_COM.callServerFunction(this.stopEditClass, this.stopEditFunc, this.stopEditUidPath, this.stopEditParams);
+    }
     this.saveButton.set('disabled',true);
     this.resetButton.set('disabled',true);
     this._editorStarted = false;
