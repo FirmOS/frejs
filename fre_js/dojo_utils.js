@@ -25,6 +25,7 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
   constructor: function() {
     this.ws = null;
     this.reqId = 0;
+    this.binDataKey = 0;
     this.openReq = new Object();
     this.updateId = null;
     this.docLoaded = false;
@@ -58,7 +59,7 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
     this.ws.onopen = this.wsOpenListener.bind(this);
   },
   
-  callServerFunction: function(classname, functionname, uidPath, params, callback, contentId, blob) {
+  callServerFunction: function(classname, functionname, uidPath, params, callback, contentId, blob, binDataKey) {
     var ret = G_UI_COM.beforeCallServerFunction(classname, functionname, uidPath, params);
     if (ret.abort) return;
     if (ret.uidPath) uidPath = ret.uidPath;
@@ -96,13 +97,15 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
       fn: functionname,
       uidPath: uidPath,
       rId: this.reqId,
-      bDK: '0815', //FIXXME - implement me
       rType: 'S'
     }
-    if (contentId) {
+    if (typeof binDataKey!='undefined') {
+      messageObj.bDK = binDataKey;
+    }
+    if (typeof contentId!='undefined') {
       messageObj.cId = contentId;
     }
-    if (params) {
+    if (typeof params!='undefined') {
       messageObj.params = params;
     }
     var message = dojo.toJson(messageObj);
@@ -241,6 +244,10 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
   
   getSessionId: function() {
     return sessionStorage.getItem('sessionId');
+  },
+  
+  getBinaryDataKey: function() {
+    return this.binDataKey++;
   }
 
 });
@@ -3538,20 +3545,21 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
       }
     }
     if (files.length>0) {
-      this._sendFiles(classname, functionname, uidPath, params, hiddenParams, isDialog, files);
+      var binDataKey = G_SERVER_COM.getBinaryDataKey();
+      this._sendFiles(classname, functionname, uidPath, params, hiddenParams, isDialog, files, binDataKey);
     } else {
       this._sendData(classname, functionname, uidPath, params, hiddenParams, isDialog);
     }
   },
-  _sendFilesCallback: function(classname, functionname, uidPath, params, hiddenParams, isDialog, files) {
+  _sendFilesCallback: function(classname, functionname, uidPath, params, hiddenParams, isDialog, files, binDataKey) {
     if (files.length==0) {
-      this._sendData(classname, functionname, uidPath, params, hiddenParams, isDialog)
+      this._sendData(classname, functionname, uidPath, params, hiddenParams, isDialog, binDataKey)
     } else {
-      this._sendFiles(classname, functionname, uidPath, params, hiddenParams, isDialog, files);
+      this._sendFiles(classname, functionname, uidPath, params, hiddenParams, isDialog, files, binDataKey);
     }
   },
   
-  _sendFiles: function(classname, functionname, uidPath, params, hiddenParams, isDialog, files) {
+  _sendFiles: function(classname, functionname, uidPath, params, hiddenParams, isDialog, files, binDataKey) {
      var filedata = files.pop();
      var file = filedata.file;
      var up_params = {};
@@ -3564,11 +3572,11 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
      up_params.data.fieldCount = 1;
      up_params.data.chunksize = file.size;
      up_params.data.chunkIdx = 0; 
-     var callback = this._sendFilesCallback.bind(this, classname, functionname, uidPath, params, hiddenParams, isDialog, files);
-     G_SERVER_COM.callServerFunction('FIRMOS', 'binaryBulkTransfer', null, up_params, callback, null, file);
+     var callback = this._sendFilesCallback.bind(this, classname, functionname, uidPath, params, hiddenParams, isDialog, files, binDataKey);
+     G_SERVER_COM.callServerFunction('FIRMOS', 'binaryBulkTransfer', null, up_params, callback, null, file, binDataKey);
   },
   
-  _sendData: function(classname, functionname, uidPath, params, hiddenParams, isDialog) {
+  _sendData: function(classname, functionname, uidPath, params, hiddenParams, isDialog, binDataKey) {
     params.data = this.get('value');
     this.submitData = dojo.clone(params.data);
     if (this.sendChanged) {
@@ -3579,7 +3587,7 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
     if (isDialog) {
       G_UI_COM.isDialogAction();
     }
-    G_SERVER_COM.callServerFunction(classname, functionname, uidPath, params, this.submitCallback.bind(this));
+    G_SERVER_COM.callServerFunction(classname, functionname, uidPath, params, this.submitCallback.bind(this),null,null, binDataKey);
   },
   
   callServerFunction: function(classname, functionname, uidPath, params, hiddenParams, isDialog) {
