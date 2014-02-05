@@ -1177,13 +1177,14 @@ dojo.declare("FIRMOS.Store", null, {
     this.queryResults_[query_id].dataIds = new Array();
     this.queryResults_[query_id].observer = new Array();
     this.queryResults_[query_id].observerInfo = new Array();
+    this.queryResults_[query_id].parentId = '';
 
     var params = dojo.clone(this.getParams);
     dojo.mixin(params, this.params_);
     
     if (item) {
-      this.queryResults_[query_id].parentId = this.getIdentity(item);
       var id = this.getIdentity(item);
+      this.queryResults_[query_id].parentId = id;
       params.parentid = id;
     }
     if ((item) && (item._childrenfunc_)) {
@@ -1199,7 +1200,6 @@ dojo.declare("FIRMOS.Store", null, {
         var up = [item.uid];
       }
     } else {
-      this.queryResults_[query_id].parentId = '';
       var up = this.getUidPath;
       var cn = this.getClassname;
       var fn = this.getFunctionname;
@@ -1576,7 +1576,7 @@ dojo.declare("FIRMOS.Store", null, {
           }
         }
       } else {
-        //add to all queries at the beginning
+        //add to first queries at the beginning
         for (var q in this.queryResults_) {
           if (data[i].parentid!=this.queryResults_[q].parentId) {
             continue; //skip queries for the 'wrong' parent
@@ -1585,6 +1585,7 @@ dojo.declare("FIRMOS.Store", null, {
             this.queryResults_[q].dataIds.unshift(this.getIdentity(data[i].item));
             this.queryResults_[q].observer[o](data[i].item,-1,0);
           }
+          break;
         }
         this._index[this.getIdentity(data[i].item)] = true;
         this.onNew(data[i].item);
