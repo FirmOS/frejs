@@ -448,7 +448,7 @@ dojo.declare("FIRMOS.uiHandler", null, {
         }
         result.startup();
       } else {
-        console.error('NO CONTENT AREA FOUND FOR ' + result.id);
+        console.warn('NO CONTENT AREA FOUND FOR ' + result.id);
         result.destroyRecursive();
       }
     }
@@ -1540,7 +1540,7 @@ dojo.declare("FIRMOS.Store", null, {
       }
       var pq = this._findChildrenCallResultSets(data[i].parentid);
       if (pq.length==0) {
-        console.error('NEW ITEMS: Parent ' + data[i].parentid + ' not found or no children retrieved yet!');
+        console.warn('NEW ITEMS: Parent ' + data[i].parentid + ' not found or no children retrieved yet!');
         continue;
       }
       
@@ -1550,6 +1550,7 @@ dojo.declare("FIRMOS.Store", null, {
         if (qpos.length>0) {
           for (var q=0; q<qpos.length; q++) {
             if (data[i].parentid!=this.queryResults_[qpos[q].queryId].parentId) {
+              console.warn('RevId ' + data[i].revid + ' found in query for wrong parent item (Found in: ' + this.queryResults_[qpos[q].queryId].parentId + '  Defined parent: '+ data[i].parentid+')');
               continue; //skip queries for the 'wrong' parent
             }
             revIdNotFound = false;
@@ -1570,9 +1571,9 @@ dojo.declare("FIRMOS.Store", null, {
         }
         if (revIdNotFound) {
           if (data[i].parentid!='') {
-            console.error('RevId ' + data[i].revid + ' not found in any query for parent item ' + data[i].parentid);
+            console.warn('RevId ' + data[i].revid + ' not found in any query for parent item ' + data[i].parentid);
           } else {
-            console.error('RevId ' + data[i].revid + ' not found in any query');
+            console.warn('RevId ' + data[i].revid + ' not found in any query');
           }
         }
       } else {
@@ -1615,7 +1616,7 @@ dojo.declare("FIRMOS.Store", null, {
         this.onDelete(tmpData);
       }
       if (notFound) {
-        console.error('DeleteId ' + itemIds[i] + ' not found in any query');
+        console.warn('DeleteId ' + itemIds[i] + ' not found in any query');
       }
     }
   },
@@ -1660,7 +1661,7 @@ dojo.declare("FIRMOS.Store", null, {
         }
       }
       if (notFound) {
-        console.error('UpdateId ' + this.getIdentity(data[i]) + ' not found in any query');
+        console.warn('UpdateId ' + this.getIdentity(data[i]) + ' not found in any query');
       }
     }  
     for (var i=0; i<chartUpdates.length; i++) {
