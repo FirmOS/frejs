@@ -285,8 +285,10 @@ dojo.declare("FIRMOS.uiHandler", null, {
   
   refreshStore: function(storeId) {
     var store = G_UI_COM.getStoreById(storeId);
-    for (var j=0; j<store.views.length; j++) {
-      G_UI_COM.refreshView(store.views[j]);
+    if (store) {
+      for (var j=0; j<store.views.length; j++) {
+        G_UI_COM.refreshView(store.views[j]);
+      }
     }
   },
 
@@ -1445,7 +1447,6 @@ dojo.declare("FIRMOS.Store", null, {
   },
   _removeObserver: function(handle) {
     if (this.queryResults_[handle.queryId]) {
-      if (this.queryResults_[handle.queryId].dataIds.length==0) return; //HACK for dgrid
       var index = dojo.array.indexOf(this.queryResults_[handle.queryId].observer, handle.listener);
       if(index>-1) {
         this.queryResults_[handle.queryId].observer.splice(index, 1);
@@ -1532,6 +1533,7 @@ dojo.declare("FIRMOS.Store", null, {
     }
   },
   newItems: function(data) {
+    var emptyGridViews = [];
     for (var i=0;i<data.length;i++) {
       var qpos = this._findItemInResultSets(this.getIdentity(data[i].item));
       if ((qpos>0) || (this._index[this.getIdentity(data[i].item)])) {
@@ -1540,7 +1542,32 @@ dojo.declare("FIRMOS.Store", null, {
       }
       var pq = this._findChildrenCallResultSets(data[i].parentid);
       if (pq.length==0) {
-        console.warn('NEW ITEMS: Parent ' + data[i].parentid + ' not found or no children retrieved yet!');
+        var warn = true;
+        var noObserver = true;
+        for (var q in this.queryResults_) {
+          noObserver = false;
+          break;
+        }
+        if (noObserver) { //check for dgrid views
+          var views  = G_UI_COM.getStoreById(this.id).views;
+          for (var j=0; j<views.length; j++) {
+            if (views[i].isInstanceOf(FIRMOS.GridBase)) {
+              warn = false;
+              var not_found = true;
+              for (var k=0; k<emptyGridViews.length;k++) {
+                if (emptyGridViews[k].id==views[i].id) {
+                  not_found = false;
+                }
+              }
+              if (not_found) {
+                emptyGridViews.push(views[i]);
+              }
+            }
+          }
+        }
+        if (warn) {
+          console.warn('NEW ITEMS: Parent ' + data[i].parentid + ' not found or no children retrieved yet!');
+        }
         continue;
       }
       
@@ -1591,6 +1618,9 @@ dojo.declare("FIRMOS.Store", null, {
         this._index[this.getIdentity(data[i].item)] = true;
         this.onNew(data[i].item);
       }
+    }
+    for (var i=0; i<emptyGridViews.length; i++) {
+      emptyGridViews[i].refresh();
     }
   },
   deleteItems: function(itemIds) {

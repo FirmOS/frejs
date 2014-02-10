@@ -8,6 +8,7 @@ define("dgrid/extensions/nls/pagination", {
 		gotoPage: "Go to page",
 		jumpPage: "Jump to page"
 	},
+	ar: true,
 	de: true,
 	es: true,
 	fr: true,
