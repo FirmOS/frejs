@@ -99,13 +99,13 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
       rId: this.reqId,
       rType: 'S'
     }
-    if (typeof binDataKey!='undefined') {
+    if (typeof binDataKey!='undefined' && binDataKey!=null) {
       messageObj.bDK = binDataKey;
     }
-    if (typeof contentId!='undefined') {
+    if (typeof contentId!='undefined' && contentId!=null) {
       messageObj.cId = contentId;
     }
-    if (typeof params!='undefined') {
+    if (typeof params!='undefined' && params!=null) {
       messageObj.params = params;
     }
     var message = dojo.toJson(messageObj);
@@ -118,9 +118,7 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
                                 uiState: G_UI_COM.getUIState(),
                                 messageObj: messageObj
                                };
-    if (typeof blob=='undefined') {                           
-      this.ws.send(this.encodeString2Message(message));
-    } else {
+    if (typeof blob!='undefined' && blob!=null) {
       var json = this.encodeString2Message(message);
       var barr = new Uint8Array(4);
       var json_length = json.length;
@@ -129,6 +127,8 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
       barr[1]=(json_length >> 8) & 0xFF;
       barr[0]=json_length & 0xFF;
       this.ws.send(new Blob([barr,json,blob]));
+    } else {
+      this.ws.send(this.encodeString2Message(message));
     }
     G_UI_COM.clearUIState();
     this.reqId ++;
