@@ -1533,7 +1533,6 @@ dojo.declare("FIRMOS.Store", null, {
     }
   },
   newItems: function(data) {
-    var emptyGridViews = [];
     for (var i=0;i<data.length;i++) {
       var qpos = this._findItemInResultSets(this.getIdentity(data[i].item));
       if ((qpos>0) || (this._index[this.getIdentity(data[i].item)])) {
@@ -1542,32 +1541,7 @@ dojo.declare("FIRMOS.Store", null, {
       }
       var pq = this._findChildrenCallResultSets(data[i].parentid);
       if (pq.length==0) {
-        var warn = true;
-        var noObserver = true;
-        for (var q in this.queryResults_) {
-          noObserver = false;
-          break;
-        }
-        if (noObserver) { //check for dgrid views
-          var views  = G_UI_COM.getStoreById(this.id).views;
-          for (var j=0; j<views.length; j++) {
-            if (views[i].isInstanceOf(FIRMOS.GridBase)) {
-              warn = false;
-              var not_found = true;
-              for (var k=0; k<emptyGridViews.length;k++) {
-                if (emptyGridViews[k].id==views[i].id) {
-                  not_found = false;
-                }
-              }
-              if (not_found) {
-                emptyGridViews.push(views[i]);
-              }
-            }
-          }
-        }
-        if (warn) {
-          console.warn('NEW ITEMS: Parent ' + data[i].parentid + ' not found or no children retrieved yet!');
-        }
+        console.warn('NEW ITEMS: Parent ' + data[i].parentid + ' not found or no children retrieved yet!');
         continue;
       }
       
@@ -1618,9 +1592,6 @@ dojo.declare("FIRMOS.Store", null, {
         this._index[this.getIdentity(data[i].item)] = true;
         this.onNew(data[i].item);
       }
-    }
-    for (var i=0; i<emptyGridViews.length; i++) {
-      emptyGridViews[i].refresh();
     }
   },
   deleteItems: function(itemIds) {
@@ -2012,6 +1983,7 @@ dojo.declare("FIRMOS.GridDnD", dgrid.DnD, {
 //GridBase
 dojo.declare("FIRMOS.GridBase", null, {
   constructor: function(args) {
+    this.cleanEmptyObservers = false;
     if (args.dragClasses) {
       this.dragClasses_ = {};
       for (var i=0; i<args.dragClasses.length; i++) {
@@ -2152,26 +2124,6 @@ dojo.declare("FIRMOS.GridBase", null, {
     this.refreshDepStores(selection);
     this.refreshButtons(selection);
     this.notifyServer();
-  },
-  updateRow: function(object, before, to, options) {
-    if(!before || before.parentNode){
-      var i = options.start + to;
-              var parent = before ? before.parentNode : this.contentNode;
-      var id = this.id + "-row-" + (options.parentId ? options.parentId + "-" : "") + ((this.store && this.store.getIdentity) ? this.store.getIdentity(object) : this._autoId++);
-      var row = dojo.byId(id);
-      var previousRow = row && row.previousSibling;
-//          parent.insertBefore(row, before || null);
-          if(previousRow){
-        // in this case, we are pulling the row from another location in the grid, and we need to readjust the rowIndices from the point it was removed
-        this.adjustRowIndices(previousRow);
-      }
-      row.rowIndex = i;
-      var new_row = this.renderRow(object,options);
-      dojo.destroy(row.childNodes[0]);
-      dojo.place(new_row.childNodes[0],row);
-      dojo.destroy(new_row);
-      return row;
-    }
   },
   renderRow: function(item, options) {
     var org_div = this.inherited(arguments);
