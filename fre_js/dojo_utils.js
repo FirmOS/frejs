@@ -2125,6 +2125,248 @@ dojo.declare("FIRMOS.GridBase", null, {
     this.refreshButtons(selection);
     this.notifyServer();
   },
+  renderArray: function(results, beforeNode, options){ //override for dgrid
+    // summary:
+    //    This renders an array or collection of objects as rows in the grid, before the
+    //    given node. This will listen for changes in the collection if an observe method
+    //    is available (as it should be if it comes from an Observable data store).
+    options = options || {};
+    var self = this,
+      start = options.start || 0,
+      observers = this.observers,
+      rows, container, observerIndex;
+    
+    if(!beforeNode){
+      this._lastCollection = results;
+    }
+    if(results.observe){
+      // observe the results for changes
+      self._numObservers++;
+      var observer = results.observe(function(object, from, to){
+        var row, firstRow, nextNode, parentNode;
+        
+        function advanceNext() {
+          nextNode = (nextNode.connected || nextNode).nextSibling;
+        }
+        
+        // a change in the data took place
+        if(from > -1 && rows[from]){
+          var i = options.start + to;
+          var id = self.id + "-row-" + (options.parentId ? options.parentId + "-" : "") + self.store.getIdentity(object);
+          var row = dojo.byId(id);
+          //var previousRow = row && row.previousSibling;
+          //if(previousRow){
+          // in this case, we are pulling the row from another location in the grid, and we need to readjust the rowIndices from the point it was removed
+            //this.adjustRowIndices(previousRow);
+          //}
+         row.rowIndex = i;
+         var new_row = self.renderRow(object,options);
+         dojo.destroy(row.childNodes[0]);
+         dojo.place(new_row.childNodes[0],row);
+         dojo.destroy(new_row);
+         self._rowIdToObject[id] = object; //set new data
+         return; //nothing more to do!?!
+
+/*          // remove from old slot
+          row = rows.splice(from, 1)[0];
+          // check to make sure the node is still there before we try to remove it
+          // (in case it was moved to a different place in the DOM)
+          if(row.parentNode == container){
+            firstRow = row.nextSibling;
+            if(firstRow){ // it's possible for this to have been already removed if it is in overlapping query results
+              if(from != to){ // if from and to are identical, it is an in-place update and we don't want to alter the rowIndex at all
+                firstRow.rowIndex--; // adjust the rowIndex so adjustRowIndices has the right starting point
+              }
+            }
+            self.removeRow(row);
+          }
+          // Update count to reflect that we lost one row
+          options.count--;
+          // The removal of rows could cause us to need to page in more items
+          if(self._processScroll){
+            self._processScroll();
+          } */
+        }
+        if(to > -1){
+          // Add to new slot (either before an existing row, or at the end)
+          // First determine the DOM node that this should be placed before.
+          if(rows.length){
+            if(to < 2){ // if it is one of the first rows, we can safely get the next item
+              nextNode = rows[to];
+              // Re-retrieve the element in case we are referring to an orphan
+              nextNode = nextNode && correctElement(nextNode);
+            }else{
+              // If we are near the end of the page, we may not be able to retrieve the 
+              // result from our own array, so go from the previous row and advance one
+              nextNode = rows[to - 1];
+              if(nextNode){
+                nextNode = correctElement(nextNode);
+                // Make sure to skip connected nodes, so we don't accidentally
+                // insert a row in between a parent and its children.
+                advanceNext();
+              }
+            }
+          }else{
+            // There are no rows.  Allow for subclasses to insert new rows somewhere other than
+            // at the end of the parent node.
+            nextNode = self._getFirstRowSibling && self._getFirstRowSibling(container);
+          }
+          // Make sure we don't trip over a stale reference to a
+          // node that was removed, or try to place a node before
+          // itself (due to overlapped queries)
+          if(row && nextNode && row.id === nextNode.id){
+            advanceNext();
+          }
+          if(nextNode && !nextNode.parentNode){
+            nextNode = byId(nextNode.id);
+          }
+          parentNode = (beforeNode && beforeNode.parentNode) ||
+            (nextNode && nextNode.parentNode) || self.contentNode;
+          //row = self.newRow(object, parentNode, nextNode, options.start + to, options); //FIXXME
+          row = self.newRow(object, parentNode, null, options.start + to, options); //HACK
+          
+          if(row){
+            row.observerIndex = observerIndex;
+            rows.splice(to, 0, row);
+            if(!firstRow || to < from){
+              // the inserted row is first, so we update firstRow to point to it
+              var previous = row.previousSibling;
+              // if we are not in sync with the previous row, roll the firstRow back one so adjustRowIndices can sync everything back up.
+              firstRow = !previous || previous.rowIndex + 1 == row.rowIndex || row.rowIndex == 0 ?
+                row : previous;
+            }
+          }
+          options.count++;
+        }
+        
+        if(from === 0){
+          overlapRows(1, 1);
+        }else if(from === results.length - (to === -1 ? 0 : 1)){
+          // It was (re)moved from the end
+          // (which was the previous length if it was a removal)
+          overlapRows(0, 0);
+        }
+        
+        from != to && firstRow && self.adjustRowIndices(firstRow);
+        self._onNotification(rows, object, from, to);
+      }, true);
+      observerIndex = observers.push(observer) - 1;
+    }
+    var rowsFragment = document.createDocumentFragment(),
+      lastRow;
+
+    function overlapRows(){
+      // This is responsible for setting row overlaps in result sets to
+      // ensure that observable can always properly determine which page
+      // an object belongs to.
+      // This function uses kind of an esoteric argument, optimized for
+      // performance and size, since it is called quite frequently.
+      // `sides` is an array of overlapping operations, with a falsy item indicating
+      // to add an overlap to the top, and a truthy item means to add an overlap
+      // to the bottom (so [0, 1] adds one overlap to the top and the bottom)
+      
+      var sides = arguments;
+      // Only perform row overlap in the case of observable results
+      if(observerIndex > -1){
+        // Iterate through the sides operations
+        for(var i = 0; i < sides.length; i++){
+          var top = sides[i];
+          var lastRow = rows[top ? 0 : rows.length-1];
+          // check to make sure we have a row, we won't if we don't have any rows
+          if(lastRow){
+            // Make sure we have the correct row element
+            // (not one that was previously removed)
+            lastRow = correctElement(lastRow);
+            var row = self.row(lastRow);
+            row = row && self[top ? "up" : "down"](row);
+            if(row && row.element != lastRow){
+              var method = top ? "unshift" : "push";
+              // Take the row and data from the adjacent page and unshift to the
+              // top or push to the bottom of our array of rows and results,
+              // and adjust the count
+              results[method](row.data);
+              rows[method](row.element);
+              options.count++;
+            }
+          }
+        }
+      }
+    }
+    function correctElement(row){
+      // If a node has been orphaned, try to retrieve the correct in-document element
+      // (use isDescendant since offsetParent is faulty in IE<9)
+      if(!dojo.isDescendant(row, self.domNode) && byId(row.id)){
+        return self.row(row.id.slice(self.id.length + 5)).element;
+      }
+      // Fall back to the originally-specified element
+      return row;
+    }
+    
+    function mapEach(object){
+      lastRow = self.insertRow(object, rowsFragment, null, start++, options);
+      lastRow.observerIndex = observerIndex;
+      return lastRow;
+    }
+    function whenError(error){
+      if(typeof observerIndex !== "undefined"){
+        observers[observerIndex].cancel();
+        observers[observerIndex] = 0;
+        self._numObservers--;
+      }
+      if(error){
+        throw error;
+      }
+    }
+    var originalRows;
+    function whenDone(resolvedRows){
+      // Save the original rows, before the overlapping is performed
+      originalRows = resolvedRows.slice(0);
+      container = beforeNode ? beforeNode.parentNode : self.contentNode;
+      if(container && container.parentNode &&
+          (container !== self.contentNode || resolvedRows.length)){
+        container.insertBefore(rowsFragment, beforeNode || null);
+        lastRow = resolvedRows[resolvedRows.length - 1];
+        lastRow && self.adjustRowIndices(lastRow);
+      }else if(observers[observerIndex] && self.cleanEmptyObservers){
+        // Remove the observer and don't bother inserting;
+        // rows are already out of view or there were none to track
+        whenError();
+      }
+      rows = resolvedRows;
+      if(observer){
+        observer.rows = rows;
+      }
+    }
+    
+    // Now render the results
+    if(results.map){
+      rows = results.map(mapEach, console.error);
+      if(rows.then){
+        return results.then(function(resultsArray){
+          results = resultsArray;
+          return rows.then(function(resolvedRows){
+            whenDone(resolvedRows);
+            // Overlap rows in the results array when using observable
+            // so that we can determine page boundary changes
+            // (but return the original set)
+            overlapRows(1, 1, 0, 0);
+            return originalRows;
+          });
+        });
+      }
+    }else{
+      rows = [];
+      for(var i = 0, l = results.length; i < l; i++){
+        rows[i] = mapEach(results[i]);
+      }
+    }
+    
+    whenDone(rows);
+    overlapRows(1, 1, 0, 0);
+    // Return the original rows, not the overlapped set
+    return originalRows;
+  },
+
   renderRow: function(item, options) {
     var org_div = this.inherited(arguments);
     if (this.showDetailsSection) {
