@@ -2148,9 +2148,8 @@ dojo.declare("FIRMOS.GridBase", null, {
         function advanceNext() {
           nextNode = (nextNode.connected || nextNode).nextSibling;
         }
-        
-        // a change in the data took place
-        if(from > -1 && rows[from]){
+
+        if (from >-1 && to >-1) { //data change only
           var i = options.start + to;
           var id = self.id + "-row-" + (options.parentId ? options.parentId + "-" : "") + self.store.getIdentity(object);
           var row = dojo.byId(id);
@@ -2159,15 +2158,18 @@ dojo.declare("FIRMOS.GridBase", null, {
           // in this case, we are pulling the row from another location in the grid, and we need to readjust the rowIndices from the point it was removed
             //this.adjustRowIndices(previousRow);
           //}
-         row.rowIndex = i;
-         var new_row = self.renderRow(object,options);
-         dojo.destroy(row.childNodes[0]);
-         dojo.place(new_row.childNodes[0],row);
-         dojo.destroy(new_row);
-         self._rowIdToObject[id] = object; //set new data
-         return; //nothing more to do!?!
-
-/*          // remove from old slot
+          row.rowIndex = i;
+          var new_row = self.renderRow(object,options);
+          dojo.destroy(row.childNodes[0]);
+          dojo.place(new_row.childNodes[0],row);
+          dojo.destroy(new_row);
+          self._rowIdToObject[id] = object; //set new data
+          return; //nothing more to do!?!
+        }
+        
+        // a change in the data took place
+        if(from > -1 && rows[from]){
+          // remove from old slot
           row = rows.splice(from, 1)[0];
           // check to make sure the node is still there before we try to remove it
           // (in case it was moved to a different place in the DOM)
@@ -2185,7 +2187,7 @@ dojo.declare("FIRMOS.GridBase", null, {
           // The removal of rows could cause us to need to page in more items
           if(self._processScroll){
             self._processScroll();
-          } */
+          }
         }
         if(to > -1){
           // Add to new slot (either before an existing row, or at the end)
@@ -2218,7 +2220,7 @@ dojo.declare("FIRMOS.GridBase", null, {
             advanceNext();
           }
           if(nextNode && !nextNode.parentNode){
-            nextNode = byId(nextNode.id);
+            nextNode = dojo.byId(nextNode.id);
           }
           parentNode = (beforeNode && beforeNode.parentNode) ||
             (nextNode && nextNode.parentNode) || self.contentNode;
@@ -2295,7 +2297,7 @@ dojo.declare("FIRMOS.GridBase", null, {
     function correctElement(row){
       // If a node has been orphaned, try to retrieve the correct in-document element
       // (use isDescendant since offsetParent is faulty in IE<9)
-      if(!dojo.isDescendant(row, self.domNode) && byId(row.id)){
+      if(!dojo.isDescendant(row, self.domNode) && dojo.byId(row.id)){
         return self.row(row.id.slice(self.id.length + 5)).element;
       }
       // Fall back to the originally-specified element
