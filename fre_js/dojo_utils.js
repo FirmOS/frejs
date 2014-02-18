@@ -1979,6 +1979,25 @@ dojo.declare("FIRMOS.GridDnD", dgrid.DnD, {
   }
 });
 
+dojo.declare("FIRMOS.Selection",dgrid.Selection, {
+  clearSelection: function(exceptId, dontResetLastSelected){//override dgrid function
+    // summary:
+    //    Deselects any currently-selected items.
+    // exceptId: Mixed?
+    //    If specified, the given id will not be deselected.
+    
+    this.allSelected = false;
+    for(var id in this.selection){
+      if(exceptId !== id){
+        this._select(id, null, false);
+      }
+    }
+    if(!dontResetLastSelected){
+      this._lastSelected = null;
+    }
+    //this._fireSelectionEvents(); //don't fire events
+  }
+});
 
 //GridBase
 dojo.declare("FIRMOS.GridBase", null, {
@@ -2125,7 +2144,7 @@ dojo.declare("FIRMOS.GridBase", null, {
     this.refreshButtons(selection);
     this.notifyServer();
   },
-  renderArray: function(results, beforeNode, options){ //override for dgrid
+  renderArray: function(results, beforeNode, options){ //override dgrid function
     // summary:
     //    This renders an array or collection of objects as rows in the grid, before the
     //    given node. This will listen for changes in the collection if an observe method
@@ -6742,7 +6761,7 @@ dojo.declare("FIRMOS.gridDetailsColumn", null, {
   }
 });
 
-dojo.declare("FIRMOS.OnDemandGrid", [dgrid.OnDemandGrid,FIRMOS.GridBase,dgrid.Selection,FIRMOS.GridFilter,dgrid.ColumnResizer,FIRMOS.ColumnReorder,dgrid.ColumnHider,FIRMOS.GridDnD,dgrid.DijitRegistry]);
+dojo.declare("FIRMOS.OnDemandGrid", [dgrid.OnDemandGrid,FIRMOS.GridBase,FIRMOS.Selection,FIRMOS.GridFilter,dgrid.ColumnResizer,FIRMOS.ColumnReorder,dgrid.ColumnHider,FIRMOS.GridDnD,dgrid.DijitRegistry]);
 
 //Editor
 dojo.declare("FIRMOS.Editor", dijit.layout.BorderContainer, {
