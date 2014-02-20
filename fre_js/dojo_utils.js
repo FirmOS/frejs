@@ -2002,7 +2002,6 @@ dojo.declare("FIRMOS.Selection",dgrid.Selection, {
 //GridBase
 dojo.declare("FIRMOS.GridBase", null, {
   constructor: function(args) {
-    this.cleanEmptyObservers = false;
     if (args.dragClasses) {
       this.dragClasses_ = {};
       for (var i=0; i<args.dragClasses.length; i++) {
@@ -2188,7 +2187,14 @@ dojo.declare("FIRMOS.GridBase", null, {
         
         // a change in the data took place
         if(from > -1 && rows[from]){
-          // remove from old slot
+          var i = options.start + to;
+          var id = self.id + "-row-" + (options.parentId ? options.parentId + "-" : "") + self.store.getIdentity(object);
+          var row = dojo.byId(id);
+          if (row) {
+            self.removeRow(row);
+          }
+
+/*          // remove from old slot
           row = rows.splice(from, 1)[0];
           // check to make sure the node is still there before we try to remove it
           // (in case it was moved to a different place in the DOM)
@@ -2200,7 +2206,7 @@ dojo.declare("FIRMOS.GridBase", null, {
               }
             }
             self.removeRow(row);
-          }
+          }*/
           // Update count to reflect that we lost one row
           options.count--;
           // The removal of rows could cause us to need to page in more items
@@ -2328,7 +2334,7 @@ dojo.declare("FIRMOS.GridBase", null, {
       lastRow.observerIndex = observerIndex;
       return lastRow;
     }
-    function whenError(error){
+/*    function whenError(error){ //remove - no longer used
       if(typeof observerIndex !== "undefined"){
         observers[observerIndex].cancel();
         observers[observerIndex] = 0;
@@ -2337,7 +2343,7 @@ dojo.declare("FIRMOS.GridBase", null, {
       if(error){
         throw error;
       }
-    }
+    }*/
     var originalRows;
     function whenDone(resolvedRows){
       // Save the original rows, before the overlapping is performed
@@ -2348,10 +2354,10 @@ dojo.declare("FIRMOS.GridBase", null, {
         container.insertBefore(rowsFragment, beforeNode || null);
         lastRow = resolvedRows[resolvedRows.length - 1];
         lastRow && self.adjustRowIndices(lastRow);
-      }else if(observers[observerIndex] && self.cleanEmptyObservers){
+/*      }else if(observers[observerIndex] && self.cleanEmptyObservers){ // don't remove empty queries
         // Remove the observer and don't bother inserting;
         // rows are already out of view or there were none to track
-        whenError();
+        whenError(); */
       }
       rows = resolvedRows;
       if(observer){
@@ -2386,6 +2392,58 @@ dojo.declare("FIRMOS.GridBase", null, {
     overlapRows(1, 1, 0, 0);
     // Return the original rows, not the overlapped set
     return originalRows;
+  },
+  
+  removeRow: function(rowElement, justCleanup){
+    function chooseIndex(index1, index2){
+      return index1 != null ? index1 : index2;
+    }
+
+    if(rowElement){
+      // Clean up observers that need to be cleaned up.
+      var previousNode = rowElement.previousSibling,
+        nextNode = rowElement.nextSibling,
+        prevIndex = previousNode && chooseIndex(previousNode.observerIndex, previousNode.previousObserverIndex),
+        nextIndex = nextNode && chooseIndex(nextNode.observerIndex, nextNode.nextObserverIndex),
+        thisIndex = rowElement.observerIndex;
+
+      // Clear the observerIndex on the node being removed so it will not be considered any longer.
+      rowElement.observerIndex = undefined;
+      if(justCleanup){
+        // Save the indexes from the siblings for future calls to removeRow.
+        rowElement.nextObserverIndex = nextIndex;
+        rowElement.previousObserverIndex = prevIndex;
+      }
+
+      // Is this row's observer index different than those on either side?
+      if(this.cleanEmptyObservers && thisIndex > -1 && thisIndex !== prevIndex && thisIndex !== nextIndex){
+        // This is the last row that references the observer index.  Cancel the observer.
+        var observers = this.observers;
+        var observer = observers[thisIndex];
+        //if(observer){
+        if(observer && this._numObservers>1){//don't remove the last observer
+          // justCleanup is set to true when the list is being cleaned out.  The rows are left in the DOM
+          // and later they are removed altogether.  Skip the check for overlapping rows because
+          // in the end, all of the rows will be removed and all of the observers need to be canceled.
+          if(!justCleanup){
+          // We need to verify that all the rows really have been removed. If there
+          // are overlapping rows, it is possible another element exists
+            var rows = observer.rows;
+            for(var i = 0; i < rows.length; i++){
+              if(rows[i] != rowElement && dom.isDescendant(rows[i], this.domNode)){
+                // still rows in this list, abandon
+                return this.inherited(arguments);
+              }
+            }
+          }
+          observer.cancel();
+          this._numObservers--;
+          observers[thisIndex] = 0; // remove it so we don't call cancel twice
+        }
+      }
+    }
+    // Finish the row removal.
+    this.inherited(arguments);
   },
 
   renderRow: function(item, options) {
