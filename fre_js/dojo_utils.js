@@ -1142,13 +1142,15 @@ dojo.declare("FIRMOS.Store", null, {
   _getChildrenCallback: function(item,callback,results) {
     item.children = results;
     for (var i=0; i<item.children.length; i++) {
-       this._index[this.getIdentity(item.children[i])] = true;
-       if ((item.children[i].children) && (item.children[i].children=='UNCHECKED')) {
-         item.children[i].children = [];
-         item.children[i]._loadChildren = true;
-       }
+      this._addToIndex(item.children[i],this.getIdentity(item));
+      if ((item.children[i].children) && (item.children[i].children=='UNCHECKED')) {
+        item.children[i].children = [];
+        item.children[i]._loadChildren = true;
+      }
     }
-    callback(item);
+    if (typeof callback == 'function') {
+      callback(item);
+    }
   },
   getChildren: function(item,args) {
     var argsIsCallback = (typeof args == 'function');
@@ -1158,8 +1160,8 @@ dojo.declare("FIRMOS.Store", null, {
       query_args = args;
     }
     var def = this._doQuery(query_args,item);
+    def.addCallback(this._getChildrenCallback.bind(this,item,args));
     if (argsIsCallback) {
-      def.addCallback(this._getChildrenCallback.bind(this,item,args));
       def.addErrback(args.bind(this,new Error('Error in function getChildren')));
     }
     return dojo.store.util.QueryResults(def);
@@ -1256,9 +1258,28 @@ dojo.declare("FIRMOS.Store", null, {
       args.onBegin.call(scope, results, args);
     }
   },
+  _addToIndex: function(item,parentId) {
+    if (!this._index[this.getIdentity(item)]) {
+      this._index[this.getIdentity(item)] = new Array();
+    }
+    this._index[this.getIdentity(item)].push(parentId);
+  },
+  _isInIndex: function(item,parentId) {
+    var found = false;
+    var itemId = this.getIdentity(item);
+    if (this._index[itemId]) {
+      for (var i=0; i<this._index[itemId].length; i++) {
+        if (this._index[itemId][i]==parentId) {
+          found = true;
+          break;
+        }
+      }
+    }
+    return found;
+  },
   _fetchCallback: function(args,scope,results) {
     for (var i=0;i<results.length;i++) {
-      this._index[this.getIdentity(results[i])] = true;
+      this._addToIndex(results[i],'');
     }
     if (args.onItem) {
       for (var i=0; i<results.length;i++){
@@ -1535,7 +1556,7 @@ dojo.declare("FIRMOS.Store", null, {
   newItems: function(data) {
     for (var i=0;i<data.length;i++) {
       var qpos = this._findItemInResultSets(this.getIdentity(data[i].item));
-      if ((qpos>0) || (this._index[this.getIdentity(data[i].item)])) {
+      if ((qpos>0) || (this._isInIndex(data[i].item,data[i].parentid))) {
         console.error('NEW ITEMS: Item ' + this.getIdentity(data[i].item) + ' already in store!');
         continue;
       }
@@ -1567,7 +1588,7 @@ dojo.declare("FIRMOS.Store", null, {
         }
         if (this._index[data[i].revid]) {
           revIdNotFound = false;
-          this._index[this.getIdentity(data[i].item)] = true;
+          this._addToIndex(data[i].item,data[i].parentid);
           this.onNew(data[i].item);
         }
         if (revIdNotFound) {
@@ -1589,7 +1610,7 @@ dojo.declare("FIRMOS.Store", null, {
           }
           break;
         }
-        this._index[this.getIdentity(data[i].item)] = true;
+        this._addToIndex(data[i].item,data[i].parentid);
         this.onNew(data[i].item);
       }
     }
