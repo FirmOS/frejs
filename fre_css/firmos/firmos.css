@@ -95,3 +95,4 @@ body{background:linear-gradient(150deg, #0f034f 0%, #5189bf 50%, #0f034f 100%);b
 .firmosRecurrenceDivider{width:100%;border-top:1px solid black;}
 .firmosLiveChartCaption{font-size:14px;}
 .firmosLiveChart{padding:0px;background-color:#FFFFFF;}
+.firmosSVGPanel{width:100%;overflow:hidden;background-color:#FFFFFF;}

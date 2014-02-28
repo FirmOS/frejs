@@ -1797,6 +1797,7 @@ _ColumnDnDSource = dojo.declare("FIRMOS.ColumnDnDSource",dgrid.ColumnReorder.Col
   }
 });
 
+//ColumnReorder
 dojo.declare("FIRMOS.ColumnReorder",dgrid.ColumnReorder, {
   columnDndConstructor: _ColumnDnDSource
 });
@@ -1991,6 +1992,7 @@ _GridDnDSource = dojo.declare("FIRMOS.GridDnDSource",dgrid.DnD.GridSource, {
   }
 });
 
+//GridDnD
 dojo.declare("FIRMOS.GridDnD", dgrid.DnD, {
   dndAcceptType: ["dgrid-row"],
   dndConstructor: _GridDnDSource,
@@ -2000,6 +2002,7 @@ dojo.declare("FIRMOS.GridDnD", dgrid.DnD, {
   }
 });
 
+//Selection
 dojo.declare("FIRMOS.Selection",dgrid.Selection, {
   clearSelection: function(exceptId, dontResetLastSelected){//override dgrid function
     // summary:
@@ -4564,7 +4567,6 @@ dojo.declare("FIRMOS.NumberSlider", dijit.form._FormValueWidget, {
   }
 });
 
-
 //TabContainer
 dojo.declare("FIRMOS.TabContainer", dijit.layout.TabContainer, {
   constructor: function() {
@@ -5116,6 +5118,7 @@ dojo.declare("FIRMOS.StoreSeries", null, {
 
 });
 
+//D3Chart
 dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
   constructor: function(args) {
     for (var i in args) {
@@ -6848,6 +6851,21 @@ dojo.declare("FIRMOS.gridDetailsColumn", null, {
 });
 
 dojo.declare("FIRMOS.OnDemandGrid", [dgrid.OnDemandGrid,FIRMOS.GridBase,FIRMOS.Selection,FIRMOS.GridFilter,dgrid.ColumnResizer,FIRMOS.ColumnReorder,dgrid.ColumnHider,FIRMOS.GridDnD,dgrid.DijitRegistry]);
+
+//SVG
+dojo.declare("FIRMOS.SVG", dijit.layout.ContentPane, {
+  postCreate: function() {
+    this.inherited(arguments);
+    this.set('content',this.svg);
+    this.set('class', 'firmosSVGPanel');
+    var children = this.containerNode.children;
+    if (children.length>0) {
+      this.svgNode = children[0];
+      this.svgNode.setAttribute('width','100%');
+      this.svgNode.setAttribute('height','100%');
+    }
+  }
+});
 
 //Editor
 dojo.declare("FIRMOS.Editor", dijit.layout.BorderContainer, {
