@@ -547,6 +547,13 @@ dojo.declare("FIRMOS.uiHandler", null, {
     }
   },
   
+  updateSVG: function(svgId, elementId, attribute, value) {
+    var svg = dijit.byId(svgId);
+    if (svg && svg.isInstanceOf(FIRMOS.SVG)) {
+      svg.updateElement(elementId, attribute, value);
+    }
+  },
+  
   registerSelDepFunc: function(classname, functionname, view) {
     this.selDepFuncs_.views[view.id] = view;
     if (!this.selDepFuncs_.classes[classname]) {
@@ -6863,6 +6870,12 @@ dojo.declare("FIRMOS.SVG", dijit.layout.ContentPane, {
       this.svgNode = children[0];
       this.svgNode.setAttribute('width','100%');
       this.svgNode.setAttribute('height','100%');
+    }
+  },
+  updateElement: function(elementId, attribute, value) {
+    var element = dojo.byId(elementId, this.svgNode);
+    if (element) {
+      element.setAttribute(attribute,value);
     }
   }
 });
