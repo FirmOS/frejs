@@ -1564,12 +1564,12 @@ dojo.declare("FIRMOS.Store", null, {
     for (var i=0;i<data.length;i++) {
       var qpos = this._findItemInResultSets(this.getIdentity(data[i].item));
       if ((qpos>0) || (this._isInIndex(data[i].item,data[i].parentid))) {
-        console.error('NEW ITEMS: Item ' + this.getIdentity(data[i].item) + ' already in store!');
+        console.error('NEW ITEMS: Item ' + this.getIdentity(data[i].item) + ' already in store ('+this.id+')!');
         continue;
       }
       var pq = this._findChildrenCallResultSets(data[i].parentid);
       if (pq.length==0) {
-        console.warn('NEW ITEMS: Parent ' + data[i].parentid + ' not found or no children retrieved yet!');
+        console.warn('NEW ITEMS: Parent ' + data[i].parentid + ' not found or no children retrieved yet in store ' + this.id + '!');
         continue;
       }
       
@@ -1600,9 +1600,9 @@ dojo.declare("FIRMOS.Store", null, {
         }
         if (revIdNotFound) {
           if (data[i].parentid!='') {
-            console.warn('RevId ' + data[i].revid + ' not found in any query for parent item ' + data[i].parentid);
+            console.warn('RevId ' + data[i].revid + ' not found in any query for parent item ' + data[i].parentid + ' in store ' + this.id);
           } else {
-            console.warn('RevId ' + data[i].revid + ' not found in any query');
+            console.warn('RevId ' + data[i].revid + ' not found in any query for store ' + this.id);
           }
         }
       } else {
@@ -1640,19 +1640,19 @@ dojo.declare("FIRMOS.Store", null, {
         }
       }
       if (this._index[itemIds[i]]) {
-        noFound = false;
+        notFound = false;
         delete this._index[itemIds[i]];
         this.onDelete(tmpData);
       }
       if (notFound) {
-        console.warn('DeleteId ' + itemIds[i] + ' not found in any query');
+        console.warn('DeleteId ' + itemIds[i] + ' not found in any query for store ' + this.id);
       }
     }
   },
   updateItems: function(data) {
-    var notFound = true;
     var chartUpdates = [];
     for (var i=0; i<data.length; i++) {
+      var notFound = true;
       var qpos = this._findItemInResultSets(this.getIdentity(data[i]));
       if (qpos.length>0) {
         notFound = false;
@@ -1690,7 +1690,7 @@ dojo.declare("FIRMOS.Store", null, {
         }
       }
       if (notFound) {
-        console.warn('UpdateId ' + this.getIdentity(data[i]) + ' not found in any query');
+        console.warn('UpdateId ' + this.getIdentity(data[i]) + ' not found in any query for store ' + this.id);
       }
     }  
     for (var i=0; i<chartUpdates.length; i++) {
@@ -2713,9 +2713,19 @@ dojo.declare("FIRMOS.GridButton", dijit.form.Button, {
   }
 });
 
+
+//widget.Calendar
+dojo.declare("FIRMOS.widget.Calendar", dojox.widget.Calendar, {
+  _setValueAttr: function(/*Date*/ value) {
+    if (!value) return;
+    this.inherited(arguments);
+  }
+});
+
 //DateTextBox
 dojo.declare("FIRMOS.DateTextBox", dijit.form.DateTextBox, {
-  popupClass: 'dojox.widget.Calendar',
+  popupClass: 'FIRMOS.widget.Calendar',
+  _blankValue: '',
   constructor: function(params) {
     if (params.grouprequired) {
       this.groupRequired =  eval(params.grouprequired);
@@ -3568,7 +3578,7 @@ dojo.declare("FIRMOS.FileUpload", dojox.form.Uploader, {
   }
 });
 
-//FIRMOS.FileUpload.Image
+//FileUpload.Image
 dojo.declare("FIRMOS.FileUpload.Image", dojox.form.uploader._Base, {
   uploaderId:"",
   uploader:null,
@@ -3857,8 +3867,12 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
         if (obj[i] instanceof Date) {
           obj[i] = obj[i].getTime();
         } else {
-          if (typeof obj[i]=='object') {
-            this._convertObjectData(obj[i]);
+          if (obj[i]==null) {
+            obj[i] = '';
+          } else {
+            if (typeof obj[i]=='object') {
+              this._convertObjectData(obj[i]);
+            }
           }
         }
       }
