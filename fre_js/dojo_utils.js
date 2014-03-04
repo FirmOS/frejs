@@ -6941,7 +6941,7 @@ dojo.declare("FIRMOS.Editor", dijit.layout.BorderContainer, {
   postCreate: function() {
     this.inherited(arguments);
     this.editorCP = new dijit.layout.ContentPane({region: 'center', splitter: false});
-    this.editorCP.set('content','<div id="'+this.id+'_container" style="width:100%; height:100%; background-color:#fff; overflow:hidden;" class="article"></div>');
+    this.editorCP.set('content','<div id="'+this.id+'_container" style="width:100%; height:100%; background-color:#fff; overflow-y:auto;" class="article"></div>');
     if (this.tbBottom) {
       this.toolbar=new dijit.Toolbar({region: "bottom"});
       var button_style = '';
