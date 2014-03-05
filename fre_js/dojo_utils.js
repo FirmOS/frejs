@@ -4441,8 +4441,12 @@ dojo.declare("FIRMOS.ValidationTextBox", dijit.form.ValidationTextBox, {
     if (this.confirms) {
       var form = this.getParent();
       var main_input = form._getInputById(this.confirms);
-      if (this.get('value')!=main_input.get('value')) {
-        return false;
+      if (main_input) {
+        if (this.get('value')!=main_input.get('value')) {
+          return false;
+        }
+      } else {
+        console.warn('Confirmation not possible: Input field ' + this.confirms + ' not found!');
       }
     }
     return this.inherited(arguments);
