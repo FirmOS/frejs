@@ -3819,7 +3819,7 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
         if (newObj[i].length==oldObj[i].length) {
           var same = true;
           for (var j=0; j<newObj[i].length; j++) {
-            if (newObj[i][j]!=oldObj[i][j]) {
+            if (newObj[i][j]!==oldObj[i][j]) {
               same = false;
               break;
             }
@@ -3846,7 +3846,7 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
               delete newObj[i];
             }
           } else {
-            if (newObj[i]==oldObj[i]) {
+            if (newObj[i]===oldObj[i]) {
               delete newObj[i];
             }
           }
@@ -3867,11 +3867,13 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
         if (obj[i] instanceof Date) {
           obj[i] = obj[i].getTime();
         } else {
-          if (obj[i]==null) {
-            obj[i] = '';
-          } else {
+          if (obj[i]!=null) {
             if (typeof obj[i]=='object') {
               this._convertObjectData(obj[i]);
+            } else {
+             // if (obj[i]==='') {
+             //   obj[i]=null;
+             // }
             }
           }
         }
