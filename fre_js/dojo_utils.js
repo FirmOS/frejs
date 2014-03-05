@@ -3871,9 +3871,9 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
             if (typeof obj[i]=='object') {
               this._convertObjectData(obj[i]);
             } else {
-             // if (obj[i]==='') {
-             //   obj[i]=null;
-             // }
+              if (obj[i]==='') {
+                obj[i]=null;
+              }
             }
           }
         }
