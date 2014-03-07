@@ -3740,6 +3740,7 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
         for (var j=0; j<this.groupRequiredFields[i].fields.length; j++) {
           var elem = dijit.byId(this.groupRequiredFields[i].fields[j]);
           if (elem.isInstanceOf(FIRMOS.BoolCheckBox)) continue; //ignore boolean fields
+          if (elem.get('disabled')) continue; //ignore disabled fields
           var value = elem.get('value');
           if (value && (value!='')) {
             this._setGroupRequired(i,true);
@@ -3779,6 +3780,7 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
           for (var i=0; i<this.groupRequiredFields[path].fields.length; i++) {
             var elem = dijit.byId(this.groupRequiredFields[path].fields[i]);
             if (elem.isInstanceOf(FIRMOS.BoolCheckBox)) continue; //ignore boolean fields
+            if (elem.get('disabled')) continue; //ignore disabled fields
             var elemValue = elem.get('value');
             if (elemValue && (elemValue!='')) return;
           }
