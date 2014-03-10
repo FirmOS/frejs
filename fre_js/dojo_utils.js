@@ -2511,15 +2511,13 @@ dojo.declare("FIRMOS.GridBase", null, {
         }
         item._detailsfunc_ = detailsFunc;
         
-        var details_hidden_div = dojo.create('div',{class: "firmosGridDetailsHidden", id: this.store.getIdentity(item)+'_details_hidden'}, org_div);
-        dojo.create('div',{class: "firmosGridDetailsLoading", id: this.store.getIdentity(item)+'_details_loading', style: 'display:none;'}, org_div);
-        var details_div = dojo.create('div',{class: "firmosGridDetails", id: this.store.getIdentity(item)+'_details', style: 'display:none;'}, org_div);
         var row = this.row(item);
         var content_container = dijit.byId(row.id+'_cc');
         if (!content_container) {
           content_container = new dijit.layout.ContentPane({id: row.id+'_cc'});
           var content_pane = new dijit.layout.ContentPane({id: row.id+'_cp'});
           content_container.addChild(content_pane);
+          dojo.style(content_container.domNode,'display','none');
         }
         dojo.place(content_container.domNode,org_div);
       }
@@ -2531,26 +2529,14 @@ dojo.declare("FIRMOS.GridBase", null, {
     G_UI_COM.setGridDetailsId(rowId);
     var content_container = dijit.byId(rowId+'_cc');
     G_SERVER_COM.callServerFunction(row.data._detailsfunc_.classname,row.data._detailsfunc_.functionname,row.data._detailsfunc_.uidPath,row.data._detailsfunc_.params,this.detailsCallback.bind(this),content_container.getChildren()[0].id);
-    var details_hidden_div = dojo.byId(rowId+'_details_hidden');
-    var details_loading_div = dojo.byId(rowId+'_details_loading');
-    dojo.style(details_hidden_div,'display','none');
-    dojo.style(details_loading_div,'display','');
   },
   detailsCallback: function(options, success, response, uiState) {
     G_SERVER_COM.handleServerFunctionResponse(options,success,response,uiState);
-    var details_loading_div = dojo.byId(uiState.gridDetailsId+'_details_loading');
-    var details_div = dojo.byId(uiState.gridDetailsId+'_details');
-    dojo.style(details_loading_div,'display','none');
-    dojo.style(details_div,'display','');
     var content_container = dijit.byId(uiState.gridDetailsId+'_cc');
     dojo.style(content_container.domNode,'display','');
   },
   hideDetails: function(row) {
     rowId = row.id;
-    var details_hidden_div = dojo.byId(rowId+'_details_hidden');
-    var details_div = dojo.byId(rowId+'_details');
-    dojo.style(details_hidden_div,'display','');
-    dojo.style(details_div,'display','none');
     var content_container = dijit.byId(rowId+'_cc');
     dojo.style(content_container.domNode,'display','none');
   },
