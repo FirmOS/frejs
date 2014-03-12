@@ -6516,7 +6516,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
   _createMoveCtrlDown: function() {
     if (!this.mainEntriesMoveCtrlDownGFX) {
       this.mainEntriesMoveCtrlDownGFX = this.mainEntriesSurface.createGroup();
-      this.mainEntriesMoveCtrlDownGFX.createRect({ x: 10, y: this.mainEntriesContainerDim.h - 30, width: this.mainEntriesContainerDim.w - 20, height: 30 }).setFill('blue');
+      this.mainEntriesMoveCtrlDownGFX.createRect({ x: 10, y: this.mainEntriesContainerDim.h - 30, width: this.mainEntriesContainerDim.w - 20, height: 30 }).setFill([0,0,0,0.5]);
       this.mainEntriesMoveCtrlDownGFX.createPolyline([{x: 15 , y: this.mainEntriesContainerDim.h - 25}, {x: this.mainEntriesContainerDim.w - 15, y: this.mainEntriesContainerDim.h - 25}, {x: this.mainEntriesContainerDim.w / 2 , y: this.mainEntriesContainerDim.h - 5}, {x: 15, y: this.mainEntriesContainerDim.h - 25}]).setFill("white");
       this._repositionMoveCtrlDown();
       this._events.push(dojo.connect(this.mainEntriesMoveCtrlDownGFX.getEventSource(),dojo.touch.press,this.mainEntriesMoveHandler.bind(this,-1)));
@@ -6525,7 +6525,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
   _createMoveCtrlUp: function() {
     if (!this.mainEntriesMoveCtrlUpGFX) {
       this.mainEntriesMoveCtrlUpGFX = this.mainEntriesSurface.createGroup();
-      this.mainEntriesMoveCtrlUpGFX.createRect({ x: 10, y: 0, width: this.mainEntriesContainerDim.w - 20, height: 30 }).setFill('blue');
+      this.mainEntriesMoveCtrlUpGFX.createRect({ x: 10, y: 0, width: this.mainEntriesContainerDim.w - 20, height: 30 }).setFill([0,0,0,0.5]);
       this.mainEntriesMoveCtrlUpGFX.createPolyline([{x: 15 , y: 25}, {x: this.mainEntriesContainerDim.w - 15, y: 25}, {x: this.mainEntriesContainerDim.w / 2 , y: 5}, {x: 15, y: 25}]).setFill("white");
       this._events.push(dojo.connect(this.mainEntriesMoveCtrlUpGFX.getEventSource(),dojo.touch.press,this.mainEntriesMoveHandler.bind(this,1)));
     }
@@ -6545,13 +6545,13 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
   _moveMainEntries: function(direction) {
     if (direction<0) {
       this._createMoveCtrlUp();
-      if (this.mainEntriesBB.y + this.mainEntriesBB.height + this.mainEntriesPos == this.mainEntriesContainerDim.h) {
+      if (this.mainEntriesBB.y + this.mainEntriesBB.height + this.mainEntriesPos <= this.mainEntriesContainerDim.h) {
         this._removeMoveCtrlDown();
         this.mainEntriesMoveEndHandler();
       }
     } else {
       this._createMoveCtrlDown();
-      if (this.mainEntriesPos == 0) {
+      if (this.mainEntriesPos >= 0) {
         this._removeMoveCtrlUp();
         this.mainEntriesMoveEndHandler();
       }
