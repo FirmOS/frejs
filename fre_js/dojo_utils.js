@@ -134,8 +134,8 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
     this.reqId ++;
   },
 
-  handleAsyncServerRequest: function(response) {
-    this.handleServerFunctionResponse({},true,response,G_UI_COM.getUIState());
+  handleAsyncServerRequest: function(response,noError) {
+    this.handleServerFunctionResponse({},noError,response,G_UI_COM.getUIState());
   },
   
   handleSyncServerRequest: function(response) {
@@ -172,7 +172,13 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
       }
     } else {
     //failure
-      console.error('Server Function Error => '+response.cn + '.' + response.fn + ': ' + response.error);
+      console.error('Server Function Error => '+response.cn + '.' + response.fn +  (response.error ? ': ' + response.error : ''));
+      if (response.output) {
+        var json_result = dojo.fromJson(response.output);
+        if (json_result.action) {
+          eval(json_result.action);
+        }
+      }
     }
   },
 
@@ -186,6 +192,14 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
       return;
     }
     switch (response.rtype) {
+      case 'E':
+        if (this.openReq[response.rid]) {
+          this.openReq[response.rid].fn(this.openReq[response.rid].messageObj,false,response,this.openReq[response.rid].uiState);
+          delete this.openReq[response.rid];
+        } else {
+          this.handleAsyncServerRequest(response, false);
+        }
+        break;
       case 'SR':
         if (this.openReq[response.rid]) {
           this.openReq[response.rid].fn(this.openReq[response.rid].messageObj,true/*success*/,response,this.openReq[response.rid].uiState);
@@ -198,7 +212,7 @@ dojo.declare("FIRMOS.wsConnectionHandler", null, {
         this.handleSyncServerRequest(response);
         break;
       case 'A':
-        this.handleAsyncServerRequest(response);
+        this.handleAsyncServerRequest(response,true);
         break;
       default:
         console.error(' Error => Unknown Server Request Type: ' + response.rtype);
@@ -3986,9 +4000,14 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
         var input = this._getInputById(path+x);
         if (input) {
           if (input.isInstanceOf(FIRMOS.DateTextBox)) {
-            input.set('displayedValue',obj[x]);
+            var old_value = input.get('value');
+            if (old_value==null || old_value.getTime()!=obj[x]) {
+              input.set('displayedValue',obj[x]);
+            }
           } else {
-            input.set('value',obj[x]);
+            if (input.get('value')!==obj[x]) {
+              input.set('value',obj[x]);
+            }
           }
         }
       }
