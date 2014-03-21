@@ -1018,6 +1018,29 @@ G_UI_COM = new FIRMOS.uiHandler(G_SERVER_COM);
 
 //Dialog
 dojo.declare("FIRMOS.Dialog", dijit.Dialog, {
+  postCreate: function() {
+    this.inherited(arguments);
+    if (this._contentObj) {
+      var height = this._maxHeight;
+      var width = this._maxWidth;
+      var pos = dojo.domGeo.position(document.body);
+      if ((this._percHeight==0) && (height==0)) {
+        this._percHeight = 80;
+      } 
+      if ((this._percWidth==0) && (width==0)) {
+        this._percWidth = 80;
+      } 
+      if (this._percHeight!=0) {
+        height = this._percHeight / 100 * pos.h;
+      }
+      if (this._percWidth!=0) {
+        width = this._percWidth / 100 * pos.w;
+      }
+      
+      this._contentObj.set('style','height: '+height+'px; width: '+width+'px;');
+      this.set('content',this._contentObj);
+    }
+  },
   onShow: function() {
     if (!this.closable) {
       dojo.style(this.closeButtonNode, "display", "none");
