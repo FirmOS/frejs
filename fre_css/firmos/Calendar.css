@@ -43,7 +43,7 @@
 .dojoxCalendar{width:182px;}
 .dojoxCalendarContainer{cursor:default;font-family:tahoma, verdana, helvetica;font-size:11px;padding:0px;text-align:center;width:180px;overflow:hidden;}
 .dj_ie6 .dojoxCalendarContainer{width:auto;position:relative;}
-.dojoxCalendarBody{height:150px;overflow:hidden;position:relative;margin:auto;width:180px;}
+.dojoxCalendarBody{height:175px;overflow:hidden;position:relative;margin:auto;width:180px;}
 .dojoxCalendar .no-header .dojoxCalendarBody{height:162px;}
 .dojoxCalendar .dijitCalendarDayLabels,.dojoxCalendarMonthLabels,.dojoxCalendarYearLabels,.dojoxCal-MY-labels{width:180px;height:150px;top:0px;position:absolute;left:0px;margin:auto;text-align:center;}
 .dojoxCalendar .dojoxCalendarBody>div{width:180px;}
