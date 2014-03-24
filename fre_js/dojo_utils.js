@@ -4537,15 +4537,18 @@ dojo.declare("FIRMOS.NumberTextBox", dijit.form.NumberTextBox, {
       params.constraints = {};
     }
 
-    if (params.constraints.places && (params.constraints.places==0)) {
-      this.regExpForbidden = /[^\d\-]/g;
-    } else {
-      this.regExpForbidden =  /[^\d\.\,\-]/g;
-/*      if (!params.constraints.places) params.constraints.places = 2;
-      params.constraints.pattern = '#0.';
-      for (var i=0; i<params.constraints.places; i++) {
-        params.constraints.pattern = params.constraints.pattern + '#';
-      }*/
+    if (params.constraints.places) {
+      if (params.constraints.places==0) {
+        this.regExpForbidden = /[^\d\-]/g;
+      } else {
+        this.regExpForbidden =  /[^\d\.\,\-]/g;
+        params.constraints.places = '0,' + params.constraints.places;
+/*        if (!params.constraints.places) params.constraints.places = 2;
+        params.constraints.pattern = '#0.';
+        for (var i=0; i<params.constraints.places; i++) {
+          params.constraints.pattern = params.constraints.pattern + '#';
+        }*/
+      }
     }
     
     if (params.grouprequired) {
