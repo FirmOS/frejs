@@ -982,6 +982,13 @@ dojo.declare("FIRMOS.uiHandler", null, {
     }
   },
   
+  updateGridDrag: function(elementId,disabled) {
+    var element = dijit.byId(elementId + '_grid');
+    if (element) {
+      element.dndDisabled = disabled;
+    }
+  },
+
   updateUIElement: function(elementId,disabled,newCaption) {
     var element = dijit.byId(elementId);
     if (element) {
