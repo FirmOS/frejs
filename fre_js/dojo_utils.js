@@ -989,12 +989,23 @@ dojo.declare("FIRMOS.uiHandler", null, {
     }
   },
 
-  updateUIElement: function(elementId,disabled,newCaption) {
+  updateUIElement: function(elementId,disabled,newCaption,newHint) {
     var element = dijit.byId(elementId);
     if (element) {
       this._updateElement(element,disabled);
       if (newCaption!='') {
         element.set('label',newCaption);
+      }
+      if (newHint) {
+        var hint = dijit.byId(elementId + '_tooltip');
+        if (hint) {
+          var displayNode = hint.displayedFor();
+          hint.set('label',newHint);
+          if (displayNode) {
+            hint.close();
+            hint.open(displayNode);
+          }
+        }
       }
       this._updateChildElements(element,disabled);
       this._updateParent(element);
@@ -2705,8 +2716,20 @@ dojo.declare("FIRMOS.FormButton", dijit.form.Button, {
   }
 });
 
+//Tooltip
+dojo.declare("FIRMOS.Tooltip", dijit.Tooltip, {
+  displayedFor: function() {
+    return this._connectNode;
+  }
+});
+
 //GridButton
 dojo.declare("FIRMOS.GridButton", dijit.form.Button, {
+  destroy: function() {
+    var hint = dijit.byId(this.id + '_tooltip');
+    hint.destroyRecursive();
+    this.inherited(arguments);
+  },
   setGrid: function(grid) {
     this.grid_ = grid;
   },
