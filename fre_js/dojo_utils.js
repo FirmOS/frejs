@@ -2727,7 +2727,9 @@ dojo.declare("FIRMOS.Tooltip", dijit.Tooltip, {
 dojo.declare("FIRMOS.GridButton", dijit.form.Button, {
   destroy: function() {
     var hint = dijit.byId(this.id + '_tooltip');
-    hint.destroyRecursive();
+    if (hint) {
+      hint.destroyRecursive();
+    }
     this.inherited(arguments);
   },
   setGrid: function(grid) {
