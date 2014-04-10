@@ -7057,25 +7057,29 @@ dojo.declare("FIRMOS.Editor", dijit.layout.BorderContainer, {
     setTimeout(this.startEditor.bind(this),0);
   },
   startEditor: function() {
-    if (this.readOnly) return;
-    switch (this.editorType) {
-      case 'aloha':
-        $('#'+this.id+'_container').aloha();
-        this.editableContent = Aloha.getEditableById(this.id+'_container');
-        Aloha.bind('aloha-editable-activated',this.startEditAHandler);
-        Aloha.bind('aloha-editable-deactivated',this.pauseEditAHandler);
-        break;
-      case 'codemirror':
-        this.cm = CodeMirror(dojo.byId(this.id+'_container'), {
-          lineNumbers: true,
-          mode:  this.contentType.substring(3)
-        });
-        this.cm.on('focus',this.startEditCMHandler);  // 'beforeChange' event?
-        this.cm.on('blur',this.pauseEditCMHandler);
-        break;
-      default:
-        return;
-        break;
+    if (this.readOnly) {
+      this.readOnlyContent = dojo.byId(this.id+'_container');
+      dojo.addClass(this.readOnlyContent,"aloha-editable"); //FIXXME - handle codemirrot
+    } else {
+      switch (this.editorType) {
+        case 'aloha':
+          $('#'+this.id+'_container').aloha();
+          this.editableContent = Aloha.getEditableById(this.id+'_container');
+          Aloha.bind('aloha-editable-activated',this.startEditAHandler);
+          Aloha.bind('aloha-editable-deactivated',this.pauseEditAHandler);
+          break;
+        case 'codemirror':
+          this.cm = CodeMirror(dojo.byId(this.id+'_container'), {
+            lineNumbers: true,
+            mode:  this.contentType.substring(3)
+          });
+          this.cm.on('focus',this.startEditCMHandler);  // 'beforeChange' event?
+          this.cm.on('blur',this.pauseEditCMHandler);
+          break;
+        default:
+          return;
+          break;
+      }
     }
     this.load();
   },
@@ -7095,15 +7099,19 @@ dojo.declare("FIRMOS.Editor", dijit.layout.BorderContainer, {
     }
   },
   setValue: function(newValue) {
-    switch (this.editorType) {
-      case 'aloha':
-        if (this.editableContent) {
-          this.editableContent.setContents(newValue);
-        }
-        break;
-      case 'codemirror':
-        this.cm.setValue(newValue);
-        break;
+    if (this.readOnly) {
+      this.readOnlyContent.innerHTML = newValue;
+    } else {
+      switch (this.editorType) {
+        case 'aloha':
+          if (this.editableContent) {
+            this.editableContent.setContents(newValue);
+          }
+          break;
+        case 'codemirror':
+          this.cm.setValue(newValue);
+          break;
+      }
     }
   },
   startEdit: function() {
