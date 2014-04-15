@@ -1055,8 +1055,40 @@ dojo.declare("FIRMOS.Dialog", dijit.Dialog, {
         width = this._percWidth / 100 * pos.w;
       }
       
-      this._contentObj.set('style','height: '+height+'px; width: '+width+'px;');
-      this.set('content',this._contentObj);
+      var content = dijit.layout.BorderContainer({});
+      content.set('style','height: '+height+'px; width: '+width+'px;');
+      this._contentObj.set('region','center');
+      content.addChild(this._contentObj);
+      
+     if (this._buttonDef) {
+       this._buttonsCP = dijit.layout.ContentPane({content: this._buttonDef, region: 'bottom', style:'text-align:center;'});
+       content.addChild(this._buttonsCP);
+     }
+     this.set('content',content);
+
+    }
+  },
+  disableAllButtons: function() {
+    if (this._buttonsCP) {
+      var children = this.getDescendants();
+      for (var i=0; i<children.length; i++) {
+        if (children[i].isInstanceOf(FIRMOS.FormButton)) {
+          children[i]._orgState = children[i].get('disabled');
+          children[i].set('disabled',true);
+        }
+      }
+    }
+  },
+  
+  restoreAllButtons: function() {
+    if (this._buttonsCP) {
+      var children = this.getDescendants();
+      for (var i=0; i<children.length; i++) {
+        if (children[i].isInstanceOf(FIRMOS.FormButton)) {
+          children[i].set('disabled',children[i]._orgState);
+          delete children[i]._orgState;
+        }
+      }
     }
   },
   onShow: function() {
@@ -2614,7 +2646,7 @@ dojo.declare("FIRMOS.GridBase", null, {
         clearTimeout(this.storeRefreshHandler_[storeId]);
         delete(this.storeRefreshHandler_[storeId]);
       }
-      this.storeRefreshHandler_[storeId] = setTimeout(this._refreshDepStoreViews.bind(this,store),200);
+      this.storeRefreshHandler_[storeId] = setTimeout(this._refreshDepStoreViews.bind(this,store),0);
     }
   },
   refreshDepStores: function(selection) {
@@ -2671,7 +2703,7 @@ dojo.declare("FIRMOS.FormButton", dijit.form.Button, {
   onClick: function(evt) {
     evt.preventDefault();
     dojo.stopEvent(evt);
-    this._getWidget(dijit.form.Form).disableAllButtons();
+    this._getWidget().disableAllButtons();
     switch (this.type) {
       case 'submit': 
         this.handleTypeSubmit();
@@ -2681,17 +2713,22 @@ dojo.declare("FIRMOS.FormButton", dijit.form.Button, {
         break;
     }
   },
-  _getWidget: function(type) {
+  _getWidget: function(dialogOnly) {
     var widget=this.getParent();
-    while (widget && !widget.isInstanceOf(type)) {
+    while (widget && !widget.isInstanceOf(dijit.form.Form) && !widget.isInstanceOf(FIRMOS.Dialog)) {
       widget=widget.getParent();
+    }
+    if (dialogOnly) {
+      while (widget && !widget.isInstanceOf(FIRMOS.Dialog)) {
+        widget=widget.getParent();
+      }
     }
     return widget;
   },
   handleTypeButton: function() {
     if (this.closeDialog) {
-      var dialog = this._getWidget(dijit.Dialog);
-      if (dialog) {
+      var dialog = this._getWidget(true);
+      if (dialog && dialog.isInstanceOf(FIRMOS.Dialog)) {
         dialog.hide();
       }
     }
@@ -2701,17 +2738,19 @@ dojo.declare("FIRMOS.FormButton", dijit.form.Button, {
     if (this.downloadId) {
       dojo.io.iframe.setSrc(dojo.byId('FirmOSDownload'),this.downloadId,true);
       if (!this.closeDialog) {
-        this._getWidget(dijit.form.Form).restoreAllButtons();
+        this._getWidget().restoreAllButtons();
       }
     }
   },
   handleTypeSubmit: function() {
-    var form = this._getWidget(dijit.form.Form);
-    var params = dojo.clone(this.actionParams);
-    form.callServerFunction(this.actionClassname,this.actionFunctionname,this.actionUidPath,params,this.hiddenFields,this.isDialog);
+    var form = this._getWidget();
+    if (form.isInstanceOf(dijit.form.Form)) {
+      var params = dojo.clone(this.actionParams);
+      form.callServerFunction(this.actionClassname,this.actionFunctionname,this.actionUidPath,params,this.hiddenFields,this.isDialog);
+    }
   },
   sfCallback: function(options, success, response, uiState) {
-    this._getWidget(dijit.form.Form).restoreAllButtons();
+    this._getWidget().restoreAllButtons();
     G_SERVER_COM.handleServerFunctionResponse(options,success,response,uiState);
   }
 });
@@ -4302,15 +4341,59 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
     } else {
       this.groupRequired = false;
     }
-    this.depGroup = new Object();
+    this.depGroup_ = new Object();
     if (params.depGroup) {
       var depGroupDef = dojo.fromJson(params.depGroup);
       delete params.depGroup;
       for (var i=0; i<depGroupDef.length; i++) {
-        if (!this.depGroup[depGroupDef[i].inputId]) {
-          this.depGroup[depGroupDef[i].inputId] = new Array();
+        if (!this.depGroup_[depGroupDef[i].inputId]) {
+          this.depGroup_[depGroupDef[i].inputId] = new Array();
         }
-        this.depGroup[depGroupDef[i].inputId].push({value: depGroupDef[i].value, ignoreHidden: depGroupDef[i].ignoreHidden});
+        this.depGroup_[depGroupDef[i].inputId].push({value: depGroupDef[i].value, ignoreHidden: depGroupDef[i].ignoreHidden});
+      }
+    }
+    this.storeRefreshHandler_ = new Object();
+    this.depStores_ = new Array();
+    if (params.depStores) {
+      var depStoresDef = dojo.fromJson(params.depStores);
+      delete params.depStores;
+      for (var i=0; i<depStoresDef.length; i++) {
+        this.depStores_.push({storeId: depStoresDef[i].storeId, refId: depStoresDef[i].refId});
+      }
+    }
+  },
+  destroy: function(params) {
+    for (var i=0; i<this.depStores_.length; i++) {
+      G_UI_COM.deleteStoreDependency(this.depStores_[i].storeId,this.depStores_[i].refId);
+    }
+    this.inherited(arguments);
+  },
+  postCreate: function() {
+    this.inherited(arguments);
+    this.refreshDepStores(this.get('value'));
+  },
+  _refreshDepStoreViews: function(depStore) {
+    delete(this.storeRefreshHandler_[depStore.store.id]);
+    for (var i=0; i<depStore.views.length; i++) {
+      G_UI_COM.refreshView(depStore.views[i]);
+    }
+  },
+  refreshDepStores: function(selection) {
+    if (selection=='') {
+      var sel = [];
+    } else {
+      var sel = [selection];
+    }
+    for (var i=0; i<this.depStores_.length; i++) {
+      G_UI_COM.setStoreDependency(this.depStores_[i].storeId,this.depStores_[i].refId,'G',sel);
+      var store = G_UI_COM.getStoreById(this.depStores_[i].storeId);
+      if (store) {
+        //delete handler
+        if (this.storeRefreshHandler_[this.depStores_[i].storeId]) {
+          clearTimeout(this.storeRefreshHandler_[this.depStores_[i].storeId]);
+          delete(this.storeRefreshHandler_[this.depStores_[i].storeId]);
+        }
+        this.storeRefreshHandler_[this.depStores_[i].storeId] = setTimeout(this._refreshDepStoreViews.bind(this,store),0);
       }
     }
   },
@@ -4368,13 +4451,13 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
     this._updateDepGroup();
   },
   _updateDepGroup: function(form) {
-    for (var i in this.depGroup) {
-      this._updateDepField(i,this.depGroup[i],false,form);
+    for (var i in this.depGroup_) {
+      this._updateDepField(i,this.depGroup_[i],false,form);
     }
   },
   _hideAllDepFields: function(form) {
-    for (var i in this.depGroup) {
-      this._updateDepField(i,this.depGroup[i],true,form);
+    for (var i in this.depGroup_) {
+      this._updateDepField(i,this.depGroup_[i],true,form);
     }
   },
   init: function() {
@@ -4407,6 +4490,7 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
       form.checkGroupRequiredFields(this);
       form.submitOnChange(this);
     }
+    this.refreshDepStores(value);
   }
 });
 
