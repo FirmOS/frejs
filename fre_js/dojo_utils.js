@@ -4349,7 +4349,7 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
         if (!this.depGroup_[depGroupDef[i].inputId]) {
           this.depGroup_[depGroupDef[i].inputId] = new Array();
         }
-        this.depGroup_[depGroupDef[i].inputId].push({value: depGroupDef[i].value, ignoreHidden: depGroupDef[i].ignoreHidden});
+        this.depGroup_[depGroupDef[i].inputId].push(depGroupDef[i].value);
       }
     }
     this.storeRefreshHandler_ = new Object();
@@ -4408,7 +4408,7 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
         var doHide = true;
         if (!forceHide) {
           for (var i=0; i<fielddef.length; i++) {
-            if (fielddef[i].value == this.value) {
+            if (fielddef[i] == this.value) {
               doHide = false;
             }
           }
@@ -4416,15 +4416,13 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
         doHide = forceHide || doHide;
         if (doHide) {
           dojo.style(domElem,'display','none');
-          if (fielddef.ignoreHidden) {
-            elem._ignore = true;
-            if (elem.get('required')) {
-              elem._required = true;
-              elem.set('required',false);
-            }
+          elem._ignore = true;
+          if (elem.get('required')) {
+            elem._required = true;
+            elem.set('required',false);
           }
           if (elem.isInstanceOf(FIRMOS.FilteringSelect)) {
-            elem.hide();
+            elem.hide(form);
           }
         } else {
           dojo.style(domElem,'display','');
@@ -4436,19 +4434,19 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
             delete elem._required;
           }
           if (elem.isInstanceOf(FIRMOS.FilteringSelect)) {
-            elem.unhide();
+            elem.unhide(form);
           }
         }
       }
     }
   },
-  hide: function() {
+  hide: function(form) {
     this._hidden = true;
-    this._hideAllDepFields();
+    this._hideAllDepFields(form);
   },
-  unhide: function() {
+  unhide: function(form) {
     this._hidden = false;
-    this._updateDepGroup();
+    this._updateDepGroup(form);
   },
   _updateDepGroup: function(form) {
     for (var i in this.depGroup_) {
