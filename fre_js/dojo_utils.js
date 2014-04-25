@@ -712,7 +712,7 @@ dojo.declare("FIRMOS.uiHandler", null, {
     var depObj = new Object();
     depObj.filterfieldname = depField;
     depObj.filtervalues = depValues;
-    depObj.filterfieldtype = depType;
+    depObj.filtertype = depType;
     if (numDepType) {
       depObj.numfiltertype = numDepType;
     }
@@ -5086,7 +5086,7 @@ dojo.declare("FIRMOS.GridFilter",null, {
       this.clearFilter(columnId);
       return;
     }
-    G_UI_COM.setStoreDependency(this.store.id,columnId,'SS',[filter.filter]);
+    G_UI_COM.setStoreDependency(this.store.id,columnId,'T',[filter.filter]);
     this.filterSet(columnId);
   },
   setNumberFilter: function(columnId, filter) {
@@ -5103,16 +5103,16 @@ dojo.declare("FIRMOS.GridFilter",null, {
     }
     switch (filter.type) {
       case this.texts.numberOptions.eq:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'R8',[filter.value],'EX');
+        G_UI_COM.setStoreDependency(this.store.id,columnId,'S',[filter.value],'EX');
         break;
       case this.texts.numberOptions.lt:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'R8',[filter.value],'LE');
+        G_UI_COM.setStoreDependency(this.store.id,columnId,'S',[filter.value],'LE');
         break;
       case this.texts.numberOptions.gt:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'R8',[filter.value],'GT');
+        G_UI_COM.setStoreDependency(this.store.id,columnId,'S',[filter.value],'GT');
         break;
       case this.texts.numberOptions.gtlt:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'R8',[filter.value1,filter.value2],'REXB');
+        G_UI_COM.setStoreDependency(this.store.id,columnId,'S',[filter.value1,filter.value2],'REXB');
         break;
     }
     this.filterSet(columnId);
@@ -5131,16 +5131,16 @@ dojo.declare("FIRMOS.GridFilter",null, {
     }
     switch (filter.type) {
       case this.texts.dateOptions.eq:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'DT',[filter.value],'EX');
+        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[filter.value],'EX');
         break;
       case this.texts.dateOptions.lt:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'DT',[filter.value],'LE');
+        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[filter.value],'LE');
         break;
       case this.texts.dateOptions.gt:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'DT',[filter.value],'GT');
+        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[filter.value],'GT');
         break;
       case this.texts.dateOptions.gtlt:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'DT',[filter.value1,filter.value2],'REXB');
+        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[filter.value1,filter.value2],'REXB');
         break;
     }
     this.filterSet(columnId);
@@ -5149,7 +5149,7 @@ dojo.declare("FIRMOS.GridFilter",null, {
     this.filterSet(columnId);
   },
   setBooleanFilter: function(columnId, filter) {
-    G_UI_COM.setStoreDependency(this.store.id,columnId,'BO',[filter.filter]);
+    G_UI_COM.setStoreDependency(this.store.id,columnId,'B',[filter.filter]);
     this.filterSet(columnId);
   },
   filterSet: function(columnId) {

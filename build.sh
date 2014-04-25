@@ -1,3 +1,4 @@
+./cleangzipped.sh
 rm -rf js/*
 dojo/util/buildscripts/build.sh action=release --profile dojo/util/buildscripts/profiles/firmos.profile.js
 node aloha/build/r.js -o aloha/build/aloha/build-profile-firmos.js

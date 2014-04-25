@@ -2,3 +2,7 @@ fre_css/artemes
 fre_css/citycom
 FREROOT.html
 *.gzip
+js/aloha
+js/dojo/dgrid
+js/dojo
+js/d3
