@@ -5103,18 +5103,23 @@ dojo.declare("FIRMOS.GridFilter",null, {
         return;
       }
     }
+    if (this.column(columnId).dataType=='CUR') {
+      var depType='C';
+    } else {
+      var depType='S';
+    }
     switch (filter.type) {
       case this.texts.numberOptions.eq:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'S',[filter.value],'EX');
+        G_UI_COM.setStoreDependency(this.store.id,columnId,depType,[filter.value],'EX');
         break;
       case this.texts.numberOptions.lt:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'S',[filter.value],'LE');
+        G_UI_COM.setStoreDependency(this.store.id,columnId,depType,[filter.value],'LE');
         break;
       case this.texts.numberOptions.gt:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'S',[filter.value],'GT');
+        G_UI_COM.setStoreDependency(this.store.id,columnId,depType,[filter.value],'GT');
         break;
       case this.texts.numberOptions.gtlt:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'S',[filter.value1,filter.value2],'REXB');
+        G_UI_COM.setStoreDependency(this.store.id,columnId,depType,[filter.value1,filter.value2],'REXB');
         break;
     }
     this.filterSet(columnId);
