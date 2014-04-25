@@ -5021,6 +5021,7 @@ dojo.declare("FIRMOS.GridFilter",null, {
             break;
           case 'NUM':
           case 'PRG':
+          case 'CUR':
             var filter_dialog_content = this.getNumberFilterDialog(this.columns[colId]);
             var set_function = 'setNumberFilter';
             break;
@@ -5034,6 +5035,7 @@ dojo.declare("FIRMOS.GridFilter",null, {
             break;
           default:
             console.error('Grid filter error: Unknown data type set for column "' + this.columns[colId].label.replace(/"/g,'\"') + '": ' + this.columns[colId].dataType);
+            continue;
             break;
         }
         filter_dialog_content = '<form dojoType="dijit.form.Form" id="'+this.id+'_'+colId+'" onsubmit="return false;">'+
@@ -5091,12 +5093,12 @@ dojo.declare("FIRMOS.GridFilter",null, {
   },
   setNumberFilter: function(columnId, filter) {
     if (filter.type==this.texts.numberOptions.gtlt) {
-      if ((filter.value1=='') && (filter.value2=='')) {
+      if ((filter.value1==='') && (filter.value2==='')) {
         this.clearFilter(columnId);
         return;
       }
     } else {
-      if (filter.value=='') {
+      if (filter.value==='') {
         this.clearFilter(columnId);
         return;
       }
@@ -5131,16 +5133,16 @@ dojo.declare("FIRMOS.GridFilter",null, {
     }
     switch (filter.type) {
       case this.texts.dateOptions.eq:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[filter.value],'EX');
+        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[filter.value.getTime()],'EX');
         break;
       case this.texts.dateOptions.lt:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[filter.value],'LE');
+        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[filter.value.getTime()],'LE');
         break;
       case this.texts.dateOptions.gt:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[filter.value],'GT');
+        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[filter.value.getTime()],'GT');
         break;
       case this.texts.dateOptions.gtlt:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[filter.value1,filter.value2],'REXB');
+        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[filter.value1.getTime(),filter.value2.getTime()],'REXB');
         break;
     }
     this.filterSet(columnId);
@@ -5158,8 +5160,7 @@ dojo.declare("FIRMOS.GridFilter",null, {
     this.refresh();
   },
   getStringFilterDialog: function(column) {
-    var content = '<tr><td class="firmosGridFilterFormLabelTD"><label for="'+this.id+'_'+column.id+'_filter">'+this.texts.filterLabel+'</label></td>' +
-                      '<td class="firmosGridFilterFormInputTD"><input data-dojo-type="dijit.form.TextBox" id="'+this.id+'_'+column.id+'_filter" name="filter" style="width:100%"></td></tr>';
+    var content = '<tr><td colspan=2 class="firmosGridFilterFormInputTD2Col"><input data-dojo-type="dijit.form.TextBox" id="'+this.id+'_'+column.id+'_filter" name="filter" style="width:100%"></td></tr>';
     return content;
   },
   numberFilterTypeChange: function(newValue,id,input) {
@@ -5222,8 +5223,7 @@ dojo.declare("FIRMOS.GridFilter",null, {
     return '';
   },
   getBooleanFilterDialog: function(column) {
-    var content = '<tr><td class="firmosGridFilterFormLabelTD"><label for="'+this.id+'_'+column.id+'_filter">'+this.texts.filterLabel+'</label></td>' +
-                      '<td class="firmosGridFilterFormInputTD">'+
+    var content = '<tr><td colspan=2 class="firmosGridFilterFormInputTD2Col">'+
                         '<select data-dojo-type="dojox.form.CheckedMultiSelect" style="width:100%" id="'+this.id+'_'+column.id+'_filter" name="filter" value="true">'+
                         '<option value="true">Yes</option>'+
                         '<option value="false">No</option>'+
