@@ -43,11 +43,12 @@ body{background:linear-gradient(150deg, #0f034f 0%, #5189bf 50%, #0f034f 100%);b
 .firmos .dgrid-header .dijitArrowButtonInner,.firmos .dgrid-header .dijitButtonText{display:none;}
 .firmosGridFilter{float:right;margin:0;}
 .firmos .dijitTooltipContainer{background:-moz-linear-gradient(top, #ffffff 10%, #aaccff 90%);}
-.firmosGridFilterDialogSTR .firmosGridFilterFormLabelTD,.firmosGridFilterDialogBOO .firmosGridFilterFormLabelTD{width:1%;}
+.firmosGridFilterFormLabelTD{width:30%;}
+.firmosGridFilterFormInputTD{width:70%;}
+.firmosGridFilterFormInputTD2Col{width:100%;}
 .firmosGridFilterDialogSTR,.firmosGridFilterDialogNUM{width:250px;}
-.firmosGridFilterDialogBOO{width:100%;}
-.firmosGridFilterDialogDAT .firmosGridFilterFormLabelTD{width:30%;}
-.firmosGridFilterDialogDAT .firmosGridFilterFormInputTD{width:70%;}
+.firmosGridFilterDialogBOO{width:200px;}
+.firmosGridFilterDialogBOO .dojoxCheckedMultiSelectWrapper{padding-right:0px;}
 .firmosGridFilterDialogDAT{width:300px;}
 .firmosGridFilterDialogButtons{text-align:right;padding-top:10px;}
 .firmosGridFilterDialogButtons .dijitButton{margin-right:-0.2em;margin-left:0.8em;}
