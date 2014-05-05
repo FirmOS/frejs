@@ -5138,7 +5138,11 @@ dojo.declare("FIRMOS.GridFilter",null, {
     }
     switch (filter.type) {
       case this.texts.dateOptions.eq:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[filter.value.getTime()],'EX');
+        var dayrange_start=new Date(filter.value.getTime());
+            dayrange_start.setHours(0,0,0,0);
+        var dayrange_end=new Date(filter.value.getTime());
+            dayrange_end.setHours(23,59,59,999);           
+        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[dayrange_start.getTime(),dayrange_end.getTime()],'RWIB');
         break;
       case this.texts.dateOptions.lt:
         G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[filter.value.getTime()],'LE');
@@ -5147,7 +5151,11 @@ dojo.declare("FIRMOS.GridFilter",null, {
         G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[filter.value.getTime()],'GT');
         break;
       case this.texts.dateOptions.gtlt:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[filter.value1.getTime(),filter.value2.getTime()],'REXB');
+        var fv1=new Date(filter.value1);
+            fv1.setHours(0,0,0,0);
+        var fv2=new Date(filter.value2);
+            fv2.setHours(23,59,59,999);
+        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[fv1.getTime(),fv2.getTime()],'RWIB');
         break;
     }
     this.filterSet(columnId);
