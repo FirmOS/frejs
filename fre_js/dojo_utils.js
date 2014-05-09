@@ -1650,7 +1650,7 @@ dojo.declare("FIRMOS.Store", null, {
   newItems: function(data) {
     for (var i=0;i<data.length;i++) {
       var qpos = this._findItemInResultSets(this.getIdentity(data[i].item));
-      if ((qpos>0) || (this._isInIndex(data[i].item,data[i].parentid))) {
+      if ((qpos.length>0) || (this._isInIndex(data[i].item,data[i].parentid))) {
         console.error('NEW ITEMS: Item ' + this.getIdentity(data[i].item) + ' already in store ('+this.id+')!');
         continue;
       }
