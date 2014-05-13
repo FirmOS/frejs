@@ -2222,7 +2222,11 @@ dojo.declare("FIRMOS.GridBase", null, {
     if (!value || (value=='')) {
      return '';
     }
-    var vals=value.split(','); 
+    if (value instanceof Array) {
+      var vals = value;
+    } else {
+      var vals=value.split(',');
+    }
     var ret=''; 
     for (var i=0;i<vals.length;i++) {
       ret = ret + '<img src="' + vals[i] + '">';
