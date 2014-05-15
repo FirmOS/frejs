@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="64px" height="32px" viewBox="0 0 64 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.1 (7597) - http://www.bohemiancoding.com/sketch -->
+    <title>testappforms</title>
+    <description>Created with Sketch.</description>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="sitemap_icon" sketch:type="MSLayerGroup" transform="translate(12.000000, 3.000000)">
+            <rect id="BG" stroke="#2B3C7F" fill="#4570AA" sketch:type="MSShapeGroup" x="0" y="0" width="40" height="25" rx="8"></rect>
+            <g id="Group" transform="translate(6.000000, 3.000000)" sketch:type="MSShapeGroup">
+                <rect id="rect3042" fill="#F9F9F9" x="0" y="0" width="26" height="19"></rect>
+                <path d="M5,3 L5,17" id="path3816" stroke="#858585" fill="#808080"></path>
+                <path d="M10,3 L10,17" id="path3818" stroke="#858585" fill="#808080"></path>
+                <path d="M15,3 L15,17" id="path3820" stroke="#858585" fill="#808080"></path>
+                <path d="M21,3 L21,17" id="path3822" stroke="#858585" fill="#808080"></path>
+                <path d="M1,7 L25,7" id="path3830" stroke="#8D8D8D"></path>
+                <path d="M1,11 L25,11" id="path3832" stroke="#8D8D8D"></path>
+                <path d="M1,14 L25,14" id="path3834" stroke="#8D8D8D"></path>
+                <rect id="rect3044" fill="#0000FF" x="0" y="0" width="25" height="2"></rect>
+            </g>
+        </g>
+    </g>
+</svg>
