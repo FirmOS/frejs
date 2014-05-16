@@ -2202,11 +2202,11 @@ dojo.declare("FIRMOS.GridBase", null, {
   },
   _renderIconCell: function(object, value, node, options,iconId,openIconId) {
     var div = document.createElement('div'); 
-    var innerHTML = "<img src='"+object[iconId]+"' class='firmosIconNode'>";
+    var innerHTML = "<div class='firmosIconNodeDiv'><img src='"+object[iconId]+"' class='firmosIconNode'></div>";
     if (openIconId && (openIconId!='')) {
-      innerHTML = innerHTML + "<img src='"+object[openIconId]+"' class='firmosIconNode' style='display:none;'>"
+      innerHTML = innerHTML + "<div class='firmosIconNodeDiv'><img src='"+object[openIconId]+"' class='firmosIconNode' style='display:none;'></div>"
     }
-    innerHTML = innerHTML + "&nbsp;" + value; 
+    innerHTML = innerHTML + "<span class='firmosIconNodeContentSpan'>" + value + "</span>";
     div.innerHTML = innerHTML;
     return div;
   },

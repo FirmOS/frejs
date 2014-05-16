@@ -28,12 +28,14 @@ body{background:linear-gradient(150deg, #0f034f 0%, #5189bf 50%, #0f034f 100%);b
 .firmosFormFileLabelTD{vertical-align:top;}
 .firmosFormInputTD{width:100%;text-align:center;}
 .firmosFormLabelRequired{font-weight:bold;}
-.dgrid-cell-padding{padding:6px;}
+.dgrid-cell-padding{padding:2px;}
 .dgrid-grid{height:100%;}
 .dgrid-footer{padding-top:2px;}
 .dgrid-sort-arrow{display:inline-block;float:none;width:12px;margin:0 5px 0 0;}
 .dgrid-checkboxsel{width:30px;text-align:center;}
 .dgrid-details{width:30px;text-align:center;}
+.firmosIconNodeDiv{display:inline-block;vertical-align:middle;margin-right:5px;}
+.firmosIconNodeContentSpan{display:inline-block;vertical-align:middle;}
 .firmos .dgrid-row .dijitContentPane{color:#000;}
 .firmos .dgrid-header .dgrid-cell{height:36px;display:table-cell;color:#ffffff;text-shadow:1px 1px 1px black;}
 .firmos .dgrid-header .dgrid-cell-padding{padding:3px 6px 2px 6px;}
