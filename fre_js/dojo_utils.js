@@ -2571,6 +2571,30 @@ dojo.declare("FIRMOS.GridBase", null, {
 
   renderRow: function(item, options) {
     var org_div = this.inherited(arguments);
+
+    if ((this.descrField!='') && item[this.descrField] && (item[this.descrField]!='')) {
+      var row = this.row(item);
+      if (typeof options.queryLevel == 'undefined') {
+        var level = 0;
+      } else {
+        var level = options.queryLevel + 1;
+      }
+
+      var indent = level * (this.indentWidth || 9);
+
+      var description = dijit.byId(this.id + '_' + row.id+'_dcp');
+      if (!description) {
+        if (this.isTree) {
+          var style_class = 'dgrid-description-row-tree';
+        } else {
+          var style_class = 'dgrid-description-row';
+        }
+        var html = '<div style="margin-left: '+indent+'px; float: left;"><div>' + item[this.descrField];
+        description = new dijit.layout.ContentPane({id: this.id + '_' + row.id+'_dcp', class: style_class, content: html});
+      }
+      dojo.place(description.domNode,org_div);
+    }
+
     if (this.showDetailsSection) {
       var detailsFunc = {};
       detailsFunc.params = {};
@@ -2603,32 +2627,33 @@ dojo.declare("FIRMOS.GridBase", null, {
         item._detailsfunc_ = detailsFunc;
         
         var row = this.row(item);
-        var content_container = dijit.byId(row.id+'_cc');
+        var content_container = dijit.byId(this.id + '_' + row.id+'_cc');
         if (!content_container) {
-          content_container = new dijit.layout.ContentPane({id: row.id+'_cc'});
-          var content_pane = new dijit.layout.ContentPane({id: row.id+'_cp'});
+          content_container = new dijit.layout.ContentPane({id: this.id + '_' + row.id+'_cc'});
+          var content_pane = new dijit.layout.ContentPane({id: this.id + '_' + row.id+'_cp'});
           content_container.addChild(content_pane);
           dojo.style(content_container.domNode,'display','none');
         }
         dojo.place(content_container.domNode,org_div);
       }
     }
+
     return org_div;
   },
   showDetails: function(row) {
-    rowId = row.id;
-    G_UI_COM.setGridDetailsId(rowId);
-    var content_container = dijit.byId(rowId+'_cc');
+    var ccId = this.id + '_' + row.id + '_cc';
+    G_UI_COM.setGridDetailsId(ccId);
+    var content_container = dijit.byId(ccId);
     G_SERVER_COM.callServerFunction(row.data._detailsfunc_.classname,row.data._detailsfunc_.functionname,row.data._detailsfunc_.uidPath,row.data._detailsfunc_.params,this.detailsCallback.bind(this),content_container.getChildren()[0].id);
   },
   detailsCallback: function(options, success, response, uiState) {
     G_SERVER_COM.handleServerFunctionResponse(options,success,response,uiState);
-    var content_container = dijit.byId(uiState.gridDetailsId+'_cc');
+    var content_container = dijit.byId(uiState.gridDetailsId);
     dojo.style(content_container.domNode,'display','');
   },
   hideDetails: function(row) {
-    rowId = row.id;
-    var content_container = dijit.byId(rowId+'_cc');
+    var ccId = this.id + '_' + row.id + '_cc';
+    var content_container = dijit.byId(ccId);
     dojo.style(content_container.domNode,'display','none');
   },
   onContextMenu: function(event) {

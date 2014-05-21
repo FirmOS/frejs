@@ -7,7 +7,7 @@ html, body {
   overflow: hidden;
 }
 
-body {
+body.@{themename} {
   background: linear-gradient(150deg, @background-color-side 0%, @background-color-middle 50%, @background-color-side 100%);
   background: -o-linear-gradient(150deg, @background-color-side 0%, @background-color-middle 50%, @background-color-side 100%);
   background: -webkit-linear-gradient(150deg, @background-color-side 0%, @background-color-middle 50%, @background-color-side 100%);
@@ -15,7 +15,7 @@ body {
   background: -moz-linear-gradient(150deg, @background-color-side 0%, @background-color-middle 50%, @background-color-side 100%);
 }
 
-.aloha-editable {
+.@{themename} .aloha-editable {
    min-height: 1.2em;
    outline: 0;
    color: navy;
@@ -31,7 +31,7 @@ body {
   height: 100%;
 }
 
-.dojoxCheckedMultiSelect .dojoxCheckedMultiSelectWrapper {
+.@{themename} .dojoxCheckedMultiSelect .dojoxCheckedMultiSelectWrapper {
 	color: @text-color;
 	background-color: #FFF;
   border-radius: 4px;
@@ -40,80 +40,80 @@ body {
   overflow: hidden;
 }
 
-.dojoxMultiSelectItem {
+.@{themename} .dojoxMultiSelectItem {
   float: left;
 }
 
-.firmosMessageProgressBar {
+.@{themename} .firmosMessageProgressBar {
   clear: both;
 }
 
-.firmosMessageIconError,
-.firmosMessageIconInfo,
-.firmosMessageIconWarning,
-.firmosMessageIconWait,
-.firmosMessageIconConfirm {
+.@{themename} .firmosMessageIconError,
+.@{themename} .firmosMessageIconInfo,
+.@{themename} .firmosMessageIconWarning,
+.@{themename} .firmosMessageIconWait,
+.@{themename} .firmosMessageIconConfirm {
   height: 25px;
   width: 25px;
   float: left;
   margin: 5px 0px 0px 0px;
 }
 
-.firmosMessageIconError {
+.@{themename} .firmosMessageIconError {
   background-image: url(images/msg_error.png);
   background-repeat: no-repeat;
 }
 
-.firmosMessageIconInfo {
+.@{themename} .firmosMessageIconInfo {
   background-image: url(images/msg_info.png);
   background-repeat: no-repeat;
 }
 
-.firmosMessageIconWarning {
+.@{themename} .firmosMessageIconWarning {
   background-image: url(images/msg_warning.png);
   background-repeat: no-repeat;
 }
 
-.firmosMessageIconWait {
+.@{themename} .firmosMessageIconWait {
   background-image: url(images/msg_wait.png);
   background-repeat: no-repeat;
 }
 
-.firmosMessageIconConfirm {
+.@{themename} .firmosMessageIconConfirm {
   background-image: url(images/msg_confirm.png);
   background-repeat: no-repeat;
 }
 
-.firmosMessageError, 
-.firmosMessageInfo,
-.firmosMessageWarning,
-.firmosMessageWait,
-.firmosMessageConfirm {
+.@{themename} .firmosMessageError, 
+.@{themename} .firmosMessageInfo,
+.@{themename} .firmosMessageWarning,
+.@{themename} .firmosMessageWait,
+.@{themename} .firmosMessageConfirm {
   width: 400px;
   .fos-text-inv;
 }
 
-.firmosMessageButtonsError, 
-.firmosMessageButtonsInfo,
-.firmosMessageButtonsWarning,
-.firmosMessageButtonsWait,
-.firmosMessageButtonsConfirm {
+.@{themename} .firmosMessageButtonsError, 
+.@{themename} .firmosMessageButtonsInfo,
+.@{themename} .firmosMessageButtonsWarning,
+.@{themename} .firmosMessageButtonsWait,
+.@{themename} .firmosMessageButtonsConfirm {
   margin: 20px 0px 0px 0px;
   text-align: center;
 }
 
 
-.firmosFormTable {
+.@{themename} .firmosFormTable {
   padding: 10px 20px 0px 20px;  
   margin: 0px;  
 }
 
-.firmosFormInputTD {
+.@{themename} .firmosFormInputTD {
    padding: 0px 10px 0px 0px;
 }
 
-.firmosFormGroupHeaderElementCollapsible, 
-.firmosFormGroupHeaderElement {
+.@{themename} .firmosFormGroupHeaderElementCollapsible, 
+.@{themename} .firmosFormGroupHeaderElement {
    font-size: 14px;
    font-weight: 400;
    background-color: darkgray;
@@ -121,21 +121,10 @@ body {
    margin: 0px 0px 0px -8px;
    border-radius: 8px;
    .fos-text-inv;  
-   //color: white;
 }
 
-//.firmosFormGroupHeaderElementCollapsible {
-//   font-size: 14px;
-//   font-weight: 400;
-//   background-color: darkgray;
-//   padding: 1px 1px 2px 8px;  
-//   margin: 0px 0px 0px -8px;
-//   border-radius: 8px;
-//  .fos-text-inv;
-//}
-
-
-.firmosFormLabelTD, .firmosFormFileLabelTD {
+.@{themename} .firmosFormLabelTD, 
+.@{themename} .firmosFormFileLabelTD {
   padding: 0 5px 0 15px;
   white-space: nowrap;
   text-align: right;
@@ -143,36 +132,36 @@ body {
   margin: 12px;
 }
 
-.firmosFormLabelTD {
+.@{themename} .firmosFormLabelTD {
    background-color: lightgoldenrodyellow;
    padding: 0px 4px 0px 6px;
    margin: 0px 5px 3px 6px;
 }
 
-.firmosFormGroupShowLeft {
+.@{themename} .firmosFormGroupShowLeft {
     background-position: -214px center;
     float: left;            
 }
 
-.firmosFormGroupShowRight {
+.@{themename} .firmosFormGroupShowRight {
     background-position: -322px center;
     float: right;    
 }
 
-.firmosFormGroupHideLeft {
+.@{themename} .firmosFormGroupHideLeft {
     background-position: -4px center;
     float: left;            
 }
 
-.firmosFormGroupHideRight {
+.@{themename} .firmosFormGroupHideRight {
     background-position: -5px center;
     float: right;    
 }
 
-.firmosFormGroupHideLeft,
-.firmosFormGroupHideRight,
-.firmosFormGroupShowLeft,
-.firmosFormGroupShowRight {
+.@{themename} .firmosFormGroupHideLeft,
+.@{themename} .firmosFormGroupHideRight,
+.@{themename} .firmosFormGroupShowLeft,
+.@{themename} .firmosFormGroupShowRight {
   padding-top: 3px;
   background-image: url(images/commonFormArrows.png);
   background-repeat: no-repeat;
@@ -181,76 +170,83 @@ body {
   height:10px;
 }
 
-.firmosFormGroupHeader,
-.firmosFormGroupHeaderCollapsible {
+.@{themename} .firmosFormGroupHeader,
+.@{themename} .firmosFormGroupHeaderCollapsible {
 }
 
-.firmosFormLabelTD,
-.firmosFormFileLabelTD {
+.@{themename} .firmosFormLabelTD,
+.@{themename} .firmosFormFileLabelTD {
   padding: 0 5px 0 15px;
   white-space: nowrap;
   text-align: right;
 }
 
-.firmosFormFileLabelTD {
+.@{themename} .firmosFormFileLabelTD {
   vertical-align: top;
 }
 
-.firmosFormInputTD {
+.@{themename} .firmosFormInputTD {
   width: 100%;
   text-align: center;
 }
 
-.firmosFormLabel {
+.@{themename} .firmosFormLabel {
 }
 
-.firmosFormLabelRequired {
+.@{themename} .firmosFormLabelRequired {
   font-weight: bold;
 }
-.dgrid-cell-padding {
+
+.@{themename} .dgrid-cell-padding {
   padding: 2px;
 }
 
-.dgrid-grid {
+.@{themename} .dgrid-grid {
   height: 100%;
 }
 
-.dgrid-footer {
+.@{themename} .dgrid-footer {
 	padding-top: 2px;
 }
 
-.dgrid-sort-arrow {
+.@{themename} .dgrid-sort-arrow {
   display: inline-block;
   float:none;
   width: 12px;
   margin: 0 5px 0 0;
 }
 
-.dgrid-checkboxsel {
+.@{themename} .dgrid-checkboxsel {
   width:30px;
   text-align:center;
 }
 
-.dgrid-details {
+.@{themename} .dgrid-details {
   width:30px;
   text-align:center;
 }
 
-.dgrid-details-closed,
-.dgrid-details-open,
-.dgrid-details-none {
+.@{themename} .dgrid-details-closed,
+.@{themename} .dgrid-details-open,
+.@{themename} .dgrid-details-none {
 }
 
-.firmosIconNode {
+.@{themename} .dgrid-description-row,
+.@{themename} .dgrid-description-row-tree {
+  margin-left: 16px;
+  font-size: 75%;
 }
 
-.firmosIconNodeDiv {
+.@{themename} .firmosIconNode {
+}
+
+.@{themename} .firmosIconNodeDiv {
   display: inline-block;
   vertical-align: middle;
   margin-right: 5px;
 }
 
-.firmosIconNodeContentSpan {
+.@{themename} .firmosIconNodeContentSpan {
   display: inline-block;
   vertical-align: middle;
 }
@@ -305,7 +301,7 @@ body {
   display:none;
 }
 
-.firmosGridFilter {
+.@{themename} .firmosGridFilter {
   float: right;
   margin: 0;
 }
@@ -313,44 +309,44 @@ body {
 .@{themename} .dijitTooltipContainer {
   background: -moz-linear-gradient(top, #FFF 10%, #acf 90%);
 }
-.firmosGridFilterFormLabelTD {
+.@{themename} .firmosGridFilterFormLabelTD {
   width: 30%;
 }
 
-.firmosGridFilterFormInputTD {
+.@{themename} .firmosGridFilterFormInputTD {
   width: 70%;
 }
 
-.firmosGridFilterFormInputTD2Col {
+.@{themename} .firmosGridFilterFormInputTD2Col {
   width: 100%;
 }
 
-.firmosGridFilterDialogSTR,
-.firmosGridFilterDialogNUM {
+.@{themename} .firmosGridFilterDialogSTR,
+.@{themename} .firmosGridFilterDialogNUM {
   width: 250px;
 }
 
-.firmosGridFilterDialogBOO {
+.@{themename} .firmosGridFilterDialogBOO {
   width: 200px;
 }
 
-.firmosGridFilterDialogBOO .dojoxCheckedMultiSelectWrapper {
+.@{themename} .firmosGridFilterDialogBOO .dojoxCheckedMultiSelectWrapper {
   padding-right: 0px;
 }
 
-.firmosGridFilterDialogDAT {
+.@{themename} .firmosGridFilterDialogDAT {
   width: 300px;
 }
-.firmosGridFilterDialogButtons { 
+.@{themename} .firmosGridFilterDialogButtons { 
   text-align: right;
   padding-top: 10px;
 }
-.firmosGridFilterDialogButtons .dijitButton {
+.@{themename} .firmosGridFilterDialogButtons .dijitButton {
 	margin-right: -0.2em;
 	margin-left: 0.8em;
 }
 
-.firmosGridFilterIconClass {
+.@{themename} .firmosGridFilterIconClass {
   background-image: url(images/icon_search_filter.png);
   background-size: 16px;
   background-repeat: no-repeat;
@@ -358,7 +354,7 @@ body {
   height: 16px;
 }
 
-.firmosGridFilterSet .firmosGridFilterIconClass {
+.@{themename} .firmosGridFilterSet .firmosGridFilterIconClass {
   background-image: url(images/icon_search_filter_remove.png);
   background-size: 16px;
   background-repeat: no-repeat;
@@ -366,17 +362,17 @@ body {
   height: 16px;	
 }
 
-.firmosGridFilterFormLabelTD {
+.@{themename} .firmosGridFilterFormLabelTD {
   width: 50%;
   text-align: right;
   padding-right: 10px;
 }
 
-.firmosGridFilterFormInputTD {
+.@{themename} .firmosGridFilterFormInputTD {
   width: 50%;
 }
 
-.firmosGridDetailsHidden {
+.@{themename} .firmosGridDetailsHidden {
   text-align: center;
   background-color: #ACF;
   color: #05B;
@@ -388,14 +384,14 @@ body {
   transition: all 0.5s ease-in-out;
 }
 
-.firmosGridDetailsLoading {
+.@{themename} .firmosGridDetailsLoading {
   background-color: #BDF;
   height: 8px;
   background-image: url(images/details_arrow.png);
   background-repeat: repeat-x;
 }
 
-.firmosGridDetails {
+.@{themename} .firmosGridDetails {
   background-color: #BDF;
   height: 50px;
   padding: 5px;
@@ -404,37 +400,40 @@ body {
   transition: all 0.5s ease-in-out;
 }
 
-.firmosGridString {
+.@{themename} .firmosGridString {
 }
 
-.firmosGridDate {
+.@{themename} .firmosGridDate {
   text-align: right;
 }
 
-.firmosGridNumber {
+.@{themename} .firmosGridNumber {
   text-align: right;
 }
 
-.firmosGridIcon {
+.@{themename} .firmosGridIcon {
   text-align: center;
 }
 
-.firmosGridBoolean {
+.@{themename} .firmosGridBoolean {
 }
 
-.dgrid-header .firmosGridString, .dgrid-header .firmosGridDate,
-.dgrid-header .firmosGridNumber, .dgrid-header .firmosGridIcon,
-.dgrid-header .firmosGridBoolean {
+.@{themename} .dgrid-header .firmosGridString, 
+.@{themename} .dgrid-header .firmosGridDate,
+.@{themename} .dgrid-header .firmosGridNumber, 
+.@{themename} .dgrid-header .firmosGridIcon,
+.@{themename} .dgrid-header .firmosGridBoolean {
   text-align: left;
 }
 
 /*FormTable*/
-.firmosFormTable .tr {
+.@{themename} .firmosFormTable .tr {
   
 }
 
 /* Formular Labels*/
-.firmosFormLabel, .firmosFormLabelRequired {
+.@{themename} .firmosFormLabel, 
+.@{themename} .firmosFormLabelRequired {
   padding-right: 5px;
   color: #005;
 }
@@ -443,7 +442,7 @@ body {
   border-color: transparent;
 }
 
-.topMenu {
+.@{themename} .topMenu {
   float: left;
   width: 100%;
   padding-top: 5px;
@@ -452,8 +451,8 @@ body {
   position: relative;
   height: 70px;
 }
-.topMenuIconSmall,
-.topMenuIconBig {
+.@{themename} .topMenuIconSmall,
+.@{themename} .topMenuIconBig {
   margin-right: 5px;
   margin-left: 5px;
   border-radius: 5px;
@@ -461,16 +460,16 @@ body {
   -moz-transition-duration: 0.3s;
   transition-duration: 0.3s;
 }
-.topMenuIconSmall {
+.@{themename} .topMenuIconSmall {
   width: 48px;
   height: 48px;
   background-size:38px;
 }
-.topMenuIconBig {
+.@{themename} .topMenuIconBig {
   width: 53px;
   height: 53px;
 }
-.topMenu ul {
+.@{themename} .topMenu ul {
   clear:left;
   float:left;
   list-style:none;
@@ -481,24 +480,24 @@ body {
   left:50%;
   text-align:center;
 }
-.topMenu ul li {
+.@{themename} .topMenu ul li {
   display:block;
   float:left;
   list-style:none;
   position:relative;
   right:50%;
 }
-.topMenu ul li:hover { 
+.@{themename} .topMenu ul li:hover { 
   z-index: 2000; 
 }
-.topMenu ul li {
+.@{themename} .topMenu ul li {
   display:block;
   text-decoration:none;
 }
-.topMenu ul li span {
+.@{themename} .topMenu ul li span {
   display: none;
 }
-.topMenu ul li:hover span {
+.@{themename} .topMenu ul li:hover span {
   display: block;
   text-align: center;
   font-family: Tahoma, Geneva, sans-serif;
@@ -507,7 +506,7 @@ body {
   line-height: 1.5em;
   z-index: 2000;
 }
-.topMenu ul li:hover .topMenuIconSmall {
+.@{themename} .topMenu ul li:hover .topMenuIconSmall {
   color:#000;
   width: 48px;
   height: 48px;
@@ -515,7 +514,7 @@ body {
   -moz-transition-duration: 0.3s;
   transition-duration: 0.3s;
 }
-.topMenu ul li:hover .topMenuIconBig {
+.@{themename} .topMenu ul li:hover .topMenuIconBig {
   color:#000;
   width: 53px;
   height: 53px;
@@ -524,7 +523,7 @@ body {
   transition-duration: 0.3s;
 }
 
-.topMenuLogoLeft {
+.@{themename} .topMenuLogoLeft {
   position:absolute;
   margin: -10px 0px 0px 10px;
   background-image: url(images/firmbox_logo.svg);
@@ -533,7 +532,7 @@ body {
   height: 80px;
 }
 
-.topMenuLogoRight {
+.@{themename} .topMenuLogoRight {
   position:absolute;
   right: 0px;
   margin: -10px 10px 0px 0px;
@@ -541,91 +540,91 @@ body {
   height: 0px;
 }
 
-.firmosVNCPanel {
+.@{themename} .firmosVNCPanel {
 }
 
-.firmosVNCInactive {
+.@{themename} .firmosVNCInactive {
   border: 1px solid gray;
 }
 
-.firmosVNCActive {
+.@{themename} .firmosVNCActive {
   border: 1px solid red;
 }
 
-.firmosShellPanel {
+.@{themename} .firmosShellPanel {
   background-color: white;
 }
 
-.dojoxLegendHorizontal {
+.@{themename} .dojoxLegendHorizontal {
   margin: 0 auto;
 }
 
-.dojoxLegendText {
+.@{themename} .dojoxLegendText {
   margin: 0 20px 0 5px;
   color: black;
 }
 
-.firmosTransparent {
+.@{themename} .firmosTransparent {
   background-color: transparent !important;
   border: 0 !important;
   padding: 0 !important;
 }
 
-.firmosChartLegendPanel {
+.@{themename} .firmosChartLegendPanel {
   overflow: hidden;
   background-color: #FFFFFF !important;
 }
 
-.firmosChartContainerPane {
+.@{themename} .firmosChartContainerPane {
   padding: 0px !important; 
   border-radius: 8px;
   background-color: #FFFFFF;
 }
 
-.firmosChartBorderContainer {
+.@{themename} .firmosChartBorderContainer {
   padding: 0px; 
   border-radius: 8px;
   background-color: #FFFFFF;
 }
 
-.firmosUploaderImage {
+.@{themename} .firmosUploaderImage {
   width: 100%;
   text-align: center;
 }
-.firmosUploaderImageContent {
+.@{themename} .firmosUploaderImageContent {
   border: 1px solid gray;
   margin: 0px auto;
 }
-.firmosRecurrenceInput {
+.@{themename} .firmosRecurrenceInput {
 }
-.firmosRecurrenceInputItem {
+.@{themename} .firmosRecurrenceInputItem {
   clear: both;
 }
-.firmosRecurrenceDateCaption {
+.@{themename} .firmosRecurrenceDateCaption {
   float: left;
   padding: 4px 0 0 7px;
 }
-.firmosRecurrenceCBContainer {
+.@{themename} .firmosRecurrenceCBContainer {
   float: left;
   padding: 0.1em 0.2em;
   white-space: nowrap;
 }
-.firmosRecurrenceDividerContainer {
+.@{themename} .firmosRecurrenceDividerContainer {
   clear: both;
   padding: 7px 0 7px 0;
 }
-.firmosRecurrenceDivider {
+.@{themename} .firmosRecurrenceDivider {
   width: 100%;
   border-top: 1px solid black; 
 }
-.firmosLiveChartCaption {
+.@{themename} .firmosLiveChartCaption {
   font-size: 14px;
 }
-.firmosLiveChart {
+.@{themename} .firmosLiveChart {
   padding: 0px; 
   background-color: #FFFFFF;
 }
-.firmosSVGPanel {
+.@{themename} .firmosSVGPanel {
   width: 100%;
   overflow: hidden;
   background-color: #FFFFFF;
