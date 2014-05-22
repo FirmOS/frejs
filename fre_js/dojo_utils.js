@@ -2710,7 +2710,12 @@ dojo.declare("FIRMOS.GridBase", null, {
     if (this.selDepClassname) {
       var notifyParams = dojo.clone(this.store.params_);
       dojo.mixin(notifyParams, this.selDepParams);
-      G_SERVER_COM.callServerFunction(this.selDepClassname,this.selDepFunctionname,this.selDepUidPath, notifyParams, null, dijit.byId(this.parentId).getParent()._contentId || null);
+      var parent = dijit.byId(this.parentId).getParent();
+      var contentId = null;
+      if (parent && parent._contentId) {
+        contentId = parent._contentId;
+      }
+      G_SERVER_COM.callServerFunction(this.selDepClassname,this.selDepFunctionname,this.selDepUidPath, notifyParams, null, contentId);
     }
   },
   registerDepStore: function(storeId, refId) {
