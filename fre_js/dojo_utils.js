@@ -4395,6 +4395,12 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
         this.depStores_.push({storeId: depStoresDef[i].storeId, refId: depStoresDef[i].refId});
       }
     }
+    if (params.dependentfields) {
+      this.depFields_ = dojo.fromJson(params.dependentfields);
+      delete(params.dependentfields);
+    } else {
+      this.depFields_ = {};
+    }
   },
   destroy: function(params) {
     for (var i=0; i<this.depStores_.length; i++) {
@@ -4492,6 +4498,20 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
       this._updateDepField(i,this.depGroup_[i],true,form);
     }
   },
+  _updateDepFields: function(form) {
+    for (var i in this.depFields_) {
+      var elem = form.getInputById(i);
+      if (elem) {
+        if ((this.get('value')=='' && !this.depFields_[i]) ||
+            (this.get('value')!='' && this.depFields_[i])) {
+          elem.set('disabled',true);
+        } else {
+          elem.set('disabled',false);
+        }
+        break;
+      }
+    }
+  },
   init: function() {
     if ((this.value=='') && (this.required || this._required)) {
       if (this.store.data.length>0) {
@@ -4519,6 +4539,7 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
     }
     if (form && form.isInstanceOf(FIRMOS.Form)) {
       if (!this._hidden) this._updateDepGroup(form);
+      this._updateDepFields(form);
       form.checkGroupRequiredFields(this);
       form.submitOnChange(this);
     }
