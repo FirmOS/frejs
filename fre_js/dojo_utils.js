@@ -4539,7 +4539,13 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
       }
     }
   },
-
+  isValid: function(isFocused) {
+    var val = this.get('value');
+    if (val || !this.required) {
+      return this.inherited(arguments);
+    }
+    return false;
+  },
   onChange: function(value) {
     this.inherited(arguments);
     var form = this.getParent();
