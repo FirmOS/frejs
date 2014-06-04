@@ -2185,26 +2185,35 @@ dojo.declare("FIRMOS.GridBase", null, {
     }
     return selectedIds;
   },
-  _onExpand: function(target, expand, noTransition) {
-    var iconNodes = dojo.query(".firmosIconNode", target.element);
+  _onExpand: function(target) {
+    var row = target.element ? target : this.row(target);
+    var expand = this._expanded[row.id];
+
+    if (expand) {
+      var iconNodes = dojo.query(".firmosIconNode", target.element);
+    } else {
+      var iconNodes = dojo.query(".firmosIconNodeOpen", target.element);
+    }
     for (var i=0; i<iconNodes.length; i++) {
-      if (iconNodes.length==2) {
-        var row = target.element ? target : this.row(target);
-        if (this._expanded[row.id]) {
-          dojo.style(iconNodes[0],'display','none');
-          dojo.style(iconNodes[1],'display','');
-        } else {
-          dojo.style(iconNodes[0],'display','');
-          dojo.style(iconNodes[1],'display','none');
+      var parent = iconNodes[i].parentNode;
+      if (expand) {
+        if ((parent.nextSibling) && dojo.hasClass(parent.nextSibling,'firmosIconNodeDiv')) {
+          dojo.style(parent,'display','none');
+          dojo.style(parent.nextSibling,'display','');
+        }
+      } else {
+        if ((parent.previousSibling) && dojo.hasClass(parent.previousSibling,'firmosIconNodeDiv')) {
+          dojo.style(parent,'display','none');
+          dojo.style(parent.previousSibling,'display','');
         }
       }
     }
   },
-  _renderIconCell: function(object, value, node, options,iconId,openIconId) {
-    var div = document.createElement('div'); 
+  _renderIconCell: function(object, value, node, options,iconId, openIconId) {
+    var div = document.createElement('div');
     var innerHTML = "<div class='firmosIconNodeDiv'><img src='"+object[iconId]+"' class='firmosIconNode'></div>";
     if (openIconId && (openIconId!='')) {
-      innerHTML = innerHTML + "<div class='firmosIconNodeDiv'><img src='"+object[openIconId]+"' class='firmosIconNode' style='display:none;'></div>"
+      innerHTML = innerHTML + "<div class='firmosIconNodeDiv' style='display:none;'><img src='"+object[openIconId]+"' class='firmosIconNodeOpen'></div>"
     }
     innerHTML = innerHTML + "<span class='firmosIconNodeContentSpan'>" + value + "</span>";
     div.innerHTML = innerHTML;
