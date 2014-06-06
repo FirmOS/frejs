@@ -4537,6 +4537,7 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
       } else {
         this._updateDepGroup(form);
       }
+      this._updateDepFields(form);
     }
   },
   isValid: function(isFocused) {
