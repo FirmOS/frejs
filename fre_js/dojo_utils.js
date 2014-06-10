@@ -4517,7 +4517,6 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
         } else {
           elem.set('disabled',false);
         }
-        break;
       }
     }
   },
