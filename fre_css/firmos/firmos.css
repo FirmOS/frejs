@@ -101,3 +101,4 @@ body.firmos{background:linear-gradient(150deg, #0f034f 0%, #5189bf 50%, #0f034f 
 .firmos .firmosLiveChartCaption{font-size:14px;}
 .firmos .firmosLiveChart{padding:0px;background-color:#FFFFFF;}
 .firmos .firmosSVGPanel{width:100%;overflow:hidden;background-color:#FFFFFF;}
+.firmos .firmosNotificationPanel{width:15%;overflow:hidden;background-color:#FFFFFF;}
