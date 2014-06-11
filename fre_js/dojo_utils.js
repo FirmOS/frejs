@@ -2165,6 +2165,9 @@ dojo.declare("FIRMOS.GridBase", null, {
     while (this._events.length>0) {
       this._events.pop().remove();
     }
+    for (var i in this._rowIdToObject) {
+      this._cleanupRow(this._rowIdToObject[i]);
+    }
     this.inherited(arguments);
   },
   getObjectDndType: function(obj) {
@@ -2310,8 +2313,12 @@ dojo.declare("FIRMOS.GridBase", null, {
           //}
           row.rowIndex = i;
           var new_row = self.renderRow(object,options);
-          dojo.destroy(row.childNodes[0]);
-          dojo.place(new_row.childNodes[0],row);
+          while (row.childNodes.length>0) {
+            dojo.destroy(row.childNodes[0]);
+          }
+          while (new_row.childNodes.length>0) {
+            dojo.place(new_row.childNodes[0],row);
+          }
           dojo.destroy(new_row);
           self._rowIdToObject[id] = object; //set new data
           return; //nothing more to do!?!
@@ -2532,6 +2539,8 @@ dojo.declare("FIRMOS.GridBase", null, {
     }
 
     if(rowElement){
+      this._cleanupRow(rowElement);
+
       // Clean up observers that need to be cleaned up.
       var previousNode = rowElement.previousSibling,
         nextNode = rowElement.nextSibling,
@@ -2578,7 +2587,19 @@ dojo.declare("FIRMOS.GridBase", null, {
     this.inherited(arguments);
   },
 
+  _cleanupRow: function(element) {
+    var row = this.row(element);
+    var description = dijit.byId(this.id + '_' + row.id+'_dcp');
+    if (description) {
+      description.destroyRecursive();
+    }
+    var content_container = dijit.byId(this.id + '_' + row.id+'_cc');
+    if (content_container) {
+      content_container.destroyRecursive();
+    }
+  },
   renderRow: function(item, options) {
+    this._cleanupRow(item);
     var org_div = this.inherited(arguments);
 
     if ((this.descrField!='') && item[this.descrField] && (item[this.descrField]!='')) {
@@ -2591,16 +2612,13 @@ dojo.declare("FIRMOS.GridBase", null, {
 
       var indent = level * (this.indentWidth || 9);
 
-      var description = dijit.byId(this.id + '_' + row.id+'_dcp');
-      if (!description) {
-        if (this.isTree) {
-          var style_class = 'dgrid-description-row-tree';
-        } else {
-          var style_class = 'dgrid-description-row';
-        }
-        var html = '<div style="margin-left: '+indent+'px; float: left;"><div>' + item[this.descrField];
-        description = new dijit.layout.ContentPane({id: this.id + '_' + row.id+'_dcp', class: style_class, content: html});
+      if (this.isTree) {
+        var style_class = 'dgrid-description-row-tree';
+      } else {
+        var style_class = 'dgrid-description-row';
       }
+      var html = '<div style="margin-left: '+indent+'px; float: left;"><div>' + item[this.descrField];
+      var description = new dijit.layout.ContentPane({id: this.id + '_' + row.id+'_dcp', class: style_class, content: html});
       dojo.place(description.domNode,org_div);
     }
 
