@@ -6184,8 +6184,19 @@ dojo.declare("FIRMOS.Chart",dojox.charting.widget.Chart, {
 
 //TopMenu
 dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
+  notificationMinWidth: 0,
+  notificationsClosed: false,
+  notificationPanelId: '',
   constructor: function(params) {
     this._events = new Array();
+  },
+  _layoutChildren: function(childId,width,height) {
+    this.inherited(arguments);
+    if (this.notificationsClosed && (childId==this.notificationPanelId) && (width>0)) {
+      this.notificationsClosed = false;
+      dojo.style(this.openNotificationsButton, "display", "none");
+      dojo.style(this.closeNotificationsButton, "display", "");
+    }
   },
   destroy: function() {
     while (this._events.length>0) {
@@ -6199,6 +6210,10 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
     content = content+'<div class="topMenu">';
     content = content + '<div class="topMenuLogoLeft"></div>';
     content = content + '<div class="topMenuLogoRight"></div>';
+    if (this.notificationPanelId!='') {
+      content = content + '<div class="topMenuNotificationToggleClose" id="topMenuNotificationToggleClose"></div>';
+      content = content + '<div class="topMenuNotificationToggleOpen" id="topMenuNotificationToggleOpen" style="display:none;"></div>';
+    }
     content = content+'<div class="buttonListWrapper">';
     
     var iconSize;
@@ -6221,13 +6236,42 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
     content = content + '</div></div>';
     tMenu.set('content',content);
     this.addChild(tMenu);
+
+    if (this.notificationPanelId!='') {
+      var np = new dijit.layout.ContentPane({id: this.notificationPanelId, region: "right", content: "", class:"firmosNotificationPanel", splitter: true});
+      this.addChild(np);
+    }
+
     setTimeout(this._registerButtons.bind(this),0);
+  },
+  notificationToggle: function(open) {
+    var np = dijit.byId(this.notificationPanelId);
+    if (open) {
+      this.notificationsClosed = false;
+      dojo.style(this.openNotificationsButton, "display", "none");
+      dojo.style(this.closeNotificationsButton, "display", "");
+      np.resize({w: this.notificationStoreWidth});
+      this.layout();
+    } else {
+      this.notificationsClosed = true;
+      dojo.style(this.openNotificationsButton, "display", "");
+      dojo.style(this.closeNotificationsButton, "display", "none");
+      this.notificationStoreWidth = dojo.position(np.domNode).w;
+      np.resize({w: this.notificationMinWidth});
+      this.layout();
+    }
   },
   _registerButtons: function() {
     this.layout();
     for (var i=0; i<this.entries.length; i++) {
       var node = dojo.byId('topMenu'+this.entries[i].entryId);
       this._events.push(dojo.connect(node,dojox.gesture.tap,this.onClickHandler.bind(this,i)));
+    }
+    if (this.notificationPanelId!='') {
+      this.openNotificationsButton = dojo.byId('topMenuNotificationToggleOpen');
+      this._events.push(dojo.connect(this.openNotificationsButton,dojox.gesture.tap,this.notificationToggle.bind(this,true)));
+      this.closeNotificationsButton = dojo.byId('topMenuNotificationToggleClose');
+      this._events.push(dojo.connect(this.closeNotificationsButton,dojox.gesture.tap,this.notificationToggle.bind(this,false)));
     }
   },
   onClickHandler: function(idx,evt) {
