@@ -14,10 +14,42 @@ var options = {
 };
 
 
+/*
 var allFiles = [].concat(
 		fs.readdirSync(".")
 	),
 	lessFiles = allFiles.filter(function(name){ return name && name != "variables.less" && /\.less$/.test(name); });
+*/
+var lessFiles = [
+  "document.css",
+  "Common.css",
+  "TabContainer.css",
+  "AccordionContainer.css",
+  "ContentPane.css",
+  "BorderContainer.css",
+  "firmosMultiContentContainer.css",
+  "Button.css",
+  "Checkbox.css",
+  "RadioButton.css",
+  "Select.css",
+  "Slider.css",
+  "NumberSpinner.css",
+  "Dialog.css",
+  "Calendar.css",
+  "Menu.css",
+  "ColorPalette.css",
+  "InlineEditBox.css",
+  "ProgressBar.css",
+  "TimePicker.css",
+  "Tree.css", 
+  "Toolbar.css",
+  "Editor.css",/*in order to test button or menu item with icon */
+  "TitlePane.css",
+  "skin.css",
+  "SitemapSVG.css",
+  "TopMenu.css",
+  "firmos.css"
+]
 
 var all_css = "";
 var files_processed = 0;
