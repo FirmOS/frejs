@@ -2811,7 +2811,9 @@ dojo.declare("FIRMOS.FormButton", dijit.form.Button, {
     }
   },
   sfCallback: function(options, success, response, uiState) {
-    this._getWidget().restoreAllButtons();
+    if (this.domNode) {
+      this._getWidget().restoreAllButtons();
+    }
     G_SERVER_COM.handleServerFunctionResponse(options,success,response,uiState);
   }
 });
