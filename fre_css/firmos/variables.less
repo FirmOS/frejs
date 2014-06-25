@@ -10,6 +10,13 @@
 //@secondary-color:#4959da;			// #666;//									// Base color for bar-backgrounds
 @firmos-orange: #fbb03c;
 @firmos-darkblue: #3f5490;
+@firmos-lightyellow: lightgoldenrodyellow;
+
+@firmos-border-radius-toptab: (6px 6px 0px 0px);
+@firmos-border-radius-bottomtab: (0px 0px 6px 6px);
+@firmos-border-radius-lefttab: (6px 0px 0px 6px);
+@firmos-border-radius-righttab: (0px 6px 6px 0px);
+@firmos-border-radius-all: (6px 6px 6px 6px);
 
 
 @text-color: #000;													// Text color for enabled widgets
@@ -68,8 +75,10 @@
 @error-focused-border-color: darken(@error-color, 5);									// Border of textbox in error state, and focused
 @erroricon-background-color: @error-color;									// Background color for exclamation point validation icon (for TextBox in error state)
 @textbox-background-color: @container-background-color;					// Default background color of TextBox based widgets
-@textbox-hovered-background-color: @unfocused-clickable-color;			// Background color when hovering a unfocused TextBox, Select, Editor, or other input widget
-@textbox-focused-background-color: @textbox-background-color;
+//@textbox-hovered-background-color: @unfocused-clickable-color;			// Background color when hovering a unfocused TextBox, Select, Editor, or other input widget
+@textbox-hovered-background-color: @firmos-lightyellow;	  		// Background color when hovering a unfocused TextBox, Select, Editor, or other input widget
+//@textbox-focused-background-color: @textbox-background-color;
+@textbox-focused-background-color: @firmos-lightyellow;
 @textbox-error-background-color: @textbox-background-color;
 @textbox-disabled-background-color: @disabled-background-color;
 
@@ -161,7 +170,7 @@
 // Toolbar
 @toolbar-button-checked-background-color: @container-background-color;								// a toggled-on button in the toolbar
 @toolbar-combobutton-hovered-unhoveredsection-background-color: spin(saturate(lighten(@primary-color, 8), 19), -29);	// when user hovers a ComboButton in a Toolbar, the other half of the button turns this color
-@toolbar-button-border-radius: 2px;			// Rounded corner radius for buttons for buttons in toolbar
+@toolbar-button-border-radius: 5px;			// Rounded corner radius for buttons for buttons in toolbar
 
 // DnD
 @dnd-avatar-background-color: @container-background-color;					// Background color of little Dialog-type box indicating dragged items

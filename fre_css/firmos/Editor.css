@@ -2,8 +2,8 @@
 .firmos .dijitEditorIFrame{background-color:#ffffff;}
 .firmos .dijitEditor{border:1px solid #414141;}
 .firmos .dijitEditor .dijitEditorIFrameContainer{background-color:#ffffff;background-repeat:repeat-x;}
-.firmos .dijitEditorHover .dijitEditorIFrameContainer,.firmos .dijitEditorHover .dijitEditorIFrameContainer .dijitEditorIFrame{background-color:#3b59ad;}
-.firmos .dijitEditorFocused .dijitEditorIFrameContainer,.firmos .dijitEditorFocused .dijitEditorIFrameContainer .dijitEditorIFrame{background-color:#ffffff;}
+.firmos .dijitEditorHover .dijitEditorIFrameContainer,.firmos .dijitEditorHover .dijitEditorIFrameContainer .dijitEditorIFrame{background-color:#fafad2;}
+.firmos .dijitEditorFocused .dijitEditorIFrameContainer,.firmos .dijitEditorFocused .dijitEditorIFrameContainer .dijitEditorIFrame{background-color:#fafad2;}
 .firmos .dijitEditorHover .dijitEditorIFrameContainer,.firmos .dijitEditorFocused .dijitEditorIFrameContainer{background-image:-moz-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);background-image:-webkit-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);background-image:-o-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);background-image:linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);}
 .firmos .dijitEditorDisabled{border:1px solid #c4c4c4;color:#6f6f6f;}
 .firmos .dijitDisabled .dijitEditorIFrame,.firmos .dijitDisabled .dijitEditorIFrameContainer,.firmos .dijitDisabled .dijitEditorIFrameContainer .dijitEditorIFrame{background-color:#dddddd;background-image:none;}
