@@ -1676,7 +1676,7 @@ dojo.declare("FIRMOS.Store", null, {
                 qpos[q].pos = qpos[q].pos + 1;
               }
               this.queryResults_[qpos[q].queryId].dataIds.splice(qpos[q].pos,0,this.getIdentity(data[i].item));
-              this.queryResults_[qpos[q].queryId].observer[o](data[i].item,-1,qpos[q].pos);
+              this.queryResults_[qpos[q].queryId].observer[o](data[i].item,-1,qpos[q].pos,data[i].revid);     //CHECK
             }
           }
         }
@@ -1709,16 +1709,16 @@ dojo.declare("FIRMOS.Store", null, {
       }
     }
   },
-  deleteItems: function(itemIds) {
-    for (var i=0;i<itemIds.length;i++) {
+  deleteItems: function(data) {
+    for (var i=0;i<data.length;i++) {
       var notFound = true;
       var tmpData = new Object();
-      tmpData[this.idAttribute] = itemIds[i];
-      var qpos = this._findItemInResultSets(itemIds[i]);
+      tmpData[this.idAttribute] = data[i].itemid;
+      var qpos = this._findItemInResultSets(data[i].itemid);
       if (qpos.length>0) {
         notFound = false;
         for (var q=0; q<qpos.length; q++) {
-          this._removeChildrenQuerys(itemIds[i]);
+          this._removeChildrenQuerys(data[i].itemid);
           this.queryResults_[qpos[q].queryId].dataIds.splice(qpos[q].pos,1);
           var found_count = this.queryResults_[qpos[q].queryId].observer.length;
           for (var o=0; o<found_count; o++) {
@@ -1726,13 +1726,13 @@ dojo.declare("FIRMOS.Store", null, {
           }
         }
       }
-      if (this._index[itemIds[i]]) {
+      if (this._index[data[i].itemid]) {
         notFound = false;
-        delete this._index[itemIds[i]];
+        delete this._index[data[i].itemid];
         this.onDelete(tmpData);
       }
       if (notFound) {
-        console.warn('DeleteId ' + itemIds[i] + ' not found in any query for store ' + this.id);
+        console.warn('DeleteId ' + data[i].itemid + ' not found in any query for store ' + this.id);
       }
     }
   },
@@ -1740,7 +1740,7 @@ dojo.declare("FIRMOS.Store", null, {
     var chartUpdates = [];
     for (var i=0; i<data.length; i++) {
       var notFound = true;
-      var qpos = this._findItemInResultSets(this.getIdentity(data[i]));
+      var qpos = this._findItemInResultSets(this.getIdentity(data[i].item));
       if (qpos.length>0) {
         notFound = false;
         for (var q=0; q<qpos.length; q++) {
@@ -1753,7 +1753,7 @@ dojo.declare("FIRMOS.Store", null, {
                   var adapters = views[v].storeAdapters_;
                   for (var j=0; j<adapters.length; j++) {
                     if (adapters[j].series.name==this.queryResults_[qpos[q].queryId].query.sId) {
-                      adapters[j].objects[qpos[q].pos].value = data[i].value;
+                      adapters[j].objects[qpos[q].pos].value = data[i].item.value;
                       break;
                     }
                   }
@@ -1764,20 +1764,20 @@ dojo.declare("FIRMOS.Store", null, {
                 chartUpdates.push(this.queryResults_[qpos[q].queryId].observer[o]);
               }
             } else {
-              this.queryResults_[qpos[q].queryId].observer[o](data[i],qpos[q].pos,qpos[q].pos); //FIXXME - update and reorder!?!
+              this.queryResults_[qpos[q].queryId].observer[o](data[i].item,qpos[q].pos,qpos[q].pos); //FIXXME - update and reorder!?!
             }
           }
         }
       }
-      if (this._index[this.getIdentity(data[i])]) {
+      if (this._index[this.getIdentity(data[i].item)]) {
         notFound = false;
-        for (var x in data[i]) {
+        for (var x in data[i].item) {
           if (x==this.idAttribute) continue; //skip id attribute
-          this.onSet(data[i],x,'',data[i][x]);
+          this.onSet(data[i].item,x,'',data[i].item[x]);
         }
       }
       if (notFound) {
-        console.warn('UpdateId ' + this.getIdentity(data[i]) + ' not found in any query for store ' + this.id);
+        console.warn('UpdateId ' + this.getIdentity(data[i].item) + ' not found in any query for store ' + this.id);
       }
     }  
     for (var i=0; i<chartUpdates.length; i++) {
@@ -2295,7 +2295,7 @@ dojo.declare("FIRMOS.GridBase", null, {
     if(results.observe){
       // observe the results for changes
       self._numObservers++;
-      var observer = results.observe(function(object, from, to){
+      var observer = results.observe(function(object, from, to, revId){
         var row, firstRow, nextNode, parentNode;
         
         function advanceNext() {
@@ -2354,43 +2354,18 @@ dojo.declare("FIRMOS.GridBase", null, {
           }
         }
         if(to > -1){
-          // Add to new slot (either before an existing row, or at the end)
-          // First determine the DOM node that this should be placed before.
-          if(rows.length){
-            if(to < 2){ // if it is one of the first rows, we can safely get the next item
-              nextNode = rows[to];
-              // Re-retrieve the element in case we are referring to an orphan
-              nextNode = nextNode && correctElement(nextNode);
-            }else{
-              // If we are near the end of the page, we may not be able to retrieve the 
-              // result from our own array, so go from the previous row and advance one
-              nextNode = rows[to - 1];
-              if(nextNode){
-                nextNode = correctElement(nextNode);
-                // Make sure to skip connected nodes, so we don't accidentally
-                // insert a row in between a parent and its children.
-                advanceNext();
-              }
+          for (var i in self._rowIdToObject) {
+            if (self._rowIdToObject[i].uid == revId) {
+              nextNode=dojo.byId(i);
+              break;
             }
-          }else{
-            // There are no rows.  Allow for subclasses to insert new rows somewhere other than
-            // at the end of the parent node.
-            nextNode = self._getFirstRowSibling && self._getFirstRowSibling(container);
           }
-          // Make sure we don't trip over a stale reference to a
-          // node that was removed, or try to place a node before
-          // itself (due to overlapped queries)
-          if(row && nextNode && row.id === nextNode.id){
-            advanceNext();
-          }
-          if(nextNode && !nextNode.parentNode){
-            nextNode = dojo.byId(nextNode.id);
-          }
+
           parentNode = (beforeNode && beforeNode.parentNode) ||
             (nextNode && nextNode.parentNode) || self.contentNode;
-          //row = self.newRow(object, parentNode, nextNode, options.start + to, options); //FIXXME
-          row = self.newRow(object, parentNode, null, options.start + to, options); //HACK
-          
+
+          row = self.newRow(object, parentNode, nextNode, options.start + to, options);
+
           if(row){
             row.observerIndex = observerIndex;
             rows.splice(to, 0, row);
