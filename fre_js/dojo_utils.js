@@ -1205,7 +1205,6 @@ dojo.declare("FIRMOS.Store", null, {
       this[i] = args[i];
     }
 
-    this._index = {};
     this._dirtyItems = {};
     this._orgItems = {};
     this.queryId_ = 0;
@@ -1236,7 +1235,6 @@ dojo.declare("FIRMOS.Store", null, {
   _getChildrenCallback: function(item,callback,results) {
     item.children = results;
     for (var i=0; i<item.children.length; i++) {
-      this._addToIndex(item.children[i],this.getIdentity(item));
       if ((item.children[i].children) && (item.children[i].children=='UNCHECKED')) {
         item.children[i].children = [];
         item.children[i]._loadChildren = true;
@@ -1352,29 +1350,7 @@ dojo.declare("FIRMOS.Store", null, {
       args.onBegin.call(scope, results, args);
     }
   },
-  _addToIndex: function(item,parentId) {
-    if (!this._index[this.getIdentity(item)]) {
-      this._index[this.getIdentity(item)] = new Array();
-    }
-    this._index[this.getIdentity(item)].push(parentId);
-  },
-  _isInIndex: function(item,parentId) {
-    var found = false;
-    var itemId = this.getIdentity(item);
-    if (this._index[itemId]) {
-      for (var i=0; i<this._index[itemId].length; i++) {
-        if (this._index[itemId][i]==parentId) {
-          found = true;
-          break;
-        }
-      }
-    }
-    return found;
-  },
   _fetchCallback: function(args,scope,results) {
-    for (var i=0;i<results.length;i++) {
-      this._addToIndex(results[i],'');
-    }
     if (args.onItem) {
       for (var i=0; i<results.length;i++){
         args.onItem.call(scope, results[i], args);
@@ -1616,17 +1592,14 @@ dojo.declare("FIRMOS.Store", null, {
     }
   },
 //FIRMOS update API
-  _findItemInResultSets: function(itemId) {
+  _getItemQueryPos: function(itemId, qid) {
     var res = [];
-    for (var q in this.queryResults_) {
-      for (var c=0; c<this.queryResults_[q].dataIds.length; c++) {
-        if (this.queryResults_[q].dataIds[c]==itemId) {
-          res.push({queryId: q, pos: c});
-          break;
-        }
+    for (var c=0; c<this.queryResults_[qid].dataIds.length; c++) {
+      if (this.queryResults_[qid].dataIds[c]==itemId) {
+        return c;
       }
     }
-    return res;
+    return -1;
   },
   _findChildrenCallResultSets: function(parentId) {
     var res = [];
@@ -1647,139 +1620,99 @@ dojo.declare("FIRMOS.Store", null, {
       }
     }
   },
+  _checkUpdateInput: function(qid,itemId,funcName,checkNotIn) {
+    if (!this.queryResults_[qid]) {
+      console.warn(funcName+': Query "' + qid + '" not found for item "' + itemId + '" in store "' + this.id + '"');
+      return -1;
+    }
+    var pos = this._getItemQueryPos(itemId,qid);
+    if (pos == -1) {
+      if (!checkNotIn) {
+        console.warn(funcName+': Item "' + itemId + '" not found in query "' + qid + '" for store "' + this.id + '"');
+      }
+    } else {
+      if (checkNotIn) {
+        console.warn(funcName+': Item "' + itemId + '" already found in query "' + qid + '" for store "' + this.id + '"');
+      }
+    }
+    return pos;
+  },
   newItems: function(data) {
     for (var i=0;i<data.length;i++) {
-      var qpos = this._findItemInResultSets(this.getIdentity(data[i].item));
-      if ((qpos.length>0) || (this._isInIndex(data[i].item,data[i].parentid))) {
-        console.error('NEW ITEMS: Item ' + this.getIdentity(data[i].item) + ' already in store ('+this.id+')!');
-        continue;
-      }
-      var pq = this._findChildrenCallResultSets(data[i].parentid);
-      if (pq.length==0) {
-        console.warn('NEW ITEMS: Parent ' + data[i].parentid + ' not found or no children retrieved yet in store ' + this.id + '!');
-        continue;
-      }
-      
+
+      var pos = this._checkUpdateInput(data[i].qid,this.getIdentity(data[i].item),'NewItems',true);
       if (data[i].revid!='') {
-        var revIdNotFound = true;
-        var qpos = this._findItemInResultSets(data[i].revid);
-        if (qpos.length>0) {
-          for (var q=0; q<qpos.length; q++) {
-            if (data[i].parentid!=this.queryResults_[qpos[q].queryId].parentId) {
-              console.warn('RevId ' + data[i].revid + ' found in query for wrong parent item (Found in: ' + this.queryResults_[qpos[q].queryId].parentId + '  Defined parent: '+ data[i].parentid+')');
-              continue; //skip queries for the 'wrong' parent
-            }
-            revIdNotFound = false;
-            var found_count = this.queryResults_[qpos[q].queryId].observer.length;
-            for (var o=0; o<found_count; o++) {
-              if (data[i].revisprev) {
-                qpos[q].pos = qpos[q].pos + 1;
-              }
-              this.queryResults_[qpos[q].queryId].dataIds.splice(qpos[q].pos,0,this.getIdentity(data[i].item));
-              this.queryResults_[qpos[q].queryId].observer[o](data[i].item,-1,qpos[q].pos,data[i].revid);     //CHECK
-            }
-          }
-        }
-        if (this._index[data[i].revid]) {
-          revIdNotFound = false;
-          this._addToIndex(data[i].item,data[i].parentid);
-          this.onNew(data[i].item);
-        }
-        if (revIdNotFound) {
-          if (data[i].parentid!='') {
-            console.warn('RevId ' + data[i].revid + ' not found in any query for parent item ' + data[i].parentid + ' in store ' + this.id);
-          } else {
-            console.warn('RevId ' + data[i].revid + ' not found in any query for store ' + this.id);
-          }
-        }
+        var revPos = this._checkUpdateInput(data[i].qid,data[i].revid,'NewItems',false);
+        this.queryResults_[data[i].qid].dataIds.splice(revPos,0,this.getIdentity(data[i].item));
       } else {
-        //add to first queries at the beginning
-        for (var q in this.queryResults_) {
-          if (data[i].parentid!=this.queryResults_[q].parentId) {
-            continue; //skip queries for the 'wrong' parent
-          }
-          for (var o=0; o<this.queryResults_[q].observer.length; o++) {
-            this.queryResults_[q].dataIds.unshift(this.getIdentity(data[i].item));
-            this.queryResults_[q].observer[o](data[i].item,-1,0);
-          }
-          break;
-        }
-        this._addToIndex(data[i].item,data[i].parentid);
-        this.onNew(data[i].item);
+        var revPos = this.queryResults_[data[i].qid].dataIds.length;
+        this.queryResults_[data[i].qid].dataIds.push(this.getIdentity(data[i].item));
+      }
+
+      this.onNew(data[i].item);
+      var found_count = this.queryResults_[data[i].qid].observer.length;
+      for (var o=0; o<found_count; o++) {
+        this.queryResults_[data[i].qid].observer[o](data[i].item,-1,revPos,data[i].revid);
       }
     }
   },
   deleteItems: function(data) {
     for (var i=0;i<data.length;i++) {
-      var notFound = true;
       var tmpData = new Object();
       tmpData[this.idAttribute] = data[i].itemid;
-      var qpos = this._findItemInResultSets(data[i].itemid);
-      if (qpos.length>0) {
-        notFound = false;
-        for (var q=0; q<qpos.length; q++) {
-          this._removeChildrenQuerys(data[i].itemid);
-          this.queryResults_[qpos[q].queryId].dataIds.splice(qpos[q].pos,1);
-          var found_count = this.queryResults_[qpos[q].queryId].observer.length;
-          for (var o=0; o<found_count; o++) {
-            this.queryResults_[qpos[q].queryId].observer[o](tmpData,qpos[q].pos,-1);
-          }
-        }
-      }
-      if (this._index[data[i].itemid]) {
-        notFound = false;
-        delete this._index[data[i].itemid];
-        this.onDelete(tmpData);
-      }
-      if (notFound) {
-        console.warn('DeleteId ' + data[i].itemid + ' not found in any query for store ' + this.id);
+
+      var pos = this._checkUpdateInput(data[i].qid,data[i].itemid,'DeleteItems',false);
+
+      this._removeChildrenQuerys(data[i].itemid);
+      this.queryResults_[data[i].qid].dataIds.splice(pos,1);
+
+      this.onDelete(tmpData);
+      var found_count = this.queryResults_[data[i].qid].observer.length;
+      for (var o=0; o<found_count; o++) {
+        this.queryResults_[data[i].qid].observer[o](tmpData,pos,-1);
       }
     }
   },
   updateItems: function(data) {
     var chartUpdates = [];
     for (var i=0; i<data.length; i++) {
-      var notFound = true;
-      var qpos = this._findItemInResultSets(this.getIdentity(data[i].item));
-      if (qpos.length>0) {
-        notFound = false;
-        for (var q=0; q<qpos.length; q++) {
-          var found_count = this.queryResults_[qpos[q].queryId].observer.length;
-          for (var o=0; o<found_count; o++) {
-            if (this.queryResults_[qpos[q].queryId].observerInfo[o]) {
-              var views = G_UI_COM.getStoreById(this.id).views;
-              for (var v=0; v<views.length; v++) {
-                if (views[v].id == this.queryResults_[qpos[q].queryId].observerInfo[o]) {
-                  var adapters = views[v].storeAdapters_;
-                  for (var j=0; j<adapters.length; j++) {
-                    if (adapters[j].series.name==this.queryResults_[qpos[q].queryId].query.sId) {
-                      adapters[j].objects[qpos[q].pos].value = data[i].item.value;
-                      break;
-                    }
-                  }
+
+      var pos = this._checkUpdateInput(data[i].qid,this.getIdentity(data[i].item),'UpdateItems',false);
+      if (data[i].revid!='') {
+        var revPos = this._checkUpdateInput(data[i].qid,data[i].revid,'UpdateItems',false);
+      } else {
+        var revPos = pos;
+      }
+
+      var found_count = this.queryResults_[data[i].qid].observer.length;
+      for (var o=0; o<found_count; o++) {
+        if (this.queryResults_[data[i].qid].observerInfo[o]) {
+          var views = G_UI_COM.getStoreById(this.id).views;
+          for (var v=0; v<views.length; v++) {
+            if (views[v].id == this.queryResults_[data[i].qid].observerInfo[o]) {
+              var adapters = views[v].storeAdapters_;
+              for (var j=0; j<adapters.length; j++) {
+                if (adapters[j].series.name==this.queryResults_[data[i].qid].query.sId) {
+                  adapters[j].objects[pos].value = data[i].item.value;
                   break;
                 }
               }
-              if (dojo.array.indexOf(chartUpdates, this.queryResults_[qpos[q].queryId].observer[o])==-1) {
-                chartUpdates.push(this.queryResults_[qpos[q].queryId].observer[o]);
-              }
-            } else {
-              this.queryResults_[qpos[q].queryId].observer[o](data[i].item,qpos[q].pos,qpos[q].pos); //FIXXME - update and reorder!?!
+              break;
             }
+          }
+          if (dojo.array.indexOf(chartUpdates, this.queryResults_[data[i].qid].observer[o])==-1) {
+            chartUpdates.push(this.queryResults_[data[i].qid].observer[o]);
+          }
+        } else {
+          if (data[i].revid) {
+            this.queryResults_[data[i].qid].observer[o](data[i].item,pos,revPod,data[i].revid); //update and reorder
+          } else {
+            this.queryResults_[data[i].qid].observer[o](data[i].item,pos,pos); //reorder
           }
         }
       }
-      if (this._index[this.getIdentity(data[i].item)]) {
-        notFound = false;
-        for (var x in data[i].item) {
-          if (x==this.idAttribute) continue; //skip id attribute
-          this.onSet(data[i].item,x,'',data[i].item[x]);
-        }
-      }
-      if (notFound) {
-        console.warn('UpdateId ' + this.getIdentity(data[i].item) + ' not found in any query for store ' + this.id);
-      }
-    }  
+    }
+
     for (var i=0; i<chartUpdates.length; i++) {
       chartUpdates[i]();
     }
@@ -2302,15 +2235,11 @@ dojo.declare("FIRMOS.GridBase", null, {
           nextNode = (nextNode.connected || nextNode).nextSibling;
         }
 
-        if (from >-1 && to >-1) { //data change only
+        if (from>-1 && to>-1) { //data change only  //FIXXME - implement reorder
           var i = options.start + to;
           var id = self.id + "-row-" + (options.parentId ? options.parentId + "-" : "") + self.store.getIdentity(object);
           var row = dojo.byId(id);
-          //var previousRow = row && row.previousSibling;
-          //if(previousRow){
-          // in this case, we are pulling the row from another location in the grid, and we need to readjust the rowIndices from the point it was removed
-            //this.adjustRowIndices(previousRow);
-          //}
+
           row.rowIndex = i;
           var new_row = self.renderRow(object,options);
           while (row.childNodes.length>0) {
@@ -2321,31 +2250,15 @@ dojo.declare("FIRMOS.GridBase", null, {
           }
           dojo.destroy(new_row);
           self._rowIdToObject[id] = object; //set new data
-          return; //nothing more to do!?!
         }
         
-        // a change in the data took place
-        if(from > -1 && rows[from]){
-          var i = options.start + to;
+        if(from>-1 && to==-1){ //remove item
           var id = self.id + "-row-" + (options.parentId ? options.parentId + "-" : "") + self.store.getIdentity(object);
           var row = dojo.byId(id);
           if (row) {
             self.removeRow(row);
           }
 
-/*          // remove from old slot
-          row = rows.splice(from, 1)[0];
-          // check to make sure the node is still there before we try to remove it
-          // (in case it was moved to a different place in the DOM)
-          if(row.parentNode == container){
-            firstRow = row.nextSibling;
-            if(firstRow){ // it's possible for this to have been already removed if it is in overlapping query results
-              if(from != to){ // if from and to are identical, it is an in-place update and we don't want to alter the rowIndex at all
-                firstRow.rowIndex--; // adjust the rowIndex so adjustRowIndices has the right starting point
-              }
-            }
-            self.removeRow(row);
-          }*/
           // Update count to reflect that we lost one row
           options.count--;
           // The removal of rows could cause us to need to page in more items
@@ -2353,13 +2266,9 @@ dojo.declare("FIRMOS.GridBase", null, {
             self._processScroll();
           }
         }
-        if(to > -1){
-          for (var i in self._rowIdToObject) {
-            if (self._rowIdToObject[i].uid == revId) {
-              nextNode=dojo.byId(i);
-              break;
-            }
-          }
+        if(from==-1 && to>-1){ // insert
+          var id = self.id + "-row-" + (options.parentId ? options.parentId + "-" : "") + revId;
+          var nextNode = dojo.byId(id);
 
           parentNode = (beforeNode && beforeNode.parentNode) ||
             (nextNode && nextNode.parentNode) || self.contentNode;
