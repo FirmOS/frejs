@@ -1339,6 +1339,12 @@ dojo.declare("FIRMOS.Store", null, {
         }
       } else {
         def.reject(response.error);
+        if (response.output) {
+          var json_result = dojo.fromJson(response.output);
+          if (json_result.action) {
+            eval(json_result.action);
+          }
+        }
       }
     }.bind(this, query_id);
     G_SERVER_COM.callServerFunction(cn, fn, up, params, serverFuncCallback);
@@ -5681,7 +5687,14 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
       }
       this._start();
     } else {
-      console.error('Server Function Error => '+response.cn + '.' + response.fn + ': ' + response.error);
+      if (response.output) {
+        var json_result = dojo.fromJson(response.output);
+        if (json_result.action) {
+          eval(json_result.action);
+        }
+      } else {
+        console.error('Server Function Error => '+response.cn + '.' + response.fn + ': ' + response.error);
+      }
     }
   },
   _start: function() {
@@ -7202,6 +7215,13 @@ dojo.declare("FIRMOS.Editor", dijit.layout.BorderContainer, {
         var json_result = dojo.fromJson(response.output);
         this._savedContent = json_result.value;
         this.setValue(json_result.value);
+      }
+    } else {
+      if (response.output) {
+        var json_result = dojo.fromJson(response.output);
+        if (json_result.action) {
+          eval(json_result.action);
+        }
       }
     }
   },
