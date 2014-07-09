@@ -1647,8 +1647,10 @@ dojo.declare("FIRMOS.Store", null, {
     for (var i=0;i<data.length;i++) {
 
       var pos = this._checkUpdateInput(data[i].qid,this.getIdentity(data[i].item),'NewItems',true);
-      if (data[i].revid!='') {
+      if (pos!=-1) return;
+      if (data[i].revid && data[i].revid!='') {
         var revPos = this._checkUpdateInput(data[i].qid,data[i].revid,'NewItems',false);
+        if (revPos==-1) return;
         this.queryResults_[data[i].qid].dataIds.splice(revPos,0,this.getIdentity(data[i].item));
       } else {
         var revPos = this.queryResults_[data[i].qid].dataIds.length;
@@ -1668,6 +1670,7 @@ dojo.declare("FIRMOS.Store", null, {
       tmpData[this.idAttribute] = data[i].itemid;
 
       var pos = this._checkUpdateInput(data[i].qid,data[i].itemid,'DeleteItems',false);
+      if (pos==-1) return;
 
       this._removeChildrenQuerys(data[i].itemid);
       this.queryResults_[data[i].qid].dataIds.splice(pos,1);
@@ -1684,8 +1687,10 @@ dojo.declare("FIRMOS.Store", null, {
     for (var i=0; i<data.length; i++) {
 
       var pos = this._checkUpdateInput(data[i].qid,this.getIdentity(data[i].item),'UpdateItems',false);
-      if (data[i].revid!='') {
+      if (pos==-1) return;
+      if (data[i].revid && data[i].revid!='') {
         var revPos = this._checkUpdateInput(data[i].qid,data[i].revid,'UpdateItems',false);
+        if (revPos==-1) return;
       } else {
         var revPos = pos;
       }
@@ -4031,17 +4036,22 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
     }
   },
   
-  _updateValues: function(obj,path) {
+  _updateValues: function(obj,path,initialData) {
     for (var x in obj) {
       if (x=='uid') continue;
+      if (x=='domainid') continue;
       if (x instanceof Object) {
         if (x instanceof Array) {
           var input = this.getInputById(path+x);
           if (input) {
             input.set('value',obj[x]);
+            initialData[x]=input.get('value');
           }
         } else {
-          this._updateValues(obj[x],path+x+'.');
+          if (!initialData[x]) {
+            initialData[x] = new Object();
+          }
+          this._updateValues(obj[x],path+x+'.',initialData[x]);
         }
       } else {
         var input = this.getInputById(path+x);
@@ -4051,10 +4061,12 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
             if (old_value==null || old_value.getTime()!=obj[x]) {
               input.set('displayedValue',obj[x]);
             }
+            initialData[x]=input.get('value');
           } else {
             if (input.get('value')!==obj[x]) {
               input.set('value',obj[x]);
             }
+            initialData[x]=input.get('value');
           }
         }
       }
@@ -4062,7 +4074,7 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
   },
   
   updateValues: function(obj) {
-    this._updateValues(obj,'');
+    this._updateValues(obj,'',this.initialData);
   },
   
   getInputById: function(id) {
@@ -6088,6 +6100,9 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
   notificationPanelId: '',
   constructor: function(params) {
     this._events = new Array();
+    if (params.notificationPanel) {
+      this.notificationPanelId=params.notificationPanel.id;
+    }
   },
   _layoutChildren: function(childId,width,height) {
     this.inherited(arguments);
@@ -6137,8 +6152,10 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
     this.addChild(tMenu);
 
     if (this.notificationPanelId!='') {
-      var np = new dijit.layout.ContentPane({id: this.notificationPanelId, region: "right", content: "", class:"firmosNotificationPanel", splitter: true});
-      this.addChild(np);
+      this.notificationPanel.region = 'right';
+      dojo.addClass(this.notificationPanel.domNode,"firmosNotificationPanel");
+      this.notificationPanel.splitter = true;
+      this.addChild(this.notificationPanel);
     }
 
     setTimeout(this._registerButtons.bind(this),0);
