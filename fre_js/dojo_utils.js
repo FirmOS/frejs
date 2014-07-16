@@ -1650,7 +1650,11 @@ dojo.declare("FIRMOS.Store", null, {
       if (pos!=-1) return;
       if (data[i].revid && data[i].revid!='') {
         var revPos = this._checkUpdateInput(data[i].qid,data[i].revid,'NewItems',false);
-        if (revPos==-1) return;
+        if (revPos==-1) {
+          var revPos = this.queryResults_[data[i].qid].dataIds.length;
+          this.queryResults_[data[i].qid].dataIds.push(this.getIdentity(data[i].item));
+          //return;
+        }
         this.queryResults_[data[i].qid].dataIds.splice(revPos,0,this.getIdentity(data[i].item));
       } else {
         var revPos = this.queryResults_[data[i].qid].dataIds.length;
