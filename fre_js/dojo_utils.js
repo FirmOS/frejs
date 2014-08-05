@@ -2065,6 +2065,22 @@ dojo.declare("FIRMOS.Selection",dgrid.Selection, {
   }
 });
 
+//GridSearch
+dojo.declare("FIRMOS.GridSearch", dijit.form.TextBox, {
+  intermediateChanges: true,
+  searchDelay: 500,
+  doSearch: function() {
+    delete this._sendTimeout;
+    this.grid.doSearch(this.get("value"));
+  },
+  onChange: function(event) {
+    if (this._sendTimeout) {
+      clearTimeout(this._sendTimeout);
+    }
+    this._sendTimeout = setTimeout(this.doSearch.bind(this),this.searchDelay);
+  }
+});
+
 //GridBase
 dojo.declare("FIRMOS.GridBase", null, {
   constructor: function(args) {
@@ -3724,9 +3740,8 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
       G_UI_COM.registerFormDBOs(this, params.dbos);
     }
     if (params.onChangeClassname) {
-      this._lastChange = new Date();
       this._sendChangesParams = {};
-      this.sendChangesDelay = Number(params.onChangeDelay) || 0;
+      this.sendChangesDelay = Number(params.onChangeDelay) || 500;
     }
   },
   destroy: function() {
@@ -3848,25 +3863,19 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
       }
     }
   },
-  
+  _submitChange: function() {
+    delete this._sendTimeout;
+    var params = dojo.clone(this.onChangeParams);
+    G_SERVER_COM.callServerFunction(this.onChangeClassname, this.onChangeFunctionname, this.onChangeUidPath, this._sendChangesParams);
+    this._sendChangesParams = {};
+  },
   submitOnChange: function(field) {
     if (this.onChangeClassname && (!field || !field.get('disabled'))) {
-      var now = new Date();
-      if (field) {
-        this._lastChange = now;
-        this._sendChangesParams[field.name] = field.get('value');
+      if (this._sendTimeout) {
+        clearTimeout(this._sendTimeout);
       }
-      var diff = now-this._lastChange;
-      if (diff>this.sendChangesDelay) {
-        var params = dojo.clone(this.onChangeParams);
-        G_SERVER_COM.callServerFunction(this.onChangeClassname, this.onChangeFunctionname, this.onChangeUidPath, this._sendChangesParams);
-        this._sendChangesParams = {};
-      } else {
-        if (this._sendTimeout) {
-          clearTimeout(this._sendTimeout);
-        }
-        this._sendTimeout = setTimeout(this.submitOnChange.bind(this),this.sendChangesDelay-diff);
-      }
+      this._sendChangesParams[field.name] = field.get('value');
+      this._sendTimeout = setTimeout(this._submitChange.bind(this),this.sendChangesDelay);
     }
   },
  
