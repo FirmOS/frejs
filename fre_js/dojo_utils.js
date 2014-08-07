@@ -2193,6 +2193,17 @@ dojo.declare("FIRMOS.GridBase", null, {
     }
     return div;
   },
+  _renderBool: function(object, value, node, options) {
+    var div = document.createElement('div');
+    var checkbox = document.createElement('input');
+    checkbox.setAttribute('type','checkbox');
+    checkbox.onclick = function() {return false;};
+    if (value) {
+      checkbox.setAttribute('checked','true');
+    }
+    div.appendChild(checkbox);
+    return div;
+  },
   _renderIcons: function(object, value, node, options) {
     var div = document.createElement('div'); 
     if (!value || (value=='')) {
