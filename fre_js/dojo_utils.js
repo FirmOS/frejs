@@ -5189,7 +5189,16 @@ dojo.declare("FIRMOS.GridFilter",null, {
     this.refresh();
   },
   getStringFilterDialog: function(column) {
-    var content = '<tr><td colspan=2 class="firmosGridFilterFormInputTD2Col"><input data-dojo-type="dijit.form.TextBox" id="'+this.id+'_'+column.id+'_filter" name="filter" style="width:100%"></td></tr>';
+    if (column.filterValues) {
+      var content = '<tr><td colspan=2 class="firmosGridFilterFormInputTD2Col">'+
+                      '<select id="'+this.id+'_'+column.id+'_filter" data-dojo-type="dijit.form.ComboBox" style="width:100%" name="filter">';
+      for (var i=0; i<column.filterValues.length; i++) {
+        content = content + '<option>' + column.filterValues[i] + '</option>';
+      }
+      content = content + '</select></td></tr>';
+    } else {
+      var content = '<tr><td colspan=2 class="firmosGridFilterFormInputTD2Col"><input data-dojo-type="dijit.form.TextBox" id="'+this.id+'_'+column.id+'_filter" name="filter" style="width:100%"></td></tr>';
+    }
     return content;
   },
   numberFilterTypeChange: function(newValue,id,input) {
