@@ -561,6 +561,13 @@ dojo.declare("FIRMOS.uiHandler", null, {
     }
   },
   
+  resetForm: function(formId) {
+    var form = dijit.byId(formId+'_form');
+    if (form && form.isInstanceOf(FIRMOS.Form)) {
+      form.resetValues();
+    }
+  },
+
   updateSVG: function(svgId, elementId, attribute, value) {
     var svg = dijit.byId(svgId);
     if (svg && svg.isInstanceOf(FIRMOS.SVG)) {
@@ -4096,7 +4103,11 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
       }
     }
   },
-  
+
+  resetValues: function(obj) {
+    this._updateValues(this.initialData,'',this.initialData);
+  },
+
   updateValues: function(obj) {
     this._updateValues(obj,'',this.initialData);
   },
@@ -4552,6 +4563,19 @@ dojo.declare("FIRMOS.BoolCheckBox", dijit.form.CheckBox, {
         this.updateDepFields(form);
       }
     }
+  },
+  _setValueAttr: function(value) {
+    if (value instanceof Array) value=value[0];
+    switch (value) {
+      case '0':
+      case '':
+      case 'false': value=false;
+                    break;
+      case '1':
+      case 'true': value=true;
+                   break;
+    }
+    this.inherited(arguments);
   },
   _getValueAttr: function(){
     return (this.checked ? 'true' : 'false');
