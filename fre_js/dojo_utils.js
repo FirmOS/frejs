@@ -1125,11 +1125,11 @@ dojo.declare("FIRMOS.Message", FIRMOS.Dialog, {
     this.inherited(arguments);
     var CSSPostFix;
     switch (this.type) {
-      case 'msg_error'  : CSSPostFix='Error';
-      case 'msg_warning': CSSPostFix='Info';
-      case 'msg_info'   : CSSPostFix='Confirm';
-      case 'msg_confirm': CSSPostFix='Warning';
-      case 'msg_wait'   : CSSPostFix='Wait';
+      case 'msg_error'  : CSSPostFix='Error'; break;
+      case 'msg_warning': CSSPostFix='Info'; break;
+      case 'msg_info'   : CSSPostFix='Confirm'; break;
+      case 'msg_confirm': CSSPostFix='Warning'; break;
+      case 'msg_wait'   : CSSPostFix='Wait'; break;
     }
     var content = '<div class="firmosMessageIcon'+CSSPostFix+'"></div><div class="firmosMessage'+CSSPostFix+'">'+this.msg+'</div>';
     if (this.progressBarId) {
@@ -3947,6 +3947,9 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
           if (obj[i][j] instanceof Date) {
             obj[i][j] = obj[i][j].getTime();
           }
+        }
+        if (obj[i].length==0) {
+          obj[i]=null;
         }
       } else {
         if (obj[i] instanceof Date) {
