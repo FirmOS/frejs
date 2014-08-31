@@ -14,11 +14,13 @@ body.firmos{background:linear-gradient(150deg, #0f034f 0%, #5189bf 50%, #0f034f 
 .firmos .firmosMessageIconConfirm{background-image:url(images/msg_confirm.png);background-repeat:no-repeat;}
 .firmos .firmosMessageError,.firmos .firmosMessageInfo,.firmos .firmosMessageWarning,.firmos .firmosMessageWait,.firmos .firmosMessageConfirm{width:400px;color:#ffffff;text-shadow:1px 1px 1px black;}
 .firmos .firmosMessageButtonsError,.firmos .firmosMessageButtonsInfo,.firmos .firmosMessageButtonsWarning,.firmos .firmosMessageButtonsWait,.firmos .firmosMessageButtonsConfirm{margin:20px 0px 0px 0px;text-align:center;}
-.firmos .firmosFormTable{padding:10px 20px 0px 20px;margin:0px;}
+.firmos .firmosFormTable{padding:0px 0px 0px 0px;margin:0px;}
+.firmos .firmosFormTableIB{padding:0px;margin:0px;border-radius:6px 6px 6px 6px;border:1px solid;border-color:#2f3f6d;}
 .firmos .firmosFormInputTD{padding:0px 10px 0px 0px;}
-.firmos .firmosFormGroupHeaderElementCollapsible,.firmos .firmosFormGroupHeaderElement{font-size:14px;font-weight:400;background-color:darkgray;padding:1px 1px 2px 8px;margin:0px 0px 0px -8px;border-radius:8px;color:#ffffff;text-shadow:1px 1px 1px black;}
+.firmos .firmosFormGroupHeaderElementCollapsible,.firmos .firmosFormGroupHeaderElement{font-size:14px;font-weight:400;background-color:#3F5491;padding:6px 0px 4px 2px;margin:0px 0px 0px 0px;border-radius:6px 6px 6px 6px;color:#ffffff;text-shadow:1px 1px 1px black;}
 .firmos .firmosFormLabelTD,.firmos .firmosFormFileLabelTD{padding:0 5px 0 15px;white-space:nowrap;text-align:right;border-radius:6px 0px 0px 6px;margin:12px;}
 .firmos .firmosFormLabelTD{background-color:lightgoldenrodyellow;padding:0px 4px 0px 6px;margin:0px 5px 3px 6px;}
+.firmos .firmosFormDescriptionField{font-weight:bold;color:#000000;background-color:rgba(255, 255, 255, 0.8);border-radius:4px;}
 .firmos .firmosFormGroupShowLeft{background-position:-214px center;float:left;}
 .firmos .firmosFormGroupShowRight{background-position:-322px center;float:right;}
 .firmos .firmosFormGroupHideLeft{background-position:-4px center;float:left;}
@@ -65,8 +67,9 @@ body.firmos{background:linear-gradient(150deg, #0f034f 0%, #5189bf 50%, #0f034f 
 .firmos .firmosGridDate{text-align:right;}
 .firmos .firmosGridNumber{text-align:right;}
 .firmos .firmosGridIcon{text-align:center;}
+.firmos .firmosGridBoolean{text-align:center;}
 .firmos .dgrid-header .firmosGridString,.firmos .dgrid-header .firmosGridDate,.firmos .dgrid-header .firmosGridNumber,.firmos .dgrid-header .firmosGridIcon,.firmos .dgrid-header .firmosGridBoolean{text-align:left;}
-.firmos .firmosFormLabel,.firmos .firmosFormLabelRequired{padding-right:5px;color:#005;}
+.firmos .firmosFormLabel,.firmos .firmosFormLabelRequired{padding-right:5px;color:#000000;}
 .firmos .dojoxCheckedMultiSelect .dojoxCheckedMultiSelectWrapper{border-color:transparent;}
 .firmos .topMenu{float:left;width:100%;padding-top:5px;padding-bottom:5px;overflow:hidden;position:relative;height:70px;}
 .firmos .topMenuIconSmall,.firmos .topMenuIconBig{margin-right:5px;margin-left:5px;border-radius:5px;-webkit-transition-duration:0.3s;-moz-transition-duration:0.3s;transition-duration:0.3s;}
@@ -80,8 +83,11 @@ body.firmos{background:linear-gradient(150deg, #0f034f 0%, #5189bf 50%, #0f034f 
 .firmos .topMenu ul li:hover span{display:block;text-align:center;font-family:Tahoma,Geneva,sans-serif;color:#FFF;font-size:14px;line-height:1.5em;z-index:2000;}
 .firmos .topMenu ul li:hover .topMenuIconSmall{color:#000;width:48px;height:48px;-webkit-transition-duration:0.3s;-moz-transition-duration:0.3s;transition-duration:0.3s;}
 .firmos .topMenu ul li:hover .topMenuIconBig{color:#000;width:53px;height:53px;-webkit-transition-duration:0.3s;-moz-transition-duration:0.3s;transition-duration:0.3s;}
-.firmos .topMenuLogoLeft{position:absolute;margin:-10px 0px 0px 10px;background-image:url(images/firmbox_logo.svg);background-size:226px 80px;width:190px;height:80px;}
+.firmos .topMenuLogoLeft{position:absolute;background-image:url(images/citycom_logo.svg);background-size:400px 40px;width:400px;height:40px;left:20px;}
 .firmos .topMenuLogoRight{position:absolute;right:0px;margin:-10px 10px 0px 0px;width:0px;height:0px;}
+.firmos .topMenuNotificationToggleClose,.firmos .topMenuNotificationToggleOpen{position:absolute;right:5px;bottom:0px;width:16px;height:16px;}
+.firmos .topMenuNotificationToggleClose{background-color:red;}
+.firmos .topMenuNotificationToggleOpen{background-color:white;}
 .firmos .firmosVNCInactive{border:1px solid gray;}
 .firmos .firmosVNCActive{border:1px solid red;}
 .firmos .firmosShellPanel{background-color:white;}

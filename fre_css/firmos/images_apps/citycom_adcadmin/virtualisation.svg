@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.3 (7891) - http://www.bohemiancoding.com/sketch -->
+    <title>virtualisation</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Landscape" sketch:type="MSArtboardGroup" transform="translate(-6.000000, -295.000000)" stroke="#FFFFFF">
+            <g id="virtualisation" sketch:type="MSLayerGroup" transform="translate(6.000000, 293.000000)">
+                <g id="VMs" transform="translate(28.000000, 33.000000)" sketch:type="MSShapeGroup">
+                    <g id="Computer-2-+-Rectangle-50">
+                        <g id="Computer-2" transform="translate(3.344262, 2.818182)" stroke-width="0.5" fill="#FFFFFF" stroke-opacity="0.6">
+                            <rect id="Rectangle-52" fill-opacity="0.6" x="0" y="0" width="10.5901639" height="8.64140514" rx="1.34400032"></rect>
+                            <rect id="Rectangle-53" fill-opacity="0.9" x="1.14325633" y="1.15609504" width="8.30365155" height="6.54106388" rx="1.34400032"></rect>
+                            <path d="M3.9682559,8.53760099 C3.9682559,8.53760099 6.90454902,8.54534368 6.90454902,8.5453437 C6.90454902,8.54534372 6.39567759,9.43402316 8.04510234,10.1539252 C9.69452708,10.8738273 0.777879695,10.9911564 2.70007342,10.1539252 C4.62226715,9.31669397 3.9682559,8.53760099 3.9682559,8.53760099 Z" id="Path-146" fill-opacity="0.6"></path>
+                        </g>
+                        <rect id="Rectangle-49" stroke-opacity="0.203125" stroke-width="0.560000134" x="0" y="0" width="17.2786885" height="15.7818182" rx="2.24000053"></rect>
+                    </g>
+                    <g id="Computer-2-+-Rectangle-51" transform="translate(16.721311, 0.000000)">
+                        <g id="Computer-2" transform="translate(3.344262, 2.818182)" stroke-width="0.5" fill="#FFFFFF" stroke-opacity="0.6">
+                            <rect id="Rectangle-52" fill-opacity="0.6" x="0" y="0" width="10.5901639" height="8.64140514" rx="1.34400032"></rect>
+                            <rect id="Rectangle-53" fill-opacity="0.9" x="1.14325633" y="1.15609504" width="8.30365155" height="6.54106388" rx="1.34400032"></rect>
+                            <path d="M3.9682559,8.53760099 C3.9682559,8.53760099 6.90454902,8.54534368 6.90454902,8.5453437 C6.90454902,8.54534372 6.39567759,9.43402316 8.04510234,10.1539252 C9.69452708,10.8738273 0.777879695,10.9911564 2.70007342,10.1539252 C4.62226715,9.31669397 3.9682559,8.53760099 3.9682559,8.53760099 Z" id="Path-146" fill-opacity="0.6"></path>
+                        </g>
+                        <rect id="Rectangle-49" stroke-opacity="0.203125" stroke-width="0.560000134" x="0" y="0" width="17.2786885" height="15.7818182" rx="2.24000053"></rect>
+                    </g>
+                    <g id="Computer-2-+-Rectangle-52" transform="translate(0.000000, 15.218182)">
+                        <g id="Computer-2" transform="translate(3.344262, 2.818182)" stroke-width="0.5" fill="#FFFFFF" stroke-opacity="0.6">
+                            <rect id="Rectangle-52" fill-opacity="0.6" x="0" y="0" width="10.5901639" height="8.64140514" rx="1.34400032"></rect>
+                            <rect id="Rectangle-53" fill-opacity="0.9" x="1.14325633" y="1.15609504" width="8.30365155" height="6.54106388" rx="1.34400032"></rect>
+                            <path d="M3.9682559,8.53760099 C3.9682559,8.53760099 6.90454902,8.54534368 6.90454902,8.5453437 C6.90454902,8.54534372 6.39567759,9.43402316 8.04510234,10.1539252 C9.69452708,10.8738273 0.777879695,10.9911564 2.70007342,10.1539252 C4.62226715,9.31669397 3.9682559,8.53760099 3.9682559,8.53760099 Z" id="Path-146" fill-opacity="0.6"></path>
+                        </g>
+                        <rect id="Rectangle-49" stroke-opacity="0.203125" stroke-width="0.560000134" x="0" y="0" width="17.2786885" height="15.7818182" rx="2.24000053"></rect>
+                    </g>
+                    <g id="Computer-2-+-Rectangle-53" transform="translate(16.721311, 15.218182)">
+                        <g id="Computer-2" transform="translate(3.344262, 2.818182)" stroke-width="0.5" fill="#FFFFFF" stroke-opacity="0.6">
+                            <rect id="Rectangle-52" fill-opacity="0.6" x="0" y="0" width="10.5901639" height="8.64140514" rx="1.34400032"></rect>
+                            <rect id="Rectangle-53" fill-opacity="0.9" x="1.14325633" y="1.15609504" width="8.30365155" height="6.54106388" rx="1.34400032"></rect>
+                            <path d="M3.9682559,8.53760099 C3.9682559,8.53760099 6.90454902,8.54534368 6.90454902,8.5453437 C6.90454902,8.54534372 6.39567759,9.43402316 8.04510234,10.1539252 C9.69452708,10.8738273 0.777879695,10.9911564 2.70007342,10.1539252 C4.62226715,9.31669397 3.9682559,8.53760099 3.9682559,8.53760099 Z" id="Path-146" fill-opacity="0.6"></path>
+                        </g>
+                        <rect id="Rectangle-49" stroke-opacity="0.203125" stroke-width="0.560000134" x="0" y="0" width="17.2786885" height="15.7818182" rx="2.24000053"></rect>
+                    </g>
+                </g>
+                <g id="Computer-2-+-Rectangle-55" transform="translate(11.500000, 48.500000)" sketch:type="MSShapeGroup">
+                    <g id="Computer-2" transform="translate(3.344262, 2.818182)" stroke-width="0.5" fill="#FFFFFF" stroke-opacity="0.6">
+                        <rect id="Rectangle-52" fill-opacity="0.6" x="0" y="0" width="10.5901639" height="8.64140514" rx="1.34400032"></rect>
+                        <rect id="Rectangle-53" fill-opacity="0.9" x="1.14325633" y="1.15609504" width="8.30365155" height="6.54106388" rx="1.34400032"></rect>
+                        <path d="M3.9682559,8.53760099 C3.9682559,8.53760099 6.90454902,8.54534368 6.90454902,8.5453437 C6.90454902,8.54534372 6.39567759,9.43402316 8.04510234,10.1539252 C9.69452708,10.8738273 0.777879695,10.9911564 2.70007342,10.1539252 C4.62226715,9.31669397 3.9682559,8.53760099 3.9682559,8.53760099 Z" id="Path-146" fill-opacity="0.6"></path>
+                    </g>
+                    <rect id="Rectangle-49" stroke-opacity="0.203125" stroke-width="0.560000134" x="0" y="0" width="17.2786885" height="15.7818182" rx="2.24000053"></rect>
+                </g>
+                <g id="cloud-2" transform="translate(25.000000, 19.500000) rotate(-15.000000) translate(-25.000000, -19.500000) translate(3.000000, 5.000000)" stroke-width="2.5" sketch:type="MSShapeGroup">
+                    <path d="M11.1529846,22.4530935 C11.9242601,34.8345384 25.4216002,26.6570259 24.5539155,23.5760612 C29.4386667,31.3504581 35.8659739,24.0943541 35.7374266,21.243745 C47.7243509,24.583854 44.864197,6.15565798 37.2799778,10.7915015 C37.3121132,3.7657522 32.0766631,1.2031209 28.3488271,3.76579261 C24.553916,1.20312094 17.9606679,-3.80799898 14.6184684,6.18353775 C9.86226231,5.46368574 8.29283329,8.05606632 8.45351603,11.8280875 C0.772887842,1.98052114 -3.5781831,18.0691679 4.01867544,16.9246354 C1.44775431,19.084189 3.1188526,26.8585849 11.1529846,22.4530935 Z" id="path4006" stroke-opacity="0.433706975" fill-opacity="0.464447464" fill="#FFFFFF"></path>
+                    <path d="M29.1443473,9.8219286 C31.7474067,9.99469452 31.9402249,12.845307 31.2653585,15.0048606" id="path5253" stroke-opacity="0.324898098"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

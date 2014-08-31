@@ -20,6 +20,6 @@
 .firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-position:-105px 50%;}
 .firmos .dijitRadioMenuItemChecked .dijitMenuItemIcon{background-position:-90px 50%;}
 .firmos .dijitComboBoxMenu{margin-left:0;background-image:none;}
-.firmos .dijitMenu .dijitMenuItemSelected td,.firmos .dijitComboBoxMenu .dijitMenuItemSelected{color:#000000;border-color:#1e1e1e;background-color:#25408b;}
+.firmos .dijitMenu .dijitMenuItemSelected td,.firmos .dijitComboBoxMenu .dijitMenuItemSelected{color:#ffffff;text-shadow:1px 1px 1px black;border-color:#1e1e1e;background-color:#25408b;}
 .firmos .dijitComboBoxMenuActive .dijitMenuItemSelected{background-color:#1f2f5f;}
 .firmos .dijitMenuPreviousButton,.firmos .dijitMenuNextButton{font-style:italic;}

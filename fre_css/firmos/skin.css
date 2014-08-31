@@ -8,5 +8,5 @@
 .firmos .ui-state-active{background-color:#5673c4;}
 .firmos .ui-state-active:hover{background-color:#6983cb;}
 .firmos .ui-state-highlight{background-color:#f90;}
-.firmos .dgrid-cell{border-color:#dcb;}
+.firmos .dgrid-cell{border:0px;}
 .firmos .ui-widget-header .dgrid-cell{border-color:#dddddd;}

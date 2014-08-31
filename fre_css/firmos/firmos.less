@@ -104,9 +104,18 @@ body.@{themename} {
 
 
 .@{themename} .firmosFormTable {
-  padding: 10px 20px 0px 20px;  
+  padding: 0px 0px 0px 0px;
   margin: 0px;  
 }
+
+.@{themename} .firmosFormTableIB {
+  padding: 0px;
+  margin: 0px;
+  border-radius: (@firmos-border-radius-all);
+  border:  @firmosBorderContent;
+  border-color: @firmosBorderContainerBorderColor
+}
+
 
 .@{themename} .firmosFormInputTD {
    padding: 0px 10px 0px 0px;
@@ -116,10 +125,10 @@ body.@{themename} {
 .@{themename} .firmosFormGroupHeaderElement {
    font-size: 14px;
    font-weight: 400;
-   background-color: darkgray;
-   padding: 1px 1px 2px 8px;  
-   margin: 0px 0px 0px -8px;
-   border-radius: 8px;
+   background-color: #3F5491; // #81511a;
+   padding: 6px 0px 4px 2px;
+   margin: 0px 0px 0px 0px;
+   border-radius: (@firmos-border-radius-all);
    .fos-text-inv;  
 }
 
@@ -136,6 +145,13 @@ body.@{themename} {
    background-color: lightgoldenrodyellow;
    padding: 0px 4px 0px 6px;
    margin: 0px 5px 3px 6px;
+}
+
+.@{themename} .firmosFormDescriptionField {
+	font-weight: bold;
+	color:  @text-color;
+	background-color: rgba(255, 255, 255, 0.8);
+	border-radius: 4px;   
 }
 
 .@{themename} .firmosFormGroupShowLeft {
@@ -417,6 +433,7 @@ body.@{themename} {
 }
 
 .@{themename} .firmosGridBoolean {
+  text-align: center;
 }
 
 .@{themename} .dgrid-header .firmosGridString, 
@@ -436,7 +453,7 @@ body.@{themename} {
 .@{themename} .firmosFormLabel, 
 .@{themename} .firmosFormLabelRequired {
   padding-right: 5px;
-  color: #005;
+  color: @text-color;
 }
 
 .@{themename} .dojoxCheckedMultiSelect .dojoxCheckedMultiSelectWrapper {
@@ -526,11 +543,11 @@ body.@{themename} {
 
 .@{themename} .topMenuLogoLeft {
   position:absolute;
-  margin: -10px 0px 0px 10px;
-  background-image: url(images/firmbox_logo.svg);
-  background-size: 226px 80px;
-  width: 190px;
-  height: 80px;
+  background-image: url(images/citycom_logo.svg);
+  background-size: 400px 40px;  
+  width:  400px;
+  height: 40px;
+  left:	20px;
 }
 
 .@{themename} .topMenuLogoRight {
@@ -539,6 +556,23 @@ body.@{themename} {
   margin: -10px 10px 0px 0px;
   width: 0px;
   height: 0px;
+}
+
+.@{themename} .topMenuNotificationToggleClose,
+.@{themename} .topMenuNotificationToggleOpen {
+  position:absolute;
+  right: 5px;
+  bottom: 0px;
+  width: 16px;
+  height: 16px;
+}
+
+.@{themename} .topMenuNotificationToggleClose {
+  background-color: red;
+}
+
+.@{themename} .topMenuNotificationToggleOpen {
+  background-color: white;
 }
 
 .@{themename} .firmosVNCPanel {

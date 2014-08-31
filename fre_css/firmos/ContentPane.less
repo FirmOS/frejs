@@ -24,7 +24,8 @@
 @import "variables";
 
 .@{themename} .dijitContentPane {
-	padding: 0px;
+//        background-color: @firmos-container-background-color-pane
+	padding: 5px;
 }		
 
 /* nested layouts */
@@ -33,25 +34,29 @@
 .@{themename} .dijitTabContainerBottom-dijitContentPane,
 .@{themename} .dijitTabContainerRight-dijitContentPane,
 .@{themename} .dijitAccordionContainer-dijitContentPane {
-//	background-color: @pane-background-color;
-    background-color: #5673c5;
-	padding: 0px 0px 0px =px;		    
+	background-color: @firmos-container-background-color-pane;
+	padding: 0px 0px 0px =px;
 }
 
-.dijitTabContainerTop-dijitContentPane {
-    background-color: #3f5490;
-	padding: 6px 6px 6px 6px;		    
+.@{themename} .dijitTabContainerTop-dijitContentPane {
+        //background-color: @firmos-container-background-color-pane;
+//	padding: 6px 6px 6px 6px;		    
+}
+.@{themename} .dijitContentPaneSinglechild {
+    padding: 8px;
+    background-color: red;
 }
 
-
-.dijitTabContainerTop-child .dijitContentPane {
-//    background-color: @primary-color;
-    background-color: none;
+.@{themename} .dijitTabContainerTop-child .dijitContentPane {
+//    background-color: @firmos-container-background-color-pane;
 }
 
-.@{themename} .dijitSplitContainer-dijitContentPane,
+.@{themename} .dijitSplitContainer-dijitContentPane {
+    background-color: green; //@firmos-container-background-color-pane;
+    padding: 0px;
+}
+
 .@{themename} .dijitBorderContainer-dijitContentPane {
-//	background-color: @pane-background-color;//@pane-background-color;		
-//    background-color: @primary-color;
-	padding: 0px;
+//    background-color: @firmos-container-background-color-pane;
+    padding: 0px;
 }

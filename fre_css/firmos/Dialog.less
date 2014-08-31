@@ -32,12 +32,13 @@
 @import "variables";
 
 .@{themename} .dijitDialog {
-	border: 1px solid @popup-border-color;
+	border: 0px solid @popup-border-color;
 	.box-shadow(0 1px 5px rgba(0,0,0,0.25));
 } 
 
 .@{themename} .dijitDialogPaneContent {
-	background: @secondary-color;	//@pane-background-color repeat-x top left;
+	// background: @pane-background-color;	//@pane-background-color repeat-x top left;
+        background: @firmosBorderContainerBG;
 	border-top: 1px solid @popup-border-color;
 	padding:10px 8px;
 	position: relative;

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.3 (7891) - http://www.bohemiancoding.com/sketch -->
+    <title>phonebook</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Landscape" sketch:type="MSArtboardGroup" transform="translate(-78.000000, -368.000000)">
+            <g id="accesscontrol" sketch:type="MSLayerGroup" transform="translate(3.000000, 429.000000)">
+                <g id="ac" transform="translate(38.000000, 36.000000) rotate(20.000000) translate(-38.000000, -36.000000) translate(7.000000, 9.000000)"></g>
+            </g>
+            <g id="phonebook" sketch:type="MSLayerGroup" transform="translate(78.000000, 368.000000)">
+                <path d="M31.9999936,13.3572265 C32.7334715,12.5257215 33.8068966,12 35.0028165,12 L51.9971835,12 C54.2020617,12 56,13.7908724 56,16.0000255 L56,47.9999745 C56,50.2035752 54.207878,52 51.9971835,52 L35.0028165,52 C33.8089728,52 32.7344333,51.4749624 32.0000064,50.6427735 C31.2665285,51.4742785 30.1931034,52 28.9971835,52 L12.0028165,52 C9.79793835,52 8,50.2091276 8,47.9999745 L8,16.0000255 C8,13.7964248 9.79212198,12 12.0028165,12 L28.9971835,12 C30.1910272,12 31.2655667,12.5250376 31.9999936,13.3572265 Z" id="pb2" stroke-opacity="0.83" stroke="#FFFFFF" stroke-width="2" sketch:type="MSShapeGroup"></path>
+                <g id="pb1" transform="translate(31.378387, 31.500000) scale(-1, 1) translate(-31.378387, -31.500000) translate(15.378387, 22.000000)" stroke="#979797" stroke-linecap="square" sketch:type="MSShapeGroup">
+                    <path d="M0.5,1.5 L9.5,1.5" id="Line-10"></path>
+                    <path d="M2.5,5.5 L11.5,5.5" id="Line-6"></path>
+                    <path d="M0.5,17.5 L9.5,17.5" id="Line-7"></path>
+                    <path d="M2.5,13.5 L11.5,13.5" id="Line-8"></path>
+                    <path d="M0.5,9.5 L9.5,9.5" id="Line-9"></path>
+                    <g id="Group" transform="translate(25.756775, 9.500000) scale(-1, 1) translate(-25.756775, -9.500000) translate(19.756775, 0.000000)">
+                        <path d="M0.5,1.5 L9.5,1.5" id="Line"></path>
+                        <path d="M2.5,5.5 L11.5,5.5" id="Line-3"></path>
+                        <path d="M0.5,17.5 L9.5,17.5" id="Line-2"></path>
+                        <path d="M2.5,13.5 L11.5,13.5" id="Line-4"></path>
+                        <path d="M0.5,9.5 L9.5,9.5" id="Line-5"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

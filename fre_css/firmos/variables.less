@@ -17,9 +17,12 @@
 @firmos-border-radius-lefttab: (6px 0px 0px 6px);
 @firmos-border-radius-righttab: (0px 6px 6px 0px);
 @firmos-border-radius-all: (6px 6px 6px 6px);
+@firmosBorderContainerBG: @primary-color; //#ec6827;
+@firmosBorderContainerBorderColor: darken(@primary-color,10);
+@firmosBorderContent: 1px solid;
 
 
-@text-color: #000;													// Text color for enabled widgets
+@text-color:     #000;													// Text color for enabled widgets
 @text-color-inv: #fff;
 @disabled-color: #ddd;												// Base for disabled backgrounds and borders
 @error-color: #d46464;
@@ -27,7 +30,8 @@
 @background-color-side: #0f034f;
 @background-color-middle: #5189bf;
 
-@container-background-color: #FFF;										// Backgrounds for various content areas such as TitlePane, ContentPane and Inputs (if changed, adjust selected tab to match)
+@container-background-color: #fff; //#f8e8b4;										// Backgrounds for various content areas such as TitlePane, ContentPane and Inputs (if changed, adjust selected tab to match)
+@firmos-container-background-color-pane: #f8e8b4;
 
 @minor-selected-color: spin(saturate(darken(@primary-color, 6), 19), 0);						// Color for various arrows and buttons
 @base-border-color: spin(desaturate(darken(@primary-color, 29), 44), -1);		// Augmented and used directly by variables to create border colors for various widgets

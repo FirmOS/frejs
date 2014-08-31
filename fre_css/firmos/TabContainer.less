@@ -72,10 +72,11 @@
 }
 
 .dijitTabContainerTop-container {
-   border: 1px solid #334576;
+   border:  @firmosBorderContent;
 //   border-radius: 8px 8px 8px 8px;
    border-radius: (@firmos-border-radius-all);
-   border-color: #334576;   
+   border-color: @firmosBorderContainerBorderColor;
+   background-color: @firmosBorderContainerBG;
 }
 
 .@{themename} .dijitTab *:focus {

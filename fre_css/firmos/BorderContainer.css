@@ -1,4 +1,4 @@
-.firmos .dijitBorderContainer{padding:5px;}
+.firmos .dijitBorderContainer{padding:5px;background-color:#3f5490;}
 .firmos .dijitSplitContainer-child,.firmos .dijitBorderContainer-child{border:none;}
 .firmos .dijitBorderContainer-dijitTabContainerTop,.firmos .dijitBorderContainer-dijitTabContainerBottom,.firmos .dijitBorderContainer-dijitTabContainerLeft,.firmos .dijitBorderContainer-dijitTabContainerRight,.firmos .dijitBorderContainer-dijitAccordionContainer{border:none;}
 .firmos .dijitBorderContainer-dijitBorderContainer{border:0;padding:0;}

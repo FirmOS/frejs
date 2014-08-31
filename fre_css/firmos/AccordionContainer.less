@@ -52,7 +52,8 @@
 	.alpha-white-gradient(0.5, 0%, 0, 50%); //.standard-gradient();
 	padding: 5px 7px 2px 7px;
 	min-height: 17px;
-	color: @unselected-text-color;
+//	color: @unselected-text-color;
+        .fos-text-inv;
 }
 
 .@{themename} .dijitAccordionContainer .dijitAccordionChildWrapper {
@@ -78,7 +79,8 @@
 }
 .@{themename} .dijitAccordionInnerContainerActive .dijitAccordionTitle {
 	.active-gradient();
-	color:@selected-text-color;
+	//color:@selected-text-color;
+        .fos-text-inv;
 }
 
 /* Open (a.k.a. selected) pane */
@@ -89,15 +91,16 @@
 }
 .@{themename} .dijitAccordionInnerContainerSelected .dijitAccordionTitle {
 	//color:@selected-text-color;
-	color: navy;
-	.text-shadow (1px 1px 2px #FFF);
+        .fos-text-inv;
+	//color: navy;
+	.text-shadow (1px 1px 2px #000);
 	//.alpha-white-gradient(0.7, 0%, 0, 60%);
 	//border-top: 1px solid #FFF;
     margin: 0px 12px 0px 12px;
     //border-radius: 16px 16px 0px 0px;
     .border-radius(@firmos-border-radius-toptab);
     border: 0px solid;
-    background-color: @firmos-orange;	
+    //background-color: @firmos-orange;	
 	//.standard-gradient();	/* avoid effect when clicking the title of the open pane */
 }
 
@@ -105,7 +108,8 @@
 
 .@{themename} .dijitAccordionInnerContainerHover .dijitAccordionTitle {
 	/* both open and closed */
-	color:@hovered-text-color;
+//	color:@hovered-text-color;
+        .fos-text-inv;
 }
 
 .@{themename} .dijitAccordionInnerContainerHover {
