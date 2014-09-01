@@ -1,5 +1,5 @@
 .firmos .dijitContentPane{padding:5px;}
-.firmos .dijitTabContainerLeft-dijitContentPane,.firmos .dijitTabContainerBottom-dijitContentPane,.firmos .dijitTabContainerRight-dijitContentPane,.firmos .dijitAccordionContainer-dijitContentPane{background-color:#f8e8b4;padding:0px 0px 0px =px;}
+.firmos .dijitTabContainerTop-dijitContentPane,.firmos .dijitTabContainerLeft-dijitContentPane,.firmos .dijitTabContainerBottom-dijitContentPane,.firmos .dijitTabContainerRight-dijitContentPane,.firmos .dijitAccordionContainer-dijitContentPane{padding:0px 0px 0px =px;}
 .firmos .dijitContentPaneSinglechild{padding:8px;background-color:red;}
 .firmos .dijitSplitContainer-dijitContentPane{background-color:green;padding:0px;}
 .firmos .dijitBorderContainer-dijitContentPane{padding:0px;}

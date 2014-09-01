@@ -15,7 +15,10 @@ body.firmos{background:linear-gradient(150deg, #0f034f 0%, #5189bf 50%, #0f034f 
 .firmos .firmosMessageError,.firmos .firmosMessageInfo,.firmos .firmosMessageWarning,.firmos .firmosMessageWait,.firmos .firmosMessageConfirm{width:400px;color:#ffffff;text-shadow:1px 1px 1px black;}
 .firmos .firmosMessageButtonsError,.firmos .firmosMessageButtonsInfo,.firmos .firmosMessageButtonsWarning,.firmos .firmosMessageButtonsWait,.firmos .firmosMessageButtonsConfirm{margin:20px 0px 0px 0px;text-align:center;}
 .firmos .firmosFormTable{padding:0px 0px 0px 0px;margin:0px;}
-.firmos .firmosFormTableIB{padding:0px;margin:0px;border-radius:6px 6px 6px 6px;border:1px solid;border-color:#2f3f6d;}
+.firmos .firmosFormTableIB{padding:0px;margin:0px;}
+.firmos .firmosFormBlockFirst{padding:0px 4px 0px 0px;}
+.firmos .firmosFormBlockMiddle{padding:0px 4px 0px 0px;}
+.firmos .firmosFormBlockLast{padding:0px 0px 0px 0px;}
 .firmos .firmosFormInputTD{padding:0px 10px 0px 0px;}
 .firmos .firmosFormGroupHeaderElementCollapsible,.firmos .firmosFormGroupHeaderElement{font-size:14px;font-weight:400;background-color:#3F5491;padding:6px 0px 4px 2px;margin:0px 0px 0px 0px;border-radius:6px 6px 6px 6px;color:#ffffff;text-shadow:1px 1px 1px black;}
 .firmos .firmosFormLabelTD,.firmos .firmosFormFileLabelTD{padding:0 5px 0 15px;white-space:nowrap;text-align:right;border-radius:6px 0px 0px 6px;margin:12px;}
