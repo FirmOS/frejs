@@ -5040,6 +5040,19 @@ dojo.declare("FIRMOS.SplitContainer", dijit.layout.BorderContainer, {
 //GridFilter
 dojo.declare("FIRMOS.GridFilter",null, {
   texts: G_TEXTS.gridfilter,
+  constructor: function(args) {
+    this._filterButtons = new Array();
+    this._filterDialogs = new Array();
+  },
+  destroy: function() {
+    while (this._filterButtons.length>0) {
+      this._filterButtons.pop().destroyRecursive();
+    }
+    while (this._filterDialogs.length>0) {
+      this._filterDialogs.pop().destroyRecursive();
+    }
+    this.inherited(arguments);
+  },
   renderHeader: function(){
     this.inherited(arguments);
     if (this.filterDisabled) return;
@@ -5107,6 +5120,7 @@ dojo.declare("FIRMOS.GridFilter",null, {
                                                      onOpen: function(event) {this.getChildren()[0].set('value',this.formValues);}, // FIXXME get from grid
                                                      grid: this});
 
+        this._filterDialogs.push(filter_dialog);
         var button = new dijit.form.DropDownButton({
           id: this.id+'_'+colId + '_ddb',
           label: '',
@@ -5116,6 +5130,7 @@ dojo.declare("FIRMOS.GridFilter",null, {
           onClick: function (evt) {evt.preventDefault(); dojo.stopEvent(evt); return false;}
         });
         filter_dialog.ddbutton = button;
+        this._filterButtons.push(button);
       }
       headerNodes[i].appendChild(button.domNode);
     }
