@@ -3792,7 +3792,7 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
         }
       }
       if (children[i].isInstanceOf(FIRMOS.BoolCheckBox)) {
-        children[i].updateDepFields(children);
+        children[i].updateDepFields(this);
       }
       if (children[i].isInstanceOf(FIRMOS.FilteringSelect)) {
         children[i].init();
