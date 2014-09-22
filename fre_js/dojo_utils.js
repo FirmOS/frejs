@@ -6389,7 +6389,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
           this.entries[i].elementGFX.rawNode.childNodes[0].setAttribute('class','firmosSitemapEntryPressed');
           this.entries[i].elementGFX.rawNode.childNodes[1].setAttribute('class','firmosSitemapEntryPressed2');
         }
-        this.createShortcut(this.entries[i]);
+        //this.createShortcut(this.entries[i]);
         //FIXXME - check needed space
       }
     }
@@ -6607,9 +6607,9 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
       element.height = 35;
     }
     var activeLevelExt = '';
-    if (isActiveLevel) {
-      activeLevelExt = 'AL';
-    }
+    //if (isActiveLevel) {
+    //  activeLevelExt = 'AL';
+    //}
     var rect = group.createPath({path: "M117.084,49.496c0,1.105-0.941,2-2.103,2h-"+element.width+"c-1.161,0-2.103-0.895-2.103-2v-"+element.height+"c0-1.104,0.941-2,2.103-2h"+element.width+"c1.161,0,2.103,0.896,2.103,2V49.496z"});
     rect.applyTransform(dojox.gfx.matrix.translate(element.x-67.2,element.y));
     var rect2 = group.createPath({path: "M115.75,48.171c0,1.012-0.915,1.829-2.042,1.829h-"+(element.width-2.879)+"c-1.127,0-2.042-0.817-2.042-1.829v-"+(element.height-2.908)+"c0-1.009,0.915-1.829,2.042-1.829h"+(element.width-2.879)+"c1.127,0,2.042,0.82,2.042,1.829V48.171z"});
@@ -7028,9 +7028,9 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     }
   },
   highlightActiveLevel: function(rootElement, oldActiveLevel) {
-    if (rootElement.activeLevel!=oldActiveLevel) {
-      this._highlightALRecursive(rootElement, 0, rootElement.activeLevel, oldActiveLevel);
-    }
+    //if (rootElement.activeLevel!=oldActiveLevel) {
+    //  this._highlightALRecursive(rootElement, 0, rootElement.activeLevel, oldActiveLevel);
+    //}
   },
   elementOnClick: function(element, isShortcut, evt) {
     if ((this.moving_) || (((new Date()).getTime()-this.lastMove_)<this.moveToClickTimeMin)) return;
@@ -7040,73 +7040,73 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
       this.elementToggleCollapse(element);
       return;
     }
-    var jumpToSelection = true;
-    if (element.path.length>1) {
-      var mElement = this.entries[element.path[0]];
-      var scale = 1;
-      var nLevel = element.path.length - 1;
-      var oLevel = mElement.activeLevel;
-      if (oLevel != nLevel) {
-        jumpToSelection = false;
-        if (this.animationRunning) {
-          setTimeout(this.elementOnClick.bind(this,element,isShortcut,evt),100);
-          return;
-        }
-        this.animationRunning = true;
-
-        if (mElement.activeLevel < nLevel) {
-          for (var i=mElement.activeLevel; i<nLevel; i++) {
-            scale = scale / this.levelScale;
-          }
-        } else {
-          for (var i=mElement.activeLevel; i>nLevel; i--) {
-            scale = scale * this.levelScale;
-          }
-        }
-        mElement.activeLevel = nLevel;
-
-        var newScale = mElement.levelScale * scale;
-        if (newScale<1) {
-          newScale = 1;
-          scale = newScale / mElement.levelScale;
-        }
-        if (newScale>mElement.maxLevelScale) {
-          newScale = mElement.maxLevelScale;
-          scale = newScale / mElement.levelScale;
-        }
-        mElement.levelScale = newScale;
-
-        var bb = element.elementGFX.getTransformedBoundingBox();
-
-        var transform = mElement.childrenGroupMoveGFX.getTransform();
-        
-        var centerX = bb[0].x+(bb[1].x-bb[0].x)/2;
-        var centerY = bb[1].y+(bb[2].y-bb[1].y)/2;
-        var scaleAt = dojox.gfx.matrix.scaleAt(scale, centerX, centerY);
-
-        if (evt.clientX && evt.clientY) {
-          var mouseX = evt.clientX - this.detailsDim.x;
-          var mouseY = evt.clientY - this.detailsDim.y;
-        } else {
-          var mouseX = centerX;
-          var mouseY = centerY;
-        }
-        var move = dojox.gfx.matrix.translate(mouseX-centerX , mouseY-centerY );
-        
-        var animation = new dojox.gfx.fx.animateTransform({
-          duration: this.focusElementAnimationDuration,
-          shape: mElement.childrenGroupMoveGFX,
-          transform: [{
-            name: 'matrix',
-            start: transform, 
-            end: dojox.gfx.matrix.multiply(move,scaleAt,transform)
-          }]
-        }).play();
-        this._events.push(dojo.connect(animation, "onEnd", this.animationEnd.bind(this,element)));
-        this._events.push(dojo.connect(animation, "onEnd", this.highlightActiveLevel.bind(this,mElement,oLevel)));
-      }
-    }
-    if (jumpToSelection) {
+    //var jumpToSelection = true;
+    //if (element.path.length>1) {
+    //  var mElement = this.entries[element.path[0]];
+    //  var scale = 1;
+    //  var nLevel = element.path.length - 1;
+    //  var oLevel = mElement.activeLevel;
+    //  if (oLevel != nLevel) {
+    //    jumpToSelection = false;
+    //    if (this.animationRunning) {
+    //      setTimeout(this.elementOnClick.bind(this,element,isShortcut,evt),100);
+    //      return;
+    //    }
+    //    this.animationRunning = true;
+    //
+    //    if (mElement.activeLevel < nLevel) {
+    //      for (var i=mElement.activeLevel; i<nLevel; i++) {
+    //        scale = scale / this.levelScale;
+    //      }
+    //    } else {
+    //      for (var i=mElement.activeLevel; i>nLevel; i--) {
+    //        scale = scale * this.levelScale;
+    //      }
+    //    }
+    //    mElement.activeLevel = nLevel;
+    //
+    //    var newScale = mElement.levelScale * scale;
+    //    if (newScale<1) {
+    //      newScale = 1;
+    //      scale = newScale / mElement.levelScale;
+    //    }
+    //    if (newScale>mElement.maxLevelScale) {
+    //      newScale = mElement.maxLevelScale;
+    //      scale = newScale / mElement.levelScale;
+    //    }
+    //    mElement.levelScale = newScale;
+    //
+    //    var bb = element.elementGFX.getTransformedBoundingBox();
+    //
+    //    var transform = mElement.childrenGroupMoveGFX.getTransform();
+    //    
+    //    var centerX = bb[0].x+(bb[1].x-bb[0].x)/2;
+    //    var centerY = bb[1].y+(bb[2].y-bb[1].y)/2;
+    //    var scaleAt = dojox.gfx.matrix.scaleAt(scale, centerX, centerY);
+    //
+    //    if (evt.clientX && evt.clientY) {
+    //      var mouseX = evt.clientX - this.detailsDim.x;
+    //      var mouseY = evt.clientY - this.detailsDim.y;
+    //    } else {
+    //      var mouseX = centerX;
+    //      var mouseY = centerY;
+    //    }
+    //    var move = dojox.gfx.matrix.translate(mouseX-centerX , mouseY-centerY );
+    //    
+    //    var animation = new dojox.gfx.fx.animateTransform({
+    //      duration: this.focusElementAnimationDuration,
+    //      shape: mElement.childrenGroupMoveGFX,
+    //      transform: [{
+    //        name: 'matrix',
+    //        start: transform, 
+    //        end: dojox.gfx.matrix.multiply(move,scaleAt,transform)
+    //      }]
+    //    }).play();
+    //    this._events.push(dojo.connect(animation, "onEnd", this.animationEnd.bind(this,element)));
+    //    this._events.push(dojo.connect(animation, "onEnd", this.highlightActiveLevel.bind(this,mElement,oLevel)));
+    //  }
+    //}
+    //if (jumpToSelection) {
       if (element.disabled) return;
       if (!(element.sectionpath.sectionids instanceof Array)) {
         var path = [element.sectionpath.sectionids];
@@ -7117,7 +7117,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
       if (!G_UI_COM.showSectionPath(element.sectionpath.basecontainerid, path, false)) {
         console.error('Could not resolve given section path: ' + JSON.stringify(element.sectionpath));
       }
-    }
+    //}
   }
 });
 
