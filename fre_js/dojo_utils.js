@@ -1072,7 +1072,9 @@ dojo.declare("FIRMOS.Dialog", dijit.Dialog, {
        content.addChild(this._buttonsCP);
      }
      this.set('content',content);
-
+    }
+    if (this.styleClass) {
+      dojo.addClass(this.domNode,this.styleClass);
     }
   },
   disableAllButtons: function() {
