@@ -582,16 +582,22 @@ body.@{themename} {
   position:absolute;
   right: 5px;
   bottom: 0px;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
 }
 
 .@{themename} .topMenuNotificationToggleClose {
-  background-color: red;
+  //background-color: red;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-image: url(images/triclose.svg)
 }
 
 .@{themename} .topMenuNotificationToggleOpen {
-  background-color: white;
+  //background-color: white;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-image: url(images/triopen.svg)
 }
 
 .@{themename} .firmosVNCPanel {
@@ -687,4 +693,72 @@ body.@{themename} {
   width: 15%;
   overflow: hidden;
   background-color: #FFFFFF;
+  border-radius: 6px 0 0 6px;
+  //opacity: 0.4;
+}
+
+// FiemOS Login Dialog Special Styling
+
+.@{themename} .firmosLogin.dijitDialog {
+  border-radius: 20px;
+}
+
+.@{themename} .firmosLogin .dijitDialogPaneContent {
+  background: white;
+  padding: 16px 26px;
+  border-top: 5px solid whitesmoke;
+}
+
+.@{themename} .firmosLogin .dijitDialogTitleBar {
+  background: white;
+  background-image: url(images/loginkey.svg);
+  background-position: 13px -2px;
+  background-repeat: no-repeat;
+  padding: 12px;
+  text-align: center;
+}
+
+.@{themename} .firmosLogin .dijitDialogTitle {
+  text-align: right;
+  font-size: 32px;
+  color: black;
+  text-shadow: none;
+}
+
+.@{themename} .firmosLogin .dijitTextBox {
+  text-indent: 0px;
+  border: none;
+  border-bottom: solid 2px whitesmoke;
+  text-align: center;
+}
+.@{themename} .firmosLogin .firmosFormLabelTD {
+  background-color: white;
+  padding: 10px;
+  margin: 10px;
+}
+
+.@{themename} .firmosLogin .dijitTextBox .dijitInputInner {
+  padding: 0px;
+  font-size: 25px;
+  text-align: center;
+}
+
+.@{themename} .firmosLogin .dijitButtonNode {
+  border: none;
+  padding: 0px 10px 0px 10px;
+  margin: 15px 0px 7px 0px;
+  color: #ffffff;
+  font-size: 25px;
+}
+
+.@{themename} .firmosLogin .dijitButtonNode *:focus {
+  border: none;
+  outline: none;
+}
+
+.@{themename} .firmosLogin .firmosFormDescriptionField {
+  font-weight: lighter;
+  border-radius: 4px;
+  margin: 0px 0px 12px 0px;
+  color: grey;
 }

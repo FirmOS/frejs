@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.0.1 (7597) - http://www.bohemiancoding.com/sketch -->
+    <!-- Generator: Sketch 3.0.4 (8053) - http://www.bohemiancoding.com/sketch -->
     <title>user_ico_lck</title>
-    <description>Created with Sketch.</description>
+    <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="user_ico_lck" sketch:type="MSLayerGroup">
-            <path d="M16.9453125,5.72740541 C16.9453125,8.32998649 14.8166743,10.4399189 12.1923651,10.4399189 C9.56776974,10.4399189 7.44027632,8.3297027 7.44027632,5.72740541 C7.44027632,3.12510811 9.56805592,1.01489189 12.1923651,1.01489189 C14.8169605,1.01460811 16.9453125,3.12454054 16.9453125,5.72740541 L16.9453125,5.72740541 Z" id="path3" fill="#F6A623" sketch:type="MSShapeGroup"></path>
-            <path d="M17.5317039,15.6203919 C17.5317039,13.2542027 15.0344605,11.3704459 12.0944901,11.3704459 C9.15451974,11.3704459 6.82354934,13.3206081 6.82354934,15.6876486 L6.82354934,22.125 L17.5617533,22.125" id="path5" fill="#F6A623" sketch:type="MSShapeGroup"></path>
-            <g id="STOPe-2" transform="translate(8.000000, 8.000000)" sketch:type="MSShapeGroup">
-                <circle id="Stop" stroke-opacity="0.396399457" stroke="#FF0000" stroke-width="1.70000029" fill="#FF0000" cx="7.5" cy="7.5" r="7.5"></circle>
-                <rect id="Path" fill="#FFFFFF" x="1.66666667" y="5.83333333" width="11.6666667" height="3.33333333"></rect>
+    <g id="Accesscontrol" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="AC" sketch:type="MSArtboardGroup" transform="translate(-291.000000, -125.000000)">
+            <g id="user_ico_lck" sketch:type="MSLayerGroup" transform="translate(291.000000, 125.000000)">
+                <path d="M16.9453125,5.72740541 C16.9453125,8.32998649 14.8166743,10.4399189 12.1923651,10.4399189 C9.56776974,10.4399189 7.44027632,8.3297027 7.44027632,5.72740541 C7.44027632,3.12510811 9.56805592,1.01489189 12.1923651,1.01489189 C14.8169605,1.01460811 16.9453125,3.12454054 16.9453125,5.72740541 L16.9453125,5.72740541 Z" id="path3" fill="#F6A623" sketch:type="MSShapeGroup"></path>
+                <path d="M17.5317039,15.6203919 C17.5317039,13.2542027 15.0344605,11.3704459 12.0944901,11.3704459 C9.15451974,11.3704459 6.82354934,13.3206081 6.82354934,15.6876486 L6.82354934,22.125 L17.5617533,22.125" id="path5" fill="#F6A623" sketch:type="MSShapeGroup"></path>
+                <g id="STOPe-2" transform="translate(11.000000, 11.000000)" sketch:type="MSShapeGroup">
+                    <circle id="Stop" stroke-opacity="0.396399457" stroke="#FF0000" stroke-width="1.70000029" fill="#FF0000" cx="5" cy="5" r="5"></circle>
+                    <rect id="Path" fill="#FFFFFF" x="1.11111111" y="3.88888889" width="7.77777778" height="2.22222222"></rect>
+                </g>
             </g>
         </g>
     </g>
