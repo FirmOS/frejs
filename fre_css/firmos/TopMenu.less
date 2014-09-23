@@ -49,19 +49,6 @@
   margin-right: 10px;
   .transition-duration (0.3s);
 }
-.topMenu .menuButton {
-  width:  38px;
-  height: 38px;
-  margin-left: 10px;
-  margin-right: 10px;
-  .transition-duration (0.3s);
-}
-.topMenu .menuButton:hover {
-  width:  48px;
-  height: 48px;
-  margin-left: 5px;
-  margin-right: 5px; 
-}
 
 /*************** Building up the actual style of the button with layers ***************/
 
@@ -126,14 +113,12 @@
 
 /*************** Formatting the button caption ( visible on hover) ***************/
 
-.topMenu .menuButton .captionContainer,
 .topMenu .menuButtonBig .captionContainer {
   width: 56px;
   z-index: 1000;
   position: relative;
   left: 100%;
 }
-.topMenu .buttonListWrapper .buttonListItem .menuButton .buttonCaption,
 .topMenu .buttonListWrapper .buttonListItem .menuButtonBig .buttonCaption {
   display: none;
   margin-top: 5px;
@@ -150,7 +135,6 @@
   right: 100%;
   width: 100%;
 }
-.topMenu .buttonListWrapper .buttonListItem .menuButton:hover .buttonCaption,
 .topMenu .buttonListWrapper .buttonListItem .menuButtonBig:hover .buttonCaption {
   display: block;
 }

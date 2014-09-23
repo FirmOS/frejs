@@ -6201,29 +6201,19 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
     content = content+'<div class="topMenu">';
     content = content + '<div class="topMenuLogoLeft"></div>';
     content = content + '<div class="topMenuLogoRight"></div>';
+    content = content + '<div id="topMenuUserInfoRight" class="topMenuUserInfoRight">'+this.uname+'</div>';
     if (this.notificationPanelId!='') {
       content = content + '<div class="topMenuNotificationToggleClose" id="topMenuNotificationToggleClose"></div>';
       content = content + '<div class="topMenuNotificationToggleOpen" id="topMenuNotificationToggleOpen" style="display:none;"></div>';
     }
     content = content+'<div class="buttonListWrapper">';
     
-    var iconSize;
     var eventStr = '';
-    var isBigStr;
-    for (var i=0;i<this.entries.length; i++) {
-      if (this.entries[i].isBig) {
-        iconSize = '53';
-        isBigStr = 'Big';
-      } else {
-        iconSize = '38';
-        isBigStr = '';
-      }
-      G_UI_COM.createCSSRule('topMenu'+this.entries[i].entryId,'background: url('+this.entries[i].icon+'); background-repeat: no-repeat; background-size:'+iconSize+'px '+iconSize+'px; background-position: center;');
-      content = content+'<div class="buttonListItem"><div id="topMenu'+this.entries[i].entryId+'" class="menuButton'+isBigStr+'">'
-                       +'<div class="base"><div class="shineTop"><div class="buttonIcon topMenu'+this.entries[i].entryId+'"><div class="shineBottom"></div></div></div></div>'
-                       +'<div class="captionContainer"><div class="buttonCaption">'+this.entries[i].caption+'</div></div>'
-                       +'</div></div>';
-    }
+    G_UI_COM.createCSSRule('topMenuHome','background: url('+this.homeIcon+'); background-repeat: no-repeat; background-size:53px 53px; background-position: center;');
+    content = content+'<div class="buttonListItem"><div id="topMenuHome" class="menuButtonBig">'
+                     +'<div class="base"><div class="shineTop"><div class="buttonIcon topMenuHome"><div class="shineBottom"></div></div></div></div>'
+                     +'<div class="captionContainer"><div class="buttonCaption">'+this.homeCaption+'</div></div>'
+                     +'</div></div>';
     content = content + '</div></div>';
     tMenu.set('content',content);
     this.addChild(tMenu);
@@ -6256,10 +6246,10 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
   },
   _registerButtons: function() {
     this.layout();
-    for (var i=0; i<this.entries.length; i++) {
-      var node = dojo.byId('topMenu'+this.entries[i].entryId);
-      this._events.push(dojo.connect(node,dojox.gesture.tap,this.onClickHandler.bind(this,i)));
-    }
+    var node = dojo.byId('topMenuHome');
+    this._events.push(dojo.connect(node,dojox.gesture.tap,this.sectionToggle.bind(this)));
+    var node = dojo.byId('topMenuUserInfoRight');
+    this._events.push(dojo.connect(node,dojox.gesture.tap,this.openUserInfo.bind(this)));
     if (this.notificationPanelId!='') {
       this.openNotificationsButton = dojo.byId('topMenuNotificationToggleOpen');
       this._events.push(dojo.connect(this.openNotificationsButton,dojox.gesture.tap,this.notificationToggle.bind(this,true)));
@@ -6267,20 +6257,18 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
       this._events.push(dojo.connect(this.closeNotificationsButton,dojox.gesture.tap,this.notificationToggle.bind(this,false)));
     }
   },
-  onClickHandler: function(idx,evt) {
-    if (this.entries[idx].isDialog) {
-      if (this.entries[idx].isJira) {
-        if (window._showCollectorDialog) {
-          window._showCollectorDialog();
-        } else {
-          console.error('JIRA integration not included!');
-        }
-      } else {
-        G_SERVER_COM.callServerFunction(this.entries[idx].class,this.entries[idx].func,this.entries[idx].uidpath,this.entries[idx].params);
-      }
+  openJIRA: function() {
+    if (window._showCollectorDialog) {
+      window._showCollectorDialog();
     } else {
-      G_UI_COM.showSectionPath(this.subSecsId,[this.entries[idx].entryId],true);
+      console.error('JIRA integration not included!');
     }
+  },
+  sectionToggle: function(evt) {
+    G_UI_COM.showSectionPath(this.subSecsId,[this.mainSectionId],true);
+  },
+  openUserInfo: function(evt) {
+    G_SERVER_COM.callServerFunction(this.uClass, this.uFunc, this.uUidPath, this.uParams);
   }
 });
 

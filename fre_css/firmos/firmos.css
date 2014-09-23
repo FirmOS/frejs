@@ -86,8 +86,9 @@ body.firmos{background:linear-gradient(150deg, #0f034f 0%, #5189bf 50%, #0f034f 
 .firmos .topMenu ul li:hover span{display:block;text-align:center;font-family:Tahoma,Geneva,sans-serif;color:#FFF;font-size:14px;line-height:1.5em;z-index:2000;}
 .firmos .topMenu ul li:hover .topMenuIconSmall{color:#000;width:48px;height:48px;-webkit-transition-duration:0.3s;-moz-transition-duration:0.3s;transition-duration:0.3s;}
 .firmos .topMenu ul li:hover .topMenuIconBig{color:#000;width:53px;height:53px;-webkit-transition-duration:0.3s;-moz-transition-duration:0.3s;transition-duration:0.3s;}
-.firmos .topMenuLogoLeft{position:absolute;background-image:url(images/citycom_logo.svg);background-size:400px 40px;width:400px;height:40px;left:20px;}
+.firmos .topMenuLogoLeft{position:absolute;background-image:url();background-size:400px 40px;width:400px;height:40px;left:20px;}
 .firmos .topMenuLogoRight{position:absolute;right:0px;margin:-10px 10px 0px 0px;width:0px;height:0px;}
+.firmos .topMenuUserInfoRight{position:absolute;right:0px;margin:10px 20px 0px 0px;color:#FFF;cursor:pointer;}
 .firmos .topMenuNotificationToggleClose,.firmos .topMenuNotificationToggleOpen{position:absolute;right:5px;bottom:0px;width:16px;height:16px;}
 .firmos .topMenuNotificationToggleClose{background-color:red;}
 .firmos .topMenuNotificationToggleOpen{background-color:white;}
