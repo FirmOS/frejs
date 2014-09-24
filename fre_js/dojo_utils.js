@@ -6437,7 +6437,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
         this.entries[i].groupGFX = elementGroup;
         this.entries[i].x = 80;
         if (i==0) {
-          this.entries[i].y = 30;
+          this.entries[i].y = 0;
         } else {
           this.entries[i].y = this.entries[i-1].y + this.entries[i-1].height + 30;
         }
@@ -6667,9 +6667,9 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     //  activeLevelExt = 'AL';
     //}
     var rect = group.createPath({path: "M117.084,49.496c0,1.105-0.941,2-2.103,2h-"+element.width+"c-1.161,0-2.103-0.895-2.103-2v-"+element.height+"c0-1.104,0.941-2,2.103-2h"+element.width+"c1.161,0,2.103,0.896,2.103,2V49.496z"});
-    rect.applyTransform(dojox.gfx.matrix.translate(element.x-67.2,element.y));
+    rect.applyTransform(dojox.gfx.matrix.translate(element.x-67.2,element.y + element.height));
     var rect2 = group.createPath({path: "M115.75,48.171c0,1.012-0.915,1.829-2.042,1.829h-"+(element.width-2.879)+"c-1.127,0-2.042-0.817-2.042-1.829v-"+(element.height-2.908)+"c0-1.009,0.915-1.829,2.042-1.829h"+(element.width-2.879)+"c1.127,0,2.042,0.82,2.042,1.829V48.171z"});
-    rect2.applyTransform(dojox.gfx.matrix.translate(element.x-67.2,element.y));
+    rect2.applyTransform(dojox.gfx.matrix.translate(element.x-67.2,element.y + element.height));
     var rbb = rect.getTransformedBoundingBox();
     if (element.icon) {
       var icon = group.createImage({ x: rbb[0].x+(rbb[1].x-rbb[0].x)/2-iconSize/2, y: rbb[1].y+5, width: iconSize, height: iconSize, src: element.icon, preserveAspectRatio: 'meet'});
