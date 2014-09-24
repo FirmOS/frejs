@@ -77,6 +77,7 @@ body.firmos{background:linear-gradient(150deg, #0f034f 0%, #5189bf 50%, #0f034f 
 .firmos .topMenuLogoLeft{position:absolute;background-image:url();background-size:400px 40px;width:400px;height:40px;left:20px;}
 .firmos .topMenuLogoRight{position:absolute;right:0px;margin:-10px 10px 0px 0px;width:0px;height:0px;}
 .firmos .topMenuUserInfoRight{position:absolute;right:0px;margin:10px 20px 0px 0px;color:#FFF;cursor:pointer;}
+.topMenuUserActionRight{float:left;height:0px;margin:10px 5px 0 0;width:0px;}
 .firmos .topMenuNotificationToggleClose,.firmos .topMenuNotificationToggleOpen{position:absolute;right:5px;bottom:0px;width:20px;height:20px;}
 .firmos .topMenuNotificationToggleClose{background-size:100%;background-repeat:no-repeat;background-image:url(images/triclose.svg);}
 .firmos .topMenuNotificationToggleOpen{background-size:100%;background-repeat:no-repeat;background-image:url(images/triopen.svg);}

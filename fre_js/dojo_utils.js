@@ -318,8 +318,8 @@ dojo.declare("FIRMOS.uiHandler", null, {
     this.gridDetailsId_ = id;
   },
   
-  setDropCoords: function(coords) {
-    this.dropCoords_ = coords;
+  setActionCoords: function(coords) {
+    this.actionCoords_ = coords;
   },
   
   getUIState: function() {
@@ -328,14 +328,14 @@ dojo.declare("FIRMOS.uiHandler", null, {
       dialog: this.dialog_,
       menu: this.menu_,
       gridDetailsId: this.gridDetailsId_,
-      dropCoords: this.dropCoords_
+      actionCoords: this.actionCoords_
     };
   },
   clearUIState: function() {
     this.dialogAction_ = false;
     this.menu_ = null;
     this.gridDetailsId_ = null;
-    this.dropCoords_ = null;
+    this.actionCoords_ = null;
   },
   
   restoreUIState: function(uiState) {
@@ -486,9 +486,9 @@ dojo.declare("FIRMOS.uiHandler", null, {
       if (this.uiState_.menu) {
         this.uiState_.menu.entriesLoaded(entries);
       } else {
-        if (this.uiState_.dropCoords) {
+        if (this.uiState_.actionCoords) {
           var menu = new FIRMOS.Menu();
-          menu.setCoords(this.uiState_.dropCoords.x,this.uiState_.dropCoords.y);
+          menu.setCoords(this.uiState_.actionCoords.x,this.uiState_.actionCoords.y);
           menu.entriesLoaded(entries);
         } else {
           //FIXXME: implement default
@@ -1623,7 +1623,7 @@ dojo.declare("FIRMOS.Store", null, {
         }
       }
       if (args.mousePos) {
-        G_UI_COM.setDropCoords(args.mousePos);
+        G_UI_COM.setActionCoords(args.mousePos);
       }
       G_SERVER_COM.callServerFunction(this.dropClassname,this.dropFunctionname,this.dropUidPath, params);
     }
@@ -6230,7 +6230,7 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
     content = content+'<div class="topMenu">';
     content = content + '<div class="topMenuLogoLeft"></div>';
     content = content + '<div class="topMenuLogoRight"></div>';
-    content = content + '<div id="topMenuUserInfoRight" class="topMenuUserInfoRight">'+this.uname+'</div>';
+    content = content + '<div id="topMenuUserInfoRight" class="topMenuUserInfoRight"><div id="topMenuUserActionRight" class="topMenuUserActionRight"></div>'+this.uname+'</div>';
     if (this.notificationPanelId!='') {
       content = content + '<div class="topMenuNotificationToggleClose" id="topMenuNotificationToggleClose"></div>';
       content = content + '<div class="topMenuNotificationToggleOpen" id="topMenuNotificationToggleOpen" style="display:none;"></div>';
@@ -6319,6 +6319,9 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
     this.layout();
     var node = dojo.byId('topMenuUserInfoRight');
     this._events.push(dojo.connect(node,dojox.gesture.tap,this.openUserInfo.bind(this)));
+    var node = dojo.byId('topMenuUserActionRight');
+    this.userInfoDim = dojo.position(node);
+
     if (this.notificationPanelId!='') {
       this.openNotificationsButton = dojo.byId('topMenuNotificationToggleOpen');
       this._events.push(dojo.connect(this.openNotificationsButton,dojox.gesture.tap,this.notificationToggle.bind(this,true)));
@@ -6337,6 +6340,7 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
     G_UI_COM.showSectionPath(this.subSecsId,[this.mainSectionId],true);
   },
   openUserInfo: function(evt) {
+    G_UI_COM.setActionCoords({x: this.userInfoDim.x  + this.userInfoDim.w / 2, y: this.userInfoDim.y + this.userInfoDim.h / 2});
     G_SERVER_COM.callServerFunction(this.uClass, this.uFunc, this.uUidPath, this.uParams);
   }
 });
