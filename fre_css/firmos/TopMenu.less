@@ -3,29 +3,25 @@
 /* ########################################################*/
 
 @import "variables";
-/*#001a56  
-#6d98ff*/
 
 /*************** Top Menu Container ***************/
 
-.topMenu {
+.@{themename} .topMenu {
   float: left;
   width: 100%;
   padding-top: 5px;
   padding-bottom: 5px;   
   overflow: hidden;
-  height: 70px;
 }
 
 /*************** Menu Entry List Wrapper ***************/
 /* Helps positioning menu horizontally centered */
 
-.topMenu .buttonListWrapper {
+.@{themename} .topMenu .buttonListWrapper {
   clear:left;
   float:left;
   margin:0;
   padding:0;
-  height: 70px;  
   position:relative;
   left:50%;
   text-align:center;
@@ -34,7 +30,7 @@
 /*************** Menu Entry Element ***************/
 /* Is moved to the center of the screen: horizontally */
 
-.topMenu .buttonListWrapper .buttonListItem {
+.@{themename} .topMenu .buttonListWrapper .buttonListItem {
   float:left;
   position:relative;
   right:50%;
@@ -42,7 +38,7 @@
 
 /*************** Button Sizes ( big & normal ) inkl. :hover ***************/
 
-.topMenu .menuButtonBig {
+.@{themename} .topMenu .menuButtonBig {
   width:  53px;
   height: 53px;
   margin-left: 10px;
@@ -52,7 +48,7 @@
 
 /*************** Building up the actual style of the button with layers ***************/
 
-.base {
+.@{themename} .base {
   width:  100%;
   height: 100%;
   border: 1px solid darken(@primary-color, 40);
@@ -71,7 +67,7 @@
   .box-shadow  (0px 0px 4px black);
   .border-radius (5px);
 }
-.shineTop {
+.@{themename} .shineTop {
   width: 100%;
   height: 100%;
   background: -webkit-radial-gradient(50% -5%, circle farthest-side, 
@@ -84,7 +80,7 @@
                                    rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 50%) 
 								   top center no-repeat;	
 }
-.shineBottom {
+.@{themename} .shineBottom {
   width: 100%;
   height: 100%;
   display: none;
@@ -102,24 +98,24 @@
                             rgba(255, 255, 255, 0.7) 0%, 
                             rgba(255, 255, 255, 0) 50%) center bottom no-repeat;															
 }
-.buttonIcon {
+.@{themename} .buttonIcon {
   z-index: 20;
   width: 100%;
   height: 100%;
 }
-.base:hover .shineBottom {
+.@{themename} .base:hover .shineBottom {
   display: block;
 }
 
 /*************** Formatting the button caption ( visible on hover) ***************/
 
-.topMenu .menuButtonBig .captionContainer {
+.@{themename} .topMenu .menuButtonBig .captionContainer {
   width: 56px;
   z-index: 1000;
   position: relative;
   left: 100%;
 }
-.topMenu .buttonListWrapper .buttonListItem .menuButtonBig .buttonCaption {
+.@{themename} .topMenu .buttonListWrapper .buttonListItem .menuButtonBig .buttonCaption {
   display: none;
   margin-top: 5px;
   /*background: rgba(255, 255, 255, 0.7);
@@ -135,7 +131,7 @@
   right: 100%;
   width: 100%;
 }
-.topMenu .buttonListWrapper .buttonListItem .menuButtonBig:hover .buttonCaption {
+.@{themename} .topMenu .buttonListWrapper .buttonListItem .menuButtonBig:hover .buttonCaption {
   display: block;
 }
 

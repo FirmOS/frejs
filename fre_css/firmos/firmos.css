@@ -74,18 +74,6 @@ body.firmos{background:linear-gradient(150deg, #0f034f 0%, #5189bf 50%, #0f034f 
 .firmos .dgrid-header .firmosGridString,.firmos .dgrid-header .firmosGridDate,.firmos .dgrid-header .firmosGridNumber,.firmos .dgrid-header .firmosGridIcon,.firmos .dgrid-header .firmosGridBoolean{text-align:left;}
 .firmos .firmosFormLabel,.firmos .firmosFormLabelRequired{padding-right:5px;color:#000000;}
 .firmos .dojoxCheckedMultiSelect .dojoxCheckedMultiSelectWrapper{border-color:transparent;}
-.firmos .topMenu{float:left;width:100%;padding-top:5px;padding-bottom:5px;overflow:hidden;position:relative;height:70px;}
-.firmos .topMenuIconSmall,.firmos .topMenuIconBig{margin-right:5px;margin-left:5px;border-radius:5px;-webkit-transition-duration:0.3s;-moz-transition-duration:0.3s;transition-duration:0.3s;}
-.firmos .topMenuIconSmall{width:48px;height:48px;background-size:38px;}
-.firmos .topMenuIconBig{width:53px;height:53px;}
-.firmos .topMenu ul{clear:left;float:left;list-style:none;margin:0;padding:0;height:70px;position:relative;left:50%;text-align:center;}
-.firmos .topMenu ul li{display:block;float:left;list-style:none;position:relative;right:50%;}
-.firmos .topMenu ul li:hover{z-index:2000;}
-.firmos .topMenu ul li{display:block;text-decoration:none;}
-.firmos .topMenu ul li span{display:none;}
-.firmos .topMenu ul li:hover span{display:block;text-align:center;font-family:Tahoma,Geneva,sans-serif;color:#FFF;font-size:14px;line-height:1.5em;z-index:2000;}
-.firmos .topMenu ul li:hover .topMenuIconSmall{color:#000;width:48px;height:48px;-webkit-transition-duration:0.3s;-moz-transition-duration:0.3s;transition-duration:0.3s;}
-.firmos .topMenu ul li:hover .topMenuIconBig{color:#000;width:53px;height:53px;-webkit-transition-duration:0.3s;-moz-transition-duration:0.3s;transition-duration:0.3s;}
 .firmos .topMenuLogoLeft{position:absolute;background-image:url();background-size:400px 40px;width:400px;height:40px;left:20px;}
 .firmos .topMenuLogoRight{position:absolute;right:0px;margin:-10px 10px 0px 0px;width:0px;height:0px;}
 .firmos .topMenuUserInfoRight{position:absolute;right:0px;margin:10px 20px 0px 0px;color:#FFF;cursor:pointer;}
