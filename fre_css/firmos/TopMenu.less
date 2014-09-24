@@ -4,7 +4,59 @@
 
 @import "variables";
 
-/*************** Top Menu Container ***************/
+/*topmenu_home_enabled1*/
+#topmenu_home_enabled1_stop1 {
+  stop-color: #57A4DA;
+  stop-opacity: 0.2;
+}
+#topmenu_home_enabled1_stop2 {
+  stop-color: #56A1D6;
+  stop-opacity: 0.5203;
+}
+#topmenu_home_enabled1_stop3 {
+  stop-color: #5499CB;
+  stop-opacity: 0.6357;
+}
+#topmenu_home_enabled1_stop4 {
+  stop-color: #508DBC;
+  stop-opacity: 0.718;
+}
+#topmenu_home_enabled1_stop5 {
+  stop-color: #4A7DA9;
+  stop-opacity: 0.7845;
+}
+#topmenu_home_enabled1_stop6 {
+  stop-color: #426A92;
+  stop-opacity: 0.8415;
+}
+#topmenu_home_enabled1_stop7 {
+  stop-color: #375479;
+  stop-opacity: 0.8919;
+}
+#topmenu_home_enabled1_stop8 {
+  stop-color: #2A3C5F;
+  stop-opacity: 0.9375;
+}
+#topmenu_home_enabled1_stop9 {
+  stop-color: #1C2245;
+  stop-opacity: 0.9781;
+}
+#topmenu_home_enabled1_stop10 {
+  stop-color: #121037;
+}
+
+/*topmenu_home_enabled2*/
+#topmenu_home_enabled2_stop1 {
+  stop-color: #B6BEC8;
+  stop-opacity: 0.2;
+}
+#topmenu_home_enabled2_stop2 {
+  stop-color: #B6BEC8;
+}
+#topmenu_home_enabled2_stop3 {
+  stop-color: #7D888F;
+  stop-opacity: 0.2;
+}
 
 .@{themename} .topMenu {
   float: left;
@@ -13,9 +65,6 @@
   padding-bottom: 5px;   
   overflow: hidden;
 }
-
-/*************** Menu Entry List Wrapper ***************/
-/* Helps positioning menu horizontally centered */
 
 .@{themename} .topMenu .buttonListWrapper {
   clear:left;
@@ -27,111 +76,23 @@
   text-align:center;
 }
 
-/*************** Menu Entry Element ***************/
-/* Is moved to the center of the screen: horizontally */
-
 .@{themename} .topMenu .buttonListWrapper .buttonListItem {
   float:left;
   position:relative;
   right:50%;
 }
 
-/*************** Button Sizes ( big & normal ) inkl. :hover ***************/
-
-.@{themename} .topMenu .menuButtonBig {
-  width:  53px;
-  height: 53px;
-  margin-left: 10px;
-  margin-right: 10px;
-  .transition-duration (0.3s);
+.@{themename} .firmosTopMenuHome {
+  fill: #26255D;
+  fill-opacity: 1;
+  stroke: url("/#topmenu_home_enabled1");
+  stroke-width: 3;
+  stroke-miterlimit: 10;
+  stroke-opacity: 1;
 }
 
-/*************** Building up the actual style of the button with layers ***************/
-
-.@{themename} .base {
-  width:  100%;
-  height: 100%;
-  border: 1px solid darken(@primary-color, 40);
-  background: -webkit-radial-gradient(center center, 
-                            circle farthest-side, 
-                            darken(@primary-color, 50) 0%, 
-                            spin(@primary-color, 2) 220%) top left no-repeat;
-  background: -moz-radial-gradient(center center, 
-                            circle farthest-side, 
-                            darken(@primary-color, 50) 0%, 
-                            spin(@primary-color, 2) 220%) top left no-repeat;
-  background: radial-gradient(center center, 
-                            circle farthest-side, 
-                            darken(@primary-color, 50) 0%, 
-                            spin(@primary-color, 2) 220%) top left no-repeat;
-  .box-shadow  (0px 0px 4px black);
-  .border-radius (5px);
-}
-.@{themename} .shineTop {
-  width: 100%;
-  height: 100%;
-  background: -webkit-radial-gradient(50% -5%, circle farthest-side, 
-                                   rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 50%) 
-								   top center no-repeat;
-  background: -moz-radial-gradient(50% -5%, circle farthest-side, 
-                                   rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 50%) 
-								   top center no-repeat;
-  background: radial-gradient(50% -5%, circle farthest-side, 
-                                   rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 50%) 
-								   top center no-repeat;	
-}
-.@{themename} .shineBottom {
-  width: 100%;
-  height: 100%;
-  display: none;
-  
-  background: -webkit-radial-gradient(center 105%, 
-                            circle farthest-side, 
-                            rgba(255, 255, 255, 0.7) 0%, 
-                            rgba(255, 255, 255, 0) 50%) center bottom no-repeat;
-  background: -moz-radial-gradient(center 105%, 
-                            circle farthest-side, 
-                            rgba(255, 255, 255, 0.7) 0%, 
-                            rgba(255, 255, 255, 0) 50%) center bottom no-repeat;
-  background: radial-gradient(center 105%, 
-                            circle farthest-side, 
-                            rgba(255, 255, 255, 0.7) 0%, 
-                            rgba(255, 255, 255, 0) 50%) center bottom no-repeat;															
-}
-.@{themename} .buttonIcon {
-  z-index: 20;
-  width: 100%;
-  height: 100%;
-}
-.@{themename} .base:hover .shineBottom {
-  display: block;
-}
-
-/*************** Formatting the button caption ( visible on hover) ***************/
-
-.@{themename} .topMenu .menuButtonBig .captionContainer {
-  width: 56px;
-  z-index: 1000;
-  position: relative;
-  left: 100%;
-}
-.@{themename} .topMenu .buttonListWrapper .buttonListItem .menuButtonBig .buttonCaption {
-  display: none;
-  margin-top: 5px;
-  /*background: rgba(255, 255, 255, 0.7);
-  border-radius: 10px;*/
-  padding: 0px 4px 2px;
-  text-align: center;
-  font-family: Tahoma, Geneva, sans-serif;
-  color: #FFF;
-  font-size: 14px;
-  font-weight: bold;
-  line-height: 1.2em;
-  position: relative;
-  right: 100%;
-  width: 100%;
-}
-.@{themename} .topMenu .buttonListWrapper .buttonListItem .menuButtonBig:hover .buttonCaption {
-  display: block;
+.@{themename} .firmosTopMenuHome2 {
+  fill: url("/#topmenu_home_enabled2");
+  fill-opacity: 0.2;
 }
 

@@ -794,6 +794,28 @@ dojo.declare("FIRMOS.uiHandler", null, {
     }
   },
 
+  buildSVGDef: function(def) {
+    var elem = dojo.doc.createElementNS('http://www.w3.org/2000/svg', def.tagname);
+    if (def.attrs) {
+      if (!(def.attrs instanceof Array)) {
+        def.attrs = [def.attrs];
+      }
+      for (var i=0;i<def.attrs.length;i++) {
+        elem.setAttribute(def.attrs[i].name,def.attrs[i].value);
+      }
+    }
+    if (def.elems) {
+      if (!(def.elems instanceof Array)) {
+        def.elems = [def.elems];
+      }
+      for (var i=0;i<def.elems.length;i++) {
+        var subelem = this.buildSVGDef(def.elems[i]);
+        elem.appendChild(subelem);
+      }
+    }
+    return elem;
+  },
+
   toggleFormGroupStatus: function(formId,gId) {
     var tl = dojo.byId(gId+'_tl');
     var tr = dojo.byId(gId+'_tr');
@@ -6194,6 +6216,13 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
       this._events.pop().remove();
     }
   },
+  buildSVGDefs: function() {
+    var defs = this.buttonSurface.rawNode.getElementsByTagName('defs')[0];
+    for (var i=0;i<this.defs.length;i++) {
+      var elem = G_UI_COM.buildSVGDef(this.defs[i]);
+      defs.appendChild(elem);
+    }
+  },
   postCreate: function() {
     this.inherited(arguments);
     var tMenu = new dijit.layout.ContentPane({region: 'top', splitter: false, class: 'firmosTransparent'});
@@ -6208,12 +6237,6 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
     }
     content = content+'<div class="buttonListWrapper">';
     
-    //G_UI_COM.createCSSRule('topMenuHome','background: url('+this.homeIcon+'); background-repeat: no-repeat; background-size:53px 53px; background-position: center;');
-    //content = content+'<div class="buttonListItem"><div id="topMenuHome" class="menuButtonBig">'
-    //                 +'<div class="base"><div class="shineTop"><div class="buttonIcon topMenuHome"><div class="shineBottom"></div></div></div></div>'
-    //                 +'<div class="captionContainer"><div class="buttonCaption">'+this.homeCaption+'</div></div>'
-    //                 +'</div></div>';
-    //content = content + '</div></div>';
     content = content + '<div id="'+this.id+'_gfx" class="buttonListItem"></div>';
     content = content+'</div>';
 
@@ -6227,7 +6250,7 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
       this.addChild(this.notificationPanel);
     }
 
-    setTimeout(this._registerButtons.bind(this),0);
+    setTimeout(this._handleButtons.bind(this),0);
   },
   notificationToggle: function(open) {
     var np = dijit.byId(this.notificationPanelId);
@@ -6246,9 +6269,10 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
       this.layout();
     }
   },
-  _registerButtons: function() {
+  _handleButtons: function() {
     this.buttonContainer = dojo.byId(this.id+'_gfx');
     this.buttonSurface = dojox.gfx.createSurface(this.id+'_gfx','100%','100%');
+    this.buildSVGDefs();
 
     var group = this.buttonSurface.createGroup();
 
@@ -6282,19 +6306,17 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
       }
     }
 
-    rect.rawNode.setAttribute('class','firmosSitemapEntry');
-    rect2.rawNode.setAttribute('class','firmosSitemapEntry2');
+    rect.rawNode.setAttribute('class','firmosTopMenuHome');
+    rect2.rawNode.setAttribute('class','firmosTopMenuHome2');
 
     var bb = group.getTransformedBoundingBox();
     var eWidth = bb[1].x - bb[0].x;
     var eHeight = bb[2].y - bb[1].y;
     var eventRect = group.createRect({ x: bb[0].x, y: bb[1].y, width: eWidth, height: eHeight }).setFill([0,0,0,0]);
     this.buttonContainer.setAttribute('style','width: '+(eWidth+10)+'px; height: '+(eHeight+10)+'px; overflow: hidden');
-    //this._events.push(dojo.connect(group.getEventSource(),dojox.gesture.tap,this.elementOnClick.bind(this, element, false)));
-    //********************************************
+    this._events.push(dojo.connect(group.getEventSource(),dojox.gesture.tap,this.sectionToggle.bind(this)));
+
     this.layout();
-    var node = dojo.byId('topMenuHome');
-    this._events.push(dojo.connect(node,dojox.gesture.tap,this.sectionToggle.bind(this)));
     var node = dojo.byId('topMenuUserInfoRight');
     this._events.push(dojo.connect(node,dojox.gesture.tap,this.openUserInfo.bind(this)));
     if (this.notificationPanelId!='') {
@@ -6792,32 +6814,11 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     entry.newscount = info;
     this.createInfoUI(entry);
   },
-  _buildSVGDef: function(def) {
-     var elem = dojo.doc.createElementNS('http://www.w3.org/2000/svg', def.tagname);
-     if (def.attrs) {
-       if (!(def.attrs instanceof Array)) {
-         def.attrs = [def.attrs];
-       }
-       for (var i=0;i<def.attrs.length;i++) {
-         elem.setAttribute(def.attrs[i].name,def.attrs[i].value);
-       }
-    }
-     if (def.elems) {
-       if (!(def.elems instanceof Array)) {
-         def.elems = [def.elems];
-       }
-       for (var i=0;i<def.elems.length;i++) {
-         var subelem = this._buildSVGDef(def.elems[i]);
-         elem.appendChild(subelem);
-       }
-    }
-    return elem;
-  },
   buildSVGDefs: function() {
     var defsMain = this.mainEntriesSurface.rawNode.getElementsByTagName('defs')[0];
     var defsDetails = this.detailsSurface.rawNode.getElementsByTagName('defs')[0];
     for (var i=0;i<this.defs.length;i++) {
-      var elem = this._buildSVGDef(this.defs[i]);
+      var elem = G_UI_COM.buildSVGDef(this.defs[i]);
       defsMain.appendChild(elem);
       defsDetails.appendChild(elem);
     }
