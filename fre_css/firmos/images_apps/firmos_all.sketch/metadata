@@ -12,9 +12,10 @@
 	<array>
 		<string>MarkerFelt-Thin</string>
 		<string>ArialRoundedMTBold</string>
+		<string>ComicSansMS-Bold</string>
 	</array>
 	<key>length</key>
-	<integer>3429876</integer>
+	<integer>3448832</integer>
 	<key>version</key>
 	<integer>37</integer>
 </dict>

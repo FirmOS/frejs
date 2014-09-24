@@ -1,8 +1,8 @@
 .firmos .dijitSelect .dijitArrowButtonContainer{border:1px solid #ffffff;}
-.firmos .dijitSelect .dijitArrowButton{padding:0;background-color:#5673c4;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
+.firmos .dijitSelect .dijitArrowButton{padding:0;background-color:#b6bac1;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
 .firmos .dijitSelect .dijitArrowButton .dijitArrowButtonInner{height:16px;}
 .firmos .dijitSelectHover{background-color:#fafad2;background-image:-moz-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);background-image:-webkit-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);background-image:-o-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);background-image:linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);background-repeat:repeat-x;}
-.firmos .dijitSelectHover .dijitArrowButton{background-color:#25408b;}
+.firmos .dijitSelectHover .dijitArrowButton{background-color:#546791;}
 .firmos .dijitSelectHover .dijitArrowButton .dijitArrowButtonInner{background-position:-70px 53%;}
 .firmos .dijitSelectFocused .dijitArrowButton{background-color:#7dbefa;background-image:url("images/activeGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);_background-image:none;}
 .firmos .dijitSelectFocused .dijitArrowButton{border:none;padding:1px;}
@@ -11,4 +11,4 @@
 .firmos .dijitSelectDisabled .dijitArrowButton .dijitArrowButtonInner{background-position:0 53%;}
 .firmos .dijitSelectMenu td.dijitMenuItemIconCell,.firmos .dijitSelectMenu td.dijitMenuArrowCell{display:none;}
 .firmos .dijitSelectMenu td.dijitMenuItemLabel{padding:2px;}
-.firmos .dijitSelectMenu .dijitMenuSeparatorTop{border-bottom:1px solid #1e1e1e;}
+.firmos .dijitSelectMenu .dijitMenuSeparatorTop{border-bottom:1px solid #383838;}

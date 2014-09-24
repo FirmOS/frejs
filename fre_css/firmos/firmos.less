@@ -8,11 +8,13 @@ html, body {
 }
 
 body.@{themename} {
-  background: linear-gradient(150deg, @background-color-side 0%, @background-color-middle 50%, @background-color-side 100%);
-  background: -o-linear-gradient(150deg, @background-color-side 0%, @background-color-middle 50%, @background-color-side 100%);
-  background: -webkit-linear-gradient(150deg, @background-color-side 0%, @background-color-middle 50%, @background-color-side 100%);
-  background: -ms-linear-gradient(150deg, @background-color-side 0%, @background-color-middle 50%, @background-color-side 100%);
-  background: -moz-linear-gradient(150deg, @background-color-side 0%, @background-color-middle 50%, @background-color-side 100%);
+ background-color: @firmos-background-body;
+  //background-color: #485062;
+  //background: linear-gradient(150deg, @background-color-side 0%, @background-color-middle 50%, @background-color-side 100%);
+  //background: -o-linear-gradient(150deg, @background-color-side 0%, @background-color-middle 50%, @background-color-side 100%);
+  //background: -webkit-linear-gradient(150deg, @background-color-side 0%, @background-color-middle 50%, @background-color-side 100%);
+  //background: -ms-linear-gradient(150deg, @background-color-side 0%, @background-color-middle 50%, @background-color-side 100%);
+  //background: -moz-linear-gradient(150deg, @background-color-side 0%, @background-color-middle 50%, @background-color-side 100%);
 }
 
 .@{themename} .aloha-editable {
@@ -134,13 +136,16 @@ body.@{themename} {
 
 .@{themename} .firmosFormGroupHeaderElementCollapsible, 
 .@{themename} .firmosFormGroupHeaderElement {
-   font-size: 14px;
-   font-weight: 400;
-   background-color: #3F5491; // #81511a;
+   font-size: 16px;
+   font-weight: normal;
+   text-indent: 5px;
+   //background-color: #3F5491; // #81511a;
+   background-color: rgba(171, 182, 216, 0.57);
    padding: 6px 0px 4px 2px;
-   margin: 0px 0px 0px 0px;
+   margin: 10px 0px 4px 0px;
    border-radius: (@firmos-border-radius-all);
-   .fos-text-inv;  
+   color: rgb(52, 50, 98);
+   //.fos-text-inv;  
 }
 
 .@{themename} .firmosFormLabelTD, 
@@ -153,7 +158,7 @@ body.@{themename} {
 }
 
 .@{themename} .firmosFormLabelTD {
-   background-color: lightgoldenrodyellow;
+//   background-color: lightgoldenrodyellow;
    padding: 0px 4px 0px 6px;
    margin: 0px 5px 3px 6px;
 }
@@ -166,35 +171,39 @@ body.@{themename} {
 }
 
 .@{themename} .firmosFormGroupShowLeft {
-    background-position: -214px center;
-    float: left;            
+    //background-image: url(images/tridown.svg);
+    background-image: url(images/triopen.svg);
+    float: left;
 }
 
 .@{themename} .firmosFormGroupShowRight {
-    background-position: -322px center;
+    //background-position: -322px center;
     float: right;    
 }
 
 .@{themename} .firmosFormGroupHideLeft {
-    background-position: -4px center;
-    float: left;            
+    background-image: url(images/tridown.svg);
+    float: left;
 }
 
 .@{themename} .firmosFormGroupHideRight {
-    background-position: -5px center;
-    float: right;    
+    //background-position: -5px center;
+  float: right;
+  background-image: url('');
 }
 
 .@{themename} .firmosFormGroupHideLeft,
 .@{themename} .firmosFormGroupHideRight,
 .@{themename} .firmosFormGroupShowLeft,
 .@{themename} .firmosFormGroupShowRight {
-  padding-top: 3px;
-  background-image: url(images/commonFormArrows.png);
+  padding: 0px;
+//  background-image: url(images/commonFormArrows.png);
+  background-position: 7px 17px;
+  background-size: 65%;
   background-repeat: no-repeat;
-  margin: 5px 0px 0px 0px;
-  width: 10px;
-  height:10px;
+  margin: 0px;
+  width: 20px;
+  height:32px;
 }
 
 .@{themename} .firmosFormGroupHeader,
@@ -325,6 +334,7 @@ body.@{themename} {
   background-color: #BDF;
   padding: 1px;
 }
+
 .@{themename} .dgrid-header .dijitArrowButtonInner, .@{themename} .dgrid-header .dijitButtonText {
   display:none;
 }
@@ -491,9 +501,11 @@ body.@{themename} {
 .@{themename} .topMenuUserInfoRight {
   position:absolute;
   right: 0px;
-  margin: 10px 20px 0px 0px;
+  margin: 10px 40px 0px 0px;
   color:#FFF;
   cursor: pointer;
+  font-size: 26px;
+  font-weight: lighter;
 }
 
 .topMenuUserActionRight {
@@ -506,8 +518,8 @@ body.@{themename} {
 .@{themename} .topMenuNotificationToggleClose,
 .@{themename} .topMenuNotificationToggleOpen {
   position:absolute;
-  right: 5px;
-  bottom: 0px;
+  right: 10px;
+  top: 20px;
   width: 20px;
   height: 20px;
 }
@@ -516,14 +528,14 @@ body.@{themename} {
   //background-color: red;
   background-size: 100%;
   background-repeat: no-repeat;
-  background-image: url(images/triclose.svg)
+  background-image: url(images/triopen.svg)
 }
 
 .@{themename} .topMenuNotificationToggleOpen {
   //background-color: white;
   background-size: 100%;
   background-repeat: no-repeat;
-  background-image: url(images/triopen.svg)
+  background-image: url(images/triclose.svg)
 }
 
 .@{themename} .firmosVNCPanel {
@@ -623,10 +635,16 @@ body.@{themename} {
   //opacity: 0.4;
 }
 
-// FiemOS Login Dialog Special Styling
+// FirmOS Login Dialog Special Styling
+
+// FirmOS Dialog underlay -> Black
+.@{themename} .dijitDialogUnderlay {
+  background: #000;
+}
 
 .@{themename} .firmosLogin.dijitDialog {
   border-radius: 20px;
+  box-shadow: 8px 6px 10px rgba(0, 0, 0, 0.25);
 }
 
 .@{themename} .firmosLogin .dijitDialogPaneContent {
@@ -688,3 +706,53 @@ body.@{themename} {
   margin: 0px 0px 12px 0px;
   color: grey;
 }
+
+.@{themename} .firmosLogin .firmosForm {
+  background: inherit;
+  border-radius: 8px;
+  padding: 0px 10px 6px 10px;
+}
+
+// Dialog Styling Overrides
+
+.@{themename} .dijitDialog {
+  border: 0px solid #1e1e1e;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  padding: 0px;
+}
+
+
+.@{themename}  .dijitDialogTitleBar {
+  background-color: rgba(113, 128, 168, 0.63);
+  padding: 10px 0px 4px 14px;
+  font-size: 20px;
+}
+
+.@{themename} .dijitDialogPaneContent {
+  background: #DAE0F0;
+  border-top: 0px solid #000;
+  padding: 12px 30px 8px 25px;
+  position: relative;
+}
+
+.@{themename} .firmosFormButtonRow td {
+  border-top: 0px solid #000;
+  padding: 16px 0px 0px 0px;
+}
+
+.@{themename} .firmosForm {
+  background: #DAE0F0;
+  border-radius: 8px;
+  padding: 0px 10px 6px 10px;
+}
+
+.@{themename} .dijitBorderContainer {
+  padding: 5px;
+  background-color: inherit;
+}
+
+
+
+
+

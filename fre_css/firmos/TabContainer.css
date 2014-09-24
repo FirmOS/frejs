@@ -1,16 +1,16 @@
 
-.firmos .dijitTabContainerTop-tabs,.firmos .dijitTabContainerBottom-tabs,.firmos .dijitTabContainerLeft-tabs,.firmos .dijitTabContainerRight-tabs{border-color:#414141;margin-left:12px;border:0px;}
-.dijitTabContainerTop-container{border:1px solid;border-radius:6px 6px 6px 6px;border-color:#2f3f6d;background-color:#3f5490;}
+.firmos .dijitTabContainerTop-tabs,.firmos .dijitTabContainerBottom-tabs,.firmos .dijitTabContainerLeft-tabs,.firmos .dijitTabContainerRight-tabs{border-color:#5b5b5b;margin-left:12px;border:0px;}
+.dijitTabContainerTop-container{border:1px solid;border-radius:6px 6px 6px 6px;border-color:#606570;background-color:#787e8b;}
 .firmos .dijitTab *:focus{border-bottom:1px solid white;outline:none;}
 .firmos .dijitTabContainerBottom-container .dijitContentPane,.firmos .dijitTabContainerTop-container .dijitContentPane,.firmos .dijitTabContainerLeft-container .dijitContentPane,.firmos .dijitTabContainerRight-container .dijitContentPane{color:white;padding:5px 5px 5px 5px;border-radius:6px 6px 6px 6px;}
 .firmos .dijitTabCloseButton{background:url("images/tabClose.png") no-repeat;width:14px;height:14px;margin-left:5px;margin-right:-5px;}
 .firmos .dijitTabCloseButtonHover{background-position:-14px;}
 .firmos .dijitTabCloseButtonActive{background-position:-28px;}
 .firmos .dijitTabSpacer{display:none;}
-.firmos .dijitTab{border:1px solid #414141;background-color:#3f5490;-webkit-transition-property:background-color,border;-moz-transition-property:background-color,border;-o-transition-property:background-color,border;transition-property:background-color,border;-webkit-transition-duration:0.25s;-moz-transition-duration:0.25s;-o-transition-duration:0.25s;transition-duration:0.25s;color:#000000;}
-.firmos .dijitTabHover{border-color:#1e1e1e;background-color:orange;-webkit-transition-duration:0.25s;-moz-transition-duration:0.25s;-o-transition-duration:0.25s;transition-duration:0.25s;color:#000000;}
-.firmos .dijitTabActive{border-color:#1e1e1e;background-color:orange;color:#000000;-webkit-transition-duration:0.1s;-moz-transition-duration:0.1s;-o-transition-duration:0.1s;transition-duration:0.1s;}
-.firmos .dijitTabChecked{border-color:#414141;background-color:#3f5490;color:#000000;}
+.firmos .dijitTab{border:1px solid #5b5b5b;background-color:#787e8b;-webkit-transition-property:background-color,border;-moz-transition-property:background-color,border;-o-transition-property:background-color,border;transition-property:background-color,border;-webkit-transition-duration:0.25s;-moz-transition-duration:0.25s;-o-transition-duration:0.25s;transition-duration:0.25s;color:#141518;}
+.firmos .dijitTabHover{border-color:#383838;background-color:orange;-webkit-transition-duration:0.25s;-moz-transition-duration:0.25s;-o-transition-duration:0.25s;transition-duration:0.25s;color:#000000;}
+.firmos .dijitTabActive{border-color:#383838;background-color:orange;color:#000000;-webkit-transition-duration:0.1s;-moz-transition-duration:0.1s;-o-transition-duration:0.1s;transition-duration:0.1s;}
+.firmos .dijitTabChecked{border-color:#5b5b5b;background-color:#787e8b;color:#000000;}
 .firmos .dijitTabDisabled{background-color:#dddddd;}
 .firmos .tabStripButton{background-color:transparent;border:none;}
 .firmos .dijitTabContainerTop-tabs .dijitTab{top:1px;margin-right:4px;padding:4px 12px;border:1px none;min-width:75px;text-align:center;font-size:15px;font-weight:300;color:white;text-shadow:0px 0px 1px black;}
@@ -25,25 +25,25 @@
 .firmos .dijitTabContainerBottom-tabs .dijitTab{-moz-border-radius:0px 0px 6px 6px;border-radius:0px 0px 6px 6px;}
 .firmos .dijitTabContainerLeft-tabs .dijitTab{-moz-border-radius:6px 0px 0px 6px;border-radius:6px 0px 0px 6px;}
 .firmos .dijitTabContainerRight-tabs .dijitTab{-moz-border-radius:0px 6px 6px 0px;border-radius:0px 6px 6px 0px;}
-.firmos .tabStripButton{background-color:#5673c4;border:1px solid #414141;}
+.firmos .tabStripButton{background-color:#b6bac1;border:1px solid #5b5b5b;}
 .firmos .dijitTabListContainer-top .tabStripButton{padding:4px 3px;margin-top:7px;background-image:-moz-linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);}
 .firmos .dijitTabListContainer-bottom .tabStripButton{padding:4px 3px;margin-bottom:7px;background-image:-moz-linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);}
-.firmos .tabStripButtonHover{background-color:#25408b;}
-.firmos .tabStripButtonActive{background-color:#1f2f5f;}
+.firmos .tabStripButtonHover{background-color:#546791;}
+.firmos .tabStripButtonActive{background-color:#47526a;}
 .firmos .dijitTabStripIcon{height:15px;width:15px;margin:0 auto;background:url("images/buttonArrows.png") no-repeat -75px 50%;background-color:transparent;}
 .firmos .dijitTabStripSlideRightIcon{background-position:-24px 50%;}
 .firmos .dijitTabStripMenuIcon{background-position:-51px 50%;}
-.firmos .dijitTabListContainer-top .tabStripButtonDisabled,.firmos .dijitTabListContainer-bottom .tabStripButtonDisabled{background-color:#dddddd;border:1px solid #414141;}
+.firmos .dijitTabListContainer-top .tabStripButtonDisabled,.firmos .dijitTabListContainer-bottom .tabStripButtonDisabled{background-color:#dddddd;border:1px solid #5b5b5b;}
 .firmos .tabStripButtonDisabled .dijitTabStripSlideLeftIcon{background-position:-175px 50%;}
 .firmos .tabStripButtonDisabled .dijitTabStripSlideRightIcon{background-position:-124px 50%;}
 .firmos .tabStripButtonDisabled .dijitTabStripMenuIcon{background-position:-151px 50%;}
 .firmos .dijitTabContainerNested .dijitTabListWrapper{height:auto;}
-.firmos .dijitTabContainerNested .dijitTabContainerTop-tabs{border-bottom:solid 1px #414141;padding:2px 2px 4px;}
+.firmos .dijitTabContainerNested .dijitTabContainerTop-tabs{border-bottom:solid 1px #5b5b5b;padding:2px 2px 4px;}
 .firmos .dijitTabContainerTabListNested .dijitTab{background:rgba(255, 255, 255, 0);border:none;padding:4px;border-color:rgba(118, 157, 192, 0);-webkit-transition-property:background-color,border-color;-moz-transition-property:background-color,border-color;-o-transition-property:background-color,border-color;transition-property:background-color,border-color;-webkit-transition-duration:0.3s;-moz-transition-duration:0.3s;-o-transition-duration:0.3s;transition-duration:0.3s;-moz-border-radius:2px;border-radius:2px;top:0;-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;background-image:url("images/tabNested.png") repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.61) 0%, rgba(255, 255, 255, 0) 17%, rgba(255, 255, 255, 0) 83%, rgba(255, 255, 255, 0.61) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.61) 0%, rgba(255, 255, 255, 0) 17%, rgba(255, 255, 255, 0) 83%, rgba(255, 255, 255, 0.61) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.61) 0%, rgba(255, 255, 255, 0) 17%, rgba(255, 255, 255, 0) 83%, rgba(255, 255, 255, 0.61) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.61) 0%, rgba(255, 255, 255, 0) 17%, rgba(255, 255, 255, 0) 83%, rgba(255, 255, 255, 0.61) 100%);}
-.firmos .dijitTabContainerTabListNested .dijitTabHover{background-color:#3b59ad;border:solid 1px #3f5490;padding:3px;-webkit-transition-duration:0.2s;-moz-transition-duration:0.2s;-o-transition-duration:0.2s;transition-duration:0.2s;}
+.firmos .dijitTabContainerTabListNested .dijitTabHover{background-color:#7a87a2;border:solid 1px #787e8b;padding:3px;-webkit-transition-duration:0.2s;-moz-transition-duration:0.2s;-o-transition-duration:0.2s;transition-duration:0.2s;}
 .firmos .dijitTabContainerTabListNested .dijitTabHover .tabLabel{text-decoration:none;}
-.firmos .dijitTabContainerTabListNested .dijitTabActive{border:solid 1px #1e1e1e;padding:3px;-webkit-transition-duration:0.1s;-moz-transition-duration:0.1s;-o-transition-duration:0.1s;transition-duration:0.1s;}
-.firmos .dijitTabContainerTabListNested .dijitTabChecked{padding:3px;border:solid 1px #1e1e1e;background-color:#3f5490;}
+.firmos .dijitTabContainerTabListNested .dijitTabActive{border:solid 1px #383838;padding:3px;-webkit-transition-duration:0.1s;-moz-transition-duration:0.1s;-o-transition-duration:0.1s;transition-duration:0.1s;}
+.firmos .dijitTabContainerTabListNested .dijitTabChecked{padding:3px;border:solid 1px #383838;background-color:#787e8b;}
 .firmos .dijitTabContainerTabListNested .dijitTabChecked .tabLabel{text-decoration:none;background-image:none;}
 .firmos .dijitTabPaneWrapperNested{border:none;}
 .firmos .dijitTabContainer .dijitTab,.firmos .dijitTabContainer .tabStripButton{_background-image:none;}

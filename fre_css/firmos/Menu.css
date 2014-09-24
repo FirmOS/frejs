@@ -1,18 +1,18 @@
-.firmos .dijitMenuBar{border:1px solid #414141;margin:0;padding:0;background-color:#5673c4;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
-.firmos .dijitMenu{background-color:#ffffff;border:1px solid #1e1e1e;}
+.firmos .dijitMenuBar{border:1px solid #5b5b5b;margin:0;padding:0;background-color:#b6bac1;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
+.firmos .dijitMenu{background-color:#ffffff;border:1px solid #383838;}
 .firmos .dijitMenuItem{color:#000000;}
 .firmos .dijitMenuBar .dijitMenuItem{padding:6px 10px 7px;margin:-1px;}
-.firmos .dijitMenuBar .dijitMenuItemHover,.firmos .dijitMenuBar .dijitMenuItemSelected{border:solid 1px #1e1e1e;padding:5px 9px 6px;}
+.firmos .dijitMenuBar .dijitMenuItemHover,.firmos .dijitMenuBar .dijitMenuItemSelected{border:solid 1px #383838;padding:5px 9px 6px;}
 .firmos .dijitMenuTable{border-collapse:separate;border-spacing:0 0;padding:0;}
 .firmos .dijitMenu .dijitMenuItem td,.firmos .dijitComboBoxMenu .dijitMenuItem{padding:2px;border-width:1px 0 1px 0;border-style:solid;border-color:#ffffff;}
-.firmos .dijitMenu .dijitMenuItemHover td,.firmos .dijitMenu .dijitMenuItemSelected td,.firmos .dijitMenuItemHover,.firmos .dijitComboBoxMenu .dijitMenuItemHover,.firmos .dijitMenuItemSelected{border-color:#1e1e1e;background-color:#25408b;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
+.firmos .dijitMenu .dijitMenuItemHover td,.firmos .dijitMenu .dijitMenuItemSelected td,.firmos .dijitMenuItemHover,.firmos .dijitComboBoxMenu .dijitMenuItemHover,.firmos .dijitMenuItemSelected{border-color:#383838;background-color:#546791;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
 .firmos .dijitMenuItemActive{background-image:url("images/activeGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);_background-image:none;}
 .dj_ie .firmos .dijitMenuActive .dijitMenuItemHover,.dj_ie .firmos .dijitMenuActive .dijitMenuItemSelected,.dj_ie .firmos .dijitMenuPassive .dijitMenuItemHover,.dj_ie .firmos .dijitMenuPassive .dijitMenuItemSelected{padding-top:6px;padding-bottom:5px;margin-top:-3px;}
 .firmos td.dijitMenuItemIconCell{padding:2px;margin:0 0 0 4px;}
 .firmos td.dijitMenuItemLabel{padding-top:5px;padding-bottom:5px;}
 .firmos .dijitMenuExpand{width:7px;height:7px;background-image:url("images/spriteArrows.png");background-position:-14px 0;margin-right:3px;margin-bottom:4px;}
 .firmos .dijitMenuItemDisabled .dijitMenuItemIconCell{opacity:1;}
-.firmos .dijitMenuSeparatorTop{height:auto;margin-top:1px;border-bottom:1px solid #414141;}
+.firmos .dijitMenuSeparatorTop{height:auto;margin-top:1px;border-bottom:1px solid #5b5b5b;}
 .firmos .dijitMenuSeparatorBottom{height:auto;margin-bottom:1px;}
 .firmos .dijitCheckedMenuItem .dijitMenuItemIcon,.firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-image:url("images/checkboxRadioButtonStates.png");background-repeat:no-repeat;background-position:-15px 50%;width:15px;height:16px;}
 .dj_ie6 .firmos .dijitCheckedMenuItem .dijitMenuItemIcon,.dj_ie6 .firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-image:url("images/checkboxAndRadioButtons_IE6.png");}
@@ -20,6 +20,6 @@
 .firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-position:-105px 50%;}
 .firmos .dijitRadioMenuItemChecked .dijitMenuItemIcon{background-position:-90px 50%;}
 .firmos .dijitComboBoxMenu{margin-left:0;background-image:none;}
-.firmos .dijitMenu .dijitMenuItemSelected td,.firmos .dijitComboBoxMenu .dijitMenuItemSelected{color:#ffffff;text-shadow:1px 1px 1px black;border-color:#1e1e1e;background-color:#25408b;}
-.firmos .dijitComboBoxMenuActive .dijitMenuItemSelected{background-color:#1f2f5f;}
+.firmos .dijitMenu .dijitMenuItemSelected td,.firmos .dijitComboBoxMenu .dijitMenuItemSelected{color:#ffffff;text-shadow:1px 1px 1px black;border-color:#383838;background-color:#546791;}
+.firmos .dijitComboBoxMenuActive .dijitMenuItemSelected{background-color:#47526a;}
 .firmos .dijitMenuPreviousButton,.firmos .dijitMenuNextButton{font-style:italic;}

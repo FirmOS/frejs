@@ -1,6 +1,6 @@
 .firmos .dijitEditorIFrameContainer{padding:3px 3px 1px 10px;}
 .firmos .dijitEditorIFrame{background-color:#ffffff;}
-.firmos .dijitEditor{border:1px solid #414141;}
+.firmos .dijitEditor{border:1px solid #5b5b5b;}
 .firmos .dijitEditor .dijitEditorIFrameContainer{background-color:#ffffff;background-repeat:repeat-x;}
 .firmos .dijitEditorHover .dijitEditorIFrameContainer,.firmos .dijitEditorHover .dijitEditorIFrameContainer .dijitEditorIFrame{background-color:#fafad2;}
 .firmos .dijitEditorFocused .dijitEditorIFrameContainer,.firmos .dijitEditorFocused .dijitEditorIFrameContainer .dijitEditorIFrame{background-color:#fafad2;}

@@ -1,6 +1,6 @@
 .firmos .dijitSpinnerButtonContainer{overflow:hidden;position:relative;width:auto;padding:0 2px;}
 .firmos .dijitSpinnerButtonContainer .dijitSpinnerButtonInner{border-width:1px 0;border-style:solid none;}
-.firmos .dijitSpinner .dijitArrowButton{width:auto;background-color:#5673c4;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;overflow:hidden;}
+.firmos .dijitSpinner .dijitArrowButton{width:auto;background-color:#b6bac1;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;overflow:hidden;}
 .dj_iequirks .firmos .dijitSpinner .dijitArrowButton{overflow:visible;}
 .firmos .dijitSpinner .dijitSpinnerButtonInner{width:15px;}
 .firmos .dijitSpinner .dijitArrowButtonInner{border:solid 1px #ffffff;border-bottom-width:0;background-image:url("images/commonFormArrows.png");background-repeat:no-repeat;height:100%;width:15px;padding-left:1px;padding-right:1px;background-position:-139px center;display:block;margin:-1px 0 -1px 0;}
@@ -8,8 +8,8 @@
 .dj_iequirks .firmos .dijitSpinner .dijitArrowButtonInner{width:19px;}
 .firmos .dijitSpinner .dijitDownArrowButton .dijitArrowButtonInner{background-position:-34px;}
 .firmos .dijitSpinner .dijitArrowButtonInner .dijitInputField{padding:0;}
-.firmos .dijitUpArrowButtonActive,.firmos .dijitDownArrowButtonActive{background-color:#25408b;}
-.firmos .dijitSpinner .dijitUpArrowButtonHover,.firmos .dijitSpinner .dijitDownArrowButtonHover,.firmos .dijitSpinnerFocused .dijitArrowButton{background-color:#25408b;}
+.firmos .dijitUpArrowButtonActive,.firmos .dijitDownArrowButtonActive{background-color:#546791;}
+.firmos .dijitSpinner .dijitUpArrowButtonHover,.firmos .dijitSpinner .dijitDownArrowButtonHover,.firmos .dijitSpinnerFocused .dijitArrowButton{background-color:#546791;}
 .firmos .dijitSpinner .dijitUpArrowButtonHover .dijitArrowButtonInner{background-position:-174px;}
 .firmos .dijitSpinner .dijitDownArrowButtonHover .dijitArrowButtonInner{background-position:-69px;}
 .firmos .dijitSpinnerFocused{background-color:#fafad2;background-image:none;}

@@ -1,12 +1,12 @@
 .firmos .dgrid{border:0px solid red;border-color:#aaaaaa;background-color:#ffffff;color:#000000;}
 .firmos .ui-widget-header{font-weight:bold;}
-.firmos .ui-widget-header,.firmos .dgrid-footer{background-color:#5673c4;background-image:-moz-linear-gradient(#6983cb 0%, #3f5490 100%);background-image:-webkit-linear-gradient(#6983cb 0%, #3f5490 100%);background-image:-o-linear-gradient(#6983cb 0%, #3f5490 100%);background-image:linear-gradient(#6983cb 0%, #3f5490 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='lighten(@secondary-color, 5)', endColorstr='@secondary-color', GradientType=0);}
-.firmos .ui-widget-header .dgrid-cell:hover{background:#6983cb;background-image:-moz-linear-gradient(#7c92d1 10%, #5069b2 90%);background-image:-webkit-linear-gradient(#7c92d1 10%, #5069b2 90%);background-image:-o-linear-gradient(#7c92d1 10%, #5069b2 90%);background-image:linear-gradient(#7c92d1 10%, #5069b2 90%);}
+.firmos .ui-widget-header,.firmos .dgrid-footer{background-color:#b6bac1;background-image:-moz-linear-gradient(#c4c7cd 0%, #787e8b 100%);background-image:-webkit-linear-gradient(#c4c7cd 0%, #787e8b 100%);background-image:-o-linear-gradient(#c4c7cd 0%, #787e8b 100%);background-image:linear-gradient(#c4c7cd 0%, #787e8b 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='lighten(@secondary-color, 5)', endColorstr='@secondary-color', GradientType=0);}
+.firmos .ui-widget-header .dgrid-cell:hover{background:#c4c7cd;background-image:-moz-linear-gradient(#d2d4d8 10%, #9398a3 90%);background-image:-webkit-linear-gradient(#d2d4d8 10%, #9398a3 90%);background-image:-o-linear-gradient(#d2d4d8 10%, #9398a3 90%);background-image:linear-gradient(#d2d4d8 10%, #9398a3 90%);}
 .firmos .ui-state-default{-webkit-transition-duration:0.2s;-moz-transition-duration:0.2s;-o-transition-duration:0.2s;transition-duration:0.2s;-webkit-transition-property:background-color,border-color;-moz-transition-property:background-color,border-color;-o-transition-property:background-color,border-color;transition-property:background-color,border-color;background:url("images/row_back.png") #ffffff repeat-x;}
 .has-ie-6 .firmos .ui-state-default{background-image:none;}
-.firmos .ui-state-default:hover{background-color:#6983cb;}
-.firmos .ui-state-active{background-color:#5673c4;}
-.firmos .ui-state-active:hover{background-color:#6983cb;}
+.firmos .ui-state-default:hover{background-color:#c4c7cd;}
+.firmos .ui-state-active{background-color:#b6bac1;}
+.firmos .ui-state-active:hover{background-color:#c4c7cd;}
 .firmos .ui-state-highlight{background-color:#f90;}
 .firmos .dgrid-cell{border:0px;}
 .firmos .ui-widget-header .dgrid-cell{border-color:#dddddd;}

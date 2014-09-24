@@ -1,17 +1,17 @@
-.firmos .dijitBorderContainer{padding:5px;background-color:#3f5490;}
+.firmos .dijitBorderContainer{padding:5px;background-color:#787e8b;}
 .firmos .dijitSplitContainer-child,.firmos .dijitBorderContainer-child{border:none;}
 .firmos .dijitBorderContainer-dijitTabContainerTop,.firmos .dijitBorderContainer-dijitTabContainerBottom,.firmos .dijitBorderContainer-dijitTabContainerLeft,.firmos .dijitBorderContainer-dijitTabContainerRight,.firmos .dijitBorderContainer-dijitAccordionContainer{border:none;}
 .firmos .dijitBorderContainer-dijitBorderContainer{border:0;padding:0;}
 .firmos .dijitSplitterH,.firmos .dijitGutterH{background:none;border:0;height:5px;}
 .dj_ios .firmos .dijitSplitterH,.dj_android .firmos .dijitSplitterH{height:11px;}
-.firmos .dijitSplitterH .dijitSplitterThumb{background:#414141 none;height:1px;top:2px;width:19px;}
+.firmos .dijitSplitterH .dijitSplitterThumb{background:#5b5b5b none;height:1px;top:2px;width:19px;}
 .dj_ios .firmos .dijitSplitterH .dijitSplitterThumb,.dj_android .firmos .dijitSplitterH .dijitSplitterThumb{top:5px;}
 .firmos .dijitSplitterV,.firmos .dijitGutterV{background:none;border:0;width:5px;margin:0;}
 .dj_ios .firmos .dijitSplitterV,.dj_android .firmos .dijitSplitterV{width:11px;}
-.firmos .dijitSplitterV .dijitSplitterThumb{background:#414141 none;height:19px;left:2px;width:1px;margin:0;}
+.firmos .dijitSplitterV .dijitSplitterThumb{background:#5b5b5b none;height:19px;left:2px;width:1px;margin:0;}
 .dj_ios .firmos .dijitSplitterV .dijitSplitterThumb,.dj_android .firmos .dijitSplitterV .dijitSplitterThumb{left:5px;}
-.firmos .dijitSplitterHHover,.firmos .dijitSplitterVHover{font-size:1px;background-color:#3f5490;}
+.firmos .dijitSplitterHHover,.firmos .dijitSplitterVHover{font-size:1px;background-color:#787e8b;}
 .firmos .dijitSplitterHHover{background-image:-moz-linear-gradient(left, #ffffff 0px, rgba(255, 255, 255, 0) 50%, #ffffff 100%);background-image:-webkit-linear-gradient(left, #ffffff 0px, rgba(255, 255, 255, 0) 50%, #ffffff 100%);background-image:-o-linear-gradient(left, #ffffff 0px, rgba(255, 255, 255, 0) 50%, #ffffff 100%);background-image:linear-gradient(left, #ffffff 0px, rgba(255, 255, 255, 0) 50%, #ffffff 100%);}
 .firmos .dijitSplitterVHover{background-image:-moz-linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0) 50%, #ffffff 100%);background-image:-webkit-linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0) 50%, #ffffff 100%);background-image:-o-linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0) 50%, #ffffff 100%);background-image:linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0) 50%, #ffffff 100%);}
-.firmos .dijitSplitterHHover .dijitSplitterThumb,.firmos .dijitSplitterVHover .dijitSplitterThumb{background:#1e1e1e none;}
-.firmos .dijitSplitterHActive,.firmos .dijitSplitterVActive{font-size:1px;background-color:#25408b;background-image:none;}
+.firmos .dijitSplitterHHover .dijitSplitterThumb,.firmos .dijitSplitterVHover .dijitSplitterThumb{background:#383838 none;}
+.firmos .dijitSplitterHActive,.firmos .dijitSplitterVActive{font-size:1px;background-color:#546791;background-image:none;}

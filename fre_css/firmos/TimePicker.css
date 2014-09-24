@@ -1,14 +1,14 @@
 .firmos .dijitTimePicker .dijitButtonNode{padding:0 0;-moz-border-radius:0;border-radius:0;}
-.firmos .dijitTimePicker{border:1px #414141 solid;border-top:none;border-bottom:none;background-color:#fff;}
-.firmos .dijitTimePickerItem{background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;border-top:solid 1px #414141;border-bottom:solid 1px #414141;margin-top:-1px;}
-.firmos .dijitTimePickerTick{color:#10182e;background-color:#5673c4;font-size:0.818em;}
-.firmos .dijitTimePickerMarker{background-color:#3b59ad;font-size:1em;white-space:nowrap;}
-.firmos .dijitTimePickerTickHover,.firmos .dijitTimePickerMarkerHover,.firmos .dijitTimePickerMarkerSelected,.firmos .dijitTimePickerTickSelected{background-color:#1f2f5f;color:#000000;}
+.firmos .dijitTimePicker{border:1px #5b5b5b solid;border-top:none;border-bottom:none;background-color:#fff;}
+.firmos .dijitTimePickerItem{background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;border-top:solid 1px #5b5b5b;border-bottom:solid 1px #5b5b5b;margin-top:-1px;}
+.firmos .dijitTimePickerTick{color:#484c54;background-color:#b6bac1;font-size:0.818em;}
+.firmos .dijitTimePickerMarker{background-color:#7a87a2;font-size:1em;white-space:nowrap;}
+.firmos .dijitTimePickerTickHover,.firmos .dijitTimePickerMarkerHover,.firmos .dijitTimePickerMarkerSelected,.firmos .dijitTimePickerTickSelected{background-color:#47526a;color:#000000;}
 .firmos .dijitTimePickerMarkerSelected,.firmos .dijitTimePickerTickSelected{font-size:1em;}
 .firmos .dijitTimePickerTick .dijitTimePickerItemInner{padding:1px;margin:0;}
-.firmos .dijitTimePicker .dijitButtonNode{border-left:none;border-right:none;border-color:#414141;background-color:#5673c4;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
+.firmos .dijitTimePicker .dijitButtonNode{border-left:none;border-right:none;border-color:#5b5b5b;background-color:#b6bac1;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
 .firmos .dijitTimePicker .dijitArrowButtonInner{height:100%;background-image:url("images/commonFormArrows.png");background-repeat:no-repeat;background-position:-140px 45%;}
 .firmos .dijitTimePicker .dijitDownArrowButton .dijitArrowButtonInner{background-position:-35px 45%;}
-.firmos .dijitTimePicker .dijitUpArrowHover,.firmos .dijitTimePicker .dijitDownArrowHover{background-color:#25408b;}
+.firmos .dijitTimePicker .dijitUpArrowHover,.firmos .dijitTimePicker .dijitDownArrowHover{background-color:#546791;}
 .firmos .dijitTimePicker .dijitUpArrowHover .dijitArrowButtonInner{background-position:-175px 45%;}
 .firmos .dijitTimePicker .dijitDownArrowHover .dijitArrowButtonInner{background-position:-70px 45%;}

@@ -5,12 +5,13 @@
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Shared" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="scratch" sketch:type="MSArtboardGroup" transform="translate(-87.000000, -44.000000)">
-            <g id="triclose" sketch:type="MSLayerGroup" transform="translate(85.000000, 44.000000)" fill="#000000">
-                <polygon id="Triangle-1" fill-opacity="0.4" sketch:type="MSShapeGroup" transform="translate(14.500000, 16.000000) rotate(-90.000000) translate(-14.500000, -16.000000) " points="14.5 1.93939394 29.9666667 30.0606061 -0.966666667 30.0606061 "></polygon>
-                <polygon id="Triangle-2" fill-opacity="0.130000085" sketch:type="MSShapeGroup" transform="translate(14.500000, 16.000000) rotate(-90.000000) translate(-14.500000, -16.000000) " points="14.5 1.93939394 23.2 30.0606061 5.8 30.0606061 "></polygon>
+        <g id="scratch" sketch:type="MSArtboardGroup" transform="translate(-120.000000, -10.000000)" fill="#FFFFFF">
+            <g id="triopen" sketch:type="MSLayerGroup" transform="translate(136.500000, 26.000000) scale(-1, 1) translate(-136.500000, -26.000000) translate(120.000000, 10.000000)">
+                <g id="Triangle-1-+-Triangle-2" transform="translate(0.000000, 1.000000)" sketch:type="MSShapeGroup">
+                    <polygon id="Triangle-1" fill-opacity="0.800000191" transform="translate(14.500000, 15.000000) rotate(-90.000000) translate(-14.500000, -15.000000) " points="14.5 0.939393939 29.9666667 29.0606061 -0.966666667 29.0606061 "></polygon>
+                    <polygon id="Triangle-2" transform="translate(14.500000, 15.000000) rotate(-90.000000) translate(-14.500000, -15.000000) " points="14.5 0.939393939 23.2 29.0606061 5.8 29.0606061 "></polygon>
+                </g>
             </g>
-            <g id="triopen" sketch:type="MSLayerGroup" transform="translate(120.000000, 60.000000) scale(-1, 1) translate(-120.000000, -60.000000) translate(87.000000, 44.000000)"></g>
         </g>
     </g>
 </svg>

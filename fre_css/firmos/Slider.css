@@ -1,28 +1,28 @@
 .firmos .dijitSliderBar{border-style:solid;outline:1px;}
-.firmos .dijitSliderFocused .dijitSliderBar{border-color:#1e1e1e;}
-.firmos .dijitSliderHover .dijitSliderBar{border-color:#1e1e1e;}
+.firmos .dijitSliderFocused .dijitSliderBar{border-color:#383838;}
+.firmos .dijitSliderHover .dijitSliderBar{border-color:#383838;}
 .firmos .dijitSliderDisabled .dijitSliderBar{background-image:none;border-color:#c4c4c4;}
 .firmos .dijitRuleLabelsContainer{color:#000000;}
 .firmos .dijitRuleLabelsContainerH{padding:2px 0;}
-.firmos .dijitSlider .dijitSliderProgressBarH,.firmos .dijitSlider .dijitSliderLeftBumper{border-color:#414141;background-color:#3f5490;background-image:-moz-linear-gradient(top, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0) 2px);background-image:-webkit-linear-gradient(top, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0) 2px);background-image:-o-linear-gradient(top, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0) 2px);background-image:linear-gradient(top, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0) 2px);}
-.firmos .dijitSlider .dijitSliderRemainingBarH,.firmos .dijitSlider .dijitSliderRightBumper{border-color:#414141;background-color:#ffffff;}
-.firmos .dijitSliderRightBumper{border-right:solid 1px #414141;}
-.firmos .dijitSliderLeftBumper{border-left:solid 1px #414141;}
-.firmos .dijitSliderHover .dijitSliderProgressBarH,.firmos .dijitSliderHover .dijitSliderLeftBumper{background-color:#25408b;border-color:#1e1e1e;}
-.firmos .dijitSliderHover .dijitSliderRemainingBarH,.firmos .dijitSliderHover .dijitSliderRightBumper{background-color:#ffffff;border-color:#1e1e1e;}
-.firmos .dijitSliderFocused .dijitSliderProgressBarH,.firmos .dijitSliderFocused .dijitSliderLeftBumper{background-color:#25408b;border-color:#1e1e1e;-webkit-box-shadow:inset 0px 1px 1px rgba(0, 0, 0, 0.2);-moz-box-shadow:inset 0px 1px 1px rgba(0, 0, 0, 0.2);box-shadow:inset 0px 1px 1px rgba(0, 0, 0, 0.2);}
-.firmos .dijitSliderFocused .dijitSliderRemainingBarH,.firmos .dijitSliderFocused .dijitSliderRightBumper{background-color:#ffffff;border-color:#1e1e1e;-webkit-box-shadow:inset 0px 1px 1px rgba(0, 0, 0, 0.2);-moz-box-shadow:inset 0px 1px 1px rgba(0, 0, 0, 0.2);box-shadow:inset 0px 1px 1px rgba(0, 0, 0, 0.2);}
+.firmos .dijitSlider .dijitSliderProgressBarH,.firmos .dijitSlider .dijitSliderLeftBumper{border-color:#5b5b5b;background-color:#787e8b;background-image:-moz-linear-gradient(top, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0) 2px);background-image:-webkit-linear-gradient(top, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0) 2px);background-image:-o-linear-gradient(top, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0) 2px);background-image:linear-gradient(top, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0) 2px);}
+.firmos .dijitSlider .dijitSliderRemainingBarH,.firmos .dijitSlider .dijitSliderRightBumper{border-color:#5b5b5b;background-color:#ffffff;}
+.firmos .dijitSliderRightBumper{border-right:solid 1px #5b5b5b;}
+.firmos .dijitSliderLeftBumper{border-left:solid 1px #5b5b5b;}
+.firmos .dijitSliderHover .dijitSliderProgressBarH,.firmos .dijitSliderHover .dijitSliderLeftBumper{background-color:#546791;border-color:#383838;}
+.firmos .dijitSliderHover .dijitSliderRemainingBarH,.firmos .dijitSliderHover .dijitSliderRightBumper{background-color:#ffffff;border-color:#383838;}
+.firmos .dijitSliderFocused .dijitSliderProgressBarH,.firmos .dijitSliderFocused .dijitSliderLeftBumper{background-color:#546791;border-color:#383838;-webkit-box-shadow:inset 0px 1px 1px rgba(0, 0, 0, 0.2);-moz-box-shadow:inset 0px 1px 1px rgba(0, 0, 0, 0.2);box-shadow:inset 0px 1px 1px rgba(0, 0, 0, 0.2);}
+.firmos .dijitSliderFocused .dijitSliderRemainingBarH,.firmos .dijitSliderFocused .dijitSliderRightBumper{background-color:#ffffff;border-color:#383838;-webkit-box-shadow:inset 0px 1px 1px rgba(0, 0, 0, 0.2);-moz-box-shadow:inset 0px 1px 1px rgba(0, 0, 0, 0.2);box-shadow:inset 0px 1px 1px rgba(0, 0, 0, 0.2);}
 .firmos .dijitSliderDisabled .dijitSliderProgressBarH,.firmos .dijitSliderDisabled .dijitSliderLeftBumper{background-color:#c4c4c4;background-image:none;}
 .firmos .dijitSliderDisabled .dijitSliderRemainingBarH,.firmos .dijitSliderDisabled .dijitSliderRightBumper{background-color:#dddddd;}
 .firmos .dijitRuleLabelsContainerV{padding:0 2px;}
-.firmos .dijitSlider .dijitSliderProgressBarV,.firmos .dijitSlider .dijitSliderBottomBumper{border-color:#414141;background-color:#3f5490;background-image:-moz-linear-gradient(left, #ffffff 0px, rgba(255, 255, 255, 0) 1px);background-image:-webkit-linear-gradient(left, #ffffff 0px, rgba(255, 255, 255, 0) 1px);background-image:-o-linear-gradient(left, #ffffff 0px, rgba(255, 255, 255, 0) 1px);background-image:linear-gradient(left, #ffffff 0px, rgba(255, 255, 255, 0) 1px);}
-.firmos .dijitSlider .dijitSliderRemainingBarV,.firmos .dijitSlider .dijitSliderTopBumper{border-color:#414141;background-color:#ffffff;}
-.firmos .dijitSliderBottomBumper{border-bottom:solid 1px #414141;}
-.firmos .dijitSliderTopBumper{border-top:solid 1px #414141;}
-.firmos .dijitSliderHover .dijitSliderProgressBarV,.firmos .dijitSliderHover .dijitSliderBottomBumper{background-color:#25408b;border-color:#1e1e1e;}
-.firmos .dijitSliderHover .dijitSliderRemainingBarV,.firmos .dijitSliderHover .dijitSliderTopBumper{background-color:#ffffff;border-color:#1e1e1e;}
-.firmos .dijitSliderFocused .dijitSliderProgressBarV,.firmos .dijitSliderFocused .dijitSliderBottomBumper{background-color:#25408b;border-color:#1e1e1e;-webkit-box-shadow:inset 1px 0px 1px rgba(0, 0, 0, 0.2);-moz-box-shadow:inset 1px 0px 1px rgba(0, 0, 0, 0.2);box-shadow:inset 1px 0px 1px rgba(0, 0, 0, 0.2);}
-.firmos .dijitSliderFocused .dijitSliderRemainingBarV,.firmos .dijitSliderFocused .dijitSliderTopBumper{background-color:#ffffff;border-color:#1e1e1e;-webkit-box-shadow:inset 1px 0px 1px rgba(0, 0, 0, 0.2);-moz-box-shadow:inset 1px 0px 1px rgba(0, 0, 0, 0.2);box-shadow:inset 1px 0px 1px rgba(0, 0, 0, 0.2);}
+.firmos .dijitSlider .dijitSliderProgressBarV,.firmos .dijitSlider .dijitSliderBottomBumper{border-color:#5b5b5b;background-color:#787e8b;background-image:-moz-linear-gradient(left, #ffffff 0px, rgba(255, 255, 255, 0) 1px);background-image:-webkit-linear-gradient(left, #ffffff 0px, rgba(255, 255, 255, 0) 1px);background-image:-o-linear-gradient(left, #ffffff 0px, rgba(255, 255, 255, 0) 1px);background-image:linear-gradient(left, #ffffff 0px, rgba(255, 255, 255, 0) 1px);}
+.firmos .dijitSlider .dijitSliderRemainingBarV,.firmos .dijitSlider .dijitSliderTopBumper{border-color:#5b5b5b;background-color:#ffffff;}
+.firmos .dijitSliderBottomBumper{border-bottom:solid 1px #5b5b5b;}
+.firmos .dijitSliderTopBumper{border-top:solid 1px #5b5b5b;}
+.firmos .dijitSliderHover .dijitSliderProgressBarV,.firmos .dijitSliderHover .dijitSliderBottomBumper{background-color:#546791;border-color:#383838;}
+.firmos .dijitSliderHover .dijitSliderRemainingBarV,.firmos .dijitSliderHover .dijitSliderTopBumper{background-color:#ffffff;border-color:#383838;}
+.firmos .dijitSliderFocused .dijitSliderProgressBarV,.firmos .dijitSliderFocused .dijitSliderBottomBumper{background-color:#546791;border-color:#383838;-webkit-box-shadow:inset 1px 0px 1px rgba(0, 0, 0, 0.2);-moz-box-shadow:inset 1px 0px 1px rgba(0, 0, 0, 0.2);box-shadow:inset 1px 0px 1px rgba(0, 0, 0, 0.2);}
+.firmos .dijitSliderFocused .dijitSliderRemainingBarV,.firmos .dijitSliderFocused .dijitSliderTopBumper{background-color:#ffffff;border-color:#383838;-webkit-box-shadow:inset 1px 0px 1px rgba(0, 0, 0, 0.2);-moz-box-shadow:inset 1px 0px 1px rgba(0, 0, 0, 0.2);box-shadow:inset 1px 0px 1px rgba(0, 0, 0, 0.2);}
 .firmos .dijitSliderDisabled .dijitSliderProgressBarV,.firmos .dijitSliderDisabled .dijitSliderBottomBumper{background-color:#c4c4c4;}
 .firmos .dijitSliderDisabled .dijitSliderRemainingBarV,.firmos .dijitSliderDisabled .dijitSliderTopBumper{background-color:#dddddd;}
 .firmos .dijitSliderImageHandleH{border:0;width:18px;height:16px;background-image:url("images/sliderThumbs.png");background-repeat:no-repeat;background-position:0 0;}
@@ -39,10 +39,10 @@
 .firmos .dijitSliderReadOnly .dijitSliderImageHandleV,.firmos .dijitSliderDisabled .dijitSliderImageHandleV{background-position:-343px 0;}
 .firmos .dijitSliderButtonContainerH{padding:1px 3px 1px 2px;}
 .firmos .dijitSliderButtonContainerV{padding:3px 1px 2px 1px;}
-.firmos .dijitSliderDecrementIconH,.firmos .dijitSliderIncrementIconH,.firmos .dijitSliderDecrementIconV,.firmos .dijitSliderIncrementIconV{background-image:url("images/commonFormArrows.png");background-repeat:no-repeat;background-color:#5673c4;-moz-border-radius:2px;border-radius:2px;border:solid 1px #414141;font-size:1px;}
+.firmos .dijitSliderDecrementIconH,.firmos .dijitSliderIncrementIconH,.firmos .dijitSliderDecrementIconV,.firmos .dijitSliderIncrementIconV{background-image:url("images/commonFormArrows.png");background-repeat:no-repeat;background-color:#b6bac1;-moz-border-radius:2px;border-radius:2px;border:solid 1px #5b5b5b;font-size:1px;}
 .firmos .dijitSliderDecrementIconH,.firmos .dijitSliderIncrementIconH{height:12px;width:9px;}
 .firmos .dijitSliderDecrementIconV,.firmos .dijitSliderIncrementIconV{height:9px;width:12px;}
-.firmos .dijitSliderActive .dijitSliderDecrementIconH,.firmos .dijitSliderActive .dijitSliderIncrementIconH,.firmos .dijitSliderActive .dijitSliderDecrementIconV,.firmos .dijitSliderActive .dijitSliderIncrementIconV,.firmos .dijitSliderHover .dijitSliderDecrementIconH,.firmos .dijitSliderHover .dijitSliderIncrementIconH,.firmos .dijitSliderHover .dijitSliderDecrementIconV,.firmos .dijitSliderHover .dijitSliderIncrementIconV{border:solid 1px #1e1e1e;background-color:#ffffff;}
+.firmos .dijitSliderActive .dijitSliderDecrementIconH,.firmos .dijitSliderActive .dijitSliderIncrementIconH,.firmos .dijitSliderActive .dijitSliderDecrementIconV,.firmos .dijitSliderActive .dijitSliderIncrementIconV,.firmos .dijitSliderHover .dijitSliderDecrementIconH,.firmos .dijitSliderHover .dijitSliderIncrementIconH,.firmos .dijitSliderHover .dijitSliderDecrementIconV,.firmos .dijitSliderHover .dijitSliderIncrementIconV{border:solid 1px #383838;background-color:#ffffff;}
 .firmos .dijitSliderDecrementIconH{background-position:-357px 50%;}
 .firmos .dijitSliderActive .dijitSliderDecrementIconH .firmos .dijitSliderHover .dijitSliderDecrementIconH{background-position:-393px 50%;}
 .firmos .dijitSliderIncrementIconH{background-position:-251px 50%;}
@@ -51,8 +51,8 @@
 .firmos .dijitSliderActive .dijitSliderDecrementIconV .firmos .dijitSliderHover .dijitSliderDecrementIconV{background-position:-73px 50%;}
 .firmos .dijitSliderIncrementIconV{background-position:-143px 49%;}
 .firmos .dijitSliderActive .dijitSliderIncrementIconV .firmos .dijitSliderHover .dijitSliderIncrementIconV{background-position:-178px 49%;}
-.firmos .dijitSliderButtonContainerV .dijitSliderDecrementButtonHover,.firmos .dijitSliderButtonContainerH .dijitSliderDecrementButtonHover,.firmos .dijitSliderButtonContainerV .dijitSliderIncrementButtonHover,.firmos .dijitSliderButtonContainerH .dijitSliderIncrementButtonHover{background-color:#3f5490;}
-.firmos .dijitSliderButtonContainerV .dijitSliderDecrementButtonActive,.firmos .dijitSliderButtonContainerH .dijitSliderDecrementButtonActive,.firmos .dijitSliderButtonContainerV .dijitSliderIncrementButtonActive,.firmos .dijitSliderButtonContainerH .dijitSliderIncrementButtonActive{background-color:#25408b;border-color:#1e1e1e;}
+.firmos .dijitSliderButtonContainerV .dijitSliderDecrementButtonHover,.firmos .dijitSliderButtonContainerH .dijitSliderDecrementButtonHover,.firmos .dijitSliderButtonContainerV .dijitSliderIncrementButtonHover,.firmos .dijitSliderButtonContainerH .dijitSliderIncrementButtonHover{background-color:#787e8b;}
+.firmos .dijitSliderButtonContainerV .dijitSliderDecrementButtonActive,.firmos .dijitSliderButtonContainerH .dijitSliderDecrementButtonActive,.firmos .dijitSliderButtonContainerV .dijitSliderIncrementButtonActive,.firmos .dijitSliderButtonContainerH .dijitSliderIncrementButtonActive{background-color:#546791;border-color:#383838;}
 .firmos .dijitSliderButtonInner{visibility:hidden;}
 .firmos .dijitSliderDisabled .dijitSliderBar{border-color:#c4c4c4;}
 .firmos .dijitSliderReadOnly *,.firmos .dijitSliderDisabled *{border-color:#c4c4c4;color:#6f6f6f;}
