@@ -2410,6 +2410,59 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijitFocused .dijitMenuItemShortcutKey {
 	text-decoration: underline;
 }
+.dojoxUploaderFileList{
+	border:1px solid #ccc;
+	min-height:50px;
+}
+.dojoxUploaderFileListTable{
+	width:100%;
+	border-collapse:collapse;
+	margin-top:5px;
+}
+.dojoxUploaderFileListHeader th{
+	background-color:#eee;
+	padding:3px;
+}
+.dojoxUploaderFileListRow{
+
+}
+.dojoxUploaderIndex{
+	width:20px;
+}
+.dojoxUploaderIcon{
+	width:50px;
+}
+.dojoxUploaderFileName{
+
+}
+.dojoxUploaderSize{
+	width:70px;
+}
+.dojoxUploaderFileListContent{
+	width:100%;
+}
+.dojoxUploaderFileListProgress{
+	border:1px solid #666;
+	height:15px;
+	position:relative;
+	background:#fff;
+	overflow:hidden;
+}
+.dojoxUploaderFileListPercentText{
+	position:absolute;
+	right:3px;
+	top:3px;
+	font-size:10px;
+	text-align:right;
+}
+.dojoxUploaderFileListProgressBar{
+	position:absolute;
+	top:0px;
+	left:0px;
+	height:15px;
+	width:0%;
+	background:#bfe1fd;
+}
 /*
 **----------------------------------------------------------------------------
 **  CheckedMultiSelect
@@ -2691,60 +2744,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 
 .claro .dojoxCheckedMultiSelectButtonDisabled .dijitArrowButton .dijitArrowButtonInner {
 	background-position: 0;
-}.dojoxUploaderFileList{
-	border:1px solid #ccc;
-	min-height:50px;
-}
-.dojoxUploaderFileListTable{
-	width:100%;
-	border-collapse:collapse;
-	margin-top:5px;
-}
-.dojoxUploaderFileListHeader th{
-	background-color:#eee;
-	padding:3px;
-}
-.dojoxUploaderFileListRow{
-
-}
-.dojoxUploaderIndex{
-	width:20px;
-}
-.dojoxUploaderIcon{
-	width:50px;
-}
-.dojoxUploaderFileName{
-
-}
-.dojoxUploaderSize{
-	width:70px;
-}
-.dojoxUploaderFileListContent{
-	width:100%;
-}
-.dojoxUploaderFileListProgress{
-	border:1px solid #666;
-	height:15px;
-	position:relative;
-	background:#fff;
-	overflow:hidden;
-}
-.dojoxUploaderFileListPercentText{
-	position:absolute;
-	right:3px;
-	top:3px;
-	font-size:10px;
-	text-align:right;
-}
-.dojoxUploaderFileListProgressBar{
-	position:absolute;
-	top:0px;
-	left:0px;
-	height:15px;
-	width:0%;
-	background:#bfe1fd;
-}
-/* This stylesheet provides the structural CSS for the dgrid */
+}/* This stylesheet provides the structural CSS for the dgrid */
 .dgrid {
 	position: relative;
 	overflow: hidden; /* This is needed by IE to prevent crazy scrollbar flashing */
@@ -3200,13 +3200,17 @@ editorIcons.css contains references to the dijit editor widget icons. There are 
 
 
 
+.firmosSitemapMainEntryDisabled{fill:#939598;fill-opacity:1;stroke:url("/#sm_disabled1");stroke-width:3;stroke-miterlimit:10;stroke-opacity:1;}
+.firmosSitemapMainEntryDisabled2{fill:url("/#sm_disabled2");fill-opacity:0.2;}
+.firmosSitemapMainEntry{fill:#26255D;fill-opacity:1;stroke:url("/#sm_enabled1");stroke-width:3;stroke-miterlimit:10;stroke-opacity:1;}
+.firmosSitemapMainEntry2{fill:url("/#sm_enabled2");fill-opacity:0.2;}
+.firmosSitemapMainEntryPressed{fill:#26255D;fill-opacity:1;stroke:url("/#sm_pressed1");stroke-width:2;stroke-miterlimit:10;stroke-opacity:1;}
+.firmosSitemapMainEntryPressed2{fill-opacity:0;}
 .firmosSitemapEntryDisabled,.firmosSitemapEntryDisabledAL{fill:#939598;fill-opacity:1;stroke:url("/#sm_disabled1");stroke-width:3;stroke-miterlimit:10;stroke-opacity:1;}
 .firmosSitemapEntryDisabled2{fill:url("/#sm_disabled2");fill-opacity:0.2;}
 .firmosSitemapEntry,.firmosSitemapEntryAL{fill:#26255D;fill-opacity:1;stroke:url("/#sm_enabled1");stroke-width:3;stroke-miterlimit:10;stroke-opacity:1;}
 .firmosSitemapEntryAL{filter:url("/#shadowActive");}
 .firmosSitemapEntry2{fill:url("/#sm_enabled2");fill-opacity:0.2;}
-.firmosSitemapEntryPressed{fill:#26255D;fill-opacity:1;stroke:url("/#sm_pressed1");stroke-width:2;stroke-miterlimit:10;stroke-opacity:1;}
-.firmosSitemapEntryPressed2{fill-opacity:0;}
 .firmosSMShortcutEnabled1{fill:url("/#sc_enabled1");fill-opacity:1;}
 .firmosSMShortcutEnabled2{fill:#D88228;fill-opacity:1;}
 .firmosSMShortcutEnabled3{fill:#101010;fill-opacity:1;}
@@ -3263,63 +3267,6 @@ editorIcons.css contains references to the dijit editor widget icons. There are 
 .firmos p{line-height:1.3em;}
 .firmos pre,.firmos code{font-family:inherit;background-color:#5673c4;border:1px solid #dddddd;}
 .firmos table.dojoTabular thead,.firmos table.dojoTabular tfoot{background-color:#5673c4;border:1px solid #dddddd;}
-.firmos .dijitAccordionContainer{border:none;}
-.firmos .dijitAccordionContainer *:focus{border-bottom:1px solid white;outline:none;}
-.firmos .dijitAccordionTitle{background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 50%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 50%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 50%);background-image:linear-gradient(rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 50%);padding:5px 7px 2px 7px;min-height:17px;color:#ffffff;text-shadow:1px 1px 1px black;}
-.firmos .dijitAccordionContainer .dijitAccordionChildWrapper{margin:0;}
-.firmos .dijitAccordionContainer .dijitAccordionContainer-child{padding:9px;}
-.firmos .dijitAccordionInnerContainerActive .dijitAccordionTitle{background-image:url("images/activeGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);_background-image:none;color:#ffffff;text-shadow:1px 1px 1px black;}
-.firmos .dijitAccordionInnerContainerSelected .dijitAccordionTitle{color:#ffffff;text-shadow:1px 1px 1px black;-webkit-text-shadow:1px 1px 2px #000000;-moz-text-shadow:1px 1px 2px #000000;text-shadow:1px 1px 2px #000000;margin:0px 12px 0px 12px;-moz-border-radius:6px 6px 0px 0px;border-radius:6px 6px 0px 0px;border:0px solid;}
-.firmos .dijitAccordionInnerContainerHover .dijitAccordionTitle{color:#ffffff;text-shadow:1px 1px 1px black;}
-
-.firmos .dijitTabContainerTop-tabs,.firmos .dijitTabContainerBottom-tabs,.firmos .dijitTabContainerLeft-tabs,.firmos .dijitTabContainerRight-tabs{border-color:#414141;margin-left:12px;border:0px;}
-.dijitTabContainerTop-container{border:1px solid;border-radius:6px 6px 6px 6px;border-color:#2f3f6d;background-color:#3f5490;}
-.firmos .dijitTab *:focus{border-bottom:1px solid white;outline:none;}
-.firmos .dijitTabContainerBottom-container .dijitContentPane,.firmos .dijitTabContainerTop-container .dijitContentPane,.firmos .dijitTabContainerLeft-container .dijitContentPane,.firmos .dijitTabContainerRight-container .dijitContentPane{color:white;padding:5px 5px 5px 5px;border-radius:6px 6px 6px 6px;}
-.firmos .dijitTabCloseButton{background:url("images/tabClose.png") no-repeat;width:14px;height:14px;margin-left:5px;margin-right:-5px;}
-.firmos .dijitTabCloseButtonHover{background-position:-14px;}
-.firmos .dijitTabCloseButtonActive{background-position:-28px;}
-.firmos .dijitTabSpacer{display:none;}
-.firmos .dijitTab{border:1px solid #414141;background-color:#3f5490;-webkit-transition-property:background-color,border;-moz-transition-property:background-color,border;-o-transition-property:background-color,border;transition-property:background-color,border;-webkit-transition-duration:0.25s;-moz-transition-duration:0.25s;-o-transition-duration:0.25s;transition-duration:0.25s;color:#000000;}
-.firmos .dijitTabHover{border-color:#1e1e1e;background-color:orange;-webkit-transition-duration:0.25s;-moz-transition-duration:0.25s;-o-transition-duration:0.25s;transition-duration:0.25s;color:#000000;}
-.firmos .dijitTabActive{border-color:#1e1e1e;background-color:orange;color:#000000;-webkit-transition-duration:0.1s;-moz-transition-duration:0.1s;-o-transition-duration:0.1s;transition-duration:0.1s;}
-.firmos .dijitTabChecked{border-color:#414141;background-color:#3f5490;color:#000000;}
-.firmos .dijitTabDisabled{background-color:#dddddd;}
-.firmos .tabStripButton{background-color:transparent;border:none;}
-.firmos .dijitTabContainerTop-tabs .dijitTab{top:1px;margin-right:4px;padding:4px 12px;border:1px none;min-width:75px;text-align:center;font-size:15px;font-weight:300;color:white;text-shadow:0px 0px 1px black;}
-.firmos .dijitTabContainerTop-tabs .dijitTabChecked{padding-bottom:4px;padding-top:5px;text-shadow:1px 1px 3px black;background-color:#fbb03c;color:white;font-size:15px;font-weight:500;font-style:italic;}
-.firmos .dijitTabContainerBottom-tabs .dijitTab{top:-1px;margin-right:1px;padding:3px 6px;border-top-width:0;min-width:60px;text-align:center;background-image:url("images/tabBottomUnselected.png");background-repeat:repeat-x;background-position:bottom;background-image:-moz-linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);background-image:-webkit-linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);background-image:-o-linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);background-image:linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);-webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.04);-moz-box-shadow:0 1px 1px rgba(0, 0, 0, 0.04);box-shadow:0 1px 1px rgba(0, 0, 0, 0.04);}
-.firmos .dijitTabContainerBottom-tabs .dijitTabChecked{padding-bottom:9px;padding-top:4px;background-image:url("images/tabBottomSelected.png");background-image:-moz-linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 50%, #ffffff 100%);background-image:-webkit-linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 50%, #ffffff 100%);background-image:-o-linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 50%, #ffffff 100%);background-image:linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 50%, #ffffff 100%);-webkit-box-shadow:0 1px 2px rgba(0, 0, 0, 0.05);-moz-box-shadow:0 1px 2px rgba(0, 0, 0, 0.05);box-shadow:0 1px 2px rgba(0, 0, 0, 0.05);}
-.firmos .dijitTabContainerLeft-tabs .dijitTab{left:1px;margin-bottom:1px;padding:3px 8px 4px 4px;background-image:url("images/tabLeftUnselected.png");background-repeat:repeat-y;background-image:-moz-linear-gradient(left, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);background-image:-webkit-linear-gradient(left, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);background-image:-o-linear-gradient(left, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);background-image:linear-gradient(left, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);}
-.firmos .dijitTabContainerLeft-tabs .dijitTabChecked{border-right-width:0;padding-right:9px;background-image:url("images/tabLeftSelected.png");background-image:-moz-linear-gradient(left, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);background-image:-webkit-linear-gradient(left, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);background-image:-o-linear-gradient(left, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);background-image:linear-gradient(left, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);-webkit-box-shadow:-1px 0 2px rgba(0, 0, 0, 0.05);-moz-box-shadow:-1px 0 2px rgba(0, 0, 0, 0.05);box-shadow:-1px 0 2px rgba(0, 0, 0, 0.05);}
-.firmos .dijitTabContainerRight-tabs .dijitTab{left:-1px;margin-bottom:1px;padding:3px 8px 4px 4px;background-image:url("images/tabRightUnselected.png");background-repeat:repeat-y;background-position:right;background-image:-moz-linear-gradient(right, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);background-image:-webkit-linear-gradient(right, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);background-image:-o-linear-gradient(right, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);background-image:linear-gradient(right, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);}
-.firmos .dijitTabContainerRight-tabs .dijitTabChecked{padding-left:5px;border-left-width:0;background-image:url("images/tabRightSelected.png");background-image:-moz-linear-gradient(right, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);background-image:-webkit-linear-gradient(right, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);background-image:-o-linear-gradient(right, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);background-image:linear-gradient(right, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);-webkit-box-shadow:1px 0 2px rgba(0, 0, 0, 0.07);-moz-box-shadow:1px 0 2px rgba(0, 0, 0, 0.07);box-shadow:1px 0 2px rgba(0, 0, 0, 0.07);}
-.firmos .dijitTabContainerTop-tabs .dijitTab{-moz-border-radius:6px 6px 0px 0px;border-radius:6px 6px 0px 0px;}
-.firmos .dijitTabContainerBottom-tabs .dijitTab{-moz-border-radius:0px 0px 6px 6px;border-radius:0px 0px 6px 6px;}
-.firmos .dijitTabContainerLeft-tabs .dijitTab{-moz-border-radius:6px 0px 0px 6px;border-radius:6px 0px 0px 6px;}
-.firmos .dijitTabContainerRight-tabs .dijitTab{-moz-border-radius:0px 6px 6px 0px;border-radius:0px 6px 6px 0px;}
-.firmos .tabStripButton{background-color:#5673c4;border:1px solid #414141;}
-.firmos .dijitTabListContainer-top .tabStripButton{padding:4px 3px;margin-top:7px;background-image:-moz-linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);}
-.firmos .dijitTabListContainer-bottom .tabStripButton{padding:4px 3px;margin-bottom:7px;background-image:-moz-linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);}
-.firmos .tabStripButtonHover{background-color:#25408b;}
-.firmos .tabStripButtonActive{background-color:#1f2f5f;}
-.firmos .dijitTabStripIcon{height:15px;width:15px;margin:0 auto;background:url("images/buttonArrows.png") no-repeat -75px 50%;background-color:transparent;}
-.firmos .dijitTabStripSlideRightIcon{background-position:-24px 50%;}
-.firmos .dijitTabStripMenuIcon{background-position:-51px 50%;}
-.firmos .dijitTabListContainer-top .tabStripButtonDisabled,.firmos .dijitTabListContainer-bottom .tabStripButtonDisabled{background-color:#dddddd;border:1px solid #414141;}
-.firmos .tabStripButtonDisabled .dijitTabStripSlideLeftIcon{background-position:-175px 50%;}
-.firmos .tabStripButtonDisabled .dijitTabStripSlideRightIcon{background-position:-124px 50%;}
-.firmos .tabStripButtonDisabled .dijitTabStripMenuIcon{background-position:-151px 50%;}
-.firmos .dijitTabContainerNested .dijitTabListWrapper{height:auto;}
-.firmos .dijitTabContainerNested .dijitTabContainerTop-tabs{border-bottom:solid 1px #414141;padding:2px 2px 4px;}
-.firmos .dijitTabContainerTabListNested .dijitTab{background:rgba(255, 255, 255, 0);border:none;padding:4px;border-color:rgba(118, 157, 192, 0);-webkit-transition-property:background-color,border-color;-moz-transition-property:background-color,border-color;-o-transition-property:background-color,border-color;transition-property:background-color,border-color;-webkit-transition-duration:0.3s;-moz-transition-duration:0.3s;-o-transition-duration:0.3s;transition-duration:0.3s;-moz-border-radius:2px;border-radius:2px;top:0;-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;background-image:url("images/tabNested.png") repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.61) 0%, rgba(255, 255, 255, 0) 17%, rgba(255, 255, 255, 0) 83%, rgba(255, 255, 255, 0.61) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.61) 0%, rgba(255, 255, 255, 0) 17%, rgba(255, 255, 255, 0) 83%, rgba(255, 255, 255, 0.61) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.61) 0%, rgba(255, 255, 255, 0) 17%, rgba(255, 255, 255, 0) 83%, rgba(255, 255, 255, 0.61) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.61) 0%, rgba(255, 255, 255, 0) 17%, rgba(255, 255, 255, 0) 83%, rgba(255, 255, 255, 0.61) 100%);}
-.firmos .dijitTabContainerTabListNested .dijitTabHover{background-color:#3b59ad;border:solid 1px #3f5490;padding:3px;-webkit-transition-duration:0.2s;-moz-transition-duration:0.2s;-o-transition-duration:0.2s;transition-duration:0.2s;}
-.firmos .dijitTabContainerTabListNested .dijitTabHover .tabLabel{text-decoration:none;}
-.firmos .dijitTabContainerTabListNested .dijitTabActive{border:solid 1px #1e1e1e;padding:3px;-webkit-transition-duration:0.1s;-moz-transition-duration:0.1s;-o-transition-duration:0.1s;transition-duration:0.1s;}
-.firmos .dijitTabContainerTabListNested .dijitTabChecked{padding:3px;border:solid 1px #1e1e1e;background-color:#3f5490;}
-.firmos .dijitTabContainerTabListNested .dijitTabChecked .tabLabel{text-decoration:none;background-image:none;}
-.firmos .dijitTabPaneWrapperNested{border:none;}
-.firmos .dijitTabContainer .dijitTab,.firmos .dijitTabContainer .tabStripButton{_background-image:none;}
 .firmos .dijitPopup{-webkit-box-shadow:0 1px 5px rgba(0, 0, 0, 0.25);-moz-box-shadow:0 1px 5px rgba(0, 0, 0, 0.25);box-shadow:0 1px 5px rgba(0, 0, 0, 0.25);}
 .firmos .dijitTooltipDialogPopup{-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;}
 .firmos .dijitComboBoxHighlightMatch{background-color:#25408b;}
@@ -3372,6 +3319,63 @@ editorIcons.css contains references to the dijit editor widget icons. There are 
 .dj_ff3 .firmos .dijitInputField input[type="hidden"]{display:none;height:0;width:0;}
 .dj_borderbox .firmos .dijitComboBox .dijitHasDropDownOpen .dijitArrowButtonInner{width:18px;}
 .dj_borderbox .firmos .dijitComboBoxFocused .dijitHasDropDownOpen .dijitArrowButtonInner{width:16px;}
+
+.firmos .dijitTabContainerTop-tabs,.firmos .dijitTabContainerBottom-tabs,.firmos .dijitTabContainerLeft-tabs,.firmos .dijitTabContainerRight-tabs{border-color:#414141;margin-left:12px;border:0px;}
+.dijitTabContainerTop-container{border:1px solid;border-radius:6px 6px 6px 6px;border-color:#2f3f6d;background-color:#3f5490;}
+.firmos .dijitTab *:focus{border-bottom:1px solid white;outline:none;}
+.firmos .dijitTabContainerBottom-container .dijitContentPane,.firmos .dijitTabContainerTop-container .dijitContentPane,.firmos .dijitTabContainerLeft-container .dijitContentPane,.firmos .dijitTabContainerRight-container .dijitContentPane{color:white;padding:5px 5px 5px 5px;border-radius:6px 6px 6px 6px;}
+.firmos .dijitTabCloseButton{background:url("images/tabClose.png") no-repeat;width:14px;height:14px;margin-left:5px;margin-right:-5px;}
+.firmos .dijitTabCloseButtonHover{background-position:-14px;}
+.firmos .dijitTabCloseButtonActive{background-position:-28px;}
+.firmos .dijitTabSpacer{display:none;}
+.firmos .dijitTab{border:1px solid #414141;background-color:#3f5490;-webkit-transition-property:background-color,border;-moz-transition-property:background-color,border;-o-transition-property:background-color,border;transition-property:background-color,border;-webkit-transition-duration:0.25s;-moz-transition-duration:0.25s;-o-transition-duration:0.25s;transition-duration:0.25s;color:#000000;}
+.firmos .dijitTabHover{border-color:#1e1e1e;background-color:orange;-webkit-transition-duration:0.25s;-moz-transition-duration:0.25s;-o-transition-duration:0.25s;transition-duration:0.25s;color:#000000;}
+.firmos .dijitTabActive{border-color:#1e1e1e;background-color:orange;color:#000000;-webkit-transition-duration:0.1s;-moz-transition-duration:0.1s;-o-transition-duration:0.1s;transition-duration:0.1s;}
+.firmos .dijitTabChecked{border-color:#414141;background-color:#3f5490;color:#000000;}
+.firmos .dijitTabDisabled{background-color:#dddddd;}
+.firmos .tabStripButton{background-color:transparent;border:none;}
+.firmos .dijitTabContainerTop-tabs .dijitTab{top:1px;margin-right:4px;padding:4px 12px;border:1px none;min-width:75px;text-align:center;font-size:15px;font-weight:300;color:white;text-shadow:0px 0px 1px black;}
+.firmos .dijitTabContainerTop-tabs .dijitTabChecked{padding-bottom:4px;padding-top:5px;text-shadow:1px 1px 3px black;background-color:#fbb03c;color:white;font-size:15px;font-weight:500;font-style:italic;}
+.firmos .dijitTabContainerBottom-tabs .dijitTab{top:-1px;margin-right:1px;padding:3px 6px;border-top-width:0;min-width:60px;text-align:center;background-image:url("images/tabBottomUnselected.png");background-repeat:repeat-x;background-position:bottom;background-image:-moz-linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);background-image:-webkit-linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);background-image:-o-linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);background-image:linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);-webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.04);-moz-box-shadow:0 1px 1px rgba(0, 0, 0, 0.04);box-shadow:0 1px 1px rgba(0, 0, 0, 0.04);}
+.firmos .dijitTabContainerBottom-tabs .dijitTabChecked{padding-bottom:9px;padding-top:4px;background-image:url("images/tabBottomSelected.png");background-image:-moz-linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 50%, #ffffff 100%);background-image:-webkit-linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 50%, #ffffff 100%);background-image:-o-linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 50%, #ffffff 100%);background-image:linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 50%, #ffffff 100%);-webkit-box-shadow:0 1px 2px rgba(0, 0, 0, 0.05);-moz-box-shadow:0 1px 2px rgba(0, 0, 0, 0.05);box-shadow:0 1px 2px rgba(0, 0, 0, 0.05);}
+.firmos .dijitTabContainerLeft-tabs .dijitTab{left:1px;margin-bottom:1px;padding:3px 8px 4px 4px;background-image:url("images/tabLeftUnselected.png");background-repeat:repeat-y;background-image:-moz-linear-gradient(left, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);background-image:-webkit-linear-gradient(left, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);background-image:-o-linear-gradient(left, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);background-image:linear-gradient(left, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);}
+.firmos .dijitTabContainerLeft-tabs .dijitTabChecked{border-right-width:0;padding-right:9px;background-image:url("images/tabLeftSelected.png");background-image:-moz-linear-gradient(left, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);background-image:-webkit-linear-gradient(left, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);background-image:-o-linear-gradient(left, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);background-image:linear-gradient(left, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);-webkit-box-shadow:-1px 0 2px rgba(0, 0, 0, 0.05);-moz-box-shadow:-1px 0 2px rgba(0, 0, 0, 0.05);box-shadow:-1px 0 2px rgba(0, 0, 0, 0.05);}
+.firmos .dijitTabContainerRight-tabs .dijitTab{left:-1px;margin-bottom:1px;padding:3px 8px 4px 4px;background-image:url("images/tabRightUnselected.png");background-repeat:repeat-y;background-position:right;background-image:-moz-linear-gradient(right, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);background-image:-webkit-linear-gradient(right, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);background-image:-o-linear-gradient(right, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);background-image:linear-gradient(right, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.5) 7px, rgba(255, 255, 255, 0.7) 100%);}
+.firmos .dijitTabContainerRight-tabs .dijitTabChecked{padding-left:5px;border-left-width:0;background-image:url("images/tabRightSelected.png");background-image:-moz-linear-gradient(right, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);background-image:-webkit-linear-gradient(right, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);background-image:-o-linear-gradient(right, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);background-image:linear-gradient(right, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);-webkit-box-shadow:1px 0 2px rgba(0, 0, 0, 0.07);-moz-box-shadow:1px 0 2px rgba(0, 0, 0, 0.07);box-shadow:1px 0 2px rgba(0, 0, 0, 0.07);}
+.firmos .dijitTabContainerTop-tabs .dijitTab{-moz-border-radius:6px 6px 0px 0px;border-radius:6px 6px 0px 0px;}
+.firmos .dijitTabContainerBottom-tabs .dijitTab{-moz-border-radius:0px 0px 6px 6px;border-radius:0px 0px 6px 6px;}
+.firmos .dijitTabContainerLeft-tabs .dijitTab{-moz-border-radius:6px 0px 0px 6px;border-radius:6px 0px 0px 6px;}
+.firmos .dijitTabContainerRight-tabs .dijitTab{-moz-border-radius:0px 6px 6px 0px;border-radius:0px 6px 6px 0px;}
+.firmos .tabStripButton{background-color:#5673c4;border:1px solid #414141;}
+.firmos .dijitTabListContainer-top .tabStripButton{padding:4px 3px;margin-top:7px;background-image:-moz-linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);}
+.firmos .dijitTabListContainer-bottom .tabStripButton{padding:4px 3px;margin-bottom:7px;background-image:-moz-linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);}
+.firmos .tabStripButtonHover{background-color:#25408b;}
+.firmos .tabStripButtonActive{background-color:#1f2f5f;}
+.firmos .dijitTabStripIcon{height:15px;width:15px;margin:0 auto;background:url("images/buttonArrows.png") no-repeat -75px 50%;background-color:transparent;}
+.firmos .dijitTabStripSlideRightIcon{background-position:-24px 50%;}
+.firmos .dijitTabStripMenuIcon{background-position:-51px 50%;}
+.firmos .dijitTabListContainer-top .tabStripButtonDisabled,.firmos .dijitTabListContainer-bottom .tabStripButtonDisabled{background-color:#dddddd;border:1px solid #414141;}
+.firmos .tabStripButtonDisabled .dijitTabStripSlideLeftIcon{background-position:-175px 50%;}
+.firmos .tabStripButtonDisabled .dijitTabStripSlideRightIcon{background-position:-124px 50%;}
+.firmos .tabStripButtonDisabled .dijitTabStripMenuIcon{background-position:-151px 50%;}
+.firmos .dijitTabContainerNested .dijitTabListWrapper{height:auto;}
+.firmos .dijitTabContainerNested .dijitTabContainerTop-tabs{border-bottom:solid 1px #414141;padding:2px 2px 4px;}
+.firmos .dijitTabContainerTabListNested .dijitTab{background:rgba(255, 255, 255, 0);border:none;padding:4px;border-color:rgba(118, 157, 192, 0);-webkit-transition-property:background-color,border-color;-moz-transition-property:background-color,border-color;-o-transition-property:background-color,border-color;transition-property:background-color,border-color;-webkit-transition-duration:0.3s;-moz-transition-duration:0.3s;-o-transition-duration:0.3s;transition-duration:0.3s;-moz-border-radius:2px;border-radius:2px;top:0;-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;background-image:url("images/tabNested.png") repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.61) 0%, rgba(255, 255, 255, 0) 17%, rgba(255, 255, 255, 0) 83%, rgba(255, 255, 255, 0.61) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.61) 0%, rgba(255, 255, 255, 0) 17%, rgba(255, 255, 255, 0) 83%, rgba(255, 255, 255, 0.61) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.61) 0%, rgba(255, 255, 255, 0) 17%, rgba(255, 255, 255, 0) 83%, rgba(255, 255, 255, 0.61) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.61) 0%, rgba(255, 255, 255, 0) 17%, rgba(255, 255, 255, 0) 83%, rgba(255, 255, 255, 0.61) 100%);}
+.firmos .dijitTabContainerTabListNested .dijitTabHover{background-color:#3b59ad;border:solid 1px #3f5490;padding:3px;-webkit-transition-duration:0.2s;-moz-transition-duration:0.2s;-o-transition-duration:0.2s;transition-duration:0.2s;}
+.firmos .dijitTabContainerTabListNested .dijitTabHover .tabLabel{text-decoration:none;}
+.firmos .dijitTabContainerTabListNested .dijitTabActive{border:solid 1px #1e1e1e;padding:3px;-webkit-transition-duration:0.1s;-moz-transition-duration:0.1s;-o-transition-duration:0.1s;transition-duration:0.1s;}
+.firmos .dijitTabContainerTabListNested .dijitTabChecked{padding:3px;border:solid 1px #1e1e1e;background-color:#3f5490;}
+.firmos .dijitTabContainerTabListNested .dijitTabChecked .tabLabel{text-decoration:none;background-image:none;}
+.firmos .dijitTabPaneWrapperNested{border:none;}
+.firmos .dijitTabContainer .dijitTab,.firmos .dijitTabContainer .tabStripButton{_background-image:none;}
+.firmos .dijitAccordionContainer{border:none;}
+.firmos .dijitAccordionContainer *:focus{border-bottom:1px solid white;outline:none;}
+.firmos .dijitAccordionTitle{background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 50%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 50%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 50%);background-image:linear-gradient(rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 50%);padding:5px 7px 2px 7px;min-height:17px;color:#ffffff;text-shadow:1px 1px 1px black;}
+.firmos .dijitAccordionContainer .dijitAccordionChildWrapper{margin:0;}
+.firmos .dijitAccordionContainer .dijitAccordionContainer-child{padding:9px;}
+.firmos .dijitAccordionInnerContainerActive .dijitAccordionTitle{background-image:url("images/activeGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);_background-image:none;color:#ffffff;text-shadow:1px 1px 1px black;}
+.firmos .dijitAccordionInnerContainerSelected .dijitAccordionTitle{color:#ffffff;text-shadow:1px 1px 1px black;-webkit-text-shadow:1px 1px 2px #000000;-moz-text-shadow:1px 1px 2px #000000;text-shadow:1px 1px 2px #000000;margin:0px 12px 0px 12px;-moz-border-radius:6px 6px 0px 0px;border-radius:6px 6px 0px 0px;border:0px solid;}
+.firmos .dijitAccordionInnerContainerHover .dijitAccordionTitle{color:#ffffff;text-shadow:1px 1px 1px black;}
 .firmos .dijitContentPane{padding:5px;}
 .firmos .dijitTabContainerTop-dijitContentPane,.firmos .dijitTabContainerLeft-dijitContentPane,.firmos .dijitTabContainerBottom-dijitContentPane,.firmos .dijitTabContainerRight-dijitContentPane,.firmos .dijitAccordionContainer-dijitContentPane{padding:0px 0px 0px =px;}
 .firmos .dijitContentPaneSinglechild{padding:8px;background-color:red;}
@@ -3563,6 +3567,31 @@ editorIcons.css contains references to the dijit editor widget icons. There are 
 .firmos .dijitTooltipRight{padding-left:14px;}
 .firmos .dijitTooltipRight .dijitTooltipConnector{left:0;background-position:-48px 0;width:16px;height:14px;}
 .firmos .dijitDialogUnderlay{background:#ffffff;}
+.firmos .dijitMenuBar{border:1px solid #414141;margin:0;padding:0;background-color:#5673c4;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
+.firmos .dijitMenu{background-color:#ffffff;border:1px solid #1e1e1e;}
+.firmos .dijitMenuItem{color:#000000;}
+.firmos .dijitMenuBar .dijitMenuItem{padding:6px 10px 7px;margin:-1px;}
+.firmos .dijitMenuBar .dijitMenuItemHover,.firmos .dijitMenuBar .dijitMenuItemSelected{border:solid 1px #1e1e1e;padding:5px 9px 6px;}
+.firmos .dijitMenuTable{border-collapse:separate;border-spacing:0 0;padding:0;}
+.firmos .dijitMenu .dijitMenuItem td,.firmos .dijitComboBoxMenu .dijitMenuItem{padding:2px;border-width:1px 0 1px 0;border-style:solid;border-color:#ffffff;}
+.firmos .dijitMenu .dijitMenuItemHover td,.firmos .dijitMenu .dijitMenuItemSelected td,.firmos .dijitMenuItemHover,.firmos .dijitComboBoxMenu .dijitMenuItemHover,.firmos .dijitMenuItemSelected{border-color:#1e1e1e;background-color:#25408b;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
+.firmos .dijitMenuItemActive{background-image:url("images/activeGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);_background-image:none;}
+.dj_ie .firmos .dijitMenuActive .dijitMenuItemHover,.dj_ie .firmos .dijitMenuActive .dijitMenuItemSelected,.dj_ie .firmos .dijitMenuPassive .dijitMenuItemHover,.dj_ie .firmos .dijitMenuPassive .dijitMenuItemSelected{padding-top:6px;padding-bottom:5px;margin-top:-3px;}
+.firmos td.dijitMenuItemIconCell{padding:2px;margin:0 0 0 4px;}
+.firmos td.dijitMenuItemLabel{padding-top:5px;padding-bottom:5px;}
+.firmos .dijitMenuExpand{width:7px;height:7px;background-image:url("images/spriteArrows.png");background-position:-14px 0;margin-right:3px;margin-bottom:4px;}
+.firmos .dijitMenuItemDisabled .dijitMenuItemIconCell{opacity:1;}
+.firmos .dijitMenuSeparatorTop{height:auto;margin-top:1px;border-bottom:1px solid #414141;}
+.firmos .dijitMenuSeparatorBottom{height:auto;margin-bottom:1px;}
+.firmos .dijitCheckedMenuItem .dijitMenuItemIcon,.firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-image:url("images/checkboxRadioButtonStates.png");background-repeat:no-repeat;background-position:-15px 50%;width:15px;height:16px;}
+.dj_ie6 .firmos .dijitCheckedMenuItem .dijitMenuItemIcon,.dj_ie6 .firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-image:url("images/checkboxAndRadioButtons_IE6.png");}
+.firmos .dijitCheckedMenuItemChecked .dijitCheckedMenuItemIcon{background-position:0 50%;}
+.firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-position:-105px 50%;}
+.firmos .dijitRadioMenuItemChecked .dijitMenuItemIcon{background-position:-90px 50%;}
+.firmos .dijitComboBoxMenu{margin-left:0;background-image:none;}
+.firmos .dijitMenu .dijitMenuItemSelected td,.firmos .dijitComboBoxMenu .dijitMenuItemSelected{color:#ffffff;text-shadow:1px 1px 1px black;border-color:#1e1e1e;background-color:#25408b;}
+.firmos .dijitComboBoxMenuActive .dijitMenuItemSelected{background-color:#1f2f5f;}
+.firmos .dijitMenuPreviousButton,.firmos .dijitMenuNextButton{font-style:italic;}
 .firmos .dijitCalendar{border:solid 1px #414141;border-collapse:separate;-moz-border-radius:4px;border-radius:4px;background-color:#3f5490;background-image:url("images/calendar.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0.4) 2px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0.4) 2px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0.4) 2px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0.4) 2px, rgba(255, 255, 255, 0) 100%);text-align:center;padding:6px 5px 3px 5px;}
 .dj_ie6 .firmos .dijitCalendar{background-image:none;}
 .firmos .dijitCalendar img{border:none;}
@@ -3662,38 +3691,6 @@ div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate{backgro
 .dojoxCal-MY-labels .dojoxCal-MY-M-last .dojoxCalendarMonthLabel,.dojoxCal-MY-labels .dojoxCal-MY-G-Template div.dojoxCalendarYearLabel{width:42px;}
 .dojoxCalendar .cancel-btn{margin-left:11px;}
 .dojoxCalendar .ok-btn{margin-left:15px;}
-.firmos .dijitInlineEditBoxDisplayMode{border:1px solid transparent;}
-.firmos .dijitInlineEditBoxDisplayModeHover{background-color:#fafad2;border:solid 1px #1e1e1e;}
-.dj_ie6 .firmos .dijitInlineEditBoxDisplayMode{border:none;}
-.firmos .dijitMenuBar{border:1px solid #414141;margin:0;padding:0;background-color:#5673c4;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
-.firmos .dijitMenu{background-color:#ffffff;border:1px solid #1e1e1e;}
-.firmos .dijitMenuItem{color:#000000;}
-.firmos .dijitMenuBar .dijitMenuItem{padding:6px 10px 7px;margin:-1px;}
-.firmos .dijitMenuBar .dijitMenuItemHover,.firmos .dijitMenuBar .dijitMenuItemSelected{border:solid 1px #1e1e1e;padding:5px 9px 6px;}
-.firmos .dijitMenuTable{border-collapse:separate;border-spacing:0 0;padding:0;}
-.firmos .dijitMenu .dijitMenuItem td,.firmos .dijitComboBoxMenu .dijitMenuItem{padding:2px;border-width:1px 0 1px 0;border-style:solid;border-color:#ffffff;}
-.firmos .dijitMenu .dijitMenuItemHover td,.firmos .dijitMenu .dijitMenuItemSelected td,.firmos .dijitMenuItemHover,.firmos .dijitComboBoxMenu .dijitMenuItemHover,.firmos .dijitMenuItemSelected{border-color:#1e1e1e;background-color:#25408b;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
-.firmos .dijitMenuItemActive{background-image:url("images/activeGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);_background-image:none;}
-.dj_ie .firmos .dijitMenuActive .dijitMenuItemHover,.dj_ie .firmos .dijitMenuActive .dijitMenuItemSelected,.dj_ie .firmos .dijitMenuPassive .dijitMenuItemHover,.dj_ie .firmos .dijitMenuPassive .dijitMenuItemSelected{padding-top:6px;padding-bottom:5px;margin-top:-3px;}
-.firmos td.dijitMenuItemIconCell{padding:2px;margin:0 0 0 4px;}
-.firmos td.dijitMenuItemLabel{padding-top:5px;padding-bottom:5px;}
-.firmos .dijitMenuExpand{width:7px;height:7px;background-image:url("images/spriteArrows.png");background-position:-14px 0;margin-right:3px;margin-bottom:4px;}
-.firmos .dijitMenuItemDisabled .dijitMenuItemIconCell{opacity:1;}
-.firmos .dijitMenuSeparatorTop{height:auto;margin-top:1px;border-bottom:1px solid #414141;}
-.firmos .dijitMenuSeparatorBottom{height:auto;margin-bottom:1px;}
-.firmos .dijitCheckedMenuItem .dijitMenuItemIcon,.firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-image:url("images/checkboxRadioButtonStates.png");background-repeat:no-repeat;background-position:-15px 50%;width:15px;height:16px;}
-.dj_ie6 .firmos .dijitCheckedMenuItem .dijitMenuItemIcon,.dj_ie6 .firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-image:url("images/checkboxAndRadioButtons_IE6.png");}
-.firmos .dijitCheckedMenuItemChecked .dijitCheckedMenuItemIcon{background-position:0 50%;}
-.firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-position:-105px 50%;}
-.firmos .dijitRadioMenuItemChecked .dijitMenuItemIcon{background-position:-90px 50%;}
-.firmos .dijitComboBoxMenu{margin-left:0;background-image:none;}
-.firmos .dijitMenu .dijitMenuItemSelected td,.firmos .dijitComboBoxMenu .dijitMenuItemSelected{color:#ffffff;text-shadow:1px 1px 1px black;border-color:#1e1e1e;background-color:#25408b;}
-.firmos .dijitComboBoxMenuActive .dijitMenuItemSelected{background-color:#1f2f5f;}
-.firmos .dijitMenuPreviousButton,.firmos .dijitMenuNextButton{font-style:italic;}
-.firmos .dijitColorPalette{border:1px solid #414141;background:#ffffff;-moz-border-radius:0;border-radius:0;}
-.firmos .dijitColorPalette .dijitPaletteImg{border:1px solid #dddddd;}
-.firmos .dijitColorPalette .dijitPaletteCell:hover .dijitPaletteImg{border:1px solid #000000;}
-.firmos .dijitColorPalette .dijitPaletteCell:active .dijitPaletteImg,.firmos .dijitColorPalette .dijitPaletteTable .dijitPaletteCellSelected .dijitPaletteImg{border:2px solid #000000;}
 .firmos .dijitProgressBar{margin:2px 0 2px 0;}
 .firmos .dijitProgressBarEmpty{background-color:#ffffff;border-color:#1e1e1e;}
 .firmos .dijitProgressBarTile{background-color:#25408b;background-image:url("images/progressBarFull.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.93) 0px, rgba(255, 255, 255, 0.41) 1px, rgba(255, 255, 255, 0.7) 2px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.93) 0px, rgba(255, 255, 255, 0.41) 1px, rgba(255, 255, 255, 0.7) 2px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.93) 0px, rgba(255, 255, 255, 0.41) 1px, rgba(255, 255, 255, 0.7) 2px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.93) 0px, rgba(255, 255, 255, 0.41) 1px, rgba(255, 255, 255, 0.7) 2px, rgba(255, 255, 255, 0) 100%);background-attachment:scroll;}
@@ -3701,20 +3698,13 @@ div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate{backgro
 .firmos .dijitProgressBarFull{border:0px solid #1e1e1e;border-right-width:1px;-webkit-transition-property:width;-moz-transition-property:width;-o-transition-property:width;transition-property:width;-webkit-transition-duration:0.25s;-moz-transition-duration:0.25s;-o-transition-duration:0.25s;transition-duration:0.25s;}
 .firmos .dijitProgressBarLabel{color:#000000;}
 .firmos .dijitProgressBarIndeterminate .dijitProgressBarTile{background:#5673c4 url("images/progressBarAnim.gif") repeat-x top;}
-.firmos .dijitTimePicker .dijitButtonNode{padding:0 0;-moz-border-radius:0;border-radius:0;}
-.firmos .dijitTimePicker{border:1px #414141 solid;border-top:none;border-bottom:none;background-color:#fff;}
-.firmos .dijitTimePickerItem{background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;border-top:solid 1px #414141;border-bottom:solid 1px #414141;margin-top:-1px;}
-.firmos .dijitTimePickerTick{color:#10182e;background-color:#5673c4;font-size:0.818em;}
-.firmos .dijitTimePickerMarker{background-color:#3b59ad;font-size:1em;white-space:nowrap;}
-.firmos .dijitTimePickerTickHover,.firmos .dijitTimePickerMarkerHover,.firmos .dijitTimePickerMarkerSelected,.firmos .dijitTimePickerTickSelected{background-color:#1f2f5f;color:#000000;}
-.firmos .dijitTimePickerMarkerSelected,.firmos .dijitTimePickerTickSelected{font-size:1em;}
-.firmos .dijitTimePickerTick .dijitTimePickerItemInner{padding:1px;margin:0;}
-.firmos .dijitTimePicker .dijitButtonNode{border-left:none;border-right:none;border-color:#414141;background-color:#5673c4;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
-.firmos .dijitTimePicker .dijitArrowButtonInner{height:100%;background-image:url("images/commonFormArrows.png");background-repeat:no-repeat;background-position:-140px 45%;}
-.firmos .dijitTimePicker .dijitDownArrowButton .dijitArrowButtonInner{background-position:-35px 45%;}
-.firmos .dijitTimePicker .dijitUpArrowHover,.firmos .dijitTimePicker .dijitDownArrowHover{background-color:#25408b;}
-.firmos .dijitTimePicker .dijitUpArrowHover .dijitArrowButtonInner{background-position:-175px 45%;}
-.firmos .dijitTimePicker .dijitDownArrowHover .dijitArrowButtonInner{background-position:-70px 45%;}
+.firmos .dijitInlineEditBoxDisplayMode{border:1px solid transparent;}
+.firmos .dijitInlineEditBoxDisplayModeHover{background-color:#fafad2;border:solid 1px #1e1e1e;}
+.dj_ie6 .firmos .dijitInlineEditBoxDisplayMode{border:none;}
+.firmos .dijitColorPalette{border:1px solid #414141;background:#ffffff;-moz-border-radius:0;border-radius:0;}
+.firmos .dijitColorPalette .dijitPaletteImg{border:1px solid #dddddd;}
+.firmos .dijitColorPalette .dijitPaletteCell:hover .dijitPaletteImg{border:1px solid #000000;}
+.firmos .dijitColorPalette .dijitPaletteCell:active .dijitPaletteImg,.firmos .dijitColorPalette .dijitPaletteTable .dijitPaletteCellSelected .dijitPaletteImg{border:2px solid #000000;}
 .firmos .dijitTreeNode{zoom:1;}
 .firmos .dijitTreeIsRoot{background-image:none;}
 .firmos .dijitTreeRow,.firmos .dijitTreeNode .dojoDndItemBefore,.firmos .dijitTreeNode .dojoDndItemAfter{padding:4px 0 2px 0;background-color:none;background-color:transparent;background-color:rgba(171, 214, 255, 0);background-position:0 0;background-repeat:repeat-x;border:solid 0 transparent;color:#000000;-webkit-transition-property:background-color,border-color;-moz-transition-property:background-color,border-color;-o-transition-property:background-color,border-color;transition-property:background-color,border-color;-webkit-transition-duration:0.25s;-moz-transition-duration:0.25s;-o-transition-duration:0.25s;transition-duration:0.25s;-webkit-transition-timing-function:ease-out;-moz-transition-timing-function:ease-out;transition-timing-function:ease-out;}
@@ -3754,6 +3744,19 @@ div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate{backgro
 .firmos .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode{margin:0;border-width:1px;border-style:solid;background-image:none;border-color:#1e1e1e;background-color:#ffffff;padding:1px;}
 .firmos .dijitDisabled .dijitToolbar{background:none;background-color:#dddddd;border-bottom:1px solid #c4c4c4;}
 .firmos .dijitToolbar .dijitComboBoxDisabled .dijitArrowButtonInner{background-position:0 50%;}
+.firmos .dijitTitlePaneTitle{background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;border:1px solid #414141;padding:0 7px 3px 7px;min-height:17px;background-color:#5673c4;}
+.firmos .dijitFieldset{-moz-border-radius:4px;border-radius:4px;}
+.firmos .dijitTitlePaneTitleOpen,.firmos .dijitTitlePaneTitleFixedOpen{background-color:#3f5490;color:#000000;}
+.firmos .dijitTitlePaneTitleHover{background-color:#25408b;border-color:#1e1e1e;}
+.firmos .dijitTitlePaneTitleActive{background-color:#1f2f5f;border-color:#1e1e1e;background-image:url("images/activeGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);_background-image:none;}
+.firmos .dijitTitlePaneTitleFocus{margin-top:3px;padding-bottom:2px;}
+.firmos .dijitTitlePane .dijitArrowNode,.firmos .dijitFieldset .dijitArrowNode{background-image:url("images/spriteArrows.png");background-repeat:no-repeat;height:8px;width:7px;}
+.firmos .dijitTitlePaneTitleOpen .dijitArrowNode,.firmos .dijitFieldsetTitleOpen .dijitArrowNode{background-position:0 0;}
+.firmos .dijitTitlePaneTitleClosed .dijitArrowNode,.firmos .dijitFieldsetTitleClosed .dijitArrowNode{background-position:-14px 0;}
+.firmos .dijitTitlePaneContentOuter{background:#ffffff;border:1px solid #414141;border-top:none;}
+.firmos .dijitTitlePaneContentInner{padding:10px;}
+.firmos .dijitFieldsetContentInner{padding:4px;}
+.firmos .dijitTitlePaneTextNode,.firmos .dijitFieldsetLegendNode{margin-left:4px;margin-right:4px;vertical-align:text-top;}
 .firmos .dijitEditorIFrameContainer{padding:3px 3px 1px 10px;}
 .firmos .dijitEditorIFrame{background-color:#ffffff;}
 .firmos .dijitEditor{border:1px solid #414141;}
@@ -3781,6 +3784,32 @@ div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate{backgro
 .firmos .topMenu .buttonListWrapper .buttonListItem{float:left;position:relative;right:50%;}
 .firmos .firmosTopMenuHome{fill:#26255D;fill-opacity:1;stroke:url("/#topmenu_home_enabled1");stroke-width:3;stroke-miterlimit:10;stroke-opacity:1;}
 .firmos .firmosTopMenuHome2{fill:url("/#topmenu_home_enabled2");fill-opacity:0.2;}
+.firmos .dijitTimePicker .dijitButtonNode{padding:0 0;-moz-border-radius:0;border-radius:0;}
+.firmos .dijitTimePicker{border:1px #414141 solid;border-top:none;border-bottom:none;background-color:#fff;}
+.firmos .dijitTimePickerItem{background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;border-top:solid 1px #414141;border-bottom:solid 1px #414141;margin-top:-1px;}
+.firmos .dijitTimePickerTick{color:#10182e;background-color:#5673c4;font-size:0.818em;}
+.firmos .dijitTimePickerMarker{background-color:#3b59ad;font-size:1em;white-space:nowrap;}
+.firmos .dijitTimePickerTickHover,.firmos .dijitTimePickerMarkerHover,.firmos .dijitTimePickerMarkerSelected,.firmos .dijitTimePickerTickSelected{background-color:#1f2f5f;color:#000000;}
+.firmos .dijitTimePickerMarkerSelected,.firmos .dijitTimePickerTickSelected{font-size:1em;}
+.firmos .dijitTimePickerTick .dijitTimePickerItemInner{padding:1px;margin:0;}
+.firmos .dijitTimePicker .dijitButtonNode{border-left:none;border-right:none;border-color:#414141;background-color:#5673c4;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
+.firmos .dijitTimePicker .dijitArrowButtonInner{height:100%;background-image:url("images/commonFormArrows.png");background-repeat:no-repeat;background-position:-140px 45%;}
+.firmos .dijitTimePicker .dijitDownArrowButton .dijitArrowButtonInner{background-position:-35px 45%;}
+.firmos .dijitTimePicker .dijitUpArrowHover,.firmos .dijitTimePicker .dijitDownArrowHover{background-color:#25408b;}
+.firmos .dijitTimePicker .dijitUpArrowHover .dijitArrowButtonInner{background-position:-175px 45%;}
+.firmos .dijitTimePicker .dijitDownArrowHover .dijitArrowButtonInner{background-position:-70px 45%;}
+.firmos .dgrid{border:0px solid red;border-color:#aaaaaa;background-color:#ffffff;color:#000000;}
+.firmos .ui-widget-header{font-weight:bold;}
+.firmos .ui-widget-header,.firmos .dgrid-footer{background-color:#5673c4;background-image:-moz-linear-gradient(#6983cb 0%, #3f5490 100%);background-image:-webkit-linear-gradient(#6983cb 0%, #3f5490 100%);background-image:-o-linear-gradient(#6983cb 0%, #3f5490 100%);background-image:linear-gradient(#6983cb 0%, #3f5490 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='lighten(@secondary-color, 5)', endColorstr='@secondary-color', GradientType=0);}
+.firmos .ui-widget-header .dgrid-cell:hover{background:#6983cb;background-image:-moz-linear-gradient(#7c92d1 10%, #5069b2 90%);background-image:-webkit-linear-gradient(#7c92d1 10%, #5069b2 90%);background-image:-o-linear-gradient(#7c92d1 10%, #5069b2 90%);background-image:linear-gradient(#7c92d1 10%, #5069b2 90%);}
+.firmos .ui-state-default{-webkit-transition-duration:0.2s;-moz-transition-duration:0.2s;-o-transition-duration:0.2s;transition-duration:0.2s;-webkit-transition-property:background-color,border-color;-moz-transition-property:background-color,border-color;-o-transition-property:background-color,border-color;transition-property:background-color,border-color;background:url("images/row_back.png") #ffffff repeat-x;}
+.has-ie-6 .firmos .ui-state-default{background-image:none;}
+.firmos .ui-state-default:hover{background-color:#6983cb;}
+.firmos .ui-state-active{background-color:#5673c4;}
+.firmos .ui-state-active:hover{background-color:#6983cb;}
+.firmos .ui-state-highlight{background-color:#f90;}
+.firmos .dgrid-cell{border:0px;}
+.firmos .ui-widget-header .dgrid-cell{border-color:#dddddd;}
 html,body{width:100%;height:100%;margin:0;overflow:hidden;}
 body.firmos{background:linear-gradient(150deg, #0f034f 0%, #5189bf 50%, #0f034f 100%);background:-o-linear-gradient(150deg, #0f034f 0%, #5189bf 50%, #0f034f 100%);background:-webkit-linear-gradient(150deg, #0f034f 0%, #5189bf 50%, #0f034f 100%);background:-ms-linear-gradient(150deg, #0f034f 0%, #5189bf 50%, #0f034f 100%);background:-moz-linear-gradient(150deg, #0f034f 0%, #5189bf 50%, #0f034f 100%);}
 .firmos .aloha-editable{min-height:1.2em;outline:0;color:navy;}
@@ -3894,28 +3923,3 @@ body.firmos{background:linear-gradient(150deg, #0f034f 0%, #5189bf 50%, #0f034f 
 .firmos .firmosLogin .dijitButtonNode{border:none;padding:0px 10px 0px 10px;margin:15px 0px 7px 0px;color:#ffffff;font-size:25px;}
 .firmos .firmosLogin .dijitButtonNode *:focus{border:none;outline:none;}
 .firmos .firmosLogin .firmosFormDescriptionField{font-weight:lighter;border-radius:4px;margin:0px 0px 12px 0px;color:grey;}
-.firmos .dijitTitlePaneTitle{background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;border:1px solid #414141;padding:0 7px 3px 7px;min-height:17px;background-color:#5673c4;}
-.firmos .dijitFieldset{-moz-border-radius:4px;border-radius:4px;}
-.firmos .dijitTitlePaneTitleOpen,.firmos .dijitTitlePaneTitleFixedOpen{background-color:#3f5490;color:#000000;}
-.firmos .dijitTitlePaneTitleHover{background-color:#25408b;border-color:#1e1e1e;}
-.firmos .dijitTitlePaneTitleActive{background-color:#1f2f5f;border-color:#1e1e1e;background-image:url("images/activeGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);_background-image:none;}
-.firmos .dijitTitlePaneTitleFocus{margin-top:3px;padding-bottom:2px;}
-.firmos .dijitTitlePane .dijitArrowNode,.firmos .dijitFieldset .dijitArrowNode{background-image:url("images/spriteArrows.png");background-repeat:no-repeat;height:8px;width:7px;}
-.firmos .dijitTitlePaneTitleOpen .dijitArrowNode,.firmos .dijitFieldsetTitleOpen .dijitArrowNode{background-position:0 0;}
-.firmos .dijitTitlePaneTitleClosed .dijitArrowNode,.firmos .dijitFieldsetTitleClosed .dijitArrowNode{background-position:-14px 0;}
-.firmos .dijitTitlePaneContentOuter{background:#ffffff;border:1px solid #414141;border-top:none;}
-.firmos .dijitTitlePaneContentInner{padding:10px;}
-.firmos .dijitFieldsetContentInner{padding:4px;}
-.firmos .dijitTitlePaneTextNode,.firmos .dijitFieldsetLegendNode{margin-left:4px;margin-right:4px;vertical-align:text-top;}
-.firmos .dgrid{border:0px solid red;border-color:#aaaaaa;background-color:#ffffff;color:#000000;}
-.firmos .ui-widget-header{font-weight:bold;}
-.firmos .ui-widget-header,.firmos .dgrid-footer{background-color:#5673c4;background-image:-moz-linear-gradient(#6983cb 0%, #3f5490 100%);background-image:-webkit-linear-gradient(#6983cb 0%, #3f5490 100%);background-image:-o-linear-gradient(#6983cb 0%, #3f5490 100%);background-image:linear-gradient(#6983cb 0%, #3f5490 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='lighten(@secondary-color, 5)', endColorstr='@secondary-color', GradientType=0);}
-.firmos .ui-widget-header .dgrid-cell:hover{background:#6983cb;background-image:-moz-linear-gradient(#7c92d1 10%, #5069b2 90%);background-image:-webkit-linear-gradient(#7c92d1 10%, #5069b2 90%);background-image:-o-linear-gradient(#7c92d1 10%, #5069b2 90%);background-image:linear-gradient(#7c92d1 10%, #5069b2 90%);}
-.firmos .ui-state-default{-webkit-transition-duration:0.2s;-moz-transition-duration:0.2s;-o-transition-duration:0.2s;transition-duration:0.2s;-webkit-transition-property:background-color,border-color;-moz-transition-property:background-color,border-color;-o-transition-property:background-color,border-color;transition-property:background-color,border-color;background:url("images/row_back.png") #ffffff repeat-x;}
-.has-ie-6 .firmos .ui-state-default{background-image:none;}
-.firmos .ui-state-default:hover{background-color:#6983cb;}
-.firmos .ui-state-active{background-color:#5673c4;}
-.firmos .ui-state-active:hover{background-color:#6983cb;}
-.firmos .ui-state-highlight{background-color:#f90;}
-.firmos .dgrid-cell{border:0px;}
-.firmos .ui-widget-header .dgrid-cell{border-color:#dddddd;}

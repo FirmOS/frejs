@@ -6445,10 +6445,10 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
         } else {
           this.entries[i].y = this.entries[i-1].y + this.entries[i-1].height + 30;
         }
-        this.createEntry(elementGroup,this.entries[i],false);
+        this.createEntry(elementGroup,this.entries[i],false,true);
         if (!this.entries[i].collapsed) {
-          this.entries[i].elementGFX.rawNode.childNodes[0].setAttribute('class','firmosSitemapEntryPressed');
-          this.entries[i].elementGFX.rawNode.childNodes[1].setAttribute('class','firmosSitemapEntryPressed2');
+          this.entries[i].elementGFX.rawNode.childNodes[0].setAttribute('class','firmosSitemapMainEntryPressed');
+          this.entries[i].elementGFX.rawNode.childNodes[1].setAttribute('class','firmosSitemapMainEntryPressed2');
         }
         //this.createShortcut(this.entries[i]);
       }
@@ -6603,7 +6603,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     for (var i=0; i<element.entries.length; i++) {
       var elementGroup = parentGFX.createGroup();
       element.entries[i].groupGFX = elementGroup;
-      this.createEntry(elementGroup,element.entries[i],(element.path.length==1));
+      this.createEntry(elementGroup,element.entries[i],(element.path.length==1),false);
     
       var bb = element.entries[i].groupGFX.getTransformedBoundingBox();
       if (bbParent) {
@@ -6654,7 +6654,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
       element.entries = [];
     }
   },
-  createEntry: function(parentElement,element,isActiveLevel) {
+  createEntry: function(parentElement,element,isActiveLevel,isMainEntry) {
     this._fixEntriesDataType(element);
     var iconSize = 48;
     
@@ -6670,6 +6670,10 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     //if (isActiveLevel) {
     //  activeLevelExt = 'AL';
     //}
+    var mainEntryExt = '';
+    if (isMainEntry) {
+      mainEntryExt = 'Main';
+    }
     var rect = group.createPath({path: "M117.084,49.496c0,1.105-0.941,2-2.103,2h-"+element.width+"c-1.161,0-2.103-0.895-2.103-2v-"+element.height+"c0-1.104,0.941-2,2.103-2h"+element.width+"c1.161,0,2.103,0.896,2.103,2V49.496z"});
     rect.applyTransform(dojox.gfx.matrix.translate(element.x-67.2,element.y + element.height));
     var rect2 = group.createPath({path: "M115.75,48.171c0,1.012-0.915,1.829-2.042,1.829h-"+(element.width-2.879)+"c-1.127,0-2.042-0.817-2.042-1.829v-"+(element.height-2.908)+"c0-1.009,0.915-1.829,2.042-1.829h"+(element.width-2.879)+"c1.127,0,2.042,0.82,2.042,1.829V48.171z"});
@@ -6692,11 +6696,11 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
       rect2.applyTransform(dojox.gfx.matrix.translate(diff / 2,0));
     }
     if (element.disabled) {
-      rect.rawNode.setAttribute('class','firmosSitemapEntryDisabled'+activeLevelExt);
-      rect2.rawNode.setAttribute('class','firmosSitemapEntryDisabled2');
+      rect.rawNode.setAttribute('class','firmosSitemap'+mainEntryExt+'EntryDisabled'+activeLevelExt);
+      rect2.rawNode.setAttribute('class','firmosSitemap'+mainEntryExt+'EntryDisabled2');
     } else {
-      rect.rawNode.setAttribute('class','firmosSitemapEntry'+activeLevelExt);
-      rect2.rawNode.setAttribute('class','firmosSitemapEntry2');
+      rect.rawNode.setAttribute('class','firmosSitemap'+mainEntryExt+'Entry'+activeLevelExt);
+      rect2.rawNode.setAttribute('class','firmosSitemap'+mainEntryExt+'Entry2');
     }
     var bb = group.getTransformedBoundingBox();
     var eventRect = group.createRect({ x: bb[0].x, y: bb[1].y, width: bb[1].x - bb[0].x, height: bb[2].y - bb[1].y }).setFill([0,0,0,0]);
@@ -7038,12 +7042,12 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     this.animationRunning = false;
   },
   collapseElementEnd: function(element) {
-    element.elementGFX.rawNode.childNodes[0].setAttribute('class','firmosSitemapEntry');
-    element.elementGFX.rawNode.childNodes[1].setAttribute('class','firmosSitemapEntry2');
+    element.elementGFX.rawNode.childNodes[0].setAttribute('class','firmosSitemapMainEntry');
+    element.elementGFX.rawNode.childNodes[1].setAttribute('class','firmosSitemapMainEntry2');
   },
   expandElementEnd: function(element) {
-    element.elementGFX.rawNode.childNodes[0].setAttribute('class','firmosSitemapEntryPressed');
-    element.elementGFX.rawNode.childNodes[1].setAttribute('class','firmosSitemapEntryPressed2');
+    element.elementGFX.rawNode.childNodes[0].setAttribute('class','firmosSitemapMainEntryPressed');
+    element.elementGFX.rawNode.childNodes[1].setAttribute('class','firmosSitemapMainEntryPressed2');
   },
   _highlightALRecursive: function(element, elementLevel, activeLevel, oldActiveLevel) {
     if ((elementLevel<activeLevel) || (elementLevel<oldActiveLevel)) {
