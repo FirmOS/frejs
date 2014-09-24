@@ -6327,6 +6327,9 @@ dojo.declare("FIRMOS.TopMenu", dijit.layout.BorderContainer, {
       this._events.push(dojo.connect(this.openNotificationsButton,dojox.gesture.tap,this.notificationToggle.bind(this,true)));
       this.closeNotificationsButton = dojo.byId('topMenuNotificationToggleClose');
       this._events.push(dojo.connect(this.closeNotificationsButton,dojox.gesture.tap,this.notificationToggle.bind(this,false)));
+      if (this.notificationInitialClosed) {
+        this.notificationToggle(false);
+      }
     }
   },
   openJIRA: function() {
