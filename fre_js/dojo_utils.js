@@ -715,13 +715,16 @@ dojo.declare("FIRMOS.uiHandler", null, {
     this.storeDepData[id] = depObj;
   },
   
-  setStoreDependency: function(storeId, depField, depType, depValues, numDepType) {
+  setStoreDependency: function(storeId, depField, depType, depValues, numDepType, strDepType) {
     var depObj = new Object();
     depObj.filterfieldname = depField;
     depObj.filtervalues = depValues;
     depObj.filtertype = depType;
     if (numDepType) {
       depObj.numfiltertype = numDepType;
+    }
+    if (strDepType) {
+      depObj.strfiltertype = strDepType;
     }
     var store = this.getStoreById(storeId);
     if (store) {
@@ -5170,7 +5173,11 @@ dojo.declare("FIRMOS.GridFilter",null, {
       this.clearFilter(columnId);
       return;
     }
-    G_UI_COM.setStoreDependency(this.store.id,columnId,'T',[filter.filter]);
+    if (this.column(columnId).filterValues) {
+      G_UI_COM.setStoreDependency(this.store.id,columnId,'T',[filter.filter],null,'EX');
+    } else {
+      G_UI_COM.setStoreDependency(this.store.id,columnId,'T',[filter.filter]);
+    }
     this.filterSet(columnId);
   },
   setNumberFilter: function(columnId, filter) {
