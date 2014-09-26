@@ -6528,8 +6528,15 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     
     var dim = dojo.position(this.domNode);
     element.levelScale = newScale;
-    element.childrenGroupMoveGFX.applyLeftTransform(dojox.gfx.matrix.scaleAt(scale, (dim.w / 2) - this.detailsDim.x, dim.h / 2));
-    
+    if (evt.clientX && evt.clientY) {
+      var scaleX = evt.clientX - this.detailsDim.x;
+      var scaleY = evt.clientY - this.detailsDim.y;
+    } else {
+      var scaleX = (dim.w / 2) - this.detailsDim.x;
+      var scaleY = dim.h / 2;
+    }
+    element.childrenGroupMoveGFX.applyLeftTransform(dojox.gfx.matrix.scaleAt(scale,scaleX,scaleY));
+
     var level = 2;
     var levelScale1 = 1;
     var levelScale2 = 1 / this.levelScale;
