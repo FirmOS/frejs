@@ -6643,16 +6643,35 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
       scale = newScale / element.levelScale;
     }
     
+    if (newScale<element.levelScale) {
+      var zoomIn = false;
+      var distance = (element.levelScale - newScale) / (element.levelScale - 1);
+    } else {
+      var zoomIn = true;
+    }
+
     var dim = dojo.position(this.domNode);
     element.levelScale = newScale;
-    if (evt.clientX && evt.clientY) {
-      var scaleX = evt.clientX - this.detailsDim.x;
-      var scaleY = evt.clientY - this.detailsDim.y;
+    if (zoomIn) {
+      if (evt.clientX && evt.clientY) {
+        var scaleX = evt.clientX - this.detailsDim.x;
+        var scaleY = evt.clientY - this.detailsDim.y;
+      } else {
+        var scaleX = (dim.w / 2) - this.detailsDim.x;
+        var scaleY = dim.h / 2;
+      }
     } else {
-      var scaleX = (dim.w / 2) - this.detailsDim.x;
-      var scaleY = dim.h / 2;
+      var bb = element.entries[0].elementGFX.getTransformedBoundingBox();
+      var scaleX = bb[0].x - (bb[1].x-bb[0].x) / 2;
+      var scaleY = bb[1].y - (bb[2].y-bb[1].y) / 2;
     }
     element.childrenGroupMoveGFX.applyLeftTransform(dojox.gfx.matrix.scaleAt(scale,scaleX,scaleY));
+    if (!zoomIn) {
+      var bb = element.entries[0].elementGFX.getTransformedBoundingBox();
+      var x_diff = (dim.w / 2) - this.detailsDim.x - bb[0].x - (bb[1].x-bb[0].x) / 2;
+      var y_diff = dim.h / 2 - bb[1].y - (bb[2].y-bb[1].y) / 2;
+      element.childrenGroupMoveGFX.applyTransform(dojox.gfx.matrix.translate(x_diff * distance,y_diff * distance));
+    }
 
     var level = 2;
     var levelScale1 = 1;
