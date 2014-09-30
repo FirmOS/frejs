@@ -1,5 +1,5 @@
 require (["dojo/_base/array","dojo/dom-geometry","dojo/aspect",
-               "dgrid/OnDemandGrid","dgrid/Grid","dgrid/Selection","dgrid/selector","dgrid/tree",
+               "dgrid/OnDemandGrid","dgrid/Grid","dgrid/Selection","dgrid/selector","dgrid/tree","dgrid/editor",
                "dgrid/extensions/ColumnResizer","dgrid/extensions/ColumnHider","dgrid/extensions/ColumnReorder","dgrid/extensions/DijitRegistry","dgrid/extensions/DnD",
                "dojox/form/CheckedMultiSelect","dojox/form/FileInput","dojox/form/Uploader","dojox/form/uploader/FileList","dojox/validate/web","dojox/validate/check","dojox/widget/Calendar",
                "dojox/gfx","dojox/gfx/fx","dojox/gfx/utils","dojox/gfx/Moveable","dojox/gesture/tap","dojox/gesture/swipe",
@@ -12,12 +12,12 @@ require (["dojo/_base/array","dojo/dom-geometry","dojo/aspect",
               ],
               function(
               __array,__geometry,__aspect,
-              __ODGrid,__Grid,__Selection,__selector,__tree,
+              __ODGrid,__Grid,__Selection,__selector,__tree,__editor,
               __ColumnResizer,__ColumnHider,__ColumnReorder,__DijitRegistry,__DnD
               ) {
   dojo.array = __array; dojo.domGeo = __geometry; dojo.aspect = __aspect;
   dgrid = {};
-  dgrid.OnDemandGrid = __ODGrid; dgrid.Grid = __Grid; dgrid.Selection = __Selection; dgrid.selector = __selector; dgrid.tree = __tree;
+  dgrid.OnDemandGrid = __ODGrid; dgrid.Grid = __Grid; dgrid.Selection = __Selection; dgrid.selector = __selector; dgrid.tree = __tree; dgrid.editor = __editor;
   dgrid.ColumnResizer = __ColumnResizer; dgrid.ColumnHider = __ColumnHider; dgrid.ColumnReorder = __ColumnReorder; dgrid.DijitRegistry = __DijitRegistry; dgrid.DnD = __DnD;
   
 //wsConnectionHandler
@@ -1609,26 +1609,35 @@ dojo.declare("FIRMOS.Store", null, {
       G_SERVER_COM.callServerFunction(this.dragClassname,this.dragFunctionname,this.dragUidPath, params);
     }
   },
-  put: function(items, args) {  //drop operation (args: {source: store, before: item})
+  put: function(items, args) {
     //console.log('PUT ' + JSON.stringify(items) + ' - ' + JSON.stringify(args));
-    if (this.dropClassname) {
-      var params = dojo.clone(this.dropParams);
-      dojo.mixin(params, this.params_);
-      params.selected = [];
-      for (var i=0; i<items.length; i++) {
-        params.selected.push(this.getIdentity(items[i]));
-      }
-      if (args.before) {
-        if (args.source) {
-          params.target = args.source.getIdentity(args.before);
-        } else {
-          params.target = this.getIdentity(args.before);
+    if (args) { //drop operation (args: {source: store, before: item})
+      if (this.dropClassname) {
+        var params = dojo.clone(this.dropParams);
+        dojo.mixin(params, this.params_);
+        params.selected = [];
+        for (var i=0; i<items.length; i++) {
+          params.selected.push(this.getIdentity(items[i]));
         }
+        if (args.before) {
+          if (args.source) {
+            params.target = args.source.getIdentity(args.before);
+          } else {
+            params.target = this.getIdentity(args.before);
+          }
+        }
+        if (args.mousePos) {
+          G_UI_COM.setActionCoords(args.mousePos);
+        }
+        G_SERVER_COM.callServerFunction(this.dropClassname,this.dropFunctionname,this.dropUidPath, params);
       }
-      if (args.mousePos) {
-        G_UI_COM.setActionCoords(args.mousePos);
+    } else {
+      if (this.saveClassname) {
+        var params = dojo.clone(this.saveParams);
+        dojo.mixin(params, this.params_);
+        params.data = items;
+        G_SERVER_COM.callServerFunction(this.saveClassname,this.saveFunctionname,this.saveUidPath, params);
       }
-      G_SERVER_COM.callServerFunction(this.dropClassname,this.dropFunctionname,this.dropUidPath, params);
     }
   },
 //FIRMOS update API
@@ -2065,6 +2074,92 @@ _GridDnDSource = dojo.declare("FIRMOS.GridDnDSource",dgrid.DnD.GridSource, {
         }
       }
     }
+  },
+  onMouseDown: function(e){
+    // summary:
+    //          event processor for onmousedown
+    // e: Event
+    //          mouse event
+    if(!this.mouseDown && this._legalMouseDown(e) && (!this.skipForm || !dojo.dnd.isFormElement(e))){
+      this.mouseDown = true;
+      this._lastX = e.pageX;
+      this._lastY = e.pageY;
+      //dojo.dnd.Source.superclass.onMouseDown.call(this, e);
+      if(this.autoSync){ this.sync(); }
+      if(!this.current){ return; }
+      if(!this.singular && !dojo.dnd.getCopyKeyState(e) && !e.shiftKey && (this.current.id in this.selection)){
+        this.simpleSelection = true;
+        return;
+      }
+      if(!this.singular && e.shiftKey){
+        if(!dojo.dnd.getCopyKeyState(e)){
+          this._removeSelection();
+        }
+        var c = this.getAllNodes();
+        if(c.length){
+          if(!this.anchor){
+                  this.anchor = c[0];
+                  this._addItemClass(this.anchor, "Anchor");
+          }
+          this.selection[this.anchor.id] = 1;
+          if(this.anchor != this.current){
+            var i = 0, node;
+            for(; i < c.length; ++i){
+              node = c[i];
+              if(node == this.anchor || node == this.current){ break; }
+            }
+            for(++i; i < c.length; ++i){
+              node = c[i];
+              if(node == this.anchor || node == this.current){ break; }
+              this._addItemClass(node, "Selected");
+              this.selection[node.id] = 1;
+            }
+            this._addItemClass(this.current, "Selected");
+            this.selection[this.current.id] = 1;
+          }
+        }
+      }else{
+        if(this.singular){
+          if(this.anchor == this.current){
+            if(dojo.dnd.getCopyKeyState(e)){
+              this.selectNone();
+            }
+          }else{
+            this.selectNone();
+            this.anchor = this.current;
+            this._addItemClass(this.anchor, "Anchor");
+            this.selection[this.current.id] = 1;
+          }
+        }else{
+          if(dojo.dnd.getCopyKeyState(e)){
+            if(this.anchor == this.current){
+                    delete this.selection[this.anchor.id];
+                    this._removeAnchor();
+            }else{
+              if(this.current.id in this.selection){
+                this._removeItemClass(this.current, "Selected");
+                delete this.selection[this.current.id];
+              }else{
+                if(this.anchor){
+                  this._removeItemClass(this.anchor, "Anchor");
+                  this._addItemClass(this.anchor, "Selected");
+                }
+                this.anchor = this.current;
+                this._addItemClass(this.current, "Anchor");
+                this.selection[this.current.id] = 1;
+              }
+            }
+          }else{
+            if(!(this.current.id in this.selection)){
+              this.selectNone();
+              this.anchor = this.current;
+              this._addItemClass(this.current, "Anchor");
+              this.selection[this.current.id] = 1;
+            }
+          }
+        }
+      }
+    }
   }
 });
 
@@ -2117,6 +2212,7 @@ dojo.declare("FIRMOS.GridSearch", dijit.form.TextBox, {
 
 //GridBase
 dojo.declare("FIRMOS.GridBase", null, {
+  getBeforePut: false,
   constructor: function(args) {
     if (args.dragClasses) {
       this.dragClasses_ = {};
@@ -2837,6 +2933,27 @@ dojo.declare("FIRMOS.widget.Calendar", dojox.widget.Calendar, {
     if (!value) return;
     this.inherited(arguments);
   }
+});
+
+//GridDateTextBox
+dojo.declare("FIRMOS.GridDateTextBox", dijit.form.DateTextBox, {
+  popupClass: 'FIRMOS.widget.Calendar',
+  _blankValue: '',
+  style: 'width: 100%'
+});
+
+//GridTextBox
+dojo.declare("FIRMOS.GridTextBox", dijit.form.TextBox, {
+  style: 'width: 100%'
+});
+
+//GridNumberTextBox
+dojo.declare("FIRMOS.GridNumberTextBox", dijit.form.NumberTextBox, {
+  style: 'width: 100%'
+});
+
+//GridCheckBox
+dojo.declare("FIRMOS.GridCheckBox", dijit.form.CheckBox, {
 });
 
 //DateTextBox
