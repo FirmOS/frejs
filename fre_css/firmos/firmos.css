@@ -12,7 +12,7 @@ body.firmos{background-color:#485062;}
 .firmos .firmosMessageIconWarning{background-image:url(images/msg_warning.png);background-repeat:no-repeat;}
 .firmos .firmosMessageIconWait{background-image:url(images/msg_wait.png);background-repeat:no-repeat;}
 .firmos .firmosMessageIconConfirm{background-image:url(images/msg_confirm.png);background-repeat:no-repeat;}
-.firmos .firmosMessageError,.firmos .firmosMessageInfo,.firmos .firmosMessageWarning,.firmos .firmosMessageWait,.firmos .firmosMessageConfirm{width:400px;color:#ffffff;text-shadow:1px 1px 1px black;}
+.firmos .firmosMessageError,.firmos .firmosMessageInfo,.firmos .firmosMessageWarning,.firmos .firmosMessageWait,.firmos .firmosMessageConfirm{width:400px;}
 .firmos .firmosMessageButtonsError,.firmos .firmosMessageButtonsInfo,.firmos .firmosMessageButtonsWarning,.firmos .firmosMessageButtonsWait,.firmos .firmosMessageButtonsConfirm{margin:20px 0px 0px 0px;text-align:center;}
 .firmos .firmosFormTable{padding:0px 0px 0px 0px;margin:0px;}
 .firmos .firmosFormTableIB{padding:0px;margin:0px;}
@@ -34,11 +34,17 @@ body.firmos{background-color:#485062;}
 .firmos .firmosFormInputTD{width:100%;text-align:center;}
 .firmos .firmosFormLabelRequired{font-weight:bold;}
 .firmos .dgrid-cell-padding{padding:2px;}
+.firmos .dgrid-cell{text-align:center;}
+.firmos .dgrid-cell:nth-child(1){text-align:left;}
 .firmos .dgrid-grid{height:100%;}
 .firmos .dgrid-footer{padding-top:2px;}
 .firmos .dgrid-sort-arrow{display:inline-block;float:none;width:12px;margin:0 5px 0 0;}
 .firmos .dgrid-checkboxsel{width:30px;text-align:center;}
 .firmos .dgrid-details{width:30px;text-align:center;}
+.firmos .dgrid-row-table tr td:nth-child(odd){background:white;}
+.firmos .dgrid-row-table tr td:nth-child(even){background:whitesmoke;}
+.firmos .dgrid-selected .dgrid-row-table tr td{background:inherit;}
+.firmos .dgrid-row-table:hover tr td{background:inherit;}
 .firmos .dgrid-description-row,.firmos .dgrid-description-row-tree{margin-left:16px;font-size:75%;}
 .firmos .firmosIconNodeDiv{display:inline-block;vertical-align:middle;margin-right:5px;}
 .firmos .firmosIconNodeContentSpan{display:inline-block;vertical-align:middle;}
@@ -67,10 +73,6 @@ body.firmos{background-color:#485062;}
 .firmos .firmosGridDetailsHidden{text-align:center;background-color:#ACF;color:#05B;height:8px;background-image:url(images/details_arrow.png);background-repeat:repeat-x;-webkit-transition:all 0.5s ease-in-out;-moz-transition:all 0.5s ease-in-out;transition:all 0.5s ease-in-out;}
 .firmos .firmosGridDetailsLoading{background-color:#BDF;height:8px;background-image:url(images/details_arrow.png);background-repeat:repeat-x;}
 .firmos .firmosGridDetails{background-color:#BDF;height:50px;padding:5px;-webkit-transition:all 0.5s ease-in-out;-moz-transition:all 0.5s ease-in-out;transition:all 0.5s ease-in-out;}
-.firmos .firmosGridDate{text-align:right;}
-.firmos .firmosGridNumber{text-align:right;}
-.firmos .firmosGridIcon{text-align:center;}
-.firmos .firmosGridBoolean{text-align:center;}
 .firmos .dgrid-header .firmosGridString,.firmos .dgrid-header .firmosGridDate,.firmos .dgrid-header .firmosGridNumber,.firmos .dgrid-header .firmosGridIcon,.firmos .dgrid-header .firmosGridBoolean{text-align:left;}
 .firmos .firmosFormLabel,.firmos .firmosFormLabelRequired{padding-right:5px;color:#000000;}
 .firmos .dojoxCheckedMultiSelect .dojoxCheckedMultiSelectWrapper{border-color:transparent;}

@@ -92,7 +92,7 @@ body.@{themename} {
 .@{themename} .firmosMessageWait,
 .@{themename} .firmosMessageConfirm {
   width: 400px;
-  .fos-text-inv;
+  //.fos-text-inv;
 }
 
 .@{themename} .firmosMessageButtonsError, 
@@ -237,6 +237,15 @@ body.@{themename} {
   padding: 2px;
 }
 
+.@{themename} .dgrid-cell { // standard cells center
+  text-align: center;
+}
+
+.@{themename} .dgrid-cell:nth-child(1) { // first cell left
+  text-align: left;
+}
+
+
 .@{themename} .dgrid-grid {
   height: 100%;
 }
@@ -261,6 +270,25 @@ body.@{themename} {
   width:30px;
   text-align:center;
 }
+
+.@{themename} .dgrid-row-table tr td:nth-child(odd) {
+  background: white;
+}
+
+.@{themename} .dgrid-row-table tr td:nth-child(even) {
+  background: whitesmoke;
+}
+
+
+.@{themename} .dgrid-selected .dgrid-row-table tr td {
+  background: inherit;
+}
+
+.@{themename} .dgrid-row-table:hover tr td {
+  background: inherit;
+}
+
+
 
 .@{themename} .dgrid-details-closed,
 .@{themename} .dgrid-details-open,
@@ -438,24 +466,23 @@ body.@{themename} {
   transition: all 0.5s ease-in-out;
 }
 
-.@{themename} .firmosGridString {
-}
-
-.@{themename} .firmosGridDate {
-  text-align: right;
-}
-
-.@{themename} .firmosGridNumber {
-  text-align: right;
-}
-
-.@{themename} .firmosGridIcon {
-  text-align: center;
-}
-
-.@{themename} .firmosGridBoolean {
-  text-align: center;
-}
+//.@{themename} .firmosGridString {
+//}
+//
+//.@{themename} .firmosGridDate {
+//  text-align: right;
+//}
+//
+//.@{themename} .firmosGridNumber {
+//  text-align: right;
+//}
+//
+//.@{themename} .firmosGridIcon {
+//  text-align: center;
+//}
+//.@{themename} .firmosGridBoolean {
+//  text-align: center;
+//}
 
 .@{themename} .dgrid-header .firmosGridString, 
 .@{themename} .dgrid-header .firmosGridDate,

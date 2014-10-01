@@ -1,11 +1,12 @@
 .firmosSitemapMainEntryDisabled{fill:#939598;fill-opacity:1;stroke:url("/#sm_disabled1");stroke-width:3;stroke-miterlimit:10;stroke-opacity:1;}
 .firmosSitemapMainEntryDisabled2{fill:url("/#sm_disabled2");fill-opacity:0.2;}
-.firmosSitemapMainEntry{fill:black;fill-opacity:0.0;}
-.firmosSitemapMainEntryPressed{fill:black;fill-opacity:1;stroke:url("/#sm_pressed1");}
+.firmosSitemapMainEntry{fill:black;fill-opacity:0.0;cursor:pointer;}
+.firmosSitemapMainEntryPressed{fill:black;fill-opacity:1;stroke:url("/#sm_pressed1");cursor:pointer;}
 .firmosSitemapMainEntryPressed2{fill-opacity:0.2;fill:url("/#sm_disabled2");}
 .firmosSitemapEntryDisabled,.firmosSitemapEntryDisabledAL{fill:#939598;fill-opacity:1;stroke:url("/#sm_disabled1");stroke-width:3;stroke-miterlimit:10;stroke-opacity:1;}
 .firmosSitemapEntryDisabled2{fill:url("/#sm_disabled2");fill-opacity:0.2;}
 .firmosSitemapEntry,.firmosSitemapEntryAL{fill:black;fill-opacity:1;stroke:url("/#sm_pressed1");}
+.firmosSitemapEntryGroup{cursor:pointer;}
 .firmosSitemapEntryGroup:hover .firmosSitemapEntry,.firmosSitemapEntryGroup:hover .firmosSitemapEntryAL{fill:#363636;}
 .firmosSitemapEntryGroup:hover text{fill:white;font-weight:normal;fill-opacity:1;}
 .firmosSitemapEntryGroup text{fill:white;font-weight:normal;fill-opacity:1;}

@@ -24,14 +24,16 @@
 .@{themename} .dojoDndItem {
 	border-color: rgba(0,0,0,0);	// rgba() instead of none to prevent flash on hover fade-in
 	.transition-duration(.25s);
-	.transition-property(background-color, border-color)
+	.transition-property(background-color, border-color);
+        padding: 0px;
 }
 .@{themename} .dojoDndItemOver {
     // Hovered item.  Matches dijitTreeRowHover.
-	background-color:@hovered-background-color;
+//	background-color:@hovered-background-color;
+	background-color:red;
 	.standard-gradient;
-	padding: 1px;	// reduce from 2px in dijit.css
-	border:solid 1px @hovered-border-color;
+	padding: 0px;	// reduce from 2px in dijit.css
+	border:solid 0px transparent; //@hovered-border-color;
 	color:@hovered-text-color;
 }
 .@{themename} .dojoDndItemAnchor,
@@ -39,8 +41,8 @@
     // Selected items(s).   Matches dijitTreeRowSelected.
 	background-color:@selected-background-color;
 	.standard-gradient;
-//	padding: 1px;	// reduce from 2px in dijit.css
-//	border:solid 1px @selected-border-color;
+	padding: 0px;	// reduce from 2px in dijit.css
+	border:solid 0px transparent;// @selected-border-color;
 	color:@selected-text-color;
 }
 
