@@ -14,7 +14,7 @@
 
 .firmosSitemapMainEntry {
   fill: black;
-  fill-opacity: 0.1;
+  fill-opacity: 0.0;
   //stroke: url("/#sm_enabled1");
   //stroke-width: 3;
   //stroke-miterlimit: 10;
@@ -68,6 +68,24 @@
   //stroke-opacity: 1;
 }
 
+.firmosSitemapEntryGroup:hover .firmosSitemapEntry,.firmosSitemapEntryGroup:hover .firmosSitemapEntryAL {
+  fill: rgb(54, 54, 54);
+//  fill: orange;
+}
+
+.firmosSitemapEntryGroup:hover text {
+  fill: white;
+  font-weight: normal;
+  fill-opacity: 1;
+}
+
+.firmosSitemapEntryGroup text {
+  fill: white;
+  font-weight: normal;
+  fill-opacity: 1;
+}
+
+
 .firmosSitemapEntryAL {
   filter: url("/#shadowActive");
 }
@@ -75,7 +93,7 @@
 .firmosSitemapEntry2 {
   //fill: url("/#sm_enabled2");
   //fill-opacity: 0.2;
-  fill-opacity: 0.2;
+  fill-opacity: 0.4;
   fill: url("/#sm_disabled2");
 }
 

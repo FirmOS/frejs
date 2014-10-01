@@ -6812,6 +6812,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     var iconSize = 48;
     
     var group = parentElement.createGroup();
+    group.rawNode.setAttribute('class','firmosSitemapEntryGroup');
     element.elementGFX = group;
     element.width = 100;
     if (element.icon) {
@@ -6851,9 +6852,11 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     if (element.disabled) {
       rect.rawNode.setAttribute('class','firmosSitemap'+mainEntryExt+'EntryDisabled'+activeLevelExt);
       rect2.rawNode.setAttribute('class','firmosSitemap'+mainEntryExt+'EntryDisabled2');
+      text.rawNode.setAttribute('class','firmosSitemap'+mainEntryExt+'EntryDisabled2');
     } else {
       rect.rawNode.setAttribute('class','firmosSitemap'+mainEntryExt+'Entry'+activeLevelExt);
       rect2.rawNode.setAttribute('class','firmosSitemap'+mainEntryExt+'Entry2');
+      text.rawNode.setAttribute('class','firmosSitemap'+mainEntryExt+'EntryDisabled2');
     }
     var bb = group.getTransformedBoundingBox();
     var eventRect = group.createRect({ x: bb[0].x, y: bb[1].y, width: bb[1].x - bb[0].x, height: bb[2].y - bb[1].y }).setFill([0,0,0,0]);
