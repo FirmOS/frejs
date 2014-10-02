@@ -6588,7 +6588,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
       this.entries[i].activeLevel = 1;
       this.entries[i].levelScale = 1;
       this.entries[i].maxLevel = 1;
-      this.entries[i].maxLevelScale = 1;
+      this.entries[i].maxLevelScale = 3;
       path[0] = i;
       if (this.entries[i].entries.length>0) {
         this.buildDetails(this.entries[i],path,null,this.entries[i].childrenGroupGFX);
