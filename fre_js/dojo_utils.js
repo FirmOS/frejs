@@ -6652,22 +6652,27 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
 
     var dim = dojo.position(this.domNode);
     element.levelScale = newScale;
+    var bb = element.entries[0].elementGFX.getTransformedBoundingBox();
     if (zoomIn) {
       if (evt.clientX && evt.clientY) {
+        var details_bb = element.childrenGroupGFX.getTransformedBoundingBox();
         var scaleX = evt.clientX - this.detailsDim.x;
         var scaleY = evt.clientY - this.detailsDim.y;
+        if (!((scaleX > details_bb[0].x) && (scaleX < details_bb[1].x) && (scaleY > details_bb[1].y) && (scaleY < details_bb[2].y))) { //mouse not within bounding box
+          var scaleX = (dim.w / 2) - this.detailsDim.x;
+          var scaleY = dim.h / 2;
+        }
       } else {
         var scaleX = (dim.w / 2) - this.detailsDim.x;
         var scaleY = dim.h / 2;
       }
     } else {
-      var bb = element.entries[0].elementGFX.getTransformedBoundingBox();
       var scaleX = bb[0].x + (bb[1].x-bb[0].x) / 2;
       var scaleY = bb[1].y + (bb[2].y-bb[1].y) / 2;
     }
     element.childrenGroupMoveGFX.applyLeftTransform(dojox.gfx.matrix.scaleAt(scale,scaleX,scaleY));
     if (!zoomIn) {
-      var bb = element.entries[0].elementGFX.getTransformedBoundingBox();
+//      var bb = element.entries[0].elementGFX.getTransformedBoundingBox();
       var x_diff = (dim.w / 2) - this.detailsDim.x - (bb[0].x + (bb[1].x-bb[0].x) / 2);
       var y_diff = (dim.h / 2) - (bb[1].y + (bb[2].y-bb[1].y) / 2);
       element.childrenGroupMoveGFX.applyLeftTransform(dojox.gfx.matrix.translate(x_diff * distance,y_diff * distance));
