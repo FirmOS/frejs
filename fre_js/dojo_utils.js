@@ -6750,7 +6750,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
         var line = parentGFX.createRect({ x:0, y:0, width:0, height:0});
         element.entries[i].connector = line;
         line.rawNode.setAttribute('style','fill: url("/#connectorgradient"); fill-opacity: 1;');
-        this.repaintConnector(line,sourceEXT,sourceEYT,pXT,pYT,5);
+        this.repaintConnector(line,sourceEXT,sourceEYT,pXT,pYT,5 * (element.scale + element.entries[i].scale));
       }
       path.push(i);
       this.buildDetails(element.entries[i],path, bb, elementGroup);
@@ -7090,6 +7090,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     this.animationRunning = true;
 
     var animation = this._centerAndScale(element, element.detailScale);
+    element.detailScale = 1;
     this._events.push(dojo.connect(animation, "onEnd", this.animationEnd.bind(this,element)));
   },
   _centerAndScale: function(element,actScale) {
