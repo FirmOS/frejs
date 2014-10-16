@@ -6495,7 +6495,6 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     this.toggleAnimationDuration = 500;
     this.focusElementAnimationDuration = 250;
     this.minimizedScale = 0.05; //chrome and safari have problems with smaller scales
-    this.levelScale = 0.6;
     this.moveFactor = 0.2;
     this.lastMove_ = (new Date()).getTime();
     this.moving_ = false;
@@ -6572,7 +6571,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
         } else {
           this.entries[i].y = this.entries[i-1].y + this.entries[i-1].height + 30;
         }
-        this.createEntry(elementGroup,this.entries[i],false,true);
+        this.createEntry(elementGroup,this.entries[i],true);
         if (!this.entries[i].collapsed) {
           this.entries[i].elementGFX.rawNode.childNodes[0].setAttribute('class','firmosSitemapMainEntryPressed');
           this.entries[i].elementGFX.rawNode.childNodes[1].setAttribute('class','firmosSitemapMainEntryPressed2');
@@ -6585,17 +6584,12 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     for (var i=0; i<this.entries.length;i ++) {
       this.entries[i].childrenGroupMoveGFX = this.detailsSurface.createGroup();
       this.entries[i].childrenGroupGFX = this.entries[i].childrenGroupMoveGFX.createGroup();
-      this.entries[i].activeLevel = 1;
-      this.entries[i].levelScale = 1;
-      this.entries[i].maxLevel = 1;
-      this.entries[i].maxLevelScale = 3;
+      this.entries[i].maxElemScale = 1;
+      this.entries[i].minElemScale = 1;
+      this.entries[i].detailScale = 1;
       path[0] = i;
       if (this.entries[i].entries.length>0) {
         this.buildDetails(this.entries[i],path,null,this.entries[i].childrenGroupGFX);
-        for (var j=1; j<this.entries[i].maxLevel; j++) {
-          this.entries[i].maxLevelScale = this.entries[i].maxLevelScale / this.levelScale;
-        }
-
         var bb = this.entries[i].childrenGroupGFX.getBoundingBox();
         this.entries[i].eventRect = this.entries[i].childrenGroupMoveGFX.createRect({ x:bb.x-this.detailsDim.w, y:bb.y-this.detailsDim.h, width:bb.width+2*this.detailsDim.w, height:bb.height+2*this.detailsDim.h}).setFill([0,0,0,0]).moveToBack();
         var gMA = dojox.gfx.Moveable(this.entries[i].childrenGroupMoveGFX);
@@ -6611,6 +6605,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
       } else {
         this.entries[i].path = dojo.clone(path);
       }
+      this.entries[i].maxDetailScale = this.entries[i].maxElemScale / this.entries[i].minElemScale * 3;
     }
     if (this.entries.length>1) {
       this.mainEntriesBB = this.mainEntriesGroupGFX.getBoundingBox();
@@ -6632,26 +6627,26 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
       var scale = evt[(dojo.isMozilla ? "detail" : "wheelDelta")] * (dojo.isMozilla ? -1 : 1);
       scale = 1 + scale / this.mouseWheelDivisor;
     }
-    var newScale = element.levelScale * scale;
+    var newScale = element.detailScale * scale;
 
     if (newScale<1) {
       newScale = 1;
-      scale = newScale / element.levelScale;
+      scale = newScale / element.detailScale;
     }
-    if (newScale>element.maxLevelScale) {
-      newScale = element.maxLevelScale;
-      scale = newScale / element.levelScale;
+    if (newScale>element.maxDetailScale) {
+      newScale = element.maxDetailScale;
+      scale = newScale / element.detailScale;
     }
     
-    if (newScale<element.levelScale) {
+    if (newScale<element.detailScale) {
       var zoomIn = false;
-      var distance = (element.levelScale - newScale) / (element.levelScale - 1);
+      var distance = (element.detailScale - newScale) / (element.detailScale - 1);
     } else {
       var zoomIn = true;
     }
 
     var dim = dojo.position(this.domNode);
-    element.levelScale = newScale;
+    element.detailScale = newScale;
     var bb = element.entries[0].elementGFX.getTransformedBoundingBox();
     if (zoomIn) {
       if (evt.clientX && evt.clientY) {
@@ -6672,28 +6667,10 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     }
     element.childrenGroupMoveGFX.applyLeftTransform(dojox.gfx.matrix.scaleAt(scale,scaleX,scaleY));
     if (!zoomIn) {
-//      var bb = element.entries[0].elementGFX.getTransformedBoundingBox();
       var x_diff = (dim.w / 2) - this.detailsDim.x - (bb[0].x + (bb[1].x-bb[0].x) / 2);
       var y_diff = (dim.h / 2) - (bb[1].y + (bb[2].y-bb[1].y) / 2);
       element.childrenGroupMoveGFX.applyLeftTransform(dojox.gfx.matrix.translate(x_diff * distance,y_diff * distance));
     }
-
-    var level = 2;
-    var levelScale1 = 1;
-    var levelScale2 = 1 / this.levelScale;
-    while (levelScale2<newScale) {
-      levelScale1 = levelScale2;
-      levelScale2 = levelScale2 / this.levelScale;
-      level = level + 1;
-    }
-    
-    if ((newScale-levelScale1) < (levelScale2-newScale)) {
-      level = level - 1;
-    }
-    
-    var oLevel = element.activeLevel;
-    element.activeLevel = level;
-    this.highlightActiveLevel(element,oLevel);
   },
   _initialLayoutDetails: function() {
     for (var i=0; i<this.entries.length;i ++) {
@@ -6756,13 +6733,14 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
       var pXT = pbb[0].x + (pbb[1].x - pbb[0].x) / 2;
       var pYT = pbb[1].y + (pbb[2].y - pbb[1].y) / 2;
     }
-    this.entries[path[0]].maxLevel = Math.max(this.entries[path[0]].maxLevel,path.length-1);
 
     for (var i=0; i<element.entries.length; i++) {
       var elementGroup = parentGFX.createGroup();
       element.entries[i].groupGFX = elementGroup;
-      this.createEntry(elementGroup,element.entries[i],(element.path.length==1),false);
-    
+      this.createEntry(elementGroup,element.entries[i],false);
+      this.entries[path[0]].maxElemScale = Math.max(this.entries[path[0]].maxElemScale,element.entries[i].scale);
+      this.entries[path[0]].minElemScale = Math.min(this.entries[path[0]].minElemScale,element.entries[i].scale);
+
       var bb = element.entries[i].groupGFX.getTransformedBoundingBox();
       if (bbParent) {
         var cebbT=element.entries[i].elementGFX.getTransformedBoundingBox();
@@ -6785,7 +6763,6 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
         element.entries[i].connector.applyLeftTransform(dojox.gfx.matrix.scaleAt((1-this.moveFactor),sourceEXT + (pXT - sourceEXT)*this.moveFactor,sourceEYT + (pYT - sourceEYT)*this.moveFactor)); 
 
         element.entries[i].groupGFX.applyTransform(dojox.gfx.matrix.translate(destX, destY));
-        element.entries[i].groupGFX.applyLeftTransform(dojox.gfx.matrix.scaleAt(this.levelScale,sourceEXT + destX, sourceEYT + destY));
       }
     }
   },
@@ -6812,7 +6789,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
       element.entries = [];
     }
   },
-  createEntry: function(parentElement,element,isActiveLevel,isMainEntry) {
+  createEntry: function(parentElement,element,isMainEntry) {
     this._fixEntriesDataType(element);
     var iconSize = 48;
     
@@ -6825,10 +6802,6 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     } else {
       element.height = 35;
     }
-    var activeLevelExt = '';
-    //if (isActiveLevel) {
-    //  activeLevelExt = 'AL';
-    //}
     var mainEntryExt = '';
     if (isMainEntry) {
       mainEntryExt = 'Main';
@@ -6855,11 +6828,11 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
       rect2.applyTransform(dojox.gfx.matrix.translate(diff / 2,0));
     }
     if (element.disabled) {
-      rect.rawNode.setAttribute('class','firmosSitemap'+mainEntryExt+'EntryDisabled'+activeLevelExt);
+      rect.rawNode.setAttribute('class','firmosSitemap'+mainEntryExt+'EntryDisabled');
       rect2.rawNode.setAttribute('class','firmosSitemap'+mainEntryExt+'EntryDisabled2');
       text.rawNode.setAttribute('class','firmosSitemap'+mainEntryExt+'EntryDisabled2');
     } else {
-      rect.rawNode.setAttribute('class','firmosSitemap'+mainEntryExt+'Entry'+activeLevelExt);
+      rect.rawNode.setAttribute('class','firmosSitemap'+mainEntryExt+'Entry');
       rect2.rawNode.setAttribute('class','firmosSitemap'+mainEntryExt+'Entry2');
       text.rawNode.setAttribute('class','firmosSitemap'+mainEntryExt+'EntryDisabled2');
     }
@@ -7116,11 +7089,7 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     }
     this.animationRunning = true;
 
-    var animation = this._centerAndScale(element, element.levelScale);
-    var oLevel = element.activeLevel;
-    element.activeLevel = 1;
-    element.levelScale = 1;
-    this._events.push(dojo.connect(animation, "onEnd", this.highlightActiveLevel.bind(this,element,oLevel)));
+    var animation = this._centerAndScale(element, element.detailScale);
     this._events.push(dojo.connect(animation, "onEnd", this.animationEnd.bind(this,element)));
   },
   _centerAndScale: function(element,actScale) {
@@ -7210,32 +7179,6 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
     element.elementGFX.rawNode.childNodes[0].setAttribute('class','firmosSitemapMainEntryPressed');
     element.elementGFX.rawNode.childNodes[1].setAttribute('class','firmosSitemapMainEntryPressed2');
   },
-  _highlightALRecursive: function(element, elementLevel, activeLevel, oldActiveLevel) {
-    if ((elementLevel<activeLevel) || (elementLevel<oldActiveLevel)) {
-      for (var i=0; i<element.entries.length; i++) {
-        this._highlightALRecursive(element.entries[i],elementLevel+1,activeLevel,oldActiveLevel);
-      }
-    }
-    if (elementLevel==activeLevel) {
-      if (element.disabled) {
-        element.elementGFX.rawNode.childNodes[0].setAttribute('class','firmosSitemapEntryDisabledAL');
-      } else {
-        element.elementGFX.rawNode.childNodes[0].setAttribute('class','firmosSitemapEntryAL');
-      }
-    }
-    if (elementLevel==oldActiveLevel) {
-      if (element.disabled) {
-        element.elementGFX.rawNode.childNodes[0].setAttribute('class','firmosSitemapEntryDisabled');
-      } else {
-        element.elementGFX.rawNode.childNodes[0].setAttribute('class','firmosSitemapEntry');
-      }
-    }
-  },
-  highlightActiveLevel: function(rootElement, oldActiveLevel) {
-    //if (rootElement.activeLevel!=oldActiveLevel) {
-    //  this._highlightALRecursive(rootElement, 0, rootElement.activeLevel, oldActiveLevel);
-    //}
-  },
   elementOnClick: function(element, isShortcut, evt) {
     if ((this.moving_) || (((new Date()).getTime()-this.lastMove_)<this.moveToClickTimeMin)) return;
     evt.preventDefault();
@@ -7244,84 +7187,16 @@ dojo.declare("FIRMOS.Sitemap", dijit.layout.BorderContainer, {
       this.elementToggleCollapse(element);
       return;
     }
-    //var jumpToSelection = true;
-    //if (element.path.length>1) {
-    //  var mElement = this.entries[element.path[0]];
-    //  var scale = 1;
-    //  var nLevel = element.path.length - 1;
-    //  var oLevel = mElement.activeLevel;
-    //  if (oLevel != nLevel) {
-    //    jumpToSelection = false;
-    //    if (this.animationRunning) {
-    //      setTimeout(this.elementOnClick.bind(this,element,isShortcut,evt),100);
-    //      return;
-    //    }
-    //    this.animationRunning = true;
-    //
-    //    if (mElement.activeLevel < nLevel) {
-    //      for (var i=mElement.activeLevel; i<nLevel; i++) {
-    //        scale = scale / this.levelScale;
-    //      }
-    //    } else {
-    //      for (var i=mElement.activeLevel; i>nLevel; i--) {
-    //        scale = scale * this.levelScale;
-    //      }
-    //    }
-    //    mElement.activeLevel = nLevel;
-    //
-    //    var newScale = mElement.levelScale * scale;
-    //    if (newScale<1) {
-    //      newScale = 1;
-    //      scale = newScale / mElement.levelScale;
-    //    }
-    //    if (newScale>mElement.maxLevelScale) {
-    //      newScale = mElement.maxLevelScale;
-    //      scale = newScale / mElement.levelScale;
-    //    }
-    //    mElement.levelScale = newScale;
-    //
-    //    var bb = element.elementGFX.getTransformedBoundingBox();
-    //
-    //    var transform = mElement.childrenGroupMoveGFX.getTransform();
-    //    
-    //    var centerX = bb[0].x+(bb[1].x-bb[0].x)/2;
-    //    var centerY = bb[1].y+(bb[2].y-bb[1].y)/2;
-    //    var scaleAt = dojox.gfx.matrix.scaleAt(scale, centerX, centerY);
-    //
-    //    if (evt.clientX && evt.clientY) {
-    //      var mouseX = evt.clientX - this.detailsDim.x;
-    //      var mouseY = evt.clientY - this.detailsDim.y;
-    //    } else {
-    //      var mouseX = centerX;
-    //      var mouseY = centerY;
-    //    }
-    //    var move = dojox.gfx.matrix.translate(mouseX-centerX , mouseY-centerY );
-    //    
-    //    var animation = new dojox.gfx.fx.animateTransform({
-    //      duration: this.focusElementAnimationDuration,
-    //      shape: mElement.childrenGroupMoveGFX,
-    //      transform: [{
-    //        name: 'matrix',
-    //        start: transform, 
-    //        end: dojox.gfx.matrix.multiply(move,scaleAt,transform)
-    //      }]
-    //    }).play();
-    //    this._events.push(dojo.connect(animation, "onEnd", this.animationEnd.bind(this,element)));
-    //    this._events.push(dojo.connect(animation, "onEnd", this.highlightActiveLevel.bind(this,mElement,oLevel)));
-    //  }
-    //}
-    //if (jumpToSelection) {
-      if (element.disabled) return;
-      if (!(element.sectionpath.sectionids instanceof Array)) {
-        var path = [element.sectionpath.sectionids];
-      } else {
-        var path = dojo.clone(element.sectionpath.sectionids);
-      }
-      G_UI_COM.showSectionPathInProgress = true;
-      if (!G_UI_COM.showSectionPath(element.sectionpath.basecontainerid, path, false)) {
-        console.error('Could not resolve given section path: ' + JSON.stringify(element.sectionpath));
-      }
-    //}
+    if (element.disabled) return;
+    if (!(element.sectionpath.sectionids instanceof Array)) {
+      var path = [element.sectionpath.sectionids];
+    } else {
+      var path = dojo.clone(element.sectionpath.sectionids);
+    }
+    G_UI_COM.showSectionPathInProgress = true;
+    if (!G_UI_COM.showSectionPath(element.sectionpath.basecontainerid, path, false)) {
+      console.error('Could not resolve given section path: ' + JSON.stringify(element.sectionpath));
+    }
   }
 });
 
