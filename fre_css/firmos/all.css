@@ -194,59 +194,6 @@ table {  font-size:100%; }
 .dojoTabular td { 
 	padding: 0.25em 0.5em;
 }
-.dojoxUploaderFileList{
-	border:1px solid #ccc;
-	min-height:50px;
-}
-.dojoxUploaderFileListTable{
-	width:100%;
-	border-collapse:collapse;
-	margin-top:5px;
-}
-.dojoxUploaderFileListHeader th{
-	background-color:#eee;
-	padding:3px;
-}
-.dojoxUploaderFileListRow{
-
-}
-.dojoxUploaderIndex{
-	width:20px;
-}
-.dojoxUploaderIcon{
-	width:50px;
-}
-.dojoxUploaderFileName{
-
-}
-.dojoxUploaderSize{
-	width:70px;
-}
-.dojoxUploaderFileListContent{
-	width:100%;
-}
-.dojoxUploaderFileListProgress{
-	border:1px solid #666;
-	height:15px;
-	position:relative;
-	background:#fff;
-	overflow:hidden;
-}
-.dojoxUploaderFileListPercentText{
-	position:absolute;
-	right:3px;
-	top:3px;
-	font-size:10px;
-	text-align:right;
-}
-.dojoxUploaderFileListProgressBar{
-	position:absolute;
-	top:0px;
-	left:0px;
-	height:15px;
-	width:0%;
-	background:#bfe1fd;
-}
 /*
 **----------------------------------------------------------------------------
 **  CheckedMultiSelect
@@ -528,7 +475,60 @@ table {  font-size:100%; }
 
 .claro .dojoxCheckedMultiSelectButtonDisabled .dijitArrowButton .dijitArrowButtonInner {
 	background-position: 0;
-}/* This stylesheet provides the structural CSS for the dgrid */
+}.dojoxUploaderFileList{
+	border:1px solid #ccc;
+	min-height:50px;
+}
+.dojoxUploaderFileListTable{
+	width:100%;
+	border-collapse:collapse;
+	margin-top:5px;
+}
+.dojoxUploaderFileListHeader th{
+	background-color:#eee;
+	padding:3px;
+}
+.dojoxUploaderFileListRow{
+
+}
+.dojoxUploaderIndex{
+	width:20px;
+}
+.dojoxUploaderIcon{
+	width:50px;
+}
+.dojoxUploaderFileName{
+
+}
+.dojoxUploaderSize{
+	width:70px;
+}
+.dojoxUploaderFileListContent{
+	width:100%;
+}
+.dojoxUploaderFileListProgress{
+	border:1px solid #666;
+	height:15px;
+	position:relative;
+	background:#fff;
+	overflow:hidden;
+}
+.dojoxUploaderFileListPercentText{
+	position:absolute;
+	right:3px;
+	top:3px;
+	font-size:10px;
+	text-align:right;
+}
+.dojoxUploaderFileListProgressBar{
+	position:absolute;
+	top:0px;
+	left:0px;
+	height:15px;
+	width:0%;
+	background:#bfe1fd;
+}
+/* This stylesheet provides the structural CSS for the dgrid */
 .dgrid {
 	position: relative;
 	overflow: hidden; /* This is needed by IE to prevent crazy scrollbar flashing */
@@ -735,178 +735,7 @@ html.has-mozilla .dgrid-focus {
 /* indicator of a successful load */
 #dgrid-css-dgrid-loaded {
 	display: none;
-}/* Dijit widget common icons*/
-
-/*commonIcons.css is located in dijit/icons
-
-commonIconsRtl.css is TBD. This needs to be reviewed to determine in Rtl is reqd. 
-
-The 16 x 16px icons in these sprites are action and object type images which can be used in the following widgets: accordionContainer, menu, tab, titlepane, tree, and all button widgets and error validation contexts. */
-
-.dijitIconSave,
-.dijitIconPrint,
-.dijitIconCut,
-.dijitIconCopy,
-.dijitIconClear,
-.dijitIconDelete,
-.dijitIconUndo,
-.dijitIconEdit,
-.dijitIconNewTask,
-.dijitIconEditTask,
-.dijitIconEditProperty,
-.dijitIconTask,
-.dijitIconFilter,
-.dijitIconConfigure,
-.dijitIconSearch,
-.dijitIconApplication,
-.dijitIconBookmark,
-.dijitIconChart,
-.dijitIconConnector,
-.dijitIconDatabase,
-.dijitIconDocuments,
-.dijitIconMail,
-.dijitLeaf,
-.dijitIconFile,
-.dijitIconFunction,
-.dijitIconKey,
-.dijitIconPackage,
-.dijitIconSample,
-.dijitIconTable,
-.dijitIconUsers,
-.dijitFolderClosed,
-.dijitIconFolderClosed,
-.dijitFolderOpened,
-.dijitIconFolderOpen,
-.dijitIconError {
-	background-image: url('images/commonIconsObjActEnabled.png'); /* Contains both object and action icons in a sprite image for the enabled state.  */
-	width: 16px;
-	height: 16px;
-}
-
-.dj_ie6 .dijitIconSave,
-.dj_ie6 .dijitIconPrint,
-.dj_ie6 .dijitIconCut,
-.dj_ie6 .dijitIconCopy,
-.dj_ie6 .dijitIconClear,
-.dj_ie6 .dijitIconDelete,
-.dj_ie6 .dijitIconUndo,
-.dj_ie6 .dijitIconEdit,
-.dj_ie6 .dijitIconNewTask,
-.dj_ie6 .dijitIconEditTask,
-.dj_ie6 .dijitIconEditProperty,
-.dj_ie6 .dijitIconTask,
-.dj_ie6 .dijitIconFilter,
-.dj_ie6 .dijitIconConfigure,
-.dj_ie6 .dijitIconSearch,
-.dj_ie6 .dijitIconApplication,
-.dj_ie6 .dijitIconBookmark,
-.dj_ie6 .dijitIconChart,
-.dj_ie6 .dijitIconConnector,
-.dj_ie6 .dijitIconDatabase,
-.dj_ie6 .dijitIconDocuments,
-.dj_ie6 .dijitIconMail,
-.dj_ie6 .dijitLeaf,
-.dj_ie6 .dijitIconFile,
-.dj_ie6 .dijitIconFunction,
-.dj_ie6 .dijitIconKey,
-.dj_ie6 .dijitIconPackage,
-.dj_ie6 .dijitIconSample,
-.dj_ie6 .dijitIconTable,
-.dj_ie6 .dijitIconUsers,
-.dj_ie6 .dijitFolderClosed,
-.dj_ie6 .dijitIconFolderClosed,
-.dj_ie6 .dijitFolderOpened,
-.dj_ie6 .dijitIconFolderOpen,
-.dj_ie6 .dijitIconError {
-	background-image: url('images/commonIconsObjActEnabled8bit.png');
-}
-
-.dijitDisabled .dijitIconSave,
-.dijitDisabled .dijitIconPrint,
-.dijitDisabled .dijitIconCut,
-.dijitDisabled .dijitIconCopy,
-.dijitDisabled .dijitIconClear,
-.dijitDisabled .dijitIconDelete,
-.dijitDisabled .dijitIconUndo,
-.dijitDisabled .dijitIconEdit,
-.dijitDisabled .dijitIconNewTask,
-.dijitDisabled .dijitIconEditTask,
-.dijitDisabled .dijitIconEditProperty,
-.dijitDisabled .dijitIconTask,
-.dijitDisabled .dijitIconFilter,
-.dijitDisabled .dijitIconConfigure,
-.dijitDisabled .dijitIconSearch,
-.dijitDisabled .dijitIconApplication,
-.dijitDisabled .dijitIconBookmark,
-.dijitDisabled .dijitIconChart,
-.dijitDisabled .dijitIconConnector,
-.dijitDisabled .dijitIconDatabase,
-.dijitDisabled .dijitIconDocuments,
-.dijitDisabled .dijitIconMail,
-.dijitDisabled .dijitLeaf,
-.dijitDisabled .dijitIconFile,
-.dijitDisabled .dijitIconFunction,
-.dijitDisabled .dijitIconKey,
-.dijitDisabled .dijitIconPackage,
-.dijitDisabled .dijitIconSample,
-.dijitDisabled .dijitIconTable,
-.dijitDisabled .dijitIconUsers,
-.dijitDisabled .dijitFolderClosed,
-.dijitDisabled .dijitIconFolderClosed,
-.dijitDisabled .dijitFolderOpened,
-.dijitDisabled .dijitIconFolderOpen,
-.dijitDisabled .dijitIconError {
-	background-image: url('images/commonIconsObjActDisabled.png'); /* Contains both object and action icons as a sprite image for the disabled state. These would be used by buttons and menus.   */
-}
-
-/*Action icons*/
-.dijitIconSave { background-position: 0; }
-.dijitIconPrint { background-position: -16px; }
-.dijitIconCut { background-position: -32px; }
-.dijitIconCopy { background-position: -48px; }
-.dijitIconClear { background-position: -64px; }
-.dijitIconDelete { background-position: -80px; }
-.dijitIconUndo { background-position: -96px; }
-.dijitIconEdit { background-position: -112px; }
-.dijitIconNewTask { background-position: -128px; }
-.dijitIconEditTask { background-position: -144px; }
-.dijitIconEditProperty { background-position: -160px; }
-.dijitIconTask { background-position: -176px; }
-.dijitIconFilter { background-position: -192px; }
-.dijitIconConfigure { background-position: -208px; }
-.dijitIconSearch { background-position: -224px; }
-.dijitIconError { background-position: -496px; } 
-
-/*Object icons*/
-.dijitIconApplication { background-position: -240px; }
-.dijitIconBookmark { background-position: -256px; }
-.dijitIconChart { background-position: -272px; }
-.dijitIconConnector { background-position: -288px; }
-.dijitIconDatabase { background-position: -304px; }
-.dijitIconDocuments { background-position: -320px; }
-.dijitIconMail { background-position: -336px; }
-.dijitIconFile, .dijitLeaf { background-position: -352px; }
-.dijitIconFunction { background-position: -368px; }
-.dijitIconKey { background-position: -384px; }
-.dijitIconPackage{ background-position: -400px; }
-.dijitIconSample { background-position: -416px; }
-.dijitIconTable { background-position: -432px; }
-.dijitIconUsers { background-position: -448px; }
-
-
-/*Tree folder icons*/
-.dijitIconFolderClosed, .dijitFolderClosed { background-position: -464px; }
-.dijitIconFolderOpen, .dijitFolderOpened { background-position: -480px; }
-
-/*Loading animation*/
-.dijitIconLoading {
-	background:url('images/loadingAnimation_rtl.gif') no-repeat;
-	height: 20px;
-	width: 20px;
-}
-
-
-/*
+}/*
 	Essential styles that themes can inherit.
 	In other words, works but doesn't look great.
 */
@@ -3122,6 +2951,177 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijitFocused .dijitMenuItemShortcutKey {
 	text-decoration: underline;
 }
+/* Dijit widget common icons*/
+
+/*commonIcons.css is located in dijit/icons
+
+commonIconsRtl.css is TBD. This needs to be reviewed to determine in Rtl is reqd. 
+
+The 16 x 16px icons in these sprites are action and object type images which can be used in the following widgets: accordionContainer, menu, tab, titlepane, tree, and all button widgets and error validation contexts. */
+
+.dijitIconSave,
+.dijitIconPrint,
+.dijitIconCut,
+.dijitIconCopy,
+.dijitIconClear,
+.dijitIconDelete,
+.dijitIconUndo,
+.dijitIconEdit,
+.dijitIconNewTask,
+.dijitIconEditTask,
+.dijitIconEditProperty,
+.dijitIconTask,
+.dijitIconFilter,
+.dijitIconConfigure,
+.dijitIconSearch,
+.dijitIconApplication,
+.dijitIconBookmark,
+.dijitIconChart,
+.dijitIconConnector,
+.dijitIconDatabase,
+.dijitIconDocuments,
+.dijitIconMail,
+.dijitLeaf,
+.dijitIconFile,
+.dijitIconFunction,
+.dijitIconKey,
+.dijitIconPackage,
+.dijitIconSample,
+.dijitIconTable,
+.dijitIconUsers,
+.dijitFolderClosed,
+.dijitIconFolderClosed,
+.dijitFolderOpened,
+.dijitIconFolderOpen,
+.dijitIconError {
+	background-image: url('images/commonIconsObjActEnabled.png'); /* Contains both object and action icons in a sprite image for the enabled state.  */
+	width: 16px;
+	height: 16px;
+}
+
+.dj_ie6 .dijitIconSave,
+.dj_ie6 .dijitIconPrint,
+.dj_ie6 .dijitIconCut,
+.dj_ie6 .dijitIconCopy,
+.dj_ie6 .dijitIconClear,
+.dj_ie6 .dijitIconDelete,
+.dj_ie6 .dijitIconUndo,
+.dj_ie6 .dijitIconEdit,
+.dj_ie6 .dijitIconNewTask,
+.dj_ie6 .dijitIconEditTask,
+.dj_ie6 .dijitIconEditProperty,
+.dj_ie6 .dijitIconTask,
+.dj_ie6 .dijitIconFilter,
+.dj_ie6 .dijitIconConfigure,
+.dj_ie6 .dijitIconSearch,
+.dj_ie6 .dijitIconApplication,
+.dj_ie6 .dijitIconBookmark,
+.dj_ie6 .dijitIconChart,
+.dj_ie6 .dijitIconConnector,
+.dj_ie6 .dijitIconDatabase,
+.dj_ie6 .dijitIconDocuments,
+.dj_ie6 .dijitIconMail,
+.dj_ie6 .dijitLeaf,
+.dj_ie6 .dijitIconFile,
+.dj_ie6 .dijitIconFunction,
+.dj_ie6 .dijitIconKey,
+.dj_ie6 .dijitIconPackage,
+.dj_ie6 .dijitIconSample,
+.dj_ie6 .dijitIconTable,
+.dj_ie6 .dijitIconUsers,
+.dj_ie6 .dijitFolderClosed,
+.dj_ie6 .dijitIconFolderClosed,
+.dj_ie6 .dijitFolderOpened,
+.dj_ie6 .dijitIconFolderOpen,
+.dj_ie6 .dijitIconError {
+	background-image: url('images/commonIconsObjActEnabled8bit.png');
+}
+
+.dijitDisabled .dijitIconSave,
+.dijitDisabled .dijitIconPrint,
+.dijitDisabled .dijitIconCut,
+.dijitDisabled .dijitIconCopy,
+.dijitDisabled .dijitIconClear,
+.dijitDisabled .dijitIconDelete,
+.dijitDisabled .dijitIconUndo,
+.dijitDisabled .dijitIconEdit,
+.dijitDisabled .dijitIconNewTask,
+.dijitDisabled .dijitIconEditTask,
+.dijitDisabled .dijitIconEditProperty,
+.dijitDisabled .dijitIconTask,
+.dijitDisabled .dijitIconFilter,
+.dijitDisabled .dijitIconConfigure,
+.dijitDisabled .dijitIconSearch,
+.dijitDisabled .dijitIconApplication,
+.dijitDisabled .dijitIconBookmark,
+.dijitDisabled .dijitIconChart,
+.dijitDisabled .dijitIconConnector,
+.dijitDisabled .dijitIconDatabase,
+.dijitDisabled .dijitIconDocuments,
+.dijitDisabled .dijitIconMail,
+.dijitDisabled .dijitLeaf,
+.dijitDisabled .dijitIconFile,
+.dijitDisabled .dijitIconFunction,
+.dijitDisabled .dijitIconKey,
+.dijitDisabled .dijitIconPackage,
+.dijitDisabled .dijitIconSample,
+.dijitDisabled .dijitIconTable,
+.dijitDisabled .dijitIconUsers,
+.dijitDisabled .dijitFolderClosed,
+.dijitDisabled .dijitIconFolderClosed,
+.dijitDisabled .dijitFolderOpened,
+.dijitDisabled .dijitIconFolderOpen,
+.dijitDisabled .dijitIconError {
+	background-image: url('images/commonIconsObjActDisabled.png'); /* Contains both object and action icons as a sprite image for the disabled state. These would be used by buttons and menus.   */
+}
+
+/*Action icons*/
+.dijitIconSave { background-position: 0; }
+.dijitIconPrint { background-position: -16px; }
+.dijitIconCut { background-position: -32px; }
+.dijitIconCopy { background-position: -48px; }
+.dijitIconClear { background-position: -64px; }
+.dijitIconDelete { background-position: -80px; }
+.dijitIconUndo { background-position: -96px; }
+.dijitIconEdit { background-position: -112px; }
+.dijitIconNewTask { background-position: -128px; }
+.dijitIconEditTask { background-position: -144px; }
+.dijitIconEditProperty { background-position: -160px; }
+.dijitIconTask { background-position: -176px; }
+.dijitIconFilter { background-position: -192px; }
+.dijitIconConfigure { background-position: -208px; }
+.dijitIconSearch { background-position: -224px; }
+.dijitIconError { background-position: -496px; } 
+
+/*Object icons*/
+.dijitIconApplication { background-position: -240px; }
+.dijitIconBookmark { background-position: -256px; }
+.dijitIconChart { background-position: -272px; }
+.dijitIconConnector { background-position: -288px; }
+.dijitIconDatabase { background-position: -304px; }
+.dijitIconDocuments { background-position: -320px; }
+.dijitIconMail { background-position: -336px; }
+.dijitIconFile, .dijitLeaf { background-position: -352px; }
+.dijitIconFunction { background-position: -368px; }
+.dijitIconKey { background-position: -384px; }
+.dijitIconPackage{ background-position: -400px; }
+.dijitIconSample { background-position: -416px; }
+.dijitIconTable { background-position: -432px; }
+.dijitIconUsers { background-position: -448px; }
+
+
+/*Tree folder icons*/
+.dijitIconFolderClosed, .dijitFolderClosed { background-position: -464px; }
+.dijitIconFolderOpen, .dijitFolderOpened { background-position: -480px; }
+
+/*Loading animation*/
+.dijitIconLoading {
+	background:url('images/loadingAnimation_rtl.gif') no-repeat;
+	height: 20px;
+	width: 20px;
+}
+
+
 /* Dijit Editor icons*/
 
 /*editorIcons.css  is located in dijit/images 
@@ -3270,6 +3270,14 @@ editorIcons.css contains references to the dijit editor widget icons. There are 
 .firmos p{line-height:1.3em;}
 .firmos pre,.firmos code{font-family:inherit;background-color:#b6bac1;border:1px solid #dddddd;}
 .firmos table.dojoTabular thead,.firmos table.dojoTabular tfoot{background-color:#b6bac1;border:1px solid #dddddd;}
+.firmos .dijitAccordionContainer{border:none;}
+.firmos .dijitAccordionContainer *:focus{border-bottom:1px solid white;outline:none;}
+.firmos .dijitAccordionTitle{background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 50%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 50%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 50%);background-image:linear-gradient(rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 50%);padding:5px 7px 2px 7px;min-height:17px;color:#ffffff;text-shadow:1px 1px 1px black;}
+.firmos .dijitAccordionContainer .dijitAccordionChildWrapper{margin:0;}
+.firmos .dijitAccordionContainer .dijitAccordionContainer-child{padding:9px;}
+.firmos .dijitAccordionInnerContainerActive .dijitAccordionTitle{background-image:url("images/activeGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);_background-image:none;color:#ffffff;text-shadow:1px 1px 1px black;}
+.firmos .dijitAccordionInnerContainerSelected .dijitAccordionTitle{color:#ffffff;text-shadow:1px 1px 1px black;-webkit-text-shadow:1px 1px 2px #000000;-moz-text-shadow:1px 1px 2px #000000;text-shadow:1px 1px 2px #000000;margin:0px 12px 0px 12px;-moz-border-radius:6px 6px 0px 0px;border-radius:6px 6px 0px 0px;border:0px solid;}
+.firmos .dijitAccordionInnerContainerHover .dijitAccordionTitle{color:#ffffff;text-shadow:1px 1px 1px black;}
 .firmos .dijitPopup{-webkit-box-shadow:0 1px 5px rgba(0, 0, 0, 0.25);-moz-box-shadow:0 1px 5px rgba(0, 0, 0, 0.25);box-shadow:0 1px 5px rgba(0, 0, 0, 0.25);}
 .firmos .dijitTooltipDialogPopup{-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;}
 .firmos .dijitComboBoxHighlightMatch{background-color:#546791;}
@@ -3322,6 +3330,12 @@ editorIcons.css contains references to the dijit editor widget icons. There are 
 .dj_ff3 .firmos .dijitInputField input[type="hidden"]{display:none;height:0;width:0;}
 .dj_borderbox .firmos .dijitComboBox .dijitHasDropDownOpen .dijitArrowButtonInner{width:18px;}
 .dj_borderbox .firmos .dijitComboBoxFocused .dijitHasDropDownOpen .dijitArrowButtonInner{width:16px;}
+.firmos .dijitContentPane{padding:5px;}
+.firmos .dijitTabContainerTop-dijitContentPane,.firmos .dijitTabContainerLeft-dijitContentPane,.firmos .dijitTabContainerBottom-dijitContentPane,.firmos .dijitTabContainerRight-dijitContentPane,.firmos .dijitAccordionContainer-dijitContentPane{padding:0px 0px 0px =px;}
+.firmos .dijitContentPaneSinglechild{padding:8px;background-color:red;}
+.firmos .dijitSplitContainer-dijitContentPane{background-color:green;padding:0px;}
+.firmos .dijitBorderContainer-dijitContentPane{padding:0px;}
+.firmos .dijitBorderContainer-firmosMultiContentContainerTop{border:0 none;}
 .firmos .dijitBorderContainer{padding:5px;background-color:#787e8b;}
 .firmos .dijitSplitContainer-child,.firmos .dijitBorderContainer-child{border:none;}
 .firmos .dijitBorderContainer-dijitTabContainerTop,.firmos .dijitBorderContainer-dijitTabContainerBottom,.firmos .dijitBorderContainer-dijitTabContainerLeft,.firmos .dijitBorderContainer-dijitTabContainerRight,.firmos .dijitBorderContainer-dijitAccordionContainer{border:none;}
@@ -3339,19 +3353,6 @@ editorIcons.css contains references to the dijit editor widget icons. There are 
 .firmos .dijitSplitterVHover{background-image:-moz-linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0) 50%, #ffffff 100%);background-image:-webkit-linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0) 50%, #ffffff 100%);background-image:-o-linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0) 50%, #ffffff 100%);background-image:linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0) 50%, #ffffff 100%);}
 .firmos .dijitSplitterHHover .dijitSplitterThumb,.firmos .dijitSplitterVHover .dijitSplitterThumb{background:#383838 none;}
 .firmos .dijitSplitterHActive,.firmos .dijitSplitterVActive{font-size:1px;background-color:#546791;background-image:none;}
-.firmos .dijitContentPane{padding:5px;}
-.firmos .dijitTabContainerTop-dijitContentPane,.firmos .dijitTabContainerLeft-dijitContentPane,.firmos .dijitTabContainerBottom-dijitContentPane,.firmos .dijitTabContainerRight-dijitContentPane,.firmos .dijitAccordionContainer-dijitContentPane{padding:0px 0px 0px =px;}
-.firmos .dijitContentPaneSinglechild{padding:8px;background-color:red;}
-.firmos .dijitSplitContainer-dijitContentPane{background-color:green;padding:0px;}
-.firmos .dijitBorderContainer-dijitContentPane{padding:0px;}
-.firmos .dijitAccordionContainer{border:none;}
-.firmos .dijitAccordionContainer *:focus{border-bottom:1px solid white;outline:none;}
-.firmos .dijitAccordionTitle{background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 50%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 50%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 50%);background-image:linear-gradient(rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 50%);padding:5px 7px 2px 7px;min-height:17px;color:#ffffff;text-shadow:1px 1px 1px black;}
-.firmos .dijitAccordionContainer .dijitAccordionChildWrapper{margin:0;}
-.firmos .dijitAccordionContainer .dijitAccordionContainer-child{padding:9px;}
-.firmos .dijitAccordionInnerContainerActive .dijitAccordionTitle{background-image:url("images/activeGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);_background-image:none;color:#ffffff;text-shadow:1px 1px 1px black;}
-.firmos .dijitAccordionInnerContainerSelected .dijitAccordionTitle{color:#ffffff;text-shadow:1px 1px 1px black;-webkit-text-shadow:1px 1px 2px #000000;-moz-text-shadow:1px 1px 2px #000000;text-shadow:1px 1px 2px #000000;margin:0px 12px 0px 12px;-moz-border-radius:6px 6px 0px 0px;border-radius:6px 6px 0px 0px;border:0px solid;}
-.firmos .dijitAccordionInnerContainerHover .dijitAccordionTitle{color:#ffffff;text-shadow:1px 1px 1px black;}
 
 .firmos .dijitTabContainerTop-tabs,.firmos .dijitTabContainerBottom-tabs,.firmos .dijitTabContainerLeft-tabs,.firmos .dijitTabContainerRight-tabs{border-color:#5b5b5b;margin-left:12px;border:0px;}
 .dijitTabContainerTop-container{border:1px solid;border-radius:6px 6px 6px 6px;border-color:#606570;background-color:#787e8b;}
@@ -3401,7 +3402,28 @@ editorIcons.css contains references to the dijit editor widget icons. There are 
 .firmos .dijitTabContainerTabListNested .dijitTabChecked .tabLabel{text-decoration:none;background-image:none;}
 .firmos .dijitTabPaneWrapperNested{border:none;}
 .firmos .dijitTabContainer .dijitTab,.firmos .dijitTabContainer .tabStripButton{_background-image:none;}
-.firmos .dijitBorderContainer-firmosMultiContentContainerTop{border:0 none;}
+.firmos .dijitToggleButton .dijitCheckBoxIcon{background-image:url("images/checkmarkNoBorder.png");}
+.dj_ie6 .firmos .dijitToggleButton .dijitCheckBoxIcon{background-image:url("images/checkmarkNoBorder.gif");}
+.firmos .dijitCheckBox,.firmos .dijitCheckBoxIcon{background-image:url("images/checkboxRadioButtonStates.png");background-repeat:no-repeat;width:15px;height:16px;margin:0 2px 0 0;padding:0;}
+.dj_ie6 .firmos .dijitCheckBox,.dj_ie6 .firmos .dijitCheckBoxIcon{background-image:url("images/checkboxAndRadioButtons_IE6.png");}
+.firmos .dijitCheckBox,.firmos .dijitToggleButton .dijitCheckBoxIcon{background-position:-15px;}
+.firmos .dijitCheckBoxChecked,.firmos .dijitToggleButtonChecked .dijitCheckBoxIcon{background-position:0;}
+.firmos .dijitCheckBoxDisabled{background-position:-75px;}
+.firmos .dijitCheckBoxCheckedDisabled{background-position:-60px;}
+.firmos .dijitCheckBoxHover{background-position:-45px;}
+.firmos .dijitCheckBoxCheckedHover{background-position:-30px;}
+.firmos .dijitToggleButton .dijitRadio,.firmos .dijitToggleButton .dijitRadioIcon{background-image:url("images/checkboxRadioButtonStates.png");}
+.dj_ie6 .firmos .dijitToggleButton .dijitRadio,.dj_ie6 .firmos .dijitToggleButton .dijitRadioIcon{background-image:url("images/checkboxAndRadioButtons_IE6.png");}
+.firmos .dijitRadio,.firmos .dijitRadioIcon{background-image:url("images/checkboxRadioButtonStates.png");background-repeat:no-repeat;width:15px;height:15px;margin:0 2px 0 0;padding:0;}
+.dj_ie6 .firmos .dijitRadio,.dj_ie6 .firmos .dijitRadioIcon{background-image:url("images/checkboxAndRadioButtons_IE6.png");}
+.firmos .dijitRadio{background-position:-105px;}
+.firmos .dijitToggleButton .dijitRadioIcon{background-position:-107px;}
+.firmos .dijitRadioDisabled{background-position:-165px;}
+.firmos .dijitRadioHover{background-position:-135px;}
+.firmos .dijitRadioChecked{background-position:-90px;}
+.firmos .dijitToggleButtonChecked .dijitRadioIcon{background-position:-92px;}
+.firmos .dijitRadioCheckedHover{background-position:-120px;}
+.firmos .dijitRadioCheckedDisabled{background-position:-150px;}
 .firmos .dijitButtonNode{-webkit-transition-property:background-color;-moz-transition-property:background-color;-o-transition-property:background-color;transition-property:background-color;-webkit-transition-duration:0.3s;-moz-transition-duration:0.3s;-o-transition-duration:0.3s;transition-duration:0.3s;}
 .firmos .dijitButton .dijitButtonNode,.firmos .dijitDropDownButton .dijitButtonNode,.firmos .dijitComboButton .dijitButtonNode,.firmos .dijitToggleButton .dijitButtonNode{padding:2px 4px 4px 4px;color:#000000;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.15);-moz-box-shadow:0 1px 1px rgba(0, 0, 0, 0.15);box-shadow:0 1px 1px rgba(0, 0, 0, 0.15);background-color:#a2a2a2;background-image:url("images/buttonEnabled.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 3px, rgba(255, 255, 255, 0.75) 100%);background-image:-webkit-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 3px, rgba(255, 255, 255, 0.75) 100%);background-image:-o-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 3px, rgba(255, 255, 255, 0.75) 100%);background-image:linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 3px, rgba(255, 255, 255, 0.75) 100%);_background-image:none;}
 .firmos .dijitComboButton .dijitArrowButton{border-left-width:0;padding:4px 2px 4px 2px;}
@@ -3422,18 +3444,6 @@ editorIcons.css contains references to the dijit editor widget icons. There are 
 .firmos table.dijitComboButton{border-collapse:separate;}
 .firmos .dijitComboButton .dijitStretch{-moz-border-radius:5px 0 0 5px;border-radius:5px 0 0 5px;}
 .firmos .dijitComboButton .dijitArrowButton{-moz-border-radius:0 5px 5px 0;border-radius:0 5px 5px 0;}
-.firmos .dijitToggleButton .dijitRadio,.firmos .dijitToggleButton .dijitRadioIcon{background-image:url("images/checkboxRadioButtonStates.png");}
-.dj_ie6 .firmos .dijitToggleButton .dijitRadio,.dj_ie6 .firmos .dijitToggleButton .dijitRadioIcon{background-image:url("images/checkboxAndRadioButtons_IE6.png");}
-.firmos .dijitRadio,.firmos .dijitRadioIcon{background-image:url("images/checkboxRadioButtonStates.png");background-repeat:no-repeat;width:15px;height:15px;margin:0 2px 0 0;padding:0;}
-.dj_ie6 .firmos .dijitRadio,.dj_ie6 .firmos .dijitRadioIcon{background-image:url("images/checkboxAndRadioButtons_IE6.png");}
-.firmos .dijitRadio{background-position:-105px;}
-.firmos .dijitToggleButton .dijitRadioIcon{background-position:-107px;}
-.firmos .dijitRadioDisabled{background-position:-165px;}
-.firmos .dijitRadioHover{background-position:-135px;}
-.firmos .dijitRadioChecked{background-position:-90px;}
-.firmos .dijitToggleButtonChecked .dijitRadioIcon{background-position:-92px;}
-.firmos .dijitRadioCheckedHover{background-position:-120px;}
-.firmos .dijitRadioCheckedDisabled{background-position:-150px;}
 .firmos .dijitSliderBar{border-style:solid;outline:1px;}
 .firmos .dijitSliderFocused .dijitSliderBar{border-color:#383838;}
 .firmos .dijitSliderHover .dijitSliderBar{border-color:#383838;}
@@ -3496,16 +3506,6 @@ editorIcons.css contains references to the dijit editor widget icons. There are 
 .firmos .dijitSliderReadOnly .dijitSliderIncrementIconH,.firmos .dijitSliderDisabled .dijitSliderIncrementIconH{background-position:-215px 50%;background-color:#dddddd;}
 .firmos .dijitSliderReadOnly .dijitSliderDecrementIconV,.firmos .dijitSliderDisabled .dijitSliderDecrementIconV{background-position:-3px 49%;background-color:#dddddd;}
 .firmos .dijitSliderReadOnly .dijitSliderIncrementIconV,.firmos .dijitSliderDisabled .dijitSliderIncrementIconV{background-position:-107px 49%;background-color:#dddddd;}
-.firmos .dijitToggleButton .dijitCheckBoxIcon{background-image:url("images/checkmarkNoBorder.png");}
-.dj_ie6 .firmos .dijitToggleButton .dijitCheckBoxIcon{background-image:url("images/checkmarkNoBorder.gif");}
-.firmos .dijitCheckBox,.firmos .dijitCheckBoxIcon{background-image:url("images/checkboxRadioButtonStates.png");background-repeat:no-repeat;width:15px;height:16px;margin:0 2px 0 0;padding:0;}
-.dj_ie6 .firmos .dijitCheckBox,.dj_ie6 .firmos .dijitCheckBoxIcon{background-image:url("images/checkboxAndRadioButtons_IE6.png");}
-.firmos .dijitCheckBox,.firmos .dijitToggleButton .dijitCheckBoxIcon{background-position:-15px;}
-.firmos .dijitCheckBoxChecked,.firmos .dijitToggleButtonChecked .dijitCheckBoxIcon{background-position:0;}
-.firmos .dijitCheckBoxDisabled{background-position:-75px;}
-.firmos .dijitCheckBoxCheckedDisabled{background-position:-60px;}
-.firmos .dijitCheckBoxHover{background-position:-45px;}
-.firmos .dijitCheckBoxCheckedHover{background-position:-30px;}
 .firmos .dijitSelect .dijitArrowButtonContainer{border:1px solid #ffffff;}
 .firmos .dijitSelect .dijitArrowButton{padding:0;background-color:#b6bac1;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
 .firmos .dijitSelect .dijitArrowButton .dijitArrowButtonInner{height:16px;}
@@ -3543,31 +3543,6 @@ editorIcons.css contains references to the dijit editor widget icons. There are 
 .firmos .dijitSpinnerDisabled .dijitUpArrowButton .dijitArrowButtonInner{background-position:-104px;}
 .firmos .dijitSpinnerDisabled .dijitDownArrowButton .dijitArrowButtonInner{background-position:1px;}
 .dj_ie7 .firmos .dijitSpinner{overflow:visible;}
-.firmos .dijitMenuBar{border:1px solid #5b5b5b;margin:0;padding:0;background-color:#b6bac1;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
-.firmos .dijitMenu{background-color:#ffffff;border:1px solid #383838;}
-.firmos .dijitMenuItem{color:#000000;}
-.firmos .dijitMenuBar .dijitMenuItem{padding:6px 10px 7px;margin:-1px;}
-.firmos .dijitMenuBar .dijitMenuItemHover,.firmos .dijitMenuBar .dijitMenuItemSelected{border:solid 1px #383838;padding:5px 9px 6px;}
-.firmos .dijitMenuTable{border-collapse:separate;border-spacing:0 0;padding:0;}
-.firmos .dijitMenu .dijitMenuItem td,.firmos .dijitComboBoxMenu .dijitMenuItem{padding:2px;border-width:1px 0 1px 0;border-style:solid;border-color:#ffffff;}
-.firmos .dijitMenu .dijitMenuItemHover td,.firmos .dijitMenu .dijitMenuItemSelected td,.firmos .dijitMenuItemHover,.firmos .dijitComboBoxMenu .dijitMenuItemHover,.firmos .dijitMenuItemSelected{border-color:#383838;background-color:#546791;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
-.firmos .dijitMenuItemActive{background-image:url("images/activeGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);_background-image:none;}
-.dj_ie .firmos .dijitMenuActive .dijitMenuItemHover,.dj_ie .firmos .dijitMenuActive .dijitMenuItemSelected,.dj_ie .firmos .dijitMenuPassive .dijitMenuItemHover,.dj_ie .firmos .dijitMenuPassive .dijitMenuItemSelected{padding-top:6px;padding-bottom:5px;margin-top:-3px;}
-.firmos td.dijitMenuItemIconCell{padding:2px;margin:0 0 0 4px;}
-.firmos td.dijitMenuItemLabel{padding-top:5px;padding-bottom:5px;}
-.firmos .dijitMenuExpand{width:7px;height:7px;background-image:url("images/spriteArrows.png");background-position:-14px 0;margin-right:3px;margin-bottom:4px;}
-.firmos .dijitMenuItemDisabled .dijitMenuItemIconCell{opacity:1;}
-.firmos .dijitMenuSeparatorTop{height:auto;margin-top:1px;border-bottom:1px solid #5b5b5b;}
-.firmos .dijitMenuSeparatorBottom{height:auto;margin-bottom:1px;}
-.firmos .dijitCheckedMenuItem .dijitMenuItemIcon,.firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-image:url("images/checkboxRadioButtonStates.png");background-repeat:no-repeat;background-position:-15px 50%;width:15px;height:16px;}
-.dj_ie6 .firmos .dijitCheckedMenuItem .dijitMenuItemIcon,.dj_ie6 .firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-image:url("images/checkboxAndRadioButtons_IE6.png");}
-.firmos .dijitCheckedMenuItemChecked .dijitCheckedMenuItemIcon{background-position:0 50%;}
-.firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-position:-105px 50%;}
-.firmos .dijitRadioMenuItemChecked .dijitMenuItemIcon{background-position:-90px 50%;}
-.firmos .dijitComboBoxMenu{margin-left:0;background-image:none;}
-.firmos .dijitMenu .dijitMenuItemSelected td,.firmos .dijitComboBoxMenu .dijitMenuItemSelected{color:#ffffff;text-shadow:1px 1px 1px black;border-color:#383838;background-color:#546791;}
-.firmos .dijitComboBoxMenuActive .dijitMenuItemSelected{background-color:#47526a;}
-.firmos .dijitMenuPreviousButton,.firmos .dijitMenuNextButton{font-style:italic;}
 .firmos .dijitDialog{border:0px solid #383838;-webkit-box-shadow:0 1px 5px rgba(0, 0, 0, 0.25);-moz-box-shadow:0 1px 5px rgba(0, 0, 0, 0.25);box-shadow:0 1px 5px rgba(0, 0, 0, 0.25);}
 .firmos .dijitDialogPaneContent{background:#787e8b;border-top:1px solid #383838;padding:10px 8px;position:relative;}
 .firmos .dijitDialogPaneContentArea{margin:-10px -8px;padding:10px 8px;}
@@ -3595,13 +3570,31 @@ editorIcons.css contains references to the dijit editor widget icons. There are 
 .firmos .dijitTooltipRight{padding-left:14px;}
 .firmos .dijitTooltipRight .dijitTooltipConnector{left:0;background-position:-48px 0;width:16px;height:14px;}
 .firmos .dijitDialogUnderlay{background:#ffffff;}
-.firmos .dijitColorPalette{border:1px solid #5b5b5b;background:#ffffff;-moz-border-radius:0;border-radius:0;}
-.firmos .dijitColorPalette .dijitPaletteImg{border:1px solid #dddddd;}
-.firmos .dijitColorPalette .dijitPaletteCell:hover .dijitPaletteImg{border:1px solid #000000;}
-.firmos .dijitColorPalette .dijitPaletteCell:active .dijitPaletteImg,.firmos .dijitColorPalette .dijitPaletteTable .dijitPaletteCellSelected .dijitPaletteImg{border:2px solid #000000;}
-.firmos .dijitInlineEditBoxDisplayMode{border:1px solid transparent;}
-.firmos .dijitInlineEditBoxDisplayModeHover{background-color:#fafad2;border:solid 1px #383838;}
-.dj_ie6 .firmos .dijitInlineEditBoxDisplayMode{border:none;}
+.firmos .dijitMenuBar{border:1px solid #5b5b5b;margin:0;padding:0;background-color:#b6bac1;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
+.firmos .dijitMenu{background-color:#ffffff;border:1px solid #383838;}
+.firmos .dijitMenuItem{color:#000000;}
+.firmos .dijitMenuBar .dijitMenuItem{padding:6px 10px 7px;margin:-1px;}
+.firmos .dijitMenuBar .dijitMenuItemHover,.firmos .dijitMenuBar .dijitMenuItemSelected{border:solid 1px #383838;padding:5px 9px 6px;}
+.firmos .dijitMenuTable{border-collapse:separate;border-spacing:0 0;padding:0;}
+.firmos .dijitMenu .dijitMenuItem td,.firmos .dijitComboBoxMenu .dijitMenuItem{padding:2px;border-width:1px 0 1px 0;border-style:solid;border-color:#ffffff;}
+.firmos .dijitMenu .dijitMenuItemHover td,.firmos .dijitMenu .dijitMenuItemSelected td,.firmos .dijitMenuItemHover,.firmos .dijitComboBoxMenu .dijitMenuItemHover,.firmos .dijitMenuItemSelected{border-color:#383838;background-color:#546791;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
+.firmos .dijitMenuItemActive{background-image:url("images/activeGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);_background-image:none;}
+.dj_ie .firmos .dijitMenuActive .dijitMenuItemHover,.dj_ie .firmos .dijitMenuActive .dijitMenuItemSelected,.dj_ie .firmos .dijitMenuPassive .dijitMenuItemHover,.dj_ie .firmos .dijitMenuPassive .dijitMenuItemSelected{padding-top:6px;padding-bottom:5px;margin-top:-3px;}
+.firmos td.dijitMenuItemIconCell{padding:2px;margin:0 0 0 4px;}
+.firmos td.dijitMenuItemLabel{padding-top:5px;padding-bottom:5px;}
+.firmos .dijitMenuExpand{width:7px;height:7px;background-image:url("images/spriteArrows.png");background-position:-14px 0;margin-right:3px;margin-bottom:4px;}
+.firmos .dijitMenuItemDisabled .dijitMenuItemIconCell{opacity:1;}
+.firmos .dijitMenuSeparatorTop{height:auto;margin-top:1px;border-bottom:1px solid #5b5b5b;}
+.firmos .dijitMenuSeparatorBottom{height:auto;margin-bottom:1px;}
+.firmos .dijitCheckedMenuItem .dijitMenuItemIcon,.firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-image:url("images/checkboxRadioButtonStates.png");background-repeat:no-repeat;background-position:-15px 50%;width:15px;height:16px;}
+.dj_ie6 .firmos .dijitCheckedMenuItem .dijitMenuItemIcon,.dj_ie6 .firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-image:url("images/checkboxAndRadioButtons_IE6.png");}
+.firmos .dijitCheckedMenuItemChecked .dijitCheckedMenuItemIcon{background-position:0 50%;}
+.firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-position:-105px 50%;}
+.firmos .dijitRadioMenuItemChecked .dijitMenuItemIcon{background-position:-90px 50%;}
+.firmos .dijitComboBoxMenu{margin-left:0;background-image:none;}
+.firmos .dijitMenu .dijitMenuItemSelected td,.firmos .dijitComboBoxMenu .dijitMenuItemSelected{color:#ffffff;text-shadow:1px 1px 1px black;border-color:#383838;background-color:#546791;}
+.firmos .dijitComboBoxMenuActive .dijitMenuItemSelected{background-color:#47526a;}
+.firmos .dijitMenuPreviousButton,.firmos .dijitMenuNextButton{font-style:italic;}
 .firmos .dijitCalendar{border:solid 1px #5b5b5b;border-collapse:separate;-moz-border-radius:4px;border-radius:4px;background-color:#787e8b;background-image:url("images/calendar.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0.4) 2px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0.4) 2px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0.4) 2px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0.4) 2px, rgba(255, 255, 255, 0) 100%);text-align:center;padding:6px 5px 3px 5px;}
 .dj_ie6 .firmos .dijitCalendar{background-image:none;}
 .firmos .dijitCalendar img{border:none;}
@@ -3701,13 +3694,13 @@ div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate{backgro
 .dojoxCal-MY-labels .dojoxCal-MY-M-last .dojoxCalendarMonthLabel,.dojoxCal-MY-labels .dojoxCal-MY-G-Template div.dojoxCalendarYearLabel{width:42px;}
 .dojoxCalendar .cancel-btn{margin-left:11px;}
 .dojoxCalendar .ok-btn{margin-left:15px;}
-.firmos .dijitProgressBar{margin:2px 0 2px 0;}
-.firmos .dijitProgressBarEmpty{background-color:#ffffff;border-color:#383838;}
-.firmos .dijitProgressBarTile{background-color:#546791;background-image:url("images/progressBarFull.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.93) 0px, rgba(255, 255, 255, 0.41) 1px, rgba(255, 255, 255, 0.7) 2px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.93) 0px, rgba(255, 255, 255, 0.41) 1px, rgba(255, 255, 255, 0.7) 2px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.93) 0px, rgba(255, 255, 255, 0.41) 1px, rgba(255, 255, 255, 0.7) 2px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.93) 0px, rgba(255, 255, 255, 0.41) 1px, rgba(255, 255, 255, 0.7) 2px, rgba(255, 255, 255, 0) 100%);background-attachment:scroll;}
-.dj_ie6 .firmos .dijitProgressBarTile{background-image:none;}
-.firmos .dijitProgressBarFull{border:0px solid #383838;border-right-width:1px;-webkit-transition-property:width;-moz-transition-property:width;-o-transition-property:width;transition-property:width;-webkit-transition-duration:0.25s;-moz-transition-duration:0.25s;-o-transition-duration:0.25s;transition-duration:0.25s;}
-.firmos .dijitProgressBarLabel{color:#000000;}
-.firmos .dijitProgressBarIndeterminate .dijitProgressBarTile{background:#b6bac1 url("images/progressBarAnim.gif") repeat-x top;}
+.firmos .dijitInlineEditBoxDisplayMode{border:1px solid transparent;}
+.firmos .dijitInlineEditBoxDisplayModeHover{background-color:#fafad2;border:solid 1px #383838;}
+.dj_ie6 .firmos .dijitInlineEditBoxDisplayMode{border:none;}
+.firmos .dijitColorPalette{border:1px solid #5b5b5b;background:#ffffff;-moz-border-radius:0;border-radius:0;}
+.firmos .dijitColorPalette .dijitPaletteImg{border:1px solid #dddddd;}
+.firmos .dijitColorPalette .dijitPaletteCell:hover .dijitPaletteImg{border:1px solid #000000;}
+.firmos .dijitColorPalette .dijitPaletteCell:active .dijitPaletteImg,.firmos .dijitColorPalette .dijitPaletteTable .dijitPaletteCellSelected .dijitPaletteImg{border:2px solid #000000;}
 .firmos .dijitTimePicker .dijitButtonNode{padding:0 0;-moz-border-radius:0;border-radius:0;}
 .firmos .dijitTimePicker{border:1px #5b5b5b solid;border-top:none;border-bottom:none;background-color:#fff;}
 .firmos .dijitTimePickerItem{background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;border-top:solid 1px #5b5b5b;border-bottom:solid 1px #5b5b5b;margin-top:-1px;}
@@ -3722,6 +3715,13 @@ div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate{backgro
 .firmos .dijitTimePicker .dijitUpArrowHover,.firmos .dijitTimePicker .dijitDownArrowHover{background-color:#546791;}
 .firmos .dijitTimePicker .dijitUpArrowHover .dijitArrowButtonInner{background-position:-175px 45%;}
 .firmos .dijitTimePicker .dijitDownArrowHover .dijitArrowButtonInner{background-position:-70px 45%;}
+.firmos .dijitProgressBar{margin:2px 0 2px 0;}
+.firmos .dijitProgressBarEmpty{background-color:#ffffff;border-color:#383838;}
+.firmos .dijitProgressBarTile{background-color:#546791;background-image:url("images/progressBarFull.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.93) 0px, rgba(255, 255, 255, 0.41) 1px, rgba(255, 255, 255, 0.7) 2px, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.93) 0px, rgba(255, 255, 255, 0.41) 1px, rgba(255, 255, 255, 0.7) 2px, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.93) 0px, rgba(255, 255, 255, 0.41) 1px, rgba(255, 255, 255, 0.7) 2px, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.93) 0px, rgba(255, 255, 255, 0.41) 1px, rgba(255, 255, 255, 0.7) 2px, rgba(255, 255, 255, 0) 100%);background-attachment:scroll;}
+.dj_ie6 .firmos .dijitProgressBarTile{background-image:none;}
+.firmos .dijitProgressBarFull{border:0px solid #383838;border-right-width:1px;-webkit-transition-property:width;-moz-transition-property:width;-o-transition-property:width;transition-property:width;-webkit-transition-duration:0.25s;-moz-transition-duration:0.25s;-o-transition-duration:0.25s;transition-duration:0.25s;}
+.firmos .dijitProgressBarLabel{color:#000000;}
+.firmos .dijitProgressBarIndeterminate .dijitProgressBarTile{background:#b6bac1 url("images/progressBarAnim.gif") repeat-x top;}
 .firmos .dijitTreeNode{zoom:1;}
 .firmos .dijitTreeIsRoot{background-image:none;}
 .firmos .dijitTreeRow,.firmos .dijitTreeNode .dojoDndItemBefore,.firmos .dijitTreeNode .dojoDndItemAfter{padding:4px 0 2px 0;background-color:none;background-color:transparent;background-color:rgba(171, 214, 255, 0);background-position:0 0;background-repeat:repeat-x;border:solid 0 transparent;color:#000000;-webkit-transition-property:background-color,border-color;-moz-transition-property:background-color,border-color;-o-transition-property:background-color,border-color;transition-property:background-color,border-color;-webkit-transition-duration:0.25s;-moz-transition-duration:0.25s;-o-transition-duration:0.25s;transition-duration:0.25s;-webkit-transition-timing-function:ease-out;-moz-transition-timing-function:ease-out;transition-timing-function:ease-out;}
@@ -3760,15 +3760,6 @@ div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate{backgro
 .firmos .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode{margin:0;border-width:1px;border-style:solid;background-image:none;border-color:#383838;background-color:#ffffff;padding:1px;}
 .firmos .dijitDisabled .dijitToolbar{background:none;background-color:#dddddd;border-bottom:1px solid #c4c4c4;}
 .firmos .dijitToolbar .dijitComboBoxDisabled .dijitArrowButtonInner{background-position:0 50%;}
-.firmos .dijitEditorIFrameContainer{padding:3px 3px 1px 10px;}
-.firmos .dijitEditorIFrame{background-color:#ffffff;}
-.firmos .dijitEditor{border:1px solid #5b5b5b;}
-.firmos .dijitEditor .dijitEditorIFrameContainer{background-color:#ffffff;background-repeat:repeat-x;}
-.firmos .dijitEditorHover .dijitEditorIFrameContainer,.firmos .dijitEditorHover .dijitEditorIFrameContainer .dijitEditorIFrame{background-color:#fafad2;}
-.firmos .dijitEditorFocused .dijitEditorIFrameContainer,.firmos .dijitEditorFocused .dijitEditorIFrameContainer .dijitEditorIFrame{background-color:#fafad2;}
-.firmos .dijitEditorHover .dijitEditorIFrameContainer,.firmos .dijitEditorFocused .dijitEditorIFrameContainer{background-image:-moz-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);background-image:-webkit-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);background-image:-o-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);background-image:linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);}
-.firmos .dijitEditorDisabled{border:1px solid #c4c4c4;color:#6f6f6f;}
-.firmos .dijitDisabled .dijitEditorIFrame,.firmos .dijitDisabled .dijitEditorIFrameContainer,.firmos .dijitDisabled .dijitEditorIFrameContainer .dijitEditorIFrame{background-color:#dddddd;background-image:none;}
 .firmos .dijitTitlePaneTitle{background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;border:1px solid #5b5b5b;padding:0 7px 3px 7px;min-height:17px;background-color:#b6bac1;}
 .firmos .dijitFieldset{-moz-border-radius:4px;border-radius:4px;}
 .firmos .dijitTitlePaneTitleOpen,.firmos .dijitTitlePaneTitleFixedOpen{background-color:#787e8b;color:#000000;}
@@ -3782,6 +3773,15 @@ div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate{backgro
 .firmos .dijitTitlePaneContentInner{padding:10px;}
 .firmos .dijitFieldsetContentInner{padding:4px;}
 .firmos .dijitTitlePaneTextNode,.firmos .dijitFieldsetLegendNode{margin-left:4px;margin-right:4px;vertical-align:text-top;}
+.firmos .dijitEditorIFrameContainer{padding:3px 3px 1px 10px;}
+.firmos .dijitEditorIFrame{background-color:#ffffff;}
+.firmos .dijitEditor{border:1px solid #5b5b5b;}
+.firmos .dijitEditor .dijitEditorIFrameContainer{background-color:#ffffff;background-repeat:repeat-x;}
+.firmos .dijitEditorHover .dijitEditorIFrameContainer,.firmos .dijitEditorHover .dijitEditorIFrameContainer .dijitEditorIFrame{background-color:#fafad2;}
+.firmos .dijitEditorFocused .dijitEditorIFrameContainer,.firmos .dijitEditorFocused .dijitEditorIFrameContainer .dijitEditorIFrame{background-color:#fafad2;}
+.firmos .dijitEditorHover .dijitEditorIFrameContainer,.firmos .dijitEditorFocused .dijitEditorIFrameContainer{background-image:-moz-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);background-image:-webkit-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);background-image:-o-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);background-image:linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);}
+.firmos .dijitEditorDisabled{border:1px solid #c4c4c4;color:#6f6f6f;}
+.firmos .dijitDisabled .dijitEditorIFrame,.firmos .dijitDisabled .dijitEditorIFrameContainer,.firmos .dijitDisabled .dijitEditorIFrameContainer .dijitEditorIFrame{background-color:#dddddd;background-image:none;}
 .firmos .dgrid{border:0px solid red;border-color:#aaaaaa;background-color:#ffffff;color:#000000;}
 .firmos .ui-widget-header{font-weight:bold;}
 .firmos .ui-widget-header,.firmos .dgrid-footer{background-color:#b6bac1;background-image:-moz-linear-gradient(#c4c7cd 0%, #787e8b 100%);background-image:-webkit-linear-gradient(#c4c7cd 0%, #787e8b 100%);background-image:-o-linear-gradient(#c4c7cd 0%, #787e8b 100%);background-image:linear-gradient(#c4c7cd 0%, #787e8b 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='lighten(@secondary-color, 5)', endColorstr='@secondary-color', GradientType=0);}
@@ -3872,7 +3872,7 @@ body.firmos{background-color:#485062;}
 .firmos .dgrid-header .firmosGridString,.firmos .dgrid-header .firmosGridDate,.firmos .dgrid-header .firmosGridNumber,.firmos .dgrid-header .firmosGridIcon,.firmos .dgrid-header .firmosGridBoolean{text-align:left;}
 .firmos .firmosFormLabel,.firmos .firmosFormLabelRequired{padding-right:5px;color:#000000;}
 .firmos .dojoxCheckedMultiSelect .dojoxCheckedMultiSelectWrapper{border-color:transparent;}
-.firmos .topMenuLogoLeft{position:absolute;background-image:url('images_apps/share/mainlogo.png');background-repeat:no-repeat;width:440px;height:79px;top:8px;left:15px;}
+.firmos .topMenuLogoLeft{position:absolute;background-image:url('images_apps/share/mainlogo.png');background-repeat:no-repeat;width:440px;height:79px;top:16px;left:25px;}
 .firmos .topMenuLogoRight{position:absolute;right:0px;margin:-10px 10px 0px 0px;width:0px;height:0px;}
 .firmos .topMenuUserInfoRight{position:absolute;right:0px;margin:10px 40px 0px 0px;color:#FFF;cursor:pointer;font-size:26px;font-weight:lighter;}
 .topMenuUserActionRight{float:left;height:0px;margin:10px 5px 0 0;width:0px;}

@@ -76,7 +76,7 @@ body.firmos{background-color:#485062;}
 .firmos .dgrid-header .firmosGridString,.firmos .dgrid-header .firmosGridDate,.firmos .dgrid-header .firmosGridNumber,.firmos .dgrid-header .firmosGridIcon,.firmos .dgrid-header .firmosGridBoolean{text-align:left;}
 .firmos .firmosFormLabel,.firmos .firmosFormLabelRequired{padding-right:5px;color:#000000;}
 .firmos .dojoxCheckedMultiSelect .dojoxCheckedMultiSelectWrapper{border-color:transparent;}
-.firmos .topMenuLogoLeft{position:absolute;background-image:url('images_apps/share/mainlogo.png');background-repeat:no-repeat;width:440px;height:79px;top:8px;left:15px;}
+.firmos .topMenuLogoLeft{position:absolute;background-image:url('images_apps/share/mainlogo.png');background-repeat:no-repeat;width:440px;height:79px;top:16px;left:25px;}
 .firmos .topMenuLogoRight{position:absolute;right:0px;margin:-10px 10px 0px 0px;width:0px;height:0px;}
 .firmos .topMenuUserInfoRight{position:absolute;right:0px;margin:10px 40px 0px 0px;color:#FFF;cursor:pointer;font-size:26px;font-weight:lighter;}
 .topMenuUserActionRight{float:left;height:0px;margin:10px 5px 0 0;width:0px;}
