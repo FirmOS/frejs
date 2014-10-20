@@ -4783,6 +4783,16 @@ dojo.declare("FIRMOS.ValidationTextBox", dijit.form.ValidationTextBox, {
     } else {
       this.regExpForbidden = null;
     }
+    if (params.replaceregexp) {
+      this.regExpReplace = eval(params.replaceregexp);
+      delete(params.replaceregexp);
+    } else {
+      this.regExpReplace = null;
+    }
+    if (params.replacevalue) {
+      this.replaceValue = params.replacevalue;
+      delete(params.replacevalue);
+    }
     if (params.grouprequired) {
       this.groupRequired =  eval(params.grouprequired);
       delete params.grouprequired;
@@ -4815,6 +4825,9 @@ dojo.declare("FIRMOS.ValidationTextBox", dijit.form.ValidationTextBox, {
         this.textbox.selectionStart = cursorPos-diff;
         this.textbox.selectionEnd = cursorPos-diff;
       }
+    }
+    if (this.regExpReplace) {
+      this.textbox.value = this.textbox.value.replace(this.regExpReplace,this.replaceValue);
     }
     return this.inherited(arguments);
   },
