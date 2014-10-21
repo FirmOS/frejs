@@ -3933,6 +3933,7 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
       if (this.displayOnly) {
         if (!children[i].isInstanceOf(FIRMOS.FormButton)) {
           children[i].set('disabled',true);
+          children[i].set('placeHolder','');
         }
       }
       if (children[i].isInstanceOf(FIRMOS.BoolCheckBox)) {
