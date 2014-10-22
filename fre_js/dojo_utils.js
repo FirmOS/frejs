@@ -4028,16 +4028,42 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
   },
   _submitChange: function() {
     delete this._sendTimeout;
-    var params = dojo.clone(this.onChangeParams);
-    G_SERVER_COM.callServerFunction(this.onChangeClassname, this.onChangeFunctionname, this.onChangeUidPath, this._sendChangesParams);
-    this._sendChangesParams = {};
+    var changes=false;
+    for (var x in this._sendChangesParams) {
+      changes = true;
+      break;
+    }
+    if (changes) {
+      var params = dojo.clone(this.onChangeParams);
+      G_SERVER_COM.callServerFunction(this.onChangeClassname, this.onChangeFunctionname, this.onChangeUidPath, this._sendChangesParams);
+      this.updateValues(this._sendChangesParams);
+      this._sendChangesParams = {};
+    }
+  },
+  _getValueInObj: function(fieldname,data) {
+    var fname = fieldname.shift();
+    if (fieldname.length==0) {
+      return data[fname];
+    } else {
+      return this._getValueInObj(fieldname,data[fname]);
+    }
   },
   submitOnChange: function(field) {
     if (this.onChangeClassname && (!field || !field.get('disabled'))) {
       if (this._sendTimeout) {
         clearTimeout(this._sendTimeout);
       }
-      this._sendChangesParams[field.name] = field.get('value');
+      var value = field.get('value');
+
+      var initial_value = this._getValueInObj(field.name.split('.'),this.initialData);
+
+      if (initial_value==value) {
+        if (this._sendChangesParams[field.name]) {
+          delete this._sendChangesParams[field.name];
+        }
+      } else {
+        this._sendChangesParams[field.name] = value;
+      }
       this._sendTimeout = setTimeout(this._submitChange.bind(this),this.sendChangesDelay);
     }
   },
@@ -4170,7 +4196,7 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
   
   _sendData: function(classname, functionname, uidPath, params, hiddenParams, isDialog, binDataKey) {
     params.data = this.get('value');
-    this.submitData = dojo.clone(params.data);
+    var submitData = dojo.clone(params.data);
     if (this.sendChanged) {
       this._clearObject(params.data,this.initialData);
     }
@@ -4180,6 +4206,7 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
       G_UI_COM.isDialogAction();
     }
     G_SERVER_COM.callServerFunction(classname, functionname, uidPath, params, this.submitCallback.bind(this),null,null, binDataKey);
+    this.updateValues(submitData);
   },
   
   callServerFunction: function(classname, functionname, uidPath, params, hiddenParams, isDialog) {
@@ -4219,8 +4246,8 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
     for (var x in obj) {
       if (x=='uid') continue;
       if (x=='domainid') continue;
-      if (x instanceof Object) {
-        if (x instanceof Array) {
+      if (obj[x] instanceof Object) {
+        if (obj[x] instanceof Array) {
           var input = this.getInputById(path+x);
           if (input) {
             input.set('value',obj[x]);
