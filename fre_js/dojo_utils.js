@@ -3924,9 +3924,7 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
   },
   onShow: function(event) {
     this.inherited(arguments);
-    if (this.sendChanged) {
-      this.initialData = this.get('value');
-    }
+    this.initialData = this.get('value');
     var children = this.getChildren();
     for (var i=0; i<children.length; i++) {
       if (!children[i].name) continue; //skip non form elements
