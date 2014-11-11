@@ -7521,6 +7521,28 @@ dojo.declare("FIRMOS.Shell", dijit.layout.ContentPane, {
   }
 });
 
+//Horde
+dojo.declare("FIRMOS.Horde", dijit.layout.ContentPane, {
+  constructor: function(args) {
+    for (var i in args) {
+      this[i] = args[i];
+    }
+    this._events = new Array();
+  },
+  destroy: function() {
+    while (this._events.length>0) {
+      this._events.pop().remove();
+    }
+    this.inherited(arguments);
+  },
+  postCreate: function() {
+    this.set('content','<iframe id="'+this.id+'_frame" src="'+this.protocol+'://'+this.host+':'+this.port+'" style="width:100%; height:100%;">Iframe not supported.</iframe>');
+    this.set('style','overflow: hidden');
+    this.inherited(arguments);
+  }
+});
+
+
 //VNC
 dojo.declare("FIRMOS.VNC", dijit.layout.BorderContainer, {
   texts: G_TEXTS.vnc,
