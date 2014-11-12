@@ -7536,9 +7536,14 @@ dojo.declare("FIRMOS.Horde", dijit.layout.ContentPane, {
     this.inherited(arguments);
   },
   postCreate: function() {
-    this.set('content','<iframe id="'+this.id+'_frame" src="'+this.protocol+'://'+this.host+':'+this.port+'" style="width:100%; height:100%;">Iframe not supported.</iframe>');
+    this.set('content','<div style="display: none;"><form id="'+this.id+'_form" action="'+this.protocol+'://'+this.host+':'+this.port+'/login.php" method="post" target="'+this.id+'_frame"><input name="login_post" value="1"></input><input name="horde_pass" value="KNOXdata"></input><input name="horde_user" value="test@demo.styriacloud.net"></input></form></div><iframe id="'+this.id+'_frame" name="'+this.id+'_frame" style="width:100%; height:100%;"></iframe>');
     this.set('style','overflow: hidden');
     this.inherited(arguments);
+    setTimeout(this._connect.bind(this),0);
+  },
+  _connect: function() {
+    var form = dojo.byId(this.id+'_form');
+    form.submit();
   }
 });
 
