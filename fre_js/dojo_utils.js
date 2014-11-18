@@ -2961,6 +2961,12 @@ dojo.declare("FIRMOS.DateTextBox", dijit.form.DateTextBox, {
   popupClass: 'FIRMOS.widget.Calendar',
   _blankValue: '',
   constructor: function(params) {
+    if (params.dependentfields) {
+      this.depFields = dojo.fromJson(params.dependentfields);
+      delete(params.dependentfields);
+    } else {
+      this.depFields = {};
+    }
     if (params.grouprequired) {
       this.groupRequired =  eval(params.grouprequired);
       delete params.grouprequired;
@@ -2987,7 +2993,7 @@ dojo.declare("FIRMOS.DateTextBox", dijit.form.DateTextBox, {
       form=form.getParent();
     }
     if (form && form.isInstanceOf(FIRMOS.Form)) {
-      form.checkGroupRequiredFields(this);
+      form.checkDepAndGroupRequiredFields(this);
       form.submitOnChange(this);
     }
   }
@@ -3081,6 +3087,12 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
 
     this.templateString = this.templateString + this.templateEnd;
     
+    if (params.dependentfields) {
+      this.depFields = dojo.fromJson(params.dependentfields);
+      delete(params.dependentfields);
+    } else {
+      this.depFields = {};
+    }
     if (params.grouprequired) {
       this.groupRequired =  eval(params.grouprequired);
       delete params.grouprequired;
@@ -3726,7 +3738,7 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
       form=form.getParent();
     }
     if (form && form.isInstanceOf(FIRMOS.Form)) {
-      form.checkGroupRequiredFields(this);
+      form.checkDepAndGroupRequiredFields(this);
       form.submitOnChange(this);
     }
   }
@@ -3736,6 +3748,12 @@ dojo.declare("FIRMOS.Recurrence", dijit.form._FormValueWidget, {
 dojo.declare("FIRMOS.FileUpload", dojox.form.Uploader, {
   required: false,
   constructor: function(params) {
+    if (params.dependentfields) {
+      this.depFields = dojo.fromJson(params.dependentfields);
+      delete(params.dependentfields);
+    } else {
+      this.depFields = {};
+    }
     if (params.grouprequired) {
       this.groupRequired =  eval(params.grouprequired);
       delete params.grouprequired;
@@ -3806,7 +3824,7 @@ dojo.declare("FIRMOS.FileUpload", dojox.form.Uploader, {
       form=form.getParent();
     }
     if (form && form.isInstanceOf(FIRMOS.Form)) {
-      form.checkGroupRequiredFields(this);
+      form.checkDepAndGroupRequiredFields(this);
       form.submitOnChange(this);
     }
   }
@@ -3934,9 +3952,7 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
           children[i].set('placeHolder','');
         }
       }
-      if (children[i].isInstanceOf(FIRMOS.BoolCheckBox)) {
-        children[i].updateDepFields(this);
-      }
+      this.checkDepFields(children[i])
       if (children[i].isInstanceOf(FIRMOS.FilteringSelect)) {
         children[i].init();
       }
@@ -3998,23 +4014,49 @@ dojo.declare("FIRMOS.Form", dijit.form.Form, {
     }
     this.groupRequiredFields[path].required = required;
   },
-  
-  checkGroupRequiredFields: function(field) {
-    if (field.isInstanceOf(FIRMOS.BoolCheckBox)) return; //ignore boolean fields
+
+  getFieldEmptyValue: function(field) {
+    if (field.isInstanceOf(FIRMOS.BoolCheckBox)) {
+      return 'false';
+    } else {
+      return '';
+    }
+  },
+
+  checkDepFields: function(field) {
+    emptyValue=this.getFieldEmptyValue(field);
+    for (var i in field.depFields) {
+      var elem = this.getInputById(i);
+      if (elem) {
+        if ((field.get('value')==emptyValue && !field.depFields[i]) ||
+            (field.get('value')!=emptyValue && field.depFields[i])) {
+          elem.set('disabled',true);
+        } else {
+          elem.set('disabled',false);
+        }
+      }
+    }
+  },
+
+  checkDepAndGroupRequiredFields: function(field) {
+    //DepFields
+    this.checkDepFields(field);
+
+    //GroupRequired
     var pathArray = field.name.split('.');
     pathArray.pop();
     if (pathArray.length>0) {
       var path=pathArray.join('.');
       if (this.groupRequiredFields[path]) {
         newValue = field.get('value');
-        if (!newValue || (newValue=='')) {
+        if (!newValue || (newValue==this.getFieldEmptyValue(field))) {
           //check if all fields are empty
           for (var i=0; i<this.groupRequiredFields[path].fields.length; i++) {
             var elem = dijit.byId(this.groupRequiredFields[path].fields[i]);
             if (elem.isInstanceOf(FIRMOS.BoolCheckBox)) continue; //ignore boolean fields
             if (elem.get('disabled')) continue; //ignore disabled fields
             var elemValue = elem.get('value');
-            if (elemValue && (elemValue!='')) return;
+            if (elemValue && (elemValue!=this.getFieldEmptyValue(elem))) return;
           }
           this._setGroupRequired(path,false);
         } else {
@@ -4508,6 +4550,12 @@ dojo.declare("FIRMOS.Menu", dijit.Menu, {
 dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
   _hidden: false, 
   constructor: function(params) {
+    if (params.dependentfields) {
+      this.depFields = dojo.fromJson(params.dependentfields);
+      delete(params.dependentfields);
+    } else {
+      this.depFields = {};
+    }
     if (params.grouprequired) {
       this.groupRequired =  eval(params.grouprequired);
       delete params.grouprequired;
@@ -4533,12 +4581,6 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
       for (var i=0; i<depStoresDef.length; i++) {
         this.depStores_.push({storeId: depStoresDef[i].storeId, refId: depStoresDef[i].refId});
       }
-    }
-    if (params.dependentfields) {
-      this.depFields_ = dojo.fromJson(params.dependentfields);
-      delete(params.dependentfields);
-    } else {
-      this.depFields_ = {};
     }
   },
   destroy: function(params) {
@@ -4637,19 +4679,6 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
       this._updateDepField(i,this.depGroup_[i],true,form);
     }
   },
-  _updateDepFields: function(form) {
-    for (var i in this.depFields_) {
-      var elem = form.getInputById(i);
-      if (elem) {
-        if ((this.get('value')=='' && !this.depFields_[i]) ||
-            (this.get('value')!='' && this.depFields_[i])) {
-          elem.set('disabled',true);
-        } else {
-          elem.set('disabled',false);
-        }
-      }
-    }
-  },
   init: function() {
     if ((this.value=='') && (this.required || this._required)) {
       if (this.store.data.length>0) {
@@ -4666,7 +4695,6 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
       } else {
         this._updateDepGroup(form);
       }
-      this._updateDepFields(form);
     }
   },
   isValid: function(isFocused) {
@@ -4684,8 +4712,7 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
     }
     if (form && form.isInstanceOf(FIRMOS.Form)) {
       if (!this._hidden) this._updateDepGroup(form);
-      this._updateDepFields(form);
-      form.checkGroupRequiredFields(this);
+      form.checkDepAndGroupRequiredFields(this);
       form.submitOnChange(this);
     }
     this.refreshDepStores(value);
@@ -4697,10 +4724,8 @@ dojo.declare("FIRMOS.BoolCheckBox", dijit.form.CheckBox, {
   constructor: function(params) {
     if (params.dependentfields) {
       this.depFields = dojo.fromJson(params.dependentfields);
-      this.hasDepFields = true;
       delete(params.dependentfields);
     } else {
-      this.hasDepFields = false;
       this.depFields = {};
     }
     if (params.grouprequired) {
@@ -4711,30 +4736,14 @@ dojo.declare("FIRMOS.BoolCheckBox", dijit.form.CheckBox, {
     }
   },
   
-  updateDepFields: function(form) {
-    for (var i in this.depFields) {
-      var elem = form.getInputById(i);
-      if (elem) {
-        if ((this.get('value')=='true' && this.depFields[i]) ||
-            (this.get('value')=='false' && !this.depFields[i])) {
-          elem.set('disabled',true);
-        } else {
-          elem.set('disabled',false);
-        }
-        break;
-      }
-    }
-  },
   onChange: function() {
     this.inherited(arguments);
-    if (this.hasDepFields) {
-      var form = this.getParent();
-      while (form && !form.isInstanceOf(dijit.form.Form)) {
-        form=form.getParent();
-      }
-      if (form && form.isInstanceOf(FIRMOS.Form)) {
-        this.updateDepFields(form);
-      }
+    var form = this.getParent();
+    while (form && !form.isInstanceOf(dijit.form.Form)) {
+      form=form.getParent();
+    }
+    if (form && form.isInstanceOf(FIRMOS.Form)) {
+      form.checkDepAndGroupRequiredFields(this);
     }
   },
   _setValueAttr: function(value) {
@@ -4758,6 +4767,12 @@ dojo.declare("FIRMOS.BoolCheckBox", dijit.form.CheckBox, {
 //MultiValText
 dojo.declare("FIRMOS.MultiValText", dijit.form.Textarea, {
   constructor: function(params) {
+    if (params.dependentfields) {
+      this.depFields = dojo.fromJson(params.dependentfields);
+      delete(params.dependentfields);
+    } else {
+      this.depFields = {};
+    }
     if (params.grouprequired) {
       this.groupRequired =  eval(params.grouprequired);
       delete params.grouprequired;
@@ -4794,7 +4809,7 @@ dojo.declare("FIRMOS.MultiValText", dijit.form.Textarea, {
       form=form.getParent();
     }
     if (form && form.isInstanceOf(FIRMOS.Form)) {
-      form.checkGroupRequiredFields(this);
+      form.checkDepAndGroupRequiredFields(this);
       form.submitOnChange(this);
     }
   }
@@ -4818,6 +4833,12 @@ dojo.declare("FIRMOS.ValidationTextBox", dijit.form.ValidationTextBox, {
     if (params.replacevalue) {
       this.replaceValue = params.replacevalue;
       delete(params.replacevalue);
+    }
+    if (params.dependentfields) {
+      this.depFields = dojo.fromJson(params.dependentfields);
+      delete(params.dependentfields);
+    } else {
+      this.depFields = {};
     }
     if (params.grouprequired) {
       this.groupRequired =  eval(params.grouprequired);
@@ -4864,7 +4885,7 @@ dojo.declare("FIRMOS.ValidationTextBox", dijit.form.ValidationTextBox, {
       form=form.getParent();
     }
     if (form && form.isInstanceOf(FIRMOS.Form)) {
-      form.checkGroupRequiredFields(this);
+      form.checkDepAndGroupRequiredFields(this);
       form.submitOnChange(this);
     }
   }
@@ -4891,6 +4912,12 @@ dojo.declare("FIRMOS.NumberTextBox", dijit.form.NumberTextBox, {
       }
     }
     
+    if (params.dependentfields) {
+      this.depFields = dojo.fromJson(params.dependentfields);
+      delete(params.dependentfields);
+    } else {
+      this.depFields = {};
+    }
     if (params.grouprequired) {
       this.groupRequired =  eval(params.grouprequired);
       delete params.grouprequired;
@@ -4926,7 +4953,7 @@ dojo.declare("FIRMOS.NumberTextBox", dijit.form.NumberTextBox, {
       form=form.getParent();
     }
     if (form && form.isInstanceOf(FIRMOS.Form)) {
-      form.checkGroupRequiredFields(this);
+      form.checkDepAndGroupRequiredFields(this);
       form.submitOnChange(this);
     }
   }
