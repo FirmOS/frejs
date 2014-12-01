@@ -26,6 +26,7 @@ define("dijit/form/nls/validate", { root:
 "kk": true,
 "ja": true,
 "it": true,
+"id": true,
 "hu": true,
 "hr": true,
 "he": true,

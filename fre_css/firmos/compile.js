@@ -41,13 +41,13 @@ var lessFiles = [
   "InlineEditBox.less",
   "ProgressBar.less",
   "TimePicker.less",
-  "Tree.less", 
   "Toolbar.less",
   "Editor.less",/*in order to test button or menu item with icon */
   "TitlePane.less",
   "skin.less",
   "SitemapSVG.less",
   "TopMenu.less",
+  "dojoOverride.less",
   "firmos.less"
 ]
 

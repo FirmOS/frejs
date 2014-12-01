@@ -11,7 +11,6 @@
 .firmos td.dijitMenuItemIconCell{padding:2px;margin:0 0 0 4px;}
 .firmos td.dijitMenuItemLabel{padding-top:5px;padding-bottom:5px;}
 .firmos .dijitMenuExpand{width:7px;height:7px;background-image:url("images/spriteArrows.png");background-position:-14px 0;margin-right:3px;margin-bottom:4px;}
-.firmos .dijitMenuItemDisabled .dijitMenuItemIconCell{opacity:1;}
 .firmos .dijitMenuSeparatorTop{height:auto;margin-top:1px;border-bottom:1px solid #5b5b5b;}
 .firmos .dijitMenuSeparatorBottom{height:auto;margin-bottom:1px;}
 .firmos .dijitCheckedMenuItem .dijitMenuItemIcon,.firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-image:url("images/checkboxRadioButtonStates.png");background-repeat:no-repeat;background-position:-15px 50%;width:15px;height:16px;}
@@ -20,6 +19,6 @@
 .firmos .dijitRadioMenuItem .dijitMenuItemIcon{background-position:-105px 50%;}
 .firmos .dijitRadioMenuItemChecked .dijitMenuItemIcon{background-position:-90px 50%;}
 .firmos .dijitComboBoxMenu{margin-left:0;background-image:none;}
-.firmos .dijitMenu .dijitMenuItemSelected td,.firmos .dijitComboBoxMenu .dijitMenuItemSelected{color:#ffffff;text-shadow:1px 1px 1px black;border-color:#383838;background-color:#546791;}
+.firmos .dijitMenu .dijitMenuItemSelected td,.firmos .dijitComboBoxMenu .dijitMenuItemSelected{color:#000000;border-color:#383838;background-color:#546791;}
 .firmos .dijitComboBoxMenuActive .dijitMenuItemSelected{background-color:#47526a;}
 .firmos .dijitMenuPreviousButton,.firmos .dijitMenuNextButton{font-style:italic;}

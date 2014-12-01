@@ -1,25 +1,24 @@
-require (["dojo/_base/array","dojo/dom-geometry","dojo/aspect",
-               "dgrid/OnDemandGrid","dgrid/Grid","dgrid/Selection","dgrid/selector","dgrid/tree","dgrid/editor",
+require (["dojo/_base/array","dojo/dom-geometry","dojo/aspect","dojo/on",
+               "dgrid/OnDemandGrid","dgrid/Grid","dgrid/Selection","dgrid/Tree","dgrid/Editor",
                "dgrid/extensions/ColumnResizer","dgrid/extensions/ColumnHider","dgrid/extensions/ColumnReorder","dgrid/extensions/DijitRegistry","dgrid/extensions/DnD",
                "dojox/form/CheckedMultiSelect","dojox/form/FileInput","dojox/form/Uploader","dojox/form/uploader/FileList","dojox/validate/web","dojox/validate/check","dojox/widget/Calendar",
                "dojox/gfx","dojox/gfx/fx","dojox/gfx/utils","dojox/gfx/Moveable","dojox/gesture/tap","dojox/gesture/swipe",
                "dojox/html/styles","dojo/dom-construct",
-               "dojox/charting/widget/Chart","dojox/charting/widget/Legend","dojox/charting/axis2d/Default","dojox/charting/plot2d/Lines","dojox/charting/plot2d/Pie","dojox/charting/plot2d/ClusteredColumns",
-               "dijit/Menu","dijit/Dialog","dijit/Tree","dijit/Toolbar","dijit/ProgressBar","dijit/Tooltip",
+               "dijit/Menu","dijit/Dialog","dijit/Toolbar","dijit/ProgressBar","dijit/Tooltip",
                "dijit/form/TextBox","dijit/form/DateTextBox","dijit/form/Form","dijit/form/FilteringSelect","dijit/form/Textarea","dijit/form/NumberTextBox","dijit/form/ComboBox","dijit/form/TimeTextBox","dijit/form/Select","dijit/form/NumberSpinner","dijit/form/HorizontalSlider",
                "dijit/layout/ContentPane","dijit/layout/TabContainer","dijit/layout/BorderContainer","dijit/layout/AccordionContainer",
                "dojo/io/iframe"
               ],
               function(
-              __array,__geometry,__aspect,
-              __ODGrid,__Grid,__Selection,__selector,__tree,__editor,
+              __array,__geometry,__aspect,__on,
+              __ODGrid,__Grid,__Selection,__Tree,__Editor,
               __ColumnResizer,__ColumnHider,__ColumnReorder,__DijitRegistry,__DnD
               ) {
-  dojo.array = __array; dojo.domGeo = __geometry; dojo.aspect = __aspect;
+  dojo.array = __array; dojo.domGeo = __geometry; dojo.aspect = __aspect; dojo.on = __on;
   dgrid = {};
-  dgrid.OnDemandGrid = __ODGrid; dgrid.Grid = __Grid; dgrid.Selection = __Selection; dgrid.selector = __selector; dgrid.tree = __tree; dgrid.editor = __editor;
+  dgrid.OnDemandGrid = __ODGrid; dgrid.Grid = __Grid; dgrid.Selection = __Selection; dgrid.Tree = __Tree; dgrid.Editor = __Editor;
   dgrid.ColumnResizer = __ColumnResizer; dgrid.ColumnHider = __ColumnHider; dgrid.ColumnReorder = __ColumnReorder; dgrid.DijitRegistry = __DijitRegistry; dgrid.DnD = __DnD;
-  
+
 //wsConnectionHandler
 dojo.declare("FIRMOS.wsConnectionHandler", null, {
   constructor: function() {
@@ -289,11 +288,7 @@ dojo.declare("FIRMOS.uiHandler", null, {
     if (view.isInstanceOf(FIRMOS.GridBase)) {
       view.refresh();
     } else {
-      if (view.isInstanceOf(FIRMOS.Tree)) {
-        view.refresh();
-      } else {
-        console.error('REFRESH VIEW TYPE UNKNOWN');
-      }
+      console.error('REFRESH VIEW TYPE UNKNOWN');
     }
   },
   
@@ -755,22 +750,6 @@ dojo.declare("FIRMOS.uiHandler", null, {
     return this.stores_[id];
   },
   
-  invalidateSessionData: function(stores) {
-    for (var i=0; i<stores.length; i++) {
-      var store = this.getStoreById(stores[i].storeid).store;
-      if (stores[i].queryids) {
-        if (!(stores[i].queryids instanceof Array)) {
-          stores[i].queryids = [stores[i].queryids];
-        }
-        for (var j=0; i<stores[j].queryids.length; j++) {
-          store.invalidateObserver(stores[i].queryids[j]);
-        }
-      } else {
-        store.invalidateAllObservers();
-      }   
-    }
-  },
-  
   sortFuncSubSecOrd: function(a,b) {
     if (a._subSecOrd<b._subSecOrd) {
       return -1;
@@ -1225,9 +1204,11 @@ dojo.declare("FIRMOS.Message", FIRMOS.Dialog, {
 dojo.declare("FIRMOS.Store", null, {
 
   idAttribute: 'uid',
-  labelAttributes: ['text','objname','uid'],
+  tracked    : false,
 
   constructor: function(args) {
+    this._orgArgs = args;
+
     this.params_ = new Object();
     if (args._dependency) {
       this.params_.dependency = args._dependency;
@@ -1239,378 +1220,121 @@ dojo.declare("FIRMOS.Store", null, {
       this[i] = args[i];
     }
 
-    this._dirtyItems = {};
-    this._orgItems = {};
     this.queryId_ = 0;
     this.queryResults_ = new Object();
+    this.childStores = new Object();
     G_UI_COM.registerStore(this);
   },
   destroy: function() {
-    if (this.destroyClassname) {
-      G_SERVER_COM.callServerFunction(this.destroyClassname, this.destroyFunctionname, this.destroyUidPath, this.destroyParams);
+    console.log('DESTROY STORE ' + this.id);
+    for (var id in this.childStores) {
+      this.childStores[id].destroy();
     }
-    G_UI_COM.unregisterStore(this);
-    G_UI_COM.setStoreDepData(this.id,this.params_.dependency);
+
+    if (this.parent) {
+      delete this.parentStore.childStores[this.parentStore.getIdentity(this.parent)];
+      delete this.parent;
+      delete this.parentStore;
+    } else {
+      if (this.destroyClassname) {
+        G_SERVER_COM.callServerFunction(this.destroyClassname, this.destroyFunctionname, this.destroyUidPath, this.destroyParams);
+      }
+      G_UI_COM.unregisterStore(this);
+      G_UI_COM.setStoreDepData(this.id,this.params_.dependency);
+    }
     this.inherited(arguments);
   },
-  close: function(request) {
-    return request && request.abort && request.abort();
-  },
-  containsValue: function(item, attribute, value) {
-    return dojo.array.indexOf(this.getValues(item,attribute),value) > -1;
-  },
-  mayHaveChildren: function(object) {
-    if (object.children) {
-      return true;
-    } else {
-      return false;
-    }
-  },
-  _getChildrenCallback: function(item,callback,results) {
-    item.children = results;
-    for (var i=0; i<item.children.length; i++) {
-      if ((item.children[i].children) && (item.children[i].children=='UNCHECKED')) {
-        item.children[i].children = [];
-        item.children[i]._loadChildren = true;
-      }
-    }
-    if (typeof callback == 'function') {
-      callback(item);
-    }
-  },
-  getChildren: function(item,args) {
-    var argsIsCallback = (typeof args == 'function');
-    var query_args = {};
-    
-    if (!argsIsCallback) {
-      query_args = args;
-    }
-    var def = this._doQuery(query_args,item);
-    def.addCallback(this._getChildrenCallback.bind(this,item,args));
-    if (argsIsCallback) {
-      def.addErrback(args.bind(this,new Error('Error in function getChildren')));
-    }
-    return dojo.store.util.QueryResults(def);
-  },
-  query: function(query, args) {
-    args.query = query;
-    var def = this._doQuery(args);
-    return dojo.store.util.QueryResults(def);
-  },
-  _doQuery: function(args,item) {
-    var def=new dojo.Deferred();
 
-    var query_id = this.queryId_++;
-    this.queryResults_[query_id] = new Object();
-    this.queryResults_[query_id].query = args.query;
-    this.queryResults_[query_id].queryArgs = args;
-    this.queryResults_[query_id].dataIds = new Array();
-    this.queryResults_[query_id].observer = new Array();
-    this.queryResults_[query_id].observerInfo = new Array();
-    this.queryResults_[query_id].parentId = '';
-
-    var params = dojo.clone(this.getParams);
-    dojo.mixin(params, this.params_);
-    
-    if (item) {
-      var id = this.getIdentity(item);
-      this.queryResults_[query_id].parentId = id;
-      params.parentid = id;
-    }
-    if ((item) && (item._childrenfunc_)) {
-      var cn = item._funcclassname_ || this.getClassname;
-      var fn = item._childrenfunc_;
-      if (item.uidpath) {
-        if (item.uidpath instanceof Array) {
-          var up = item.uidpath;
-        } else {
-          var up = [item.uidpath];
-        }
-      } else {
-        var up = [item.uid];
+  //dStore Collection/Store API
+  filter: function(query) {
+    return this;
+  },
+  sort: function(property, descending) {
+    if (property instanceof Array) {
+      for (var i=property.length-1;i>=0;i--) {
+        this._sort(property[i].property,property[i].descending);
       }
     } else {
-      var up = this.getUidPath;
-      var cn = this.getClassname;
-      var fn = this.getFunctionname;
+      this._sort(property, descending);
     }
-
-    params.queryid = query_id;
-    if (args.query) {
-      params.query = args.query;
-    }
-    if (typeof args.count!="undefined") params.count = args.count;
-    if (typeof args.start!="undefined") params.start = args.start;
-    if (args.sort) {
-      params.sort = new Array();
-      for (var i=0;i<args.sort.length;i++) {
-        params.sort[i] = new Object();
-        params.sort[i].property = args.sort[i].attribute;
-        params.sort[i].ascending = !args.sort[i].descending;
-      }
-    }
-
-    def.total = new dojo.Deferred();
-    def.observe = this._observe.bind(this, query_id); 
-    var serverFuncCallback = function(queryId, options, success, response) { 
-      if (success) {
-        var json_result = dojo.fromJson(response.output);
-        if (json_result.actiontype && (json_result.actiontype=='jsexecute')) {
-          def.reject();
-          eval(json_result.action);
-        } else {
-          def.total.resolve(json_result.total);
-          if (this.queryResults_[queryId]) {
-            //store ids of the result
-            for (var i=0; i<json_result.data.length; i++) {
-              this.queryResults_[queryId].dataIds.push(this.getIdentity(json_result.data[i]));
-            }
-            if (this.queryResults_[queryId].observer.length==0) {
-              setTimeout(this._deleteResultCache.bind(this,queryId),2000);
-            }
-          }
-          def.resolve(json_result.data);
-        }
-      } else {
-        def.reject(response.error);
-        if (response.output) {
-          var json_result = dojo.fromJson(response.output);
-          if (json_result.action) {
-            eval(json_result.action);
-          }
-        }
-      }
-    }.bind(this, query_id);
-    G_SERVER_COM.callServerFunction(cn, fn, up, params, serverFuncCallback);
-
-    return def;
+    return this;
   },
-  _fetchTotalCountCallback: function(args,scope,results) {
-    if (args.onBegin) {
-      args.onBegin.call(scope, results, args);
+  _sort: function(property, descending) {
+    //FIXXME
+  },
+  _forEachCallback: function(callback,thisObject,results) {
+    for (var i=0;i<results.length;i++) {
+      callback.call(thisObject,results[i]);
     }
   },
-  _fetchCallback: function(args,scope,results) {
-    if (args.onItem) {
-      for (var i=0; i<results.length;i++){
-        args.onItem.call(scope, results[i], args);
-      }
-    }
-    if (args.onComplete) {
-      args.onComplete.call(scope, args.onItem ? null : results, args);
-    }
+  forEach: function(callback, thisObject) {
+    var def = this.fetch();
+    def.addCallback(this._forEachCallback.bind(this,callback,thisObject));
   },
   fetch: function(args){
+    console.log('FUNCTION fetch ' + JSON.stringify(arguments));
+    return this.fetchRange();
+  },
+  fetchRange: function(args){
+    console.log('FUNTION fetchRange ' + JSON.stringify(arguments));
     args = args || {};
     var scope = args.scope || this;
     var def = this._doQuery(args);
     def.request = args;
-    def.addCallback(this._fetchCallback.bind(this,args,scope));
-    def.total.addCallback(this._fetchTotalCountCallback.bind(this,args,scope));
-    if (args.onError) {
-      def.addErrback(function(err) { return args.onError.call(scope, err, args); });
+    return def;
+  },
+  track: function() {
+    this.tracked = true;
+    this.tracking = new Object();
+    this.tracking.remove = this.stopTracking.bind(this);
+    return this;
+  },
+  stopTracking: function() {
+    this.tracked = false;
+    delete this.tracking;
+  },
+  _getOnTracked: function(listener,target,type) {
+    var evtFunc;
+    switch (type) {
+      case 'delete': evtFunc='onDelete'; break;
+      case 'add'   : evtFunc='onAdd'; break;
+      case 'update': evtFunc='onUpdate'; break;
+      default      : return {remove: function() {} }; break;
     }
-    args.abort = function() { def.cancel(); };
-    return args;
+    return dojo.aspect.after(this, evtFunc , listener, true);
   },
-  getAttributes: function(item){
-    var res = [];
-    for (var i in item){
-      if (item.hasOwnProperty(i) && !(i.charAt(0) == '_' && i.charAt(1) == '_')) {
-        res.push(i);
-      }
-    }
-  return res;
+  on: function(type, listener) {
+    console.log('ON ' + type + ' ' + this.id);
+    return dojo.on.parse(this, type, listener, this._getOnTracked.bind(this,listener));
   },
-  getFeatures: function(){
-    return {
-      "dojo.data.api.Read": true,
-      "dojo.data.api.Identity": true,
-      "dojo.data.api.Write": true,
-      "dojo.data.api.Notification": true
-    };
+  releaseRange: function(start, end) {
+    console.log('FUNCTION releaseRange ' + start + ' ' + end);
+    //FIXXME
   },
-  getLabel: function(item){
-    for (var i=0; i<this.labelAttributes.length; i++) {
-      var l=this.getValue(item,this.labelAttributes[i]);
-      if (l) return l;
-    }
-    for (var i in item) {
-      return item[i];
-    }
-  },
-  getLabelAttributes: function(item){
-    return this.labelAttributes;
-  },
-  getValue: function(item, property, defaultValue){
-    if (property in item) {
-      return item[property];
-    }
-    if (item._loadChildren && (property=='children')) {
-      return;
-    }
-    return defaultValue;
-  },
-  getValues: function(item, property){
-    var val = this.getValue(item,property);
-    return val instanceof Array ? val : val === undefined ? [] : [val];
-  },
-  hasAttribute: function(item,attribute){
-    return attribute in item;
-  },
-  isItem: function(item){
-    return (typeof item == 'object') && item && (this.getIdentity(item)!=undefined);
-  },
-  isItemLoaded: function(item){
-    return item && !item._loadChildren;
-  },
-  _loadItemCallback: function(args, result) {
-    var scope = args.scope || this;
-    delete result._loadChildren;
-    var func = result instanceof Error ? args.onError : args.onItem;
-    if (func) {
-      func.call(scope, result);
-    }
-  },
-  loadItem: function(args){
-    var scope = args.scope || this;
-    if (args.item._loadChildren){
-      this.getChildren(args.item, this._loadItemCallback.bind(this,args));
-    } else {
-      if (args.onItem){
-        args.onItem.call(scope, args.item);
-      }
-    }
-  },
-  deleteItem: function(item) {
-    console.error('STORE DELETE NOT IMPLEMENTED: ' + JSON.stringify(item));
-    return true;
-  },
-  isDirty: function(item) {
-    if (this._dirtyItems[this.getIdentity(item)]) {
-      return true;
-    } else {
-      return false;
-    }
-  },
-  newItem: function(data, parentInfo) {
-    console.error('STORE NEW ITEM NOT IMPLEMENTED: ' + JSON.stringify(data) + ' - ' + JSON.stringify(parentInfo));
-    return data;
-  },
-  revert: function() {
-    for (var i in this._dirtyItems) {
-      for (var x in this._dirtyItems[i]) {
-        if (this._orgItems[i][x] != this._dirtyItems[i][x]) {
-          this.onSet(this._orgItems[i],x,this._dirtyItems[i][x],this._orgItems[i][x]);
-        }
-      }
-      delete this._dirtyItems[i];
-      delete this._orgItems[i];
-    }
-  },
-  save: function(args) {
-    console.error('SAVE ITEM NOT IMPLEMENTED: ' + JSON.stringify(args));
-    var scope = args.scope || this;
-    for (var i in this._dirtyItems) {
-      //SEND SAVE TO SERVER
-      delete this._dirtyItems[i];
-      delete this._orgItems[i];
-    }
-    if (args.onComplete) {
-      args.onComplete.call(scope, args);
-    }
-  },
-  setValue: function(item, attribute, value) {
-    if (attribute==this.idAttribute) {
-      throw new Error("Can not change the identity attribute for an item");
-    }
-    var old = item[attribute];
-    if (old!=value) {
-      if (!this._orgItems[this.getIdentity(item)]) {
-        this._orgItems[this.getIdentity(item)] = dojo.clone(item);
-      }
-      if (value) {
-        item[attribute]=value;
-      } else {
-        delete item[attribute];
-      }
-      this._dirtyItems[this.getIdentity(item)] = item;
-      this.onSet(item,attribute,old,value);
-    }
-  },
-  setValues: function(item, attribute, values){
-    if(!lang.isArray(values)){
-      throw new Error("setValues expects to be passed an Array object as its value");
-    }
-    this.setValue(item,attribute,values);
-  },
-  unsetAttribute: function(item, attribute){
-    this.setValue(item,attribute);
-  },
-  onSet: function(item, attribute, oldValue, newValue) {},
-  onNew: function(newItem, parentInfo) {},
-  onDelete: function(deletedItem) {},
-  fetchItemByIdentity: function(args){
-    return this.fetch({query: this.idAttribute + '=' + args.identity, onComplete: args.onItem, onError: args.onError, scope: args.scope});
+  get: function(id) {
+    var ret = {}; //FIXXME
+    ret[this.idAttribute]=id;
+    return ret;
   },
   getIdentity: function(object){
     return object[this.idAttribute];
   },
-  getIdentityAttributes: function(item){
-    return [this.idAttribute];
+  put: function(object, directives) {
+    //FIXXME
   },
-  _observe: function(queryId, listener, includeObjectUpdates, chartId) {
-    var handle = {};
-    handle.listener = listener;
-    handle.remove = handle.cancel = this._removeObserver.bind(this, handle);
-    handle.queryId = queryId;
-    this.queryResults_[queryId].observer.push(listener);
-    this.queryResults_[queryId].observerInfo.push(chartId || '');
-    return handle;
+  add: function(object, directives) {
+    //FIXXME
   },
-  invalidateObserver: function(queryId) {
-    delete this.queryResults_[queryId];
-  },
-  invalidateAllObservers: function() {
-    for (var i in this.queryResults_) {
-      delete this.queryResults_[i];
-    }
-  },
-  _removeObserver: function(handle) {
-    if (this.queryResults_[handle.queryId]) {
-      var index = dojo.array.indexOf(this.queryResults_[handle.queryId].observer, handle.listener);
-      if(index>-1) {
-        this.queryResults_[handle.queryId].observer.splice(index, 1);
-        this.queryResults_[handle.queryId].observerInfo.splice(index, 1);
-      }
-    }
-    this._deleteResultCache(handle.queryId);
-  },
-  _deleteResultCache: function(queryId) {
-    if (this.queryResults_[queryId] && (this.queryResults_[queryId].observer.length==0)) {
-      if (this.clearClassname) {
-        var params = this.clearParams;
-        params.queryid = queryId;
-        G_SERVER_COM.callServerFunction(this.clearClassname, this.clearFunctionname, this.clearUidPath, params);
-      }
-      delete this.queryResults_[queryId];
-    }
-  },
-  get: function(itemId) {
-    var ret = {};
-    ret[this.idAttribute]=itemId;
-    return ret;
-  },
-  remove: function(itemId) { //drag operation
+  remove: function(id) { //drag operation
     if (this.dragClassname) {
       var params = dojo.clone(this.dragParams);
       dojo.mixin(params, this.params_);
-      params.selected = itemId;
+      params.selected = id;
       G_SERVER_COM.callServerFunction(this.dragClassname,this.dragFunctionname,this.dragUidPath, params);
     }
   },
   put: function(items, args) {
-    //console.log('PUT ' + JSON.stringify(items) + ' - ' + JSON.stringify(args));
+    console.log('PUT ' + JSON.stringify(items) + ' - ' + JSON.stringify(args));
     if (args) { //drop operation (args: {source: store, before: item})
       if (this.dropClassname) {
         var params = dojo.clone(this.dropParams);
@@ -1639,6 +1363,126 @@ dojo.declare("FIRMOS.Store", null, {
         G_SERVER_COM.callServerFunction(this.saveClassname,this.saveFunctionname,this.saveUidPath, params);
       }
     }
+  },
+
+  transaction: function() {
+    //FIXXME
+  },
+  create: function(properties) {
+    //FIXXME
+  },
+  getChildren: function(parent) {
+    args = dojo.clone(this._orgArgs);
+    args.id = this.id + '_' + this.getIdentity(parent);
+    var childStore = new FIRMOS.Store(args);
+    childStore.parent = parent;
+    childStore.parentStore = this;
+    this.childStores[this.getIdentity(parent)] = childStore;
+
+    if (parent._childrenfunc_) {
+      childStore.getClassname = parent._funcclassname_ || this.getClassname;
+      childStore.getFunctionname = parent._childrenfunc_;
+      if (parent.uidpath) {
+        if (parent.uidpath instanceof Array) {
+          childStore.getUidPath = parent.uidpath;
+        } else {
+          childStore.getUidPath = [parent.uidpath];
+        }
+      } else {
+        childStore.getUidPath = [parent.uid];
+      }
+    }
+    return childStore;
+  },
+  mayHaveChildren: function(parent) {
+    if (parent.children) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+  getRootCollection: function() {
+    if (this.parentStore) {
+      return this.parentStore.getRootCollection();
+    } else {
+      return this;
+    }
+  },
+  _doQuery: function(args) {
+    var def=new dojo.Deferred();
+
+    var rc = this.getRootCollection(); //FIXXME
+    var query_id = rc.queryId_++;
+    //var query_id = this.queryId_++;
+    this.queryResults_[query_id] = new Object();
+    this.queryResults_[query_id].query = args.query;
+    this.queryResults_[query_id].queryArgs = args;
+    this.queryResults_[query_id].dataIds = new Array();
+    this.queryResults_[query_id].parentId = '';
+
+    var params = dojo.clone(this.getParams);
+    dojo.mixin(params, this.params_);
+    
+    if (this.parent) {
+      var id = this.getIdentity(this.parent);
+      this.queryResults_[query_id].parentId = id;
+      params.parentid = id;
+    }
+
+    params.queryid = query_id;
+    if (args.query) {
+      params.query = args.query;
+    }
+    if (typeof args.count!="undefined") params.count = args.count;
+    if (typeof args.start!="undefined") {
+      params.start = args.start;
+      if (typeof args.end!="undefined") params.count = args.end - args.start + 1;
+    }
+    if (args.sort) {
+      params.sort = new Array();
+      for (var i=0;i<args.sort.length;i++) {
+        params.sort[i] = new Object();
+        params.sort[i].property = args.sort[i].attribute;
+        params.sort[i].ascending = !args.sort[i].descending;
+      }
+    }
+
+    def.totalLength = new dojo.Deferred();
+    var serverFuncCallback = function(queryId, options, success, response) {
+      if (success) {
+        var json_result = dojo.fromJson(response.output);
+        if (json_result.actiontype && (json_result.actiontype=='jsexecute')) {
+          def.reject();
+          eval(json_result.action);
+        } else {
+          def.totalLength.resolve(json_result.total);
+          if (this.queryResults_[queryId]) {
+            //store ids of the result
+            for (var i=0; i<json_result.data.length; i++) {
+              this.queryResults_[queryId].dataIds.push(this.getIdentity(json_result.data[i]));
+            }
+          }
+          def.resolve(json_result.data);
+        }
+      } else {
+        def.reject(response.error);
+        if (response.output) {
+          var json_result = dojo.fromJson(response.output);
+          if (json_result.action) {
+            eval(json_result.action);
+          }
+        }
+      }
+    }.bind(this, query_id);
+    G_SERVER_COM.callServerFunction(this.getClassname, this.getFunctionname, this.getUidPath, params, serverFuncCallback);
+
+    return def;
+  },
+  onAdd: function(event) {
+  },
+  onDelete: function(event) {
+  },
+  onUpdate: function(event) {
   },
 //FIRMOS update API
   _getItemQueryPos: function(itemId, qid) {
@@ -1688,6 +1532,9 @@ dojo.declare("FIRMOS.Store", null, {
   },
   newItems: function(data) {
     for (var i=0;i<data.length;i++) {
+      var event = new Object();
+      event.type = 'add';
+      event.target = data[i].item;
 
       var pos = this._checkUpdateInput(data[i].qid,this.getIdentity(data[i].item),'NewItems',true);
       if (pos!=-1) return;
@@ -1703,35 +1550,31 @@ dojo.declare("FIRMOS.Store", null, {
         var revPos = this.queryResults_[data[i].qid].dataIds.length;
         this.queryResults_[data[i].qid].dataIds.push(this.getIdentity(data[i].item));
       }
-
-      this.onNew(data[i].item);
-      var found_count = this.queryResults_[data[i].qid].observer.length;
-      for (var o=0; o<found_count; o++) {
-        this.queryResults_[data[i].qid].observer[o](data[i].item,-1,revPos,data[i].revid);
-      }
+      event.index = revPos;
+      this.onAdd(event);
     }
   },
   deleteItems: function(data) {
     for (var i=0;i<data.length;i++) {
-      var tmpData = new Object();
-      tmpData[this.idAttribute] = data[i].itemid;
+      var event = new Object();
+      event.type = 'delete';
+      event.id = data[i].itemid;
 
       var pos = this._checkUpdateInput(data[i].qid,data[i].itemid,'DeleteItems',false);
       if (pos==-1) return;
+      event.previousIndex = pos;
 
       this._removeChildrenQuerys(data[i].itemid);
       this.queryResults_[data[i].qid].dataIds.splice(pos,1);
 
-      this.onDelete(tmpData);
-      var found_count = this.queryResults_[data[i].qid].observer.length;
-      for (var o=0; o<found_count; o++) {
-        this.queryResults_[data[i].qid].observer[o](tmpData,pos,-1);
-      }
+      this.onDelete(event);
     }
   },
   updateItems: function(data) {
-    var chartUpdates = [];
     for (var i=0; i<data.length; i++) {
+      var event = new Object();
+      event.type = 'update';
+      event.target = data[i].item;
 
       var pos = this._checkUpdateInput(data[i].qid,this.getIdentity(data[i].item),'UpdateItems',false);
       if (pos==-1) return;
@@ -1741,140 +1584,15 @@ dojo.declare("FIRMOS.Store", null, {
       } else {
         var revPos = pos;
       }
+      event.index = revPos;
+      event.previousIndex = pos;
 
-      var found_count = this.queryResults_[data[i].qid].observer.length;
-      for (var o=0; o<found_count; o++) {
-        if (this.queryResults_[data[i].qid].observerInfo[o]) {
-          var views = G_UI_COM.getStoreById(this.id).views;
-          for (var v=0; v<views.length; v++) {
-            if (views[v].id == this.queryResults_[data[i].qid].observerInfo[o]) {
-              var adapters = views[v].storeAdapters_;
-              for (var j=0; j<adapters.length; j++) {
-                if (adapters[j].series.name==this.queryResults_[data[i].qid].query.sId) {
-                  adapters[j].objects[pos].value = data[i].item.value;
-                  break;
-                }
-              }
-              break;
-            }
-          }
-          if (dojo.array.indexOf(chartUpdates, this.queryResults_[data[i].qid].observer[o])==-1) {
-            chartUpdates.push(this.queryResults_[data[i].qid].observer[o]);
-          }
-        } else {
-          if (data[i].revid) {
-            this.queryResults_[data[i].qid].observer[o](data[i].item,pos,revPod,data[i].revid); //update and reorder
-          } else {
-            this.queryResults_[data[i].qid].observer[o](data[i].item,pos,pos); //reorder
-          }
-        }
-      }
-    }
-
-    for (var i=0; i<chartUpdates.length; i++) {
-      chartUpdates[i]();
+      this.onUpdate(event);
     }
   }
 });
 
-//Tree
-dojo.declare("FIRMOS.Tree", dijit.Tree, {
-  constructor: function(args) {
-    G_UI_COM.registerStoreView(args.model.store.id,this);
-  },
-  destroy: function() {
-    G_UI_COM.unregisterStoreView(this.model.store.id,this);
-    this.inherited(arguments);
-  },
-  postCreate: function() {
-    this.watch("selectedItems",this.selectionChanged.bind(this));
-    this.inherited(arguments);
-  },
-  getIconClass: function(item, opened) {
-    if (item._icon_) {
-      var rName = item._icon_.replace(/[\/\.]/g,'');
-      G_UI_COM.createCSSRule(rName,"background-image: url('"+item._icon_+"');background-repeat: no-repeat; height: 18px;text-align: center;width: 18px;");
-      return rName;
-    } else {
-      return this.inherited(arguments);
-    }
-  },
-  selectionChanged: function(property,oldValue,newValue) {  //FIXXME - register content funcs for trees
-    if (newValue && newValue.length>0) {
-      if (newValue[0]._funcclassname_ && newValue[0]._contentfunc_) {
-        var contentFunc={};
-        contentFunc.classname = newValue[0]._funcclassname_;
-        contentFunc.functionname = newValue[0]._contentfunc_;
-        if (newValue[0].uidpath) {
-          if (newValue[0].uidpath instanceof Array) {
-            contentFunc.uidPath = newValue[0].uidpath;
-          } else {
-            contentFunc.uidPath = [newValue[0].uidpath];
-          }
-        } else {
-          contentFunc.uidPath = [newValue[0].uid];
-        }
-      }
-      if (contentFunc) {
-        G_SERVER_COM.callServerFunction(contentFunc.classname,contentFunc.functionname,contentFunc.uidPath, null, null, dijit.byId(this.parentId).getParent()._contentId || null);
-      }
-    }
-  },
-  refresh: function() {
-    this.dndController.selectNone();
-
-    this.model.store.clearOnClose = true;
-    this.model.store.close();
-
-    this._itemNodesMap = {};
-    this.rootNode.state = "UNCHECKED";
-    this.model.root.children = null;
-    this.rootNode.destroyRecursive();
-    this.model.constructor(this.model);
-    this.model.root._loadChildren = true;
-    this.postMixInProperties();
-    this._load();
-  },
-  _initState: function(){
-    // summary:
-    //    Load in which nodes should be opened automatically
-    this._openedNodes = {};
-    if(this.persist && this.cookieName){
-      var oreo = sessionStorage.getItem(this.cookieName);
-      if(oreo){
-        dojo.forEach(oreo.split(','), function(item){
-          this._openedNodes[item] = true;
-        }, this);
-      }
-    }
-  },
-  _state: function(node, expanded){
-    // summary:
-    //    Query or set expanded state for an node
-    if(!this.persist){
-      return false;
-    }
-    var path = dojo.map(node.getTreePath(), function(item){
-        return this.model.getIdentity(item);
-      }, this).join("/");
-    if(arguments.length === 1){
-      return this._openedNodes[path];
-    }else{
-      if(expanded){
-        this._openedNodes[path] = true;
-      }else{
-        delete this._openedNodes[path];
-      }
-      var ary = [];
-      for(var id in this._openedNodes){
-        ary.push(id);
-      }
-      sessionStorage.setItem(this.cookieName, ary.join(","));
-    }
-  }
-});
-
-
+//_ColumnDnDSource
 _ColumnDnDSource = dojo.declare("FIRMOS.ColumnDnDSource",dgrid.ColumnReorder.ColumnDndSource, {
   onMouseDown: function(e) {
     e.stopPropagation = function() {};
@@ -1931,7 +1649,7 @@ _GridDnDSource = dojo.declare("FIRMOS.GridDnDSource",dgrid.DnD.GridSource, {
     if (error_objs.length>0) {
       var str='';
       for (var i=0; i<error_objs.length; i++) {
-        str+=', '+this.grid.store.getLabel(error_objs[i]);
+        str+=', '+this.grid.collection.getIdentity(error_objs[i]);
       }
       str=str.substr(2);
       console.log('Object(s) not dragable ' + str);
@@ -1944,7 +1662,7 @@ _GridDnDSource = dojo.declare("FIRMOS.GridDnDSource",dgrid.DnD.GridSource, {
     var targetSource = this,
       targetRow = this._targetAnchor = this.targetAnchor, // save for Internal
       grid = this.grid,
-      store = grid.store;
+      store = grid.collection;
      
     //Does NOT work with tree grid
     /*if(!this.before && targetRow){
@@ -1969,7 +1687,7 @@ _GridDnDSource = dojo.declare("FIRMOS.GridDnDSource",dgrid.DnD.GridSource, {
     });
   },
   onDropInternal: function(nodes, copy, targetItem){
-    var store = this.grid.store,
+    var store = this.grid.collection,
       targetSource = this,
       grid = this.grid,
       anchor = targetSource._targetAnchor,
@@ -1998,7 +1716,7 @@ _GridDnDSource = dojo.declare("FIRMOS.GridDnDSource",dgrid.DnD.GridSource, {
     // share the same store.  There may be more ideal implementations in the
     // case of two grids using the same store (perhaps differentiated by
     // query), dragging to each other.
-    var store = this.grid.store,
+    var store = this.grid.collection,
       sourceGrid = sourceSource.grid;
       
     // TODO: bail out if sourceSource.getObject isn't defined?
@@ -2006,7 +1724,7 @@ _GridDnDSource = dojo.declare("FIRMOS.GridDnDSource",dgrid.DnD.GridSource, {
     nodes.forEach(function(node, i){
       items.push(sourceSource.getObject(node));
     });
-    store[copy && store.copy ? "copy" : "put"](items, {source: sourceGrid.store, before: targetItem, mousePos: this.mousePos_});
+    store[copy && store.copy ? "copy" : "put"](items, {source: sourceGrid.collection, before: targetItem, mousePos: this.mousePos_});
   },
   getObject: function(node){
     return this.grid.row(node).data;
@@ -2055,7 +1773,7 @@ _GridDnDSource = dojo.declare("FIRMOS.GridDnDSource",dgrid.DnD.GridSource, {
                 !obj._disabledrop_) {
               var target_in_selection = false;
               for (var i=0; i<m.nodes.length; i++) {
-                if (m.source.grid.store.getIdentity(m.source.grid.row(m.nodes[i]))==this.grid.store.getIdentity(obj)) {
+                if (m.source.grid.collection.getIdentity(m.source.grid.row(m.nodes[i]))==this.grid.collection.getIdentity(obj)) {
                   target_in_selection = true;
                   break;
                 }
@@ -2240,14 +1958,13 @@ dojo.declare("FIRMOS.GridBase", null, {
     this.storeRefreshHandler_ = new Object();
     this.selection_ = new Array();
     this._events = new Array();
-    G_UI_COM.registerStoreView(args.store.id,this);
+    G_UI_COM.registerStoreView(args.collection.id,this);
     if (args.selDepClassname) {
       this.id = args.id;
       G_UI_COM.registerSelDepFunc(args.selDepClassname, args.selDepFunctionname, this);
     }
   },
   destroy: function() {
-    G_UI_COM.unregisterStoreView(this.store.id,this);
     this.selection = {};
     this.notifyServer();
     if (this.selDepClassname) {
@@ -2262,6 +1979,7 @@ dojo.declare("FIRMOS.GridBase", null, {
     for (var i in this._rowIdToObject) {
       this._cleanupRow(this._rowIdToObject[i]);
     }
+    G_UI_COM.unregisterStoreView(this.collection.id,this);
     this.inherited(arguments);
   },
   getObjectDndType: function(obj) {
@@ -2278,7 +1996,7 @@ dojo.declare("FIRMOS.GridBase", null, {
     var selectedIds = new Array();
     for (var x in this.selection) {
       var row = this.row(x);
-      selectedIds.push(this.store.getIdentity(row.data));
+      selectedIds.push(this.collection.getIdentity(row.data));
     }
     return selectedIds;
   },
@@ -2383,265 +2101,265 @@ dojo.declare("FIRMOS.GridBase", null, {
     this.refreshButtons(selection);
     this.notifyServer();
   },
-  renderArray: function(results, beforeNode, options){ //override dgrid function
-    // summary:
-    //    This renders an array or collection of objects as rows in the grid, before the
-    //    given node. This will listen for changes in the collection if an observe method
-    //    is available (as it should be if it comes from an Observable data store).
-    options = options || {};
-    var self = this,
-      start = options.start || 0,
-      observers = this.observers,
-      rows, container, observerIndex;
-    
-    if(!beforeNode){
-      this._lastCollection = results;
-    }
-    if(results.observe){
-      // observe the results for changes
-      self._numObservers++;
-      var observer = results.observe(function(object, from, to, revId){
-        var row, firstRow, nextNode, parentNode;
-        
-        function advanceNext() {
-          nextNode = (nextNode.connected || nextNode).nextSibling;
-        }
-
-        if (from>-1 && to>-1) { //data change only  //FIXXME - implement reorder
-          var i = options.start + to;
-          var id = self.id + "-row-" + (options.parentId ? options.parentId + "-" : "") + self.store.getIdentity(object);
-          var row = dojo.byId(id);
-
-          row.rowIndex = i;
-          var new_row = self.renderRow(object,options);
-          while (row.childNodes.length>0) {
-            dojo.destroy(row.childNodes[0]);
-          }
-          while (new_row.childNodes.length>0) {
-            dojo.place(new_row.childNodes[0],row);
-          }
-          dojo.destroy(new_row);
-          self._rowIdToObject[id] = object; //set new data
-        }
-        
-        if(from>-1 && to==-1){ //remove item
-          var id = self.id + "-row-" + (options.parentId ? options.parentId + "-" : "") + self.store.getIdentity(object);
-          var row = dojo.byId(id);
-          if (row) {
-            self.removeRow(row);
-          }
-
-          // Update count to reflect that we lost one row
-          options.count--;
-          // The removal of rows could cause us to need to page in more items
-          if(self._processScroll){
-            self._processScroll();
-          }
-        }
-        if(from==-1 && to>-1){ // insert
-          var id = self.id + "-row-" + (options.parentId ? options.parentId + "-" : "") + revId;
-          var nextNode = dojo.byId(id);
-
-          parentNode = (beforeNode && beforeNode.parentNode) ||
-            (nextNode && nextNode.parentNode) || self.contentNode;
-
-          row = self.newRow(object, parentNode, nextNode, options.start + to, options);
-
-          if(row){
-            row.observerIndex = observerIndex;
-            rows.splice(to, 0, row);
-            if(!firstRow || to < from){
-              // the inserted row is first, so we update firstRow to point to it
-              var previous = row.previousSibling;
-              // if we are not in sync with the previous row, roll the firstRow back one so adjustRowIndices can sync everything back up.
-              firstRow = !previous || previous.rowIndex + 1 == row.rowIndex || row.rowIndex == 0 ?
-                row : previous;
-            }
-          }
-          options.count++;
-        }
-        
-        if(from === 0){
-          overlapRows(1, 1);
-        }else if(from === results.length - (to === -1 ? 0 : 1)){
-          // It was (re)moved from the end
-          // (which was the previous length if it was a removal)
-          overlapRows(0, 0);
-        }
-        
-        from != to && firstRow && self.adjustRowIndices(firstRow);
-        self._onNotification(rows, object, from, to);
-      }, true);
-      observerIndex = observers.push(observer) - 1;
-    }
-    var rowsFragment = document.createDocumentFragment(),
-      lastRow;
-
-    function overlapRows(){
-      // This is responsible for setting row overlaps in result sets to
-      // ensure that observable can always properly determine which page
-      // an object belongs to.
-      // This function uses kind of an esoteric argument, optimized for
-      // performance and size, since it is called quite frequently.
-      // `sides` is an array of overlapping operations, with a falsy item indicating
-      // to add an overlap to the top, and a truthy item means to add an overlap
-      // to the bottom (so [0, 1] adds one overlap to the top and the bottom)
-      
-      var sides = arguments;
-      // Only perform row overlap in the case of observable results
-      if(observerIndex > -1){
-        // Iterate through the sides operations
-        for(var i = 0; i < sides.length; i++){
-          var top = sides[i];
-          var lastRow = rows[top ? 0 : rows.length-1];
-          // check to make sure we have a row, we won't if we don't have any rows
-          if(lastRow){
-            // Make sure we have the correct row element
-            // (not one that was previously removed)
-            lastRow = correctElement(lastRow);
-            var row = self.row(lastRow);
-            row = row && self[top ? "up" : "down"](row);
-            if(row && row.element != lastRow){
-              var method = top ? "unshift" : "push";
-              // Take the row and data from the adjacent page and unshift to the
-              // top or push to the bottom of our array of rows and results,
-              // and adjust the count
-              results[method](row.data);
-              rows[method](row.element);
-              options.count++;
-            }
-          }
-        }
-      }
-    }
-    function correctElement(row){
-      // If a node has been orphaned, try to retrieve the correct in-document element
-      // (use isDescendant since offsetParent is faulty in IE<9)
-      if(!dojo.isDescendant(row, self.domNode) && dojo.byId(row.id)){
-        return self.row(row.id.slice(self.id.length + 5)).element;
-      }
-      // Fall back to the originally-specified element
-      return row;
-    }
-    
-    function mapEach(object){
-      lastRow = self.insertRow(object, rowsFragment, null, start++, options);
-      lastRow.observerIndex = observerIndex;
-      return lastRow;
-    }
-/*    function whenError(error){ //remove - no longer used
-      if(typeof observerIndex !== "undefined"){
-        observers[observerIndex].cancel();
-        observers[observerIndex] = 0;
-        self._numObservers--;
-      }
-      if(error){
-        throw error;
-      }
-    }*/
-    var originalRows;
-    function whenDone(resolvedRows){
-      // Save the original rows, before the overlapping is performed
-      originalRows = resolvedRows.slice(0);
-      container = beforeNode ? beforeNode.parentNode : self.contentNode;
-      if(container && container.parentNode &&
-          (container !== self.contentNode || resolvedRows.length)){
-        container.insertBefore(rowsFragment, beforeNode || null);
-        lastRow = resolvedRows[resolvedRows.length - 1];
-        lastRow && self.adjustRowIndices(lastRow);
-/*      }else if(observers[observerIndex] && self.cleanEmptyObservers){ // don't remove empty queries
-        // Remove the observer and don't bother inserting;
-        // rows are already out of view or there were none to track
-        whenError(); */
-      }
-      rows = resolvedRows;
-      if(observer){
-        observer.rows = rows;
-      }
-    }
-    
-    // Now render the results
-    if(results.map){
-      rows = results.map(mapEach, console.error);
-      if(rows.then){
-        return results.then(function(resultsArray){
-          results = resultsArray;
-          return rows.then(function(resolvedRows){
-            whenDone(resolvedRows);
-            // Overlap rows in the results array when using observable
-            // so that we can determine page boundary changes
-            // (but return the original set)
-            overlapRows(1, 1, 0, 0);
-            return originalRows;
-          });
-        });
-      }
-    }else{
-      rows = [];
-      for(var i = 0, l = results.length; i < l; i++){
-        rows[i] = mapEach(results[i]);
-      }
-    }
-    
-    whenDone(rows);
-    overlapRows(1, 1, 0, 0);
-    // Return the original rows, not the overlapped set
-    return originalRows;
-  },
-  
-  removeRow: function(rowElement, justCleanup){
-    function chooseIndex(index1, index2){
-      return index1 != null ? index1 : index2;
-    }
-
-    if(rowElement){
-      this._cleanupRow(rowElement);
-
-      // Clean up observers that need to be cleaned up.
-      var previousNode = rowElement.previousSibling,
-        nextNode = rowElement.nextSibling,
-        prevIndex = previousNode && chooseIndex(previousNode.observerIndex, previousNode.previousObserverIndex),
-        nextIndex = nextNode && chooseIndex(nextNode.observerIndex, nextNode.nextObserverIndex),
-        thisIndex = rowElement.observerIndex;
-
-      // Clear the observerIndex on the node being removed so it will not be considered any longer.
-      rowElement.observerIndex = undefined;
-      if(justCleanup){
-        // Save the indexes from the siblings for future calls to removeRow.
-        rowElement.nextObserverIndex = nextIndex;
-        rowElement.previousObserverIndex = prevIndex;
-      }
-
-      // Is this row's observer index different than those on either side?
-      if(this.cleanEmptyObservers && thisIndex > -1 && thisIndex !== prevIndex && thisIndex !== nextIndex){
-        // This is the last row that references the observer index.  Cancel the observer.
-        var observers = this.observers;
-        var observer = observers[thisIndex];
-        //if(observer){
-        if(observer && this._numObservers>1){//don't remove the last observer
-          // justCleanup is set to true when the list is being cleaned out.  The rows are left in the DOM
-          // and later they are removed altogether.  Skip the check for overlapping rows because
-          // in the end, all of the rows will be removed and all of the observers need to be canceled.
-          if(!justCleanup){
-          // We need to verify that all the rows really have been removed. If there
-          // are overlapping rows, it is possible another element exists
-            var rows = observer.rows;
-            for(var i = 0; i < rows.length; i++){
-              if(rows[i] != rowElement && dom.isDescendant(rows[i], this.domNode)){
-                // still rows in this list, abandon
-                return this.inherited(arguments);
-              }
-            }
-          }
-          observer.cancel();
-          this._numObservers--;
-          observers[thisIndex] = 0; // remove it so we don't call cancel twice
-        }
-      }
-    }
-    // Finish the row removal.
-    this.inherited(arguments);
-  },
+//  renderArray: function(results, beforeNode, options){ //override dgrid function
+//    // summary:
+//    //    This renders an array or collection of objects as rows in the grid, before the
+//    //    given node. This will listen for changes in the collection if an observe method
+//    //    is available (as it should be if it comes from an Observable data store).
+//    options = options || {};
+//    var self = this,
+//      start = options.start || 0,
+//      observers = this.observers,
+//      rows, container, observerIndex;
+//    
+//    if(!beforeNode){
+//      this._lastCollection = results;
+//    }
+//    if(results.observe){
+//      // observe the results for changes
+//      self._numObservers++;
+//      var observer = results.observe(function(object, from, to, revId){
+//        var row, firstRow, nextNode, parentNode;
+//        
+//        function advanceNext() {
+//          nextNode = (nextNode.connected || nextNode).nextSibling;
+//        }
+//
+//        if (from>-1 && to>-1) { //data change only  //FIXXME - implement reorder
+//          var i = options.start + to;
+//          var id = self.id + "-row-" + (options.parentId ? options.parentId + "-" : "") + self.store.getIdentity(object);
+//          var row = dojo.byId(id);
+//
+//          row.rowIndex = i;
+//          var new_row = self.renderRow(object,options);
+//          while (row.childNodes.length>0) {
+//            dojo.destroy(row.childNodes[0]);
+//          }
+//          while (new_row.childNodes.length>0) {
+//            dojo.place(new_row.childNodes[0],row);
+//          }
+//          dojo.destroy(new_row);
+//          self._rowIdToObject[id] = object; //set new data
+//        }
+//        
+//        if(from>-1 && to==-1){ //remove item
+//          var id = self.id + "-row-" + (options.parentId ? options.parentId + "-" : "") + self.store.getIdentity(object);
+//          var row = dojo.byId(id);
+//          if (row) {
+//            self.removeRow(row);
+//          }
+//
+//          // Update count to reflect that we lost one row
+//          options.count--;
+//          // The removal of rows could cause us to need to page in more items
+//          if(self._processScroll){
+//            self._processScroll();
+//          }
+//        }
+//        if(from==-1 && to>-1){ // insert
+//          var id = self.id + "-row-" + (options.parentId ? options.parentId + "-" : "") + revId;
+//          var nextNode = dojo.byId(id);
+//
+//          parentNode = (beforeNode && beforeNode.parentNode) ||
+//            (nextNode && nextNode.parentNode) || self.contentNode;
+//
+//          row = self.newRow(object, parentNode, nextNode, options.start + to, options);
+//
+//          if(row){
+//            row.observerIndex = observerIndex;
+//            rows.splice(to, 0, row);
+//            if(!firstRow || to < from){
+//              // the inserted row is first, so we update firstRow to point to it
+//              var previous = row.previousSibling;
+//              // if we are not in sync with the previous row, roll the firstRow back one so adjustRowIndices can sync everything back up.
+//              firstRow = !previous || previous.rowIndex + 1 == row.rowIndex || row.rowIndex == 0 ?
+//                row : previous;
+//            }
+//          }
+//          options.count++;
+//        }
+//        
+//        if(from === 0){
+//          overlapRows(1, 1);
+//        }else if(from === results.length - (to === -1 ? 0 : 1)){
+//          // It was (re)moved from the end
+//          // (which was the previous length if it was a removal)
+//          overlapRows(0, 0);
+//        }
+//        
+//        from != to && firstRow && self.adjustRowIndices(firstRow);
+//        self._onNotification(rows, object, from, to);
+//      }, true);
+//      observerIndex = observers.push(observer) - 1;
+//    }
+//    var rowsFragment = document.createDocumentFragment(),
+//      lastRow;
+//
+//    function overlapRows(){
+//      // This is responsible for setting row overlaps in result sets to
+//      // ensure that observable can always properly determine which page
+//      // an object belongs to.
+//      // This function uses kind of an esoteric argument, optimized for
+//      // performance and size, since it is called quite frequently.
+//      // `sides` is an array of overlapping operations, with a falsy item indicating
+//      // to add an overlap to the top, and a truthy item means to add an overlap
+//      // to the bottom (so [0, 1] adds one overlap to the top and the bottom)
+//      
+//      var sides = arguments;
+//      // Only perform row overlap in the case of observable results
+//      if(observerIndex > -1){
+//        // Iterate through the sides operations
+//        for(var i = 0; i < sides.length; i++){
+//          var top = sides[i];
+//          var lastRow = rows[top ? 0 : rows.length-1];
+//          // check to make sure we have a row, we won't if we don't have any rows
+//          if(lastRow){
+//            // Make sure we have the correct row element
+//            // (not one that was previously removed)
+//            lastRow = correctElement(lastRow);
+//            var row = self.row(lastRow);
+//            row = row && self[top ? "up" : "down"](row);
+//            if(row && row.element != lastRow){
+//              var method = top ? "unshift" : "push";
+//              // Take the row and data from the adjacent page and unshift to the
+//              // top or push to the bottom of our array of rows and results,
+//              // and adjust the count
+//              results[method](row.data);
+//              rows[method](row.element);
+//              options.count++;
+//            }
+//          }
+//        }
+//      }
+//    }
+//    function correctElement(row){
+//      // If a node has been orphaned, try to retrieve the correct in-document element
+//      // (use isDescendant since offsetParent is faulty in IE<9)
+//      if(!dojo.isDescendant(row, self.domNode) && dojo.byId(row.id)){
+//        return self.row(row.id.slice(self.id.length + 5)).element;
+//      }
+//      // Fall back to the originally-specified element
+//      return row;
+//    }
+//    
+//    function mapEach(object){
+//      lastRow = self.insertRow(object, rowsFragment, null, start++, options);
+//      lastRow.observerIndex = observerIndex;
+//      return lastRow;
+//    }
+///*    function whenError(error){ //remove - no longer used
+//      if(typeof observerIndex !== "undefined"){
+//        observers[observerIndex].cancel();
+//        observers[observerIndex] = 0;
+//        self._numObservers--;
+//      }
+//      if(error){
+//        throw error;
+//      }
+//    }*/
+//    var originalRows;
+//    function whenDone(resolvedRows){
+//      // Save the original rows, before the overlapping is performed
+//      originalRows = resolvedRows.slice(0);
+//      container = beforeNode ? beforeNode.parentNode : self.contentNode;
+//      if(container && container.parentNode &&
+//          (container !== self.contentNode || resolvedRows.length)){
+//        container.insertBefore(rowsFragment, beforeNode || null);
+//        lastRow = resolvedRows[resolvedRows.length - 1];
+//        lastRow && self.adjustRowIndices(lastRow);
+///*      }else if(observers[observerIndex] && self.cleanEmptyObservers){ // don't remove empty queries
+//        // Remove the observer and don't bother inserting;
+//        // rows are already out of view or there were none to track
+//        whenError(); */
+//      }
+//      rows = resolvedRows;
+//      if(observer){
+//        observer.rows = rows;
+//      }
+//    }
+//    
+//    // Now render the results
+//    if(results.map){
+//      rows = results.map(mapEach, console.error);
+//      if(rows.then){
+//        return results.then(function(resultsArray){
+//          results = resultsArray;
+//          return rows.then(function(resolvedRows){
+//            whenDone(resolvedRows);
+//            // Overlap rows in the results array when using observable
+//            // so that we can determine page boundary changes
+//            // (but return the original set)
+//            overlapRows(1, 1, 0, 0);
+//            return originalRows;
+//          });
+//        });
+//      }
+//    }else{
+//      rows = [];
+//      for(var i = 0, l = results.length; i < l; i++){
+//        rows[i] = mapEach(results[i]);
+//      }
+//    }
+//    
+//    whenDone(rows);
+//    overlapRows(1, 1, 0, 0);
+//    // Return the original rows, not the overlapped set
+//    return originalRows;
+//  },
+//  
+//  removeRow: function(rowElement, justCleanup){
+//    function chooseIndex(index1, index2){
+//      return index1 != null ? index1 : index2;
+//    }
+//
+//    if(rowElement){
+//      this._cleanupRow(rowElement);
+//
+//      // Clean up observers that need to be cleaned up.
+//      var previousNode = rowElement.previousSibling,
+//        nextNode = rowElement.nextSibling,
+//        prevIndex = previousNode && chooseIndex(previousNode.observerIndex, previousNode.previousObserverIndex),
+//        nextIndex = nextNode && chooseIndex(nextNode.observerIndex, nextNode.nextObserverIndex),
+//        thisIndex = rowElement.observerIndex;
+//
+//      // Clear the observerIndex on the node being removed so it will not be considered any longer.
+//      rowElement.observerIndex = undefined;
+//      if(justCleanup){
+//        // Save the indexes from the siblings for future calls to removeRow.
+//        rowElement.nextObserverIndex = nextIndex;
+//        rowElement.previousObserverIndex = prevIndex;
+//      }
+//
+//      // Is this row's observer index different than those on either side?
+//      if(this.cleanEmptyObservers && thisIndex > -1 && thisIndex !== prevIndex && thisIndex !== nextIndex){
+//        // This is the last row that references the observer index.  Cancel the observer.
+//        var observers = this.observers;
+//        var observer = observers[thisIndex];
+//        //if(observer){
+//        if(observer && this._numObservers>1){//don't remove the last observer
+//          // justCleanup is set to true when the list is being cleaned out.  The rows are left in the DOM
+//          // and later they are removed altogether.  Skip the check for overlapping rows because
+//          // in the end, all of the rows will be removed and all of the observers need to be canceled.
+//          if(!justCleanup){
+//          // We need to verify that all the rows really have been removed. If there
+//          // are overlapping rows, it is possible another element exists
+//            var rows = observer.rows;
+//            for(var i = 0; i < rows.length; i++){
+//              if(rows[i] != rowElement && dom.isDescendant(rows[i], this.domNode)){
+//                // still rows in this list, abandon
+//                return this.inherited(arguments);
+//              }
+//            }
+//          }
+//          observer.cancel();
+//          this._numObservers--;
+//          observers[thisIndex] = 0; // remove it so we don't call cancel twice
+//        }
+//      }
+//    }
+//    // Finish the row removal.
+//    this.inherited(arguments);
+//  },
 
   _cleanupRow: function(element) {
     var row = this.row(element);
@@ -2791,7 +2509,7 @@ dojo.declare("FIRMOS.GridBase", null, {
   },
   notifyServer: function() {
     if (this.selDepClassname) {
-      var notifyParams = dojo.clone(this.store.params_);
+      var notifyParams = dojo.clone(this.collection.params_);
       dojo.mixin(notifyParams, this.selDepParams);
       var parent = dijit.byId(this.parentId).getParent();
       var contentId = null;
@@ -2810,7 +2528,7 @@ dojo.declare("FIRMOS.GridBase", null, {
     button.setGrid(this);
   },
   doSearch: function(query) {
-    this.store.params_.fulltext = query
+    this.collection.params_.fulltext = query
     this.refresh();
   }
 });
@@ -2898,7 +2616,7 @@ dojo.declare("FIRMOS.GridButton", dijit.form.Button, {
     var selectedIds = this.grid_.getSelectedIds();
     var uidPath;
     
-    params.dependency = this.grid_.store.params_.dependency;
+    params.dependency = this.grid_.collection.params_.dependency;
     dojo.mixin(params, this.actionParams);
     params.selected = selectedIds;
     
@@ -4511,7 +4229,7 @@ dojo.declare("FIRMOS.Menu", dijit.Menu, {
   
   _handleGridMenu: function(event,grid,item) {
     this._openMyselfArgs = {target: event.target, coords: {x: event.pageX, y: event.pageY}};
-    var menuParams = dojo.clone(grid.store.params_);
+    var menuParams = dojo.clone(grid.collection.params_);
     var menuFunc = {};
     if (item.uidpath) {
       if (item.uidpath instanceof Array) {
@@ -5142,6 +4860,10 @@ dojo.declare("FIRMOS.MultiContentTabController",null, {
   },
   destroy: function() {
     dojo.destroy(this.domNode);
+  },
+  pane2button: function(/*String*/ id){
+    //Returns a dummy button
+    return {focus: function() {}};
   }
 });
 
@@ -5346,7 +5068,7 @@ dojo.declare("FIRMOS.GridFilter",null, {
     }
   },
   clearFilter: function(columnId) {
-    G_UI_COM.deleteStoreDependency(this.store.id,columnId);
+    G_UI_COM.deleteStoreDependency(this.collection.id,columnId);
     var ddbutton = dojo.query('.firmosGridFilter', this.column(columnId).headerNode);
     dojo.removeClass(ddbutton[0],'firmosGridFilterSet');
     this.refresh();
@@ -5357,9 +5079,9 @@ dojo.declare("FIRMOS.GridFilter",null, {
       return;
     }
     if (this.column(columnId).filterValues) {
-      G_UI_COM.setStoreDependency(this.store.id,columnId,'T',[filter.filter],null,'EX');
+      G_UI_COM.setStoreDependency(this.collection.id,columnId,'T',[filter.filter],null,'EX');
     } else {
-      G_UI_COM.setStoreDependency(this.store.id,columnId,'T',[filter.filter]);
+      G_UI_COM.setStoreDependency(this.collection.id,columnId,'T',[filter.filter]);
     }
     this.filterSet(columnId);
   },
@@ -5382,16 +5104,16 @@ dojo.declare("FIRMOS.GridFilter",null, {
     }
     switch (filter.type) {
       case this.texts.numberOptions.eq:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,depType,[filter.value],'EX');
+        G_UI_COM.setStoreDependency(this.collection.id,columnId,depType,[filter.value],'EX');
         break;
       case this.texts.numberOptions.lt:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,depType,[filter.value],'LE');
+        G_UI_COM.setStoreDependency(this.collection.id,columnId,depType,[filter.value],'LE');
         break;
       case this.texts.numberOptions.gt:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,depType,[filter.value],'GT');
+        G_UI_COM.setStoreDependency(this.collection.id,columnId,depType,[filter.value],'GT');
         break;
       case this.texts.numberOptions.gtlt:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,depType,[filter.value1,filter.value2],'REXB');
+        G_UI_COM.setStoreDependency(this.collection.id,columnId,depType,[filter.value1,filter.value2],'REXB');
         break;
     }
     this.filterSet(columnId);
@@ -5414,20 +5136,20 @@ dojo.declare("FIRMOS.GridFilter",null, {
             dayrange_start.setHours(0,0,0,0);
         var dayrange_end=new Date(filter.value.getTime());
             dayrange_end.setHours(23,59,59,999);           
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[dayrange_start.getTime(),dayrange_end.getTime()],'RWIB');
+        G_UI_COM.setStoreDependency(this.collection.id,columnId,'D',[dayrange_start.getTime(),dayrange_end.getTime()],'RWIB');
         break;
       case this.texts.dateOptions.lt:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[filter.value.getTime()],'LE');
+        G_UI_COM.setStoreDependency(this.collection.id,columnId,'D',[filter.value.getTime()],'LE');
         break;
       case this.texts.dateOptions.gt:
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[filter.value.getTime()],'GT');
+        G_UI_COM.setStoreDependency(this.collection.id,columnId,'D',[filter.value.getTime()],'GT');
         break;
       case this.texts.dateOptions.gtlt:
         var fv1=new Date(filter.value1);
             fv1.setHours(0,0,0,0);
         var fv2=new Date(filter.value2);
             fv2.setHours(23,59,59,999);
-        G_UI_COM.setStoreDependency(this.store.id,columnId,'D',[fv1.getTime(),fv2.getTime()],'RWIB');
+        G_UI_COM.setStoreDependency(this.collection.id,columnId,'D',[fv1.getTime(),fv2.getTime()],'RWIB');
         break;
     }
     this.filterSet(columnId);
@@ -5436,7 +5158,7 @@ dojo.declare("FIRMOS.GridFilter",null, {
     this.filterSet(columnId);
   },
   setBooleanFilter: function(columnId, filter) {
-    G_UI_COM.setStoreDependency(this.store.id,columnId,'B',[filter.filter]);
+    G_UI_COM.setStoreDependency(this.collection.id,columnId,'B',[filter.filter]);
     this.filterSet(columnId);
   },
   filterSet: function(columnId) {
@@ -5525,85 +5247,6 @@ dojo.declare("FIRMOS.GridFilter",null, {
                       '</td></tr>';
     return content;
   }
-});
-
-//StoreSeries
-dojo.declare("FIRMOS.StoreSeries", null, {
-  constructor: function(store, kwArgs, value, chartId) {
-    this.chartId = chartId;
-    this.store = store;
-    this.kwArgs = kwArgs;
-  
-    if(value){
-      if(typeof value == "function"){
-        this.value = value;
-      }else if(typeof value == "object"){
-        this.value = function(object){
-          var o = {};
-          for(var key in value){
-            o[key] = object[value[key]];
-          }
-          return o;
-        };
-      }else{
-        this.value = function(object){
-          return object[value];
-        };
-      }
-    }else{
-      this.value = function(object){
-        return object.value;
-      };
-    }
-  
-    this.data = [];
-
-    this._initialRendering = false;
-    this.fetch();
-  },
-  
-  destroy: function(){
-    if(this.observeHandle){
-      this.observeHandle.remove();
-    }
-  },
-  
-  setSeriesObject: function(series){
-    this.series = series;
-  },
-
-  fetch: function(){
-    // summary:
-    //    Fetches data from the store and updates a chart.
-    var objects = this.objects = [];
-    var self = this;
-    if(this.observeHandle){
-      this.observeHandle.remove();
-    }
-    var results = this.store.query(this.kwArgs.query, this.kwArgs);
-    dojo.Deferred.when(results, function(objects){
-      self.objects = objects;
-      update();
-    });
-    if(results.observe){
-      this.observeHandle = results.observe(update, true, this.chartId);
-    }
-    function update(){
-      self.data = dojo.array.map(self.objects, function(object){
-        return self.value(object, self.store);
-      });
-      self._pushDataChanges();
-    }
-  },
-
-  _pushDataChanges: function(){
-    if(this.series){
-      this.series.chart.updateSeries(this.series.name, this, this._initialRendering);
-      this._initialRendering = false;
-      this.series.chart.delayedRender();
-    }
-  }
-
 });
 
 //D3Chart
@@ -6257,128 +5900,6 @@ dojo.declare("FIRMOS.D3Chart", dijit.layout.ContentPane, {
             
       rect.exit().remove();
     }
-  }
-});
-
-//Chart
-dojo.declare("FIRMOS.Chart",dojox.charting.widget.Chart, {
-  constructor: function(args) {
-    this.store_ = args.store;
-    this.type = args.type;
-    this.seriesIds_ = args.seriesids;
-    this.title = args.title;
-    this.storeAdapters_ = [];
-    if (args.labels) {
-      this.labels_ = [];
-      if (this.type == 'ct_column') {
-        var offset = 1;
-      } else {
-        var offset = 0;
-      }
-      for (var i=0; i<args.labels.length; i++) {
-        this.labels_[i] = {value: i+offset, text: args.labels[i]};
-      }
-    }
-    G_UI_COM.registerStoreView(args.store.id,this);
-  },
-  destroy: function() {
-    for (var i=0; i<this.storeAdapters_.length; i++) {
-      this.storeAdapters_[i].destroy();
-    }
-    G_UI_COM.unregisterStoreView(this.store.id,this);
-    this.inherited(arguments);
-    if (this.firstRenderListener_) {
-      this.firstRenderListener_.remove();
-      this.firstRenderListener_ = null;
-    }
-  },
-  _getValueFunc: function(object) {
-    var ret = {};
-    ret.y = object.value;
-    if (object.color) {
-      ret.color = object.color;
-    }
-    if (object.text) {
-      ret.text = object.text;
-    }
-    if (object.legend) {
-      ret.legend = object.legend;
-    }
-    return ret;
-  },
-  _addSeries: function() {
-    this.chart.setTheme(dojox.charting.themes.Firmos);
-    for (var i=0; i<this.seriesIds_.length; i++) {
-      this.storeAdapters_.push(new FIRMOS.StoreSeries(this.store_, {query:{sId: this.seriesIds_[i]}}, this._getValueFunc, this.id));
-      this.chart.addSeries(this.seriesIds_[i],this.storeAdapters_[this.storeAdapters_.length-1]);
-    }
-    var xProps = {};
-    var yProps = {vertical: true};
-    var plotProps = {markers: true
-                    ,gap: 2
-                    };
-    switch (this.type) {
-      case 'ct_pie':
-        plotProps.type = 'Pie';
-//        plotProps.htmlLabels=false;
-        break;
-/*      case 'ct_column':
-        plotProps.type = 'ClusteredBars';
-        if (this.labels_) {
-          yProps.dropLabels = false;
-          yProps.labels = this.labels_;
-        }
-        xProps.includeZero = true;
-        xProps.rotation = 90;
-        if (this.maxValue>0) {
-          xProps.max = this.maxValue;
-        }
-        break; */
-      case 'ct_column':
-        plotProps.type = 'ClusteredColumns';
-        if (this.labels_) {
-          xProps.dropLabels = false;
-          xProps.labels = this.labels_;
-          xProps.rotation = 90;
-        }
-        //xProps.minorTicks = false;
-        xProps.dropLabels = false;
-//        xProps.htmlLabels = false;
-//        yProps.htmlLabels = false;
-        yProps.includeZero = true;
-        if (this.maxValue>0) {
-          yProps.max = this.maxValue;
-        }
-        break;
-      case 'ct_line':
-        plotProps.type = 'Lines'
-        if (this.labels_) {
-//          xProps.dropLabels = false;
-          xProps.labels = this.labels_;
-        }
-        yProps.includeZero = true;
-        break;
-    }
-    this.chart.addAxis('x', xProps);
-    this.chart.addAxis('y', yProps );
-    this.chart.title = this.title;
-    this.chart.addPlot('default', plotProps);
-
-    if (this.showlegend) {
-      this.firstRenderListener_ = dojo.connect(this.chart,'render',this._showLegend.bind(this));
-    }
-  },
-  _showLegend: function() {
-    if (this.firstRenderListener_) {
-      this.firstRenderListener_.remove();
-      this.firstRenderListener_ = null;
-    }
-    this.getParent().getParent().getChildren()[1].content.refresh();
-    this.getParent().getParent().layout();
-  },
-  buildRendering: function() {
-    this.inherited(arguments);
-    setTimeout(this._addSeries.bind(this), 0);
   }
 });
 
@@ -7328,7 +6849,7 @@ dojo.declare("FIRMOS.gridDetailsColumn", null, {
   }
 });
 
-dojo.declare("FIRMOS.OnDemandGrid", [dgrid.OnDemandGrid,FIRMOS.GridBase,FIRMOS.Selection,FIRMOS.GridFilter,dgrid.ColumnResizer,FIRMOS.ColumnReorder,dgrid.ColumnHider,FIRMOS.GridDnD,dgrid.DijitRegistry]);
+dojo.declare("FIRMOS.OnDemandGrid", [dgrid.OnDemandGrid,FIRMOS.GridBase,FIRMOS.Selection,FIRMOS.GridFilter,dgrid.Tree,dgrid.Editor,dgrid.ColumnResizer,FIRMOS.ColumnReorder,dgrid.ColumnHider,FIRMOS.GridDnD,dgrid.DijitRegistry]);
 
 //SVG
 dojo.declare("FIRMOS.SVG", dijit.layout.ContentPane, {

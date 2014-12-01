@@ -1,3 +1,5 @@
+@import "firmosVariables";
+
 // General
 
 @themename: firmos;
@@ -8,20 +10,6 @@
 
 //@primary-color:  #303b90;			//lighten(saturate(orange, 15), 5);         // Base color for entire theme
 //@secondary-color:#4959da;			// #666;//									// Base color for bar-backgrounds
-@firmos-orange: #fbb03c;
-@firmos-darkblue: #3f5490;
-@firmos-lightyellow: lightgoldenrodyellow;
-@firmos-background-body: #485062;
-
-@firmos-border-radius-toptab: (6px 6px 0px 0px);
-@firmos-border-radius-bottomtab: (0px 0px 6px 6px);
-@firmos-border-radius-lefttab: (6px 0px 0px 6px);
-@firmos-border-radius-righttab: (0px 6px 6px 0px);
-@firmos-border-radius-all: (6px 6px 6px 6px);
-@firmosBorderContainerBG: @primary-color; //#ec6827;
-@firmosBorderContainerBorderColor: darken(@primary-color,10);
-@firmosBorderContent: 1px solid;
-
 
 @text-color:     #000;													// Text color for enabled widgets
 @text-color-inv: #fff;
@@ -32,7 +20,6 @@
 @background-color-middle: #5189bf;
 
 @container-background-color: #fff; //#f8e8b4;										// Backgrounds for various content areas such as TitlePane, ContentPane and Inputs (if changed, adjust selected tab to match)
-@firmos-container-background-color-pane: #f8e8b4;
 
 @minor-selected-color: spin(saturate(darken(@primary-color, 6), 19), 0);						// Color for various arrows and buttons
 @base-border-color: spin(desaturate(darken(@primary-color, 29), 44), -1);		// Augmented and used directly by variables to create border colors for various widgets
@@ -80,9 +67,7 @@
 @error-focused-border-color: darken(@error-color, 5);									// Border of textbox in error state, and focused
 @erroricon-background-color: @error-color;									// Background color for exclamation point validation icon (for TextBox in error state)
 @textbox-background-color: @container-background-color;					// Default background color of TextBox based widgets
-//@textbox-hovered-background-color: @unfocused-clickable-color;			// Background color when hovering a unfocused TextBox, Select, Editor, or other input widget
 @textbox-hovered-background-color: @firmos-lightyellow;	  		// Background color when hovering a unfocused TextBox, Select, Editor, or other input widget
-//@textbox-focused-background-color: @textbox-background-color;
 @textbox-focused-background-color: @firmos-lightyellow;
 @textbox-error-background-color: @textbox-background-color;
 @textbox-disabled-background-color: @disabled-background-color;
@@ -197,6 +182,7 @@
 @image-dialog-close: "images/dialogCloseIcon.png";
 @image-dialog-close-ie6: "images/dialogCloseIcon8bit.png";
 @image-dnd: "images/dnd.png";
+@image-editor-icons-enabled: "images/editorIconsEnabled.png";
 @image-form-button-arrows: "images/buttonArrows.png";
 @image-form-checkbox-and-radios: "images/checkboxRadioButtonStates.png";
 @image-form-checkbox-and-radios-ie6: "images/checkboxAndRadioButtons_IE6.png";
@@ -385,7 +371,7 @@
 	.linear-gradient(rgba(127,127,127,0.2) 0%, rgba(127,127,127,0) 2px);
 }
 
-.fos-shiny-gradient () {//SEAS
+.fos-shiny-gradient () {
 	background-image: url("images/standardGradient.png");
 	background-repeat: repeat-x;
 	.alpha-white-gradient(0.8, 0%, 0, 20%);
@@ -393,7 +379,7 @@
 }
 
 
-.standard-gradient () {
+.standard-gradient (@pathToRoot: "") {
 	// summary:
 	//		Light to dark background-image used by widgets with short height (~16px) including:
 	//			- MenuBar, and hovered MenuItem/MenuBarItem
@@ -402,7 +388,7 @@
 	//			- TitlePane title bar, AccordionContainer title bar, Dialog title bar
 
 	// Fallback for IE
-	background-image: url("images/standardGradient.png");
+	background-image: url("@{pathToRoot}images/standardGradient.png");
 	background-repeat: repeat-x;
 
 	// CSS gradient for other browsers
@@ -411,7 +397,7 @@
 	// IE6 can't handle a background-image with transparency and a background-color; the color is blocked out
 	_background-image: none;
 }
-.active-gradient () {
+.active-gradient (@pathToRoot: "") {
 	// summary:
 	//		Light to dark background-image with an inset gray shadow at the top,
 	//		used by widgets when they are active (ie: mousedown) or selected, including:
@@ -421,7 +407,7 @@
 	//			- active TitlePane title bar, AccordionContainer title bar
 
 	// Fallback for IE
-	background-image: url("images/activeGradient.png");
+	background-image: url("@{pathToRoot}images/activeGradient.png");
 	background-repeat: repeat-x;
 
 	// CSS gradient for other browsers

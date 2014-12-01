@@ -1,0 +1,303 @@
+@import "variables";
+
+/** document.less **/
+
+ .@{themename} {
+   font-family: 'Source Sans Pro', sans-serif;
+   font-size: 14px;
+   font-weight: 400;
+ }
+
+/** Common.less - Drag and Drop **/
+
+ .@{themename} .dojoDndItem {
+   padding: 0px;
+ }
+
+ .@{themename} .dojoDndItemOver {
+   padding: 0px; // reduce from 2px in dijit.css
+   border:none; //@hovered-border-color;
+ }
+ .@{themename} .dojoDndItemAnchor,
+ .@{themename} .dojoDndItemSelected {
+   padding: 0px; // reduce from 2px in dijit.css
+   border:none;
+ }
+
+/** Common.less - form/Common.css **/
+
+ .@{themename} .dijitInputInner {
+   border-radius: 0px;
+   text-indent:   1px;
+ }
+
+/** TabContainer.less **/
+
+ .@{themename} .dijitTabPaneWrapper {
+   background:transparent;
+ }
+
+ .@{themename} .dijitTabPaneWrapper,
+ .@{themename} .dijitTabContainerTop-tabs,
+ .@{themename} .dijitTabContainerBottom-tabs,
+ .@{themename} .dijitTabContainerLeft-tabs,
+ .@{themename} .dijitTabContainerRight-tabs {
+   border: 0px;
+ }
+
+ .dijitTabContainerTop-container {
+   border:  @firmosBorderContent;
+   border-radius: (@firmos-border-radius-all);
+   border-color: @firmosBorderContainerBorderColor;
+   background-color: @firmosBorderContainerBG;
+ }
+
+ .@{themename} .dijitTab *:focus {
+   border-bottom: 1px solid white;
+   outline: none;
+ }
+
+
+ .@{themename} .dijitTabContainerBottom-container .dijitContentPane,
+ .@{themename} .dijitTabContainerTop-container .dijitContentPane,
+ .@{themename} .dijitTabContainerLeft-container .dijitContentPane,
+ .@{themename} .dijitTabContainerRight-container .dijitContentPane {
+    color: white;
+    padding: 5px 5px 5px 5px;
+    border-radius: (@firmos-border-radius-all);
+ }
+
+ /*************** top tab ***************/
+ .@{themename} .dijitTabContainerTop-tabs .dijitTab {
+     /* unselected (and not hovered/pressed) tab */
+   margin-right: 4px;
+   padding:4px 12px;
+   border: 1px none;
+   min-width: 75px;
+   font-size: 15px;
+   font-weight: 300;
+   color: white;
+   text-shadow: 0px 0px 1px black;
+ }
+
+ .@{themename} .dijitTabContainerTop-tabs .dijitTabChecked {
+   padding-top: 5px;
+   text-shadow: 1px 1px 3px black;
+   color: white;
+   font-size: 15px;
+   font-weight: 500;
+   font-style: italic;
+ }
+
+  /** round corner **/
+ .@{themename} .dijitTabContainerTop-tabs .dijitTab {
+   .border-radius(@firmos-border-radius-toptab);
+ }
+ .@{themename} .dijitTabContainerBottom-tabs .dijitTab {
+   .border-radius(@firmos-border-radius-bottomtab);
+ }
+ .@{themename} .dijitTabContainerLeft-tabs .dijitTab {
+   .border-radius(@firmos-border-radius-lefttab);
+ }
+
+ .@{themename} .dijitTabContainerRight-tabs .dijitTab {
+   .border-radius(@firmos-border-radius-righttab);
+ }
+
+/** AccordionContainer.less **/
+
+ .@{themename} .dijitAccordionInnerContainer {
+   background-color: transparent;
+   border:none;
+   margin-bottom:0px;
+   .transition-duration(0);
+ }
+
+ .@{themename} .dijitAccordionTitle {
+   .alpha-white-gradient(0.5, 0%, 0, 50%);
+   padding: 5px 7px 2px 7px;
+ }
+
+ .@{themename} .dijitAccordionContainer .dijitAccordionChildWrapper {
+   background-color: transparent;
+   margin: 0;
+   border:none;
+ }
+
+ .@{themename} .dijitAccordionInnerContainerActive {
+   border:none;
+   background-color:transparent;
+   .transition-duration(0);
+ }
+ .@{themename} .dijitAccordionInnerContainerActive .dijitAccordionTitle {
+   .fos-text-inv;
+ }
+
+ .@{themename} .dijitAccordionInnerContainerSelected {
+   background-color: transparent;
+ }
+ .@{themename} .dijitAccordionInnerContainerSelected .dijitAccordionTitle {
+   .fos-text-inv;
+   .text-shadow (1px 1px 2px #000);
+   .standard-gradient();
+ }
+
+/** ContentPane.less **/
+
+ /* nested layouts */
+ .@{themename} .dijitTabContainerTop-dijitContentPane,
+ .@{themename} .dijitTabContainerLeft-dijitContentPane,
+ .@{themename} .dijitTabContainerBottom-dijitContentPane,
+ .@{themename} .dijitTabContainerRight-dijitContentPane,
+ .@{themename} .dijitAccordionContainer-dijitContentPane {
+    padding: 0px;
+ }
+
+/** BorderContainer.less **/
+
+  .@{themename} .dijitBorderContainer {
+    padding: 5px;
+    background-color: @firmosBorderContainerBG;
+  }
+
+/** Button.less **/
+
+ .@{themename} .dijitButtonDisabled .dijitButtonNode,
+ .@{themename} .dijitDropDownButtonDisabled .dijitButtonNode,
+ .@{themename} .dijitComboButtonDisabled .dijitButtonNode,
+ .@{themename} .dijitToggleButtonDisabled .dijitButtonNode {
+   border: none;
+ }
+
+/** Checkbox.less **/
+
+/** RadioButton.less **/
+
+/** Select.less **/
+
+/** Slider.less **/
+
+/** NumberSpinner.less **/
+
+/** Dialog.less **/
+
+  .@{themename} .dijitTooltipContainer {
+    background: -moz-linear-gradient(top, #FFF 10%, #acf 90%);
+  }
+
+ .@{themename} .dijitDialog {
+   border: 0px solid @popup-border-color;
+ }
+
+ .@{themename} .dijitDialogPaneContent {
+   background: @firmosBorderContainerBG;
+ }
+
+ .@{themename} .dijitDialogTitleBar {
+   border:none;
+   .fos-shiny-gradient;
+ }
+
+ .@{themename} .dijitDialogTitle {
+   color: @text-color-inv;
+   text-shadow: 1px 1px 1px black;
+ }
+
+ .@{themename} .dijitDialog {
+  border: 0px solid #1e1e1e;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  padding: 0px;
+}
+
+
+.@{themename}  .dijitDialogTitleBar {
+  background-color: rgba(113, 128, 168, 0.63);
+  padding: 10px 0px 4px 14px;
+  font-size: 20px;
+}
+
+.@{themename} .dijitDialogPaneContent {
+  background: #DAE0F0;
+  border-top: 0px solid #000;
+  padding: 12px 30px 8px 25px;
+  position: relative;
+}
+
+/** Calendar.less **/
+
+ .dojoxCalendar {
+   width: 202px;
+ }
+
+ .dojoxCalendarContainer {
+   width: 200px;
+ }
+
+ .dojoxCalendarBody {
+   height: 175px;
+   width: 200px;
+ }
+
+ .dojoxCalendar .dijitCalendarDayLabels, .dojoxCalendarMonthLabels, .dojoxCalendarYearLabels, .dojoxCal-MY-labels {
+   width: 200px;
+   height: 150px;
+ }
+
+ .dojoxCalendar .dojoxCalendarBody > div {
+   width: 200px;
+ }
+
+/** Menu.less **/
+
+ .@{themename} .dijitMenu .dijitMenuItemSelected td,
+ .@{themename} .dijitComboBoxMenu .dijitMenuItemSelected {
+   .fos-text-inv;
+ }
+
+/** ColorPalette.less **/
+
+/** InlineEditBox.less **/
+
+/** ProgressBar.less **/
+
+/** TimePicker.less **/
+
+/** Toolbar.less **/
+
+ .@{themename} .dijitToolbar {
+   .alpha-white-gradient(0.5, 0%, 0, 25%);
+   padding: 12px 0 0px 5px;
+   margin: 4px 4px 4px 4px;
+   border-radius: 4px;
+   height: 25px;
+   overflow: hidden;
+   border-bottom: none;
+   background-color: transparent;
+ }
+
+  /** override claro/form/Button.css, and also ComboBox down arrow **/
+ .@{themename} .dijitToolbar .dijitButton .dijitButtonNode,
+ .@{themename} .dijitToolbar .dijitDropDownButton .dijitButtonNode,
+ .@{themename} .dijitToolbar .dijitComboButton .dijitButtonNode,
+ .@{themename} .dijitToolbar .dijitToggleButton .dijitButtonNode,
+ .@{themename} .dijitToolbar .dijitComboBox .dijitButtonNode {
+   margin-right: 4px;
+   height: 21px;
+ }
+
+ /* hover status */
+ .@{themename} .dijitToolbar .dijitButtonHover .dijitButtonNode,
+ .@{themename} .dijitToolbar .dijitDropDownButtonHover .dijitButtonNode,
+ .@{themename} .dijitToolbar .dijitToggleButtonHover .dijitButtonNode,
+ .@{themename} .dijitToolbar .dijitComboButtonHover .dijitButtonNode {
+   .alpha-white-gradient(0.5, 0%, 0, 100%);	//.standard-gradient;
+ }
+
+/** Editor.less **/
+
+/** TitlePane.less **/
+
+
+
+

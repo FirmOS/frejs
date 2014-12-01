@@ -186,7 +186,7 @@
 /* End Normal Calendar Style */
 /* Hovered Calendar Style */
 .@{themename} .dijitCalendarHoveredDate .dijitCalendarDateLabel,
-.@{themename} .dijitCalendarEnabledDate:hover .dijitCalendarDateLabel {
+.@{themename} .dijitCalendarLite .dijitCalendarEnabledDate:hover .dijitCalendarDateLabel {
 	background-color:@hovered-background-color;
 	border:solid 1px @hovered-border-color;
 	color:@hovered-text-color;
@@ -270,16 +270,16 @@
 	padding: 2px 0;
 }
 .@{themename} .dijitCalendarMonthMenu .dijitCalendarMonthLabelHover,
-.@{themename} .dijitCalendarMonthMenu .dijitCalendarMonthLabel:hover {
+.@{themename} .dijitCalendarMonthMenu .dijitCalendarMonthLabelActive {
 	border-color: @hovered-border-color;
 	border-width:1px 0;
 	.gradient-and-filter(@hovered-background-color, 70, 0);
 }
 
-/* dojox part */
+/** dojox/widget/Calendar.css **/
 
 .dojoxCalendar {
-	width: 202px;
+	width: 182px;
 }
 .dojoxCalendarContainer {
 	cursor: default;
@@ -287,7 +287,7 @@
 	font-size: 11px;
 	padding: 0px;
 	text-align: center;
-	width: 200px;
+	width: 180px;
 	overflow: hidden;
 }
 .dj_ie6 .dojoxCalendarContainer {
@@ -296,19 +296,19 @@
 }
 
 .dojoxCalendarBody {
-	height: 175px;
+	height: 138px;
 	overflow: hidden;
 	position: relative;
 	margin: auto;
-	width: 200px;
+	width: 180px;
 }
 .dojoxCalendar .no-header .dojoxCalendarBody {
 	height: 162px;
 }
 
 .dojoxCalendar .dijitCalendarDayLabels, .dojoxCalendarMonthLabels, .dojoxCalendarYearLabels, .dojoxCal-MY-labels {
-	width: 200px;
-	height: 150px;
+	width: 180px;
+	height: 138px;
 	top: 0px;
 	position: absolute;
 	left: 0px;
@@ -317,7 +317,7 @@
 }
 
 .dojoxCalendar .dojoxCalendarBody > div {
-	width: 200px;
+	width: 180px;
 }
 
 .dojoxCalendar .dijitCalendarDateTemplate {
@@ -345,7 +345,7 @@
 
 .dojoxCalendarHeader {
 	height: 20px;
-	width: 192px;
+	width: 172px;
 	padding: 4px 4px 0;
 }
 .dojoxCalendar .no-header .dojoxCalendarHeader {
@@ -586,3 +586,6 @@ div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate {
 .dojoxCalendar .ok-btn {
 	margin-left: 15px;
 }
+
+
+

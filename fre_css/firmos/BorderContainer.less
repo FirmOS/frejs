@@ -35,7 +35,6 @@ Splitters and gutters:
 .@{themename} .dijitBorderContainer {
 	/* matches the width of the splitters between panes */
 	padding: 5px;
-        background-color: @firmosBorderContainerBG
 }
 
 .@{themename} .dijitSplitContainer-child,
@@ -43,8 +42,7 @@ Splitters and gutters:
 	/* By default put borders on all children of BorderContainer,
 	 *  to give illusion of borders on the splitters themselves.
 	 */
-	//border: 1px @border-color solid;
-	 border: none;	
+	border: 1px @border-color solid;
 }
 
 .@{themename} .dijitBorderContainer-dijitTabContainerTop,
@@ -72,7 +70,6 @@ Splitters and gutters:
 	border:0;
 	height:5px;
 }
-
 .dj_ios .@{themename} .dijitSplitterH, .dj_android .@{themename} .dijitSplitterH {
   height: 11px;
 }
@@ -83,11 +80,9 @@ Splitters and gutters:
 	top:2px;
 	width:19px;
 }
-
 .dj_ios .@{themename} .dijitSplitterH .dijitSplitterThumb, .dj_android .@{themename} .dijitSplitterH .dijitSplitterThumb{
   top:5px;
 }
-
 .@{themename} .dijitSplitterV,
 .@{themename} .dijitGutterV {
 	background:none;
@@ -95,7 +90,6 @@ Splitters and gutters:
 	width:5px;
 	margin: 0;
 }
-
 .dj_ios .@{themename} .dijitSplitterV, .dj_android .@{themename} .dijitSplitterV {
   width: 11px;
 }
@@ -107,7 +101,6 @@ Splitters and gutters:
 	width:1px;
 	margin: 0;
 }
-
 .dj_ios .@{themename} .dijitSplitterV .dijitSplitterThumb, .dj_android .@{themename} .dijitSplitterV .dijitSplitterThumb{
   left:5px;
 }

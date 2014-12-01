@@ -10,7 +10,7 @@ There are three areas of styling for the Menu:
  	All three types of menus are affected by the .dijitMenu class in which you can set the background-color, padding and border
  	.dijitMenu affects the drop down menu in TimeTextBox, Calendar, ComboBox and FilteringSelect
   .dijitMenuTable - for padding - also affects Select widget 	
-  	
+
  2. The menu bar
  	.dijitMenuBar - for border, margins, padding, background-color of the menu bar
  	.dijitMenuBar .dijitMenuItem - for padding, text color of menu items in the menu bar (overrides .dijitMenuItem) 
@@ -48,13 +48,13 @@ There are three areas of styling for the Menu:
 .@{themename} .dijitMenuItem {
 	color: @text-color;
 }
-.@{themename} .dijitMenuBar .dijitMenuItem {  
+.@{themename} .dijitMenuBar .dijitMenuItem {
 	padding: 6px 10px 7px;
 	margin:-1px;
 }
 .@{themename} .dijitMenuBar .dijitMenuItemHover,
 .@{themename} .dijitMenuBar .dijitMenuItemSelected {
-    // on hover or selection of MenuBar item, add border and reduce padding to compensate
+	// on hover or selection of MenuBar item, add border and reduce padding to compensate
 	border:solid 1px @hovered-border-color;
 	padding: 5px 9px 6px;
 }
@@ -65,6 +65,7 @@ There are three areas of styling for the Menu:
 	border-spacing:0 0;
 	padding:0;
 }
+
 .@{themename} .dijitMenu .dijitMenuItem td,
 .@{themename} .dijitComboBoxMenu .dijitMenuItem {
 	padding: @textbox-padding;	// Make drop down menu text line up with text in <input>.
@@ -72,30 +73,32 @@ There are three areas of styling for the Menu:
 	border-style:solid;
 	border-color: @select-dropdownitem-background-color;
 }
+
 /* hover over a MenuItem or MenuBarItem */
 .@{themename} .dijitMenu .dijitMenuItemHover td,
 .@{themename} .dijitMenu .dijitMenuItemSelected td,
 .@{themename} .dijitMenuItemHover,
 .@{themename} .dijitComboBoxMenu .dijitMenuItemHover,
 .@{themename} .dijitMenuItemSelected {
-    // note: seems like the selected MenuItem should use @pressed-background-color
-    // and .active-gradient, but claro didn't to that
+	// note: seems like the selected MenuItem should use @pressed-background-color
+	// and .active-gradient, but claro didn't to that
 	border-color: @hovered-border-color;
 	background-color: @hovered-background-color;
 	.standard-gradient;
 }
+
 .@{themename} .dijitMenuItemActive {
-    // todo: seems like the selected MenuItem should come here
-    // todo: seems like should use @pressed-background-color
-    .active-gradient;
+	// todo: seems like the selected MenuItem should come here
+	// todo: seems like should use @pressed-background-color
+	.active-gradient;
 }
 .dj_ie .@{themename} .dijitMenuActive .dijitMenuItemHover,
 .dj_ie .@{themename} .dijitMenuActive .dijitMenuItemSelected,
 .dj_ie .@{themename} .dijitMenuPassive .dijitMenuItemHover,
 .dj_ie .@{themename} .dijitMenuPassive .dijitMenuItemSelected {
-    // Selectivity set to override ComboBox rules below.
-    // If this rule isn't present, on IE6 hovering an item in the ComboBox drop down causes two
-    // items to be highlighted (except when hovering the first item in the list)
+	// Selectivity set to override ComboBox rules below.
+	// If this rule isn't present, on IE6 hovering an item in the ComboBox drop down causes two
+	// items to be highlighted (except when hovering the first item in the list)
 	padding-top: 6px;
 	padding-bottom: 5px;
 	margin-top: -3px;
@@ -117,9 +120,6 @@ There are three areas of styling for the Menu:
 	margin-right:3px;
 	margin-bottom: 4px;
 }
-.@{themename} .dijitMenuItemDisabled .dijitMenuItemIconCell {
-	opacity:1;
-}
 .@{themename} .dijitMenuSeparatorTop {
 	height: auto;
 	margin-top:1px; /* prevents spacing above/below separator */
@@ -134,7 +134,7 @@ There are three areas of styling for the Menu:
 .@{themename} .dijitRadioMenuItem .dijitMenuItemIcon {
 	background-image: url(@image-form-checkbox-and-radios);
 	background-repeat:no-repeat;
-	background-position: -15px 50%;    /* unchecked checkbox */
+	background-position: -15px 50%;	/* unchecked checkbox */
 	width:15px;
 	height:16px;
 }
@@ -143,7 +143,7 @@ There are three areas of styling for the Menu:
 	background-image: url(@image-form-checkbox-and-radios-ie6);
 }
 .@{themename} .dijitCheckedMenuItemChecked .dijitCheckedMenuItemIcon {
-	background-position: 0 50%;    /* checked checkbox */
+	background-position: 0 50%;	/* checked checkbox */
 }
 .@{themename} .dijitRadioMenuItem .dijitMenuItemIcon {
   background-position: -105px 50%;	/* unfilled circle */
@@ -163,11 +163,11 @@ There are three areas of styling for the Menu:
 	// TODO: combine with above rules for selected items?
 	// But the selected item in a Select drop down is different than when MenuBarItem "File" is highlighted
 	// because the user is on the file menu?
-	//color:@selected-text-color;
-        .fos-text-inv;
+	color:@selected-text-color;
 	border-color:@hovered-border-color;
 	background-color:@hovered-background-color;
 }
+
 .@{themename} .dijitComboBoxMenuActive .dijitMenuItemSelected {
 	background-color: @select-dropdownitem-hovered-background-color;	/* TODO: why is this a different color than normal .dijitMenuItemSelected? */
 }

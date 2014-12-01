@@ -1,4 +1,5 @@
-.firmos{font-family:'Source Sans Pro',sans-serif;font-size:14px;font-weight:400;color:#131313;}
+@import url("../../dojo/dojo/resources/dojo.css");
+.firmos{font-family:Verdana,Arial,Helvetica,sans-serif;font-size:.688em;color:#131313;}
 .firmos h1{font-size:1.545em;margin-bottom:0.727em;}
 .firmos h2{font-size:1.364em;line-height:1.455em;margin-top:1em;margin-bottom:0.60em;font-weight:normal;}
 .firmos h3,.firmos h4,.firmos h5,.firmos h6{font-size:1.091em;font-weight:normal;}

@@ -1,29 +1,29 @@
 /* Button | DropDownButton | ComboButton | ToggleButton
- *
+ * 
  * Styling Buttons mainly includes:
- *
+ * 
  * 1. Containers
  * 		.dijitButton
  * 		.dijitDropDownButton
  * 		.dijitComboButton
- * 		.dijitButtonNode - common button/arrow wrapper shared across all three button types
+ * 		.dijitButtonNode - common button/arrow wrapper shared across all three button types 
  *
  * 2. Button text
  * 		.dijitButtonText
- *
+ * 
  * 3. Arrows - only for DropDownButton and ComboButton
  * 	     There are total four directions arrows - down, left, right, up:
  * 		.dijitArrowButtonInner - down arrow by default
  *      .dijitLeftArrowButton .dijitArrowButtonInner - left arrow
  *      .dijitRightArrowButton .dijitArrowButtonInner - right arrow
  *      .dijitUpArrowButton .dijitArrowButtonInner - up arrow
- *
+ * 
  * 4. States - Hover, Active, Disabled, e.g.
  * 		.dijitButtonHover .dijitButtonNode
  * 		.dijitButtonActive .dijitButtonNode
  * 		.dijitButtonDisabled .dijitButtonNode
- *
- *      .dijitDisabled .dijitArrowButtonInner  - disabled arrow states
+ *      
+ *      .dijitDisabled .dijitArrowButtonInner  - disabled arrow states 
  */
 
 @import "variables";
@@ -39,7 +39,7 @@
 .@{themename} .dijitComboButton .dijitButtonNode,
 .@{themename} .dijitToggleButton .dijitButtonNode {
 	/* rules for the dijit.form.*Button widgets (see also ComboButton section below) */
-//	border: 1px solid @button-border-color;
+	border: 1px solid @button-border-color;
 	padding: 2px 4px 4px 4px;
 	color: @text-color;
 	.border-radius(@button-border-radius);
@@ -66,7 +66,7 @@
 	width: 15px;
 	height: 15px;
 	margin: 0 auto;
-	background-image:url("../@{image-form-button-arrows}");
+	background-image:url("@{image-form-button-arrows}");
 	background-repeat:no-repeat;
 	background-position:-51px 53%;
 }
@@ -104,7 +104,7 @@
 /* hover status */
 .@{themename} .dijitButtonHover .dijitButtonNode,
 .@{themename} .dijitDropDownButtonHover .dijitButtonNode,
-.@{themename} .dijitComboButton .dijitButtonNodeHover,
+.@{themename} .dijitComboButton .dijitButtonNodeHover, 
 .@{themename} .dijitComboButton .dijitDownArrowButtonHover,
 .@{themename} .dijitToggleButtonHover .dijitButtonNode {
 	background-color: desaturate(darken(@button-hovered-background-color, 10), 20);
@@ -113,7 +113,7 @@
 }
 
 /* active, checked status */
-.@{themename} .dijitButtonActive .dijitButtonNode,
+.@{themename} .dijitButtonActive .dijitButtonNode, 
 .@{themename} .dijitDropDownButtonActive .dijitButtonNode,
 .@{themename} .dijitComboButtonActive .dijitButtonNode,
 .@{themename} .dijitToggleButtonActive .dijitButtonNode,
@@ -137,7 +137,7 @@
 .@{themename} .dijitComboButtonDisabled .dijitButtonNode,
 .@{themename} .dijitToggleButtonDisabled .dijitButtonNode {
 	background-color: @disabled-background-color;
-//	border: solid 1px @disabled-border-color;
+	border: solid 1px @disabled-border-color;
 	color: @disabled-text-color;
 	.box-shadow(0 0 0 rgba(0,0,0,0));
 
@@ -148,7 +148,7 @@
 	_background-image: none;	// IE6 can't handle background-color and background-image at once.
 }
 
-.@{themename} .dijitComboButtonDisabled .dijitArrowButton{
+.@{themename} .dijitComboButtonDisabled .dijitArrowButton{ 
 	border-left-width: 0;
 }
 /* for ComboButton */

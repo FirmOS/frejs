@@ -28,3 +28,6 @@
 [submodule "dojo/util"]
 	path = dojo/util
 	url = https://github.com/FirmOS/util.git
+[submodule "dojo/dstore"]
+	path = dojo/dstore
+	url = https://github.com/FirmOS/dstore

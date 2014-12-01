@@ -25,7 +25,6 @@
 @import url("InlineEditBox.css");
 @import url("ProgressBar.css");
 @import url("TimePicker.css");
-@import url("Tree.css"); 
 @import url("Toolbar.css");
 @import url("Editor.css");/*in order to test button or menu item with icon */
 @import url("TitlePane.css");
@@ -33,3 +32,4 @@
 @import url("SitemapSVG.css");
 @import url("TopMenu.css");
 @import url("firmos.css");
+@import url("dojoOverride.css");

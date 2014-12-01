@@ -24,16 +24,14 @@
 .@{themename} .dojoDndItem {
 	border-color: rgba(0,0,0,0);	// rgba() instead of none to prevent flash on hover fade-in
 	.transition-duration(.25s);
-	.transition-property(background-color, border-color);
-        padding: 0px;
+	.transition-property(background-color, border-color)
 }
 .@{themename} .dojoDndItemOver {
     // Hovered item.  Matches dijitTreeRowHover.
-//	background-color:@hovered-background-color;
-	background-color:red;
+	background-color:@hovered-background-color;
 	.standard-gradient;
-	padding: 0px;	// reduce from 2px in dijit.css
-	border:solid 0px transparent; //@hovered-border-color;
+	padding: 1px;	// reduce from 2px in dijit.css
+	border:solid 1px @hovered-border-color;
 	color:@hovered-text-color;
 }
 .@{themename} .dojoDndItemAnchor,
@@ -41,8 +39,8 @@
     // Selected items(s).   Matches dijitTreeRowSelected.
 	background-color:@selected-background-color;
 	.standard-gradient;
-	padding: 0px;	// reduce from 2px in dijit.css
-	border:solid 0px transparent;// @selected-border-color;
+	padding: 1px;	// reduce from 2px in dijit.css
+	border:solid 1px @selected-border-color;
 	color:@selected-text-color;
 }
 
@@ -87,7 +85,9 @@
 	background-position:2px 2px;
 }
 
-/* common form styles */
+/* form/Common.css */
+
+/*========================= common css =========================*/
 
 /* 'dijitTextBox' refers to 'dijit(TextBox|DateTextBox|CurrencyTextBox|...)' */
 
@@ -96,8 +96,6 @@
     // .dijitInputInner selector needed for ValidationTextBox on IE6 because <input> doesn't inherit
     // the color setting from the ancestor div.dijitTextBox
 	color: @text-color;
-    border-radius: 0px;
-    text-indent:   1px;
 }
 
 .@{themename} .dijitValidationTextBoxError .dijitValidationContainer {
@@ -139,7 +137,8 @@
 .dj_webkit .@{themename} .dijitTextBox .dijitInputInner {
 	// Although we are theoretically only adding 1px to top/bottom, some browsers seem to pad inputs by 1px on left/right,
 	// so compensate for that too.
-	padding: @textbox-padding - 1px;
+	padding-left: @textbox-padding - 1px;
+	padding-right: @textbox-padding - 1px;
 }
 
 .@{themename} .dijitSelect,
@@ -327,3 +326,5 @@
 .dj_borderbox .@{themename} .dijitComboBoxFocused .dijitHasDropDownOpen .dijitArrowButtonInner {
 	width:16px;				// when no border, then back to 16px just like content-box sizing
 }
+
+

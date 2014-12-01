@@ -51,50 +51,23 @@
 
 .unselected-tab-gradient (@direction) {
     // white line, dark line, then fade from light to dark
-	.alpha-white-gradient (@direction, 1,0px, 1,1px, 0.1,2px, 0.5,7px, 0.7,100%);
+	.alpha-white-gradient (@direction, 1,0px, 1,1px, 0.1,2px, 0.6,7px, 0,100%);
 }
 .topBottom-selected-tab-gradient (@direction) {
-	.alpha-white-gradient (@direction, 1,0px, 1,1px, 0.1,2px, 0.5,50%, 1,100%);//1,0px,  1,1px, 0,2px, 1,7px);	// white line, blue line, remainder white
+	.alpha-white-gradient (@direction, 1,0px,  1,1px, 0,2px, 1,7px);	// white line, blue line, remainder white
 }
 /*** some common features ***/
 .@{themename} .dijitTabPaneWrapper {
-	//background:@pane-background-color;
+	background:@pane-background-color;
 }
-//.@{themename} .dijitTabPaneWrapper,
+.@{themename} .dijitTabPaneWrapper,
 .@{themename} .dijitTabContainerTop-tabs,
 .@{themename} .dijitTabContainerBottom-tabs,
 .@{themename} .dijitTabContainerLeft-tabs,
 .@{themename} .dijitTabContainerRight-tabs {
 	/* todo: add common class name for this div */
 	border-color: @border-color;
-	margin-left: 12px;
-    border: 0px;		
 }
-
-.dijitTabContainerTop-container {
-   border:  @firmosBorderContent;
-//   border-radius: 8px 8px 8px 8px;
-   border-radius: (@firmos-border-radius-all);
-   border-color: @firmosBorderContainerBorderColor;
-   background-color: @firmosBorderContainerBG;
-}
-
-.@{themename} .dijitTab *:focus {
-  border-bottom: 1px solid white;
-  outline: none;
-}
-
-
-.@{themename} .dijitTabContainerBottom-container .dijitContentPane, 
-.@{themename} .dijitTabContainerTop-container .dijitContentPane, 
-.@{themename} .dijitTabContainerLeft-container .dijitContentPane, 
-.@{themename} .dijitTabContainerRight-container .dijitContentPane {
-    color: white;
-    padding: 5px 5px 5px 5px;
-//    border-radius: 8px 8px 8px 8px;	
-    border-radius: (@firmos-border-radius-all);
-}
-
 .@{themename} .dijitTabCloseButton {
 	background: url("@{image-layout-tab-close}") no-repeat;
 	width: 14px;
@@ -114,20 +87,20 @@
 }
 .@{themename} .dijitTab {
 	border: 1px solid @border-color;
-	background-color:@primary-color;
+	background-color:@unselected-background-color;
 	.transition-property(background-color, border);
- 	.transition-duration(.25s);
+ 	.transition-duration(.35s);
 	color:@unselected-text-color;
 }
 .@{themename} .dijitTabHover {
 	border-color: @hovered-border-color;
-	background-color: orange;
+	background-color:@hovered-background-color;
  	.transition-duration(.25s);
 	color:@hovered-text-color;
 }
 .@{themename} .dijitTabActive {
 	border-color: @pressed-border-color;
-	background-color: orange;
+	background-color:@pressed-background-color;
 	color:@selected-text-color;
 	.transition-duration(.1s);
 }
@@ -152,33 +125,30 @@
 .@{themename} .dijitTabContainerTop-tabs .dijitTab {
     /* unselected (and not hovered/pressed) tab */
 	top: 1px;	/* used for overlap */
-	margin-right: 4px;
-	padding:4px 12px;
-//	border-bottom-width: 0;
-	border: 1px none;
-	min-width: 75px;
+	margin-right: 1px;
+	padding:3px 6px;
+	border-bottom-width: 0;
+	min-width: 60px;
 	text-align: center;
 
-    font-size: 15px;
-    font-weight: 300;
-    
-    color: white;
-    text-shadow: 0px 0px 1px black;	
-//	background-color: #3f5490;
+	// gradient (CSS gradient, with backup image for IE6-9)
+	background-image: url("images/tabTopUnselected.png");
+	background-repeat: repeat-x;
+	.unselected-tab-gradient(top);
 
+ 	.box-shadow(0 -1px 1px rgba(0, 0, 0, 0.04));
 }
 
 .@{themename} .dijitTabContainerTop-tabs .dijitTabChecked {
 	/* selected tab */
 	padding-bottom: 4px;
-	padding-top: 5px;
-    text-shadow: 1px 1px 3px black;    
-	background-color: @firmos-orange;
-//	min-width: 100px;
-	color: white;
-	font-size: 15px;
-	font-weight: 500;
-    font-style: italic;	
+	padding-top: 9px;
+
+	// gradient (CSS gradient, with backup image for IE6-9)
+	background-image: url("images/tabTopSelected.png");
+	.topBottom-selected-tab-gradient (top);
+
+	.box-shadow(0 -1px 2px rgba(0, 0, 0, 0.05));
 }
 
 /** end top tab **/
@@ -270,17 +240,17 @@
 
 /** round corner **/
 .@{themename} .dijitTabContainerTop-tabs .dijitTab {
-	.border-radius(@firmos-border-radius-toptab);
+	.border-radius(2px 2px 0 0);
 }
 .@{themename} .dijitTabContainerBottom-tabs .dijitTab {
-	.border-radius(@firmos-border-radius-bottomtab);
+	.border-radius(0 0 2px 2px);
 }
 .@{themename} .dijitTabContainerLeft-tabs .dijitTab {
-	.border-radius(@firmos-border-radius-lefttab);
+	.border-radius(2px 0 0 2px);
 }
 
 .@{themename} .dijitTabContainerRight-tabs .dijitTab {
-	.border-radius(@firmos-border-radius-righttab);
+	.border-radius(0 2px 2px 0);
 }
 
 /************ left/right scroll buttons + menu button ************/
@@ -342,7 +312,7 @@
 	padding:2px 2px 4px;
 }
 .@{themename} .dijitTabContainerTabListNested .dijitTab {
-	background:rgba(255, 255, 255, 0);
+	background-color:rgba(255, 255, 255, 0);
 	border: none;
 	padding: 4px;
 	border-color: rgba(118,157,192,0);
@@ -351,6 +321,7 @@
 	.border-radius(2px);
 	top: 0;/* to override top: 1px/-1px for normal tabs */
 	.box-shadow(none);
+
 	// CSS gradient with fallback to image for IE
 	background-image: url("images/tabNested.png") repeat-x;
 	.alpha-white-gradient (0.61,0%, 0,17%, 0,83%, 0.61,100%);

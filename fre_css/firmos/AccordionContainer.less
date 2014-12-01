@@ -30,39 +30,32 @@
 
 @import "variables";
 
-
 .@{themename} .dijitAccordionContainer {
 	border:none;
 }
-
-.@{themename} .dijitAccordionContainer *:focus {
-  border-bottom: 1px solid white;
-  outline: none;
-}
-
 .@{themename} .dijitAccordionInnerContainer {
-	//background-color: @unselected-background-color;	/* gray, for closed pane */
-	//border:solid 1px @border-color;
-	//.transition-property(background-color,border);
- 	//.transition-duration(.3s);
-	//.transition-timing-function(linear);
+	background-color: @unselected-background-color;	/* gray, for closed pane */
+	border:solid 1px @border-color;
+	margin-bottom:1px;
+	.transition-property(background-color,border);
+ 	.transition-duration(.3s);
+	.transition-timing-function(linear);
 }
 .@{themename} .dijitAccordionTitle {
-	//background-color: transparent;	/* pick up color from dijitAccordionInnerContainer */
-	.alpha-white-gradient(0.5, 0%, 0, 50%); //.standard-gradient();
+	background-color: transparent;	/* pick up color from dijitAccordionInnerContainer */
+	.standard-gradient();
 	padding: 5px 7px 2px 7px;
-	min-height: 17px;
-//	color: @unselected-text-color;
-        .fos-text-inv;
+	min-height:17px;
+	color:@unselected-text-color;
 }
 
 .@{themename} .dijitAccordionContainer .dijitAccordionChildWrapper {
 	/* this extends the blue trim styling of the title bar to wrapping around the node.
 	 * done by setting margin
 	 */
-	//background-color: @accordion-pane-background-color;
-//	border-top: 1px solid @selected-border-color;
-	margin: 0;
+	background-color:@pane-background-color;
+	border:1px solid @selected-border-color;
+	margin: 0 2px 2px;
 }
 	
 .@{themename} .dijitAccordionContainer .dijitAccordionContainer-child {
@@ -70,50 +63,38 @@
 	padding: 9px;
 }
 
+/* Hover state for closed pane */
+
+.@{themename} .dijitAccordionInnerContainerHover {
+	border:1px solid @hovered-border-color;
+	background-color:@hovered-background-color;
+	.transition-duration(.2s);
+}
+
+.@{themename} .dijitAccordionInnerContainerHover .dijitAccordionTitle {
+	color:@hovered-text-color;
+}
+
 /* Active state for closed pane */
 
 .@{themename} .dijitAccordionInnerContainerActive {
-	//border:1px solid @selected-border-color;
-	//background-color:@pressed-background-color;
-	//.transition-duration(.1s);
+	border:1px solid @selected-border-color;
+	background-color:@pressed-background-color;
+	.transition-duration(.1s);
 }
 .@{themename} .dijitAccordionInnerContainerActive .dijitAccordionTitle {
 	.active-gradient();
-	//color:@selected-text-color;
-        .fos-text-inv;
+	color:@selected-text-color;
 }
 
 /* Open (a.k.a. selected) pane */
 
 .@{themename} .dijitAccordionInnerContainerSelected {
-	//border-color:@selected-border-color;
-	//background-color: @primary-color;
+	border-color:@selected-border-color;
+	background-color: @selected-background-color;
 }
 .@{themename} .dijitAccordionInnerContainerSelected .dijitAccordionTitle {
-	//color:@selected-text-color;
-        .fos-text-inv;
-	//color: navy;
-	.text-shadow (1px 1px 2px #000);
-	//.alpha-white-gradient(0.7, 0%, 0, 60%);
-	//border-top: 1px solid #FFF;
-    margin: 0px 12px 0px 12px;
-    //border-radius: 16px 16px 0px 0px;
-    .border-radius(@firmos-border-radius-toptab);
-    border: 0px solid;
-    //background-color: @firmos-orange;	
-	//.standard-gradient();	/* avoid effect when clicking the title of the open pane */
+	color:@selected-text-color;
+	.standard-gradient();	/* avoid effect when clicking the title of the open pane */
 }
 
-/* Hovering open or closed pane */
-
-.@{themename} .dijitAccordionInnerContainerHover .dijitAccordionTitle {
-	/* both open and closed */
-//	color:@hovered-text-color;
-        .fos-text-inv;
-}
-
-.@{themename} .dijitAccordionInnerContainerHover {
-	//border: 1px solid @hovered-border-color;
-	//background-color:@hovered-background-color;
-	//.transition-duration(.2s);
-}
