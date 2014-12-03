@@ -1436,7 +1436,10 @@ dojo.declare("FIRMOS.Store", null, {
     if (typeof args.count!="undefined") params.count = args.count;
     if (typeof args.start!="undefined") {
       params.start = args.start;
-      if (typeof args.end!="undefined") params.count = args.end - args.start + 1;
+      if (typeof args.end!="undefined") {
+        params.count = args.end - args.start + 1;
+        params.end = args.end;
+      }
     }
     if (args.sort) {
       params.sort = new Array();
@@ -4288,7 +4291,7 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
         if (!this.depGroup_[depGroupDef[i].inputId]) {
           this.depGroup_[depGroupDef[i].inputId] = new Array();
         }
-        this.depGroup_[depGroupDef[i].inputId].push(depGroupDef[i].value);
+        this.depGroup_[depGroupDef[i].inputId].push({value:depGroupDef[i].value, visible: depGroupDef[i].visible, caption: depGroupDef[i].caption});
       }
     }
     this.storeRefreshHandler_ = new Object();
@@ -4336,23 +4339,43 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
       }
     }
   },
-  _updateDepField: function(fieldname,fielddef, forceHide, form) {
+  _updateDepField: function(fieldname,fielddef,forceHide,form) {
     var elem = form.getInputById(fieldname);
     if (elem) {
       var domElem = elem.domNode;
       while (domElem && domElem.tagName!='TR') {
         domElem = domElem.parentNode;
       }
-      if (domElem) {
-        var doHide = true;
-        if (!forceHide) {
-          for (var i=0; i<fielddef.length; i++) {
-            if (fielddef[i] == this.value) {
-              doHide = false;
-            }
+      var doHide = true;
+      var ignoreVis = true;
+      var resetLabel = true;
+      var labelElem = dojo.byId(elem.id+'_label');
+
+      for (var i=0; i<fielddef.length; i++) {
+        if (fielddef[i].visible!='NONE') {
+          ignoreVis = false;
+          if (fielddef[i].value == this.value) {
+            doHide = (fielddef[i].visible=='HIDDEN');
           }
         }
-        doHide = forceHide || doHide;
+        if (fielddef[i].caption!='') {
+          if (fielddef[i].value == this.value) {
+            var labelElem = dojo.byId(elem.id+'_label');
+            if (!labelElem._orgLabel) {
+              labelElem._orgLabel = labelElem.innerHTML;
+            }
+            labelElem.innerHTML = fielddef[i].caption + ': ';
+            resetLabel = false;
+          }
+        }
+      }
+      if (labelElem._orgLabel && resetLabel) {
+        labelElem.innerHTML = labelElem._orgLabel;
+        delete labelElem._orgLabel;
+      }
+
+      doHide = forceHide || doHide;
+      if (domElem && (forceHide || !ignoreVis)) {
         if (doHide) {
           dojo.style(domElem,'display','none');
           elem._ignore = true;
