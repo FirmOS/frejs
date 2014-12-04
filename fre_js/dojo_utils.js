@@ -4291,7 +4291,7 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
         if (!this.depGroup_[depGroupDef[i].inputId]) {
           this.depGroup_[depGroupDef[i].inputId] = new Array();
         }
-        this.depGroup_[depGroupDef[i].inputId].push({value:depGroupDef[i].value, visible: depGroupDef[i].visible, caption: depGroupDef[i].caption});
+        this.depGroup_[depGroupDef[i].inputId].push(depGroupDef[i]);
       }
     }
     this.storeRefreshHandler_ = new Object();
@@ -4342,24 +4342,19 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
   _updateDepField: function(fieldname,fielddef,forceHide,form) {
     var elem = form.getInputById(fieldname);
     if (elem) {
-      var domElem = elem.domNode;
-      while (domElem && domElem.tagName!='TR') {
-        domElem = domElem.parentNode;
-      }
       var doHide = true;
       var ignoreVis = true;
       var resetLabel = true;
+      var resetValidator = true;
       var labelElem = dojo.byId(elem.id+'_label');
 
       for (var i=0; i<fielddef.length; i++) {
-        if (fielddef[i].visible!='NONE') {
-          ignoreVis = false;
-          if (fielddef[i].value == this.value) {
+        if (fielddef[i].value == this.value) {
+          if (fielddef[i].visible!='NONE') { //VISIBILITY
+            ignoreVis = false;
             doHide = (fielddef[i].visible=='HIDDEN');
           }
-        }
-        if (fielddef[i].caption!='') {
-          if (fielddef[i].value == this.value) {
+          if (fielddef[i].caption!='') { //CAPTION
             var labelElem = dojo.byId(elem.id+'_label');
             if (!labelElem._orgLabel) {
               labelElem._orgLabel = labelElem.innerHTML;
@@ -4367,14 +4362,75 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
             labelElem.innerHTML = fielddef[i].caption + ': ';
             resetLabel = false;
           }
+          if (fielddef[i].pattern) { //VALIDATOR
+            if (!elem.isInstanceOf(FIRMOS.ValidationTextBox)) {
+              console.warn('Update dependent field "' + elem.name + '": Validator can only be set for FIRMOS.ValidationTextBox inputs');
+            } else {
+              resetValidator = false;
+              elem._orgPattern = elem.get('pattern');
+              elem._orgInvalidMessage = elem.get('invalidMessage');
+              elem._orgPlaceHolder = elem.get('placeHolder');
+              elem.set('pattern',fielddef[i].pattern);
+              elem.set('placeHolder',fielddef[i].placeHolder);
+              elem.set('invalidMessage',fielddef[i].invalidMessage);
+              if (fielddef[i].forbiddenchars) {
+                if (elem.regExpForbidden) {
+                  elem._orgRegExpForbidden = elem.regExpForbidden;
+                }
+                elem.regExpForbidden = eval(fielddef[i].forbiddenchars);
+              }
+              if (fielddef[i].replacevalue) {
+                if (elem.replaceValue) {
+                  elem._orgReplaceValue = elem.replaceValue;
+                }
+                elem.replaceValue = fielddef[i].replacevalue;
+              }
+              if (fielddef[i].replaceregexp) {
+                if (elem.regExpReplace) {
+                  elem._orgRegExpReplace = elem.regExpReplace;
+                }
+                elem.regExpReplace = eval(fielddef[i].replaceregexp);
+              }
+            }
+          }
+        } else {
+          if (fielddef[i].visible!='NONE') { //VISIBILITY
+            ignoreVis = false;
+          }
         }
       }
+
       if (labelElem._orgLabel && resetLabel) {
         labelElem.innerHTML = labelElem._orgLabel;
         delete labelElem._orgLabel;
       }
+      if (elem._orgPattern && resetValidator) {
+        elem.set('pattern',elem._orgPattern);
+        elem.set('placeHolder',elem._orgPlaceHolder);
+        elem.set('invalidMessage',elem._orgInvalidMessage);
+        delete elem._orgPattern;
+        delete elem._orgPlaceHolder;
+        delete elem._orgInvalidMessage;
+        if (elem._orgRegExpForbidden) {
+          elem.regExpForbidden = elem._orgRegExpForbidden;
+          delete elem._orgRegExpForbidden;
+        }
+        if (elem._orgReplaceValue) {
+          elem.replaceValue = elem._orgReplaceValue;
+          delete elem._orgReplaceValue;
+        }
+        if (elem._orgRegExpReplace) {
+          elem.regExpReplace = elem._orgRegExpReplace;
+          delete elem._orgRegExpReplace;
+        }
+      }
 
       doHide = forceHide || doHide;
+
+      var domElem = elem.domNode;
+      while (domElem && domElem.tagName!='TR') {
+        domElem = domElem.parentNode;
+      }
       if (domElem && (forceHide || !ignoreVis)) {
         if (doHide) {
           dojo.style(domElem,'display','none');
