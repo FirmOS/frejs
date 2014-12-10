@@ -1461,6 +1461,9 @@ dojo.declare("FIRMOS.Store", null, {
           def.totalLength.resolve(json_result.total);
           if (this.queryResults_[queryId]) {
             //store ids of the result
+            if ((options.params.end - options.params.start + 1)<json_result.data.length) {
+              console.error('QUERY ANSWER LENGTH MISMATCH! GOT: ' + json_result.data.length + ' EXPECTED: ' + (options.params.end - options.params.start + 1));
+            }
             for (var i=0; i<json_result.data.length; i++) {
               this.queryResults_[queryId].dataIds.push(this.getIdentity(json_result.data[i]));
             }
