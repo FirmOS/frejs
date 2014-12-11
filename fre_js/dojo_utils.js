@@ -1308,8 +1308,13 @@ dojo.declare("FIRMOS.Store", null, {
     return dojo.on.parse(this, type, listener, this._getOnTracked.bind(this,listener));
   },
   releaseRange: function(start, end) {
-    console.log('FUNCTION releaseRange ' + start + ' ' + end);
-    //FIXXME
+    console.log('FUNTION releaseRange ' + JSON.stringify(arguments));
+    if (this.clearClassname) {
+      var params = dojo.clone(this.clearParams);
+      params.start = start;
+      params.end = end;
+      G_SERVER_COM.callServerFunction(this.clearClassname, this.clearFunctionname, this.clearUidPath, params);
+    }
   },
   get: function(id) {
     var ret = {}; //FIXXME
