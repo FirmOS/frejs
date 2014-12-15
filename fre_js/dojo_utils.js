@@ -4375,26 +4375,28 @@ dojo.declare("FIRMOS.FilteringSelect", dijit.form.FilteringSelect, {
               console.warn('Update dependent field "' + elem.name + '": Validator can only be set for FIRMOS.ValidationTextBox inputs');
             } else {
               resetValidator = false;
-              elem._orgPattern = elem.get('pattern');
-              elem._orgInvalidMessage = elem.get('invalidMessage');
-              elem._orgPlaceHolder = elem.get('placeHolder');
+              if (!elem._orgPattern) {
+                elem._orgPattern = elem.get('pattern');
+                elem._orgInvalidMessage = elem.get('invalidMessage');
+                elem._orgPlaceHolder = elem.get('placeHolder');
+              }
               elem.set('pattern',fielddef[i].pattern);
               elem.set('placeHolder',fielddef[i].placeHolder);
               elem.set('invalidMessage',fielddef[i].invalidMessage);
               if (fielddef[i].forbiddenchars) {
-                if (elem.regExpForbidden) {
+                if (elem.regExpForbidden && !elem._orgRegExpForbidden) {
                   elem._orgRegExpForbidden = elem.regExpForbidden;
                 }
                 elem.regExpForbidden = eval(fielddef[i].forbiddenchars);
               }
               if (fielddef[i].replacevalue) {
-                if (elem.replaceValue) {
+                if (elem.replaceValue && !elem._orgReplaceValue) {
                   elem._orgReplaceValue = elem.replaceValue;
                 }
                 elem.replaceValue = fielddef[i].replacevalue;
               }
               if (fielddef[i].replaceregexp) {
-                if (elem.regExpReplace) {
+                if (elem.regExpReplace && !elem._orgRegExpReplace) {
                   elem._orgRegExpReplace = elem.regExpReplace;
                 }
                 elem.regExpReplace = eval(fielddef[i].replaceregexp);
