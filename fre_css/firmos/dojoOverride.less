@@ -43,6 +43,7 @@
  .@{themename} .dijitTabContainerLeft-tabs,
  .@{themename} .dijitTabContainerRight-tabs {
    border: 0px;
+   left: 10px; // Move tabs sligthly to the left
  }
 
  .@{themename} .dijitTabContainerTop-container {
@@ -66,28 +67,6 @@
     padding: 5px 5px 5px 5px;
     border-radius: (@firmos-border-radius-all);
     background: transparent;
- }
-
- /*************** top tab ***************/
- .@{themename} .dijitTabContainerTop-tabs .dijitTab {
-     /* unselected (and not hovered/pressed) tab */
-   margin-right: 4px;
-   padding:4px 12px;
-   border: 1px none;
-   min-width: 75px;
-   font-size: 15px;
-   font-weight: 300;
-   color: white;
-   text-shadow: 0px 0px 1px black;
- }
-
- .@{themename} .dijitTabContainerTop-tabs .dijitTabChecked {
-   padding-top: 5px;
-   text-shadow: 1px 1px 3px black;
-   color: white;
-   font-size: 15px;
-   font-weight: 500;
-   font-style: italic;
  }
 
   /** round corner **/
@@ -144,6 +123,14 @@
  }
 
 /** ContentPane.less **/
+ .@{themename} .dijitContentPane { // All content panes default 0px padding
+   padding: 0px;
+ }
+
+ .@{themename} #Home.dijitContentPane { // Home content panes 6px padding
+   padding: 6px;
+ }
+
 
  /* nested layouts */
  .@{themename} .dijitTabContainerTop-dijitContentPane,
@@ -156,10 +143,14 @@
 
 /** BorderContainer.less **/
 
-  .@{themename} .dijitBorderContainer {
-    padding: 5px;
-    background-color: @firmosBorderContainerBG;
-  }
+ .@{themename} .dijitBorderContainer {
+   padding: 5px;
+   background-color: @firmosBorderContainerBG;
+ }
+
+ .@{themename} .dijitBorderContainer-child {
+   border: 0px;
+ }
 
 /** Button.less **/
 

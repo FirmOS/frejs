@@ -4,12 +4,10 @@
 .firmos .dojoDndItemAnchor,.firmos .dojoDndItemSelected{padding:0px;border:none;}
 .firmos .dijitInputInner{border-radius:0px;text-indent:1px;}
 .firmos .dijitTabPaneWrapper{background:transparent;}
-.firmos .dijitTabPaneWrapper,.firmos .dijitTabContainerTop-tabs,.firmos .dijitTabContainerBottom-tabs,.firmos .dijitTabContainerLeft-tabs,.firmos .dijitTabContainerRight-tabs{border:0px;}
+.firmos .dijitTabPaneWrapper,.firmos .dijitTabContainerTop-tabs,.firmos .dijitTabContainerBottom-tabs,.firmos .dijitTabContainerLeft-tabs,.firmos .dijitTabContainerRight-tabs{border:0px;left:10px;}
 .firmos .dijitTabContainerTop-container{border:1px solid;border-radius:6px 6px 6px 6px;border-color:#606570;background-color:#787e8b;}
 .firmos .dijitTab *:focus{border-bottom:1px solid white;outline:none;}
 .firmos .dijitTabContainerBottom-container .dijitContentPane,.firmos .dijitTabContainerTop-container .dijitContentPane,.firmos .dijitTabContainerLeft-container .dijitContentPane,.firmos .dijitTabContainerRight-container .dijitContentPane{color:white;padding:5px 5px 5px 5px;border-radius:6px 6px 6px 6px;background:transparent;}
-.firmos .dijitTabContainerTop-tabs .dijitTab{margin-right:4px;padding:4px 12px;border:1px none;min-width:75px;font-size:15px;font-weight:300;color:white;text-shadow:0px 0px 1px black;}
-.firmos .dijitTabContainerTop-tabs .dijitTabChecked{padding-top:5px;text-shadow:1px 1px 3px black;color:white;font-size:15px;font-weight:500;font-style:italic;}
 .firmos .dijitTabContainerTop-tabs .dijitTab{-moz-border-radius:6px 6px 0px 0px;border-radius:6px 6px 0px 0px;}
 .firmos .dijitTabContainerBottom-tabs .dijitTab{-moz-border-radius:0px 0px 6px 6px;border-radius:0px 0px 6px 6px;}
 .firmos .dijitTabContainerLeft-tabs .dijitTab{-moz-border-radius:6px 0px 0px 6px;border-radius:6px 0px 0px 6px;}
@@ -21,8 +19,11 @@
 .firmos .dijitAccordionInnerContainerActive .dijitAccordionTitle{color:#ffffff;text-shadow:1px 1px 1px black;}
 .firmos .dijitAccordionInnerContainerSelected{background-color:transparent;}
 .firmos .dijitAccordionInnerContainerSelected .dijitAccordionTitle{color:#ffffff;text-shadow:1px 1px 1px black;-webkit-text-shadow:1px 1px 2px #000000;-moz-text-shadow:1px 1px 2px #000000;text-shadow:1px 1px 2px #000000;background-image:url("images/standardGradient.png");background-repeat:repeat-x;background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:-o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);background-image:linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);_background-image:none;}
+.firmos .dijitContentPane{padding:0px;}
+.firmos #Home.dijitContentPane{padding:6px;}
 .firmos .dijitTabContainerTop-dijitContentPane,.firmos .dijitTabContainerLeft-dijitContentPane,.firmos .dijitTabContainerBottom-dijitContentPane,.firmos .dijitTabContainerRight-dijitContentPane,.firmos .dijitAccordionContainer-dijitContentPane{padding:0px;}
 .firmos .dijitBorderContainer{padding:5px;background-color:#787e8b;}
+.firmos .dijitBorderContainer-child{border:0px;}
 .firmos .dijitButtonDisabled .dijitButtonNode,.firmos .dijitDropDownButtonDisabled .dijitButtonNode,.firmos .dijitComboButtonDisabled .dijitButtonNode,.firmos .dijitToggleButtonDisabled .dijitButtonNode{border:none;}
 .firmos .dijitTooltipContainer{background:-moz-linear-gradient(top, #ffffff 10%, #aaccff 90%);}
 .firmos .dijitDialog{border:0px solid #383838;}
